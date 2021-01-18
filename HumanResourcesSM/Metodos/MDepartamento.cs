@@ -63,13 +63,10 @@ namespace Metodos
             string respuesta = "";
 
             string query = @"
-                        UPDATE departamento SET (
-                            nombre,
-                            descripcion
-                        ) VALUES(
-                            @nombre,
-                            @descripcion
-                        ) WHERE idDepartamento = @idDepartamento;
+                        UPDATE departamento SET
+                            nombre = @nombre,
+                            descripcion = @descripcion
+                            WHERE idDepartamento = @idDepartamento;
 	        ";
 
             using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
@@ -104,7 +101,7 @@ namespace Metodos
         }
 
 
-        public string Eiminar(DDepartamento Departamento)
+        public string Eliminar(DDepartamento Departamento)
         {
             string respuesta = "";
 
@@ -172,6 +169,59 @@ namespace Metodos
                             {
                                 ListaGenerica.Add(new DDepartamento
                                 {
+                                    idDepartamento = reader.GetInt32(0),
+                                    nombre = reader.GetString(1),
+                                    descripcion = reader.GetString(2)
+                                });
+                            }
+                        }
+                    }
+                    catch (SqlException e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                    finally
+                    {
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            conn.Close();
+                        }
+                    }
+                    return ListaGenerica;
+                }
+            }
+
+        }
+
+        public List<DDepartamento> Encontrar(int Buscar)
+        {
+            List<DDepartamento> ListaGenerica = new List<DDepartamento>();
+
+            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            {
+
+                using (SqlCommand comm = new SqlCommand())
+                {
+                    comm.Connection = conn;
+
+                    comm.CommandText = "SELECT * from [departamento] WHERE idDepartamento= " + Buscar + "";
+
+
+                    //comm.Parameters.AddWithValue("@textoBuscar", "");
+
+                    try
+                    {
+
+                        conn.Open();
+
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+                                ListaGenerica.Add(new DDepartamento
+                                {
+                                    idDepartamento = reader.GetInt32(0),
                                     nombre = reader.GetString(1),
                                     descripcion = reader.GetString(2)
                                 });

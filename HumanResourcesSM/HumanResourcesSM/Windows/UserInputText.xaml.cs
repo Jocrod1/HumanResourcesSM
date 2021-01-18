@@ -28,6 +28,20 @@ namespace HumanResourcesSM.Windows
             this.DataContext = this;
         }
 
+        public void SetText(string text)
+        {
+            if(txt.Text == "")
+            {
+                txt.Foreground = Brushes.Gray;
+                txt.Text = Placeholder;
+            }
+            else
+            {
+                txt.Foreground = Brushes.Black;
+                txt.Text = text;
+            }
+        }
+
         private void txt_GotFocus(object sender, RoutedEventArgs e)
         {
             if(txt.Text == "")

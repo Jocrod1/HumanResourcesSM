@@ -22,6 +22,9 @@ namespace HumanResourcesSM.Windows
         public Menu()
         {
             InitializeComponent();
+            DepartamentoDG frm = new DepartamentoDG();
+
+            ContentFrame.Content = frm;
         }
     }
 }
