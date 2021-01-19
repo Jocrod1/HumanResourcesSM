@@ -1,0 +1,36 @@
+﻿<Window x:Class="HumanResourcesSM.Windows.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HumanResourcesSM.Windows"
+        mc:Ignorable="d"
+        Title="Login" Height="400" Width="700" ResizeMode="NoResize">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Background="WhiteSmoke">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="250">
+                <!--<TextBlock Text="Iniciar Sesión" FontSize="20" FontWeight="Bold" Foreground="#C22723" HorizontalAlignment="Center"/>-->
+                <Image Source="/HumanResourcesSM;component/Img/Logo.png" Margin="10 10"/>
+                <local:UserInputText Placeholder="Usuario" Margin="0 10"/>
+                <local:UserInputText Placeholder="Contraseña" Margin="0 10"/>
+                <Button Content="Iniciar Sesión" Margin="0 10" Background="#2A347B" BorderBrush="#2A347B"/>
+                <TextBlock Text="¿Ha olvidado la contraseña?" Foreground="Gray" HorizontalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
+                <TextBlock Text="Derechos Reservados Swissnet Inc. | Sevilla" VerticalAlignment="Center" Foreground="Gray" Margin="0 10"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1" Background="Black">
+            <Image Source="/HumanResourcesSM;component/Img/BackgroundImg.png" Stretch="UniformToFill" HorizontalAlignment="Center"/>
+            <Image Source="/HumanResourcesSM;component/Img/Logo-White.png" Margin="20 0"/>
+        </Grid>
+    </Grid>
+</Window>
