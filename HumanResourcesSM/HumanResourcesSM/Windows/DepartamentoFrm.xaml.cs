@@ -158,14 +158,18 @@ namespace HumanResourcesSM.Windows
         {
             if (Type == TypeForm.Read)
             {
-                txtTitulo.Text = "Leer Proveedor";
+                txtTitulo.Text = "Ver";
                 fillForm(DataFill);
                 SetEnable(false);
                 btnEnviar.Visibility = Visibility.Collapsed;
             }
             else if (Type == TypeForm.Update)
             {
-                txtTitulo.Text = "Editar Proveedor";
+                txtTitulo.Text = "Editar";
+                BgTitulo.Background = (Brush)new BrushConverter().ConvertFrom("#2A347B");
+                btnEnviar.Content = "Editar";
+                btnEnviar.Foreground = (Brush)new BrushConverter().ConvertFrom("#2A347B");
+                btnEnviar.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#2A347B");
                 fillForm(DataFill);
             }
         }

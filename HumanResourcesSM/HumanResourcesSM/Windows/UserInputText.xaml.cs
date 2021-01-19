@@ -30,14 +30,13 @@ namespace HumanResourcesSM.Windows
 
         public void SetText(string text)
         {
-            if(txt.Text == "")
+            if(text == "")
             {
-                txt.Foreground = Brushes.Gray;
-                txt.Text = Placeholder;
+                txtPlaceHolder.Visibility = Visibility.Visible;
             }
             else
             {
-                txt.Foreground = Brushes.Black;
+                txtPlaceHolder.Visibility = Visibility.Collapsed;
                 txt.Text = text;
             }
         }

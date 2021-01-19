@@ -36,9 +36,9 @@ namespace Datos
 
         public DDepartamento(int IdDepartamento, string Nombre, string Descripcion)
         {
-            this.idDepartamento = idDepartamento;
-            this.nombre = nombre;
-            this.descripcion = descripcion;
+            this.idDepartamento = IdDepartamento;
+            this.nombre = Nombre;
+            this.descripcion = Descripcion;
         }
     }
 }

@@ -26,7 +26,7 @@
                     <Grid Margin="10 0">
                         <TextBlock x:Name="txtBucarPlaceH" Text="Buscar..." FontSize="15" VerticalAlignment="Center" Margin="2 0 0 0" Foreground="Gray"/>
                         <TextBox x:Name="txtBuscar" FontSize="15"  VerticalAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Style="{x:Null}" SelectionBrush="{x:Null}" BorderThickness="0" Padding="0"
-                                 GotFocus="txtBuscar_GotFocus" LostFocus="txtBuscar_LostFocus"/>
+                                 GotFocus="txtBuscar_GotFocus" LostFocus="txtBuscar_LostFocus" KeyUp="TextBox_KeyDown"/>
                     </Grid>
                     <Image Source="/HumanResourcesSM;component/Img/search.png" Height="20" HorizontalAlignment="Right" Margin="10 0"/>
                 </Grid>
@@ -66,21 +66,30 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Width="auto">
-                                <Button CommandParameter="{Binding idCategoria}"
-                                        Click="Button_Click_1"
-                                        Margin="0 0 5 0"
-                                        Padding="5">Editar</Button>
+
                                 <Button Name="txtVer"
-                                        CommandParameter="{Binding idCategoria}"
+                                        CommandParameter="{Binding idDepartamento}"
                                         Click="txtVer_Click"
+                                        Background="{x:Null}" BorderBrush="{x:Null}"
                                         Margin="5 0"
-                                        Padding="5">Ver</Button>
+                                        Padding="5">
+                                    <Image Source="/HumanResourcesSM;component/Img/book.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                </Button>
+                                <Button CommandParameter="{Binding idDepartamento}"
+                                        Click="Button_Click_1"
+                                        Background="{x:Null}" BorderBrush="{x:Null}"
+                                        Margin="0 0 5 0"
+                                        Padding="5">
+                                    <Image Source="/HumanResourcesSM;component/Img/edit.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                </Button>
                                 <Button x:Name="btnEliminar"
-                                        CommandParameter="{Binding idCategoria}" 
+                                        CommandParameter="{Binding idDepartamento}" 
                                         Click="btnEliminar_Click"
-                                        Background="OrangeRed" BorderBrush="OrangeRed"
+                                        Background="{x:Null}" BorderBrush="{x:Null}"
                                         Margin="5 0 0 0"
-                                        Padding="5">Eliminar</Button>
+                                        Padding="0">
+                                    <Image Source="/HumanResourcesSM;component/Img/delete.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                </Button>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
