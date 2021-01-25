@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using Datos;
+using Metodos;
+
 namespace HumanResourcesSM.Windows
 {
     /// <summary>
@@ -19,10 +22,20 @@ namespace HumanResourcesSM.Windows
     /// </summary>
     public partial class Menu : Window
     {
-        public Menu()
+        public DUsuario ActUsuario;
+        public Menu(DUsuario User)
         {
             InitializeComponent();
-            DepartamentoDG frm = new DepartamentoDG();
+            ActUsuario = User;
+
+            RelacionesLaboralesDG frm = new RelacionesLaboralesDG();
+
+            ContentFrame.Content = frm;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            TipoTramiteDG frm = new TipoTramiteDG();
 
             ContentFrame.Content = frm;
         }

@@ -67,8 +67,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Windows\PagoFrm.xaml.cs">
+      <DependentUpon>PagoFrm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\RelacionesLaboralesDG.xaml.cs">
+      <DependentUpon>RelacionesLaboralesDG.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\UsuarioDG.xaml.cs">
+      <DependentUpon>UsuarioDG.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\TipoTramiteDG.xaml.cs">
+      <DependentUpon>TipoTramiteDG.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\DepartamentoDG.xaml.cs">
       <DependentUpon>DepartamentoDG.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\RelacionesLaboralesFrm.xaml.cs">
+      <DependentUpon>RelacionesLaboralesFrm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\UsuarioFrm.xaml.cs">
+      <DependentUpon>UsuarioFrm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\TipoTramiteFrm.xaml.cs">
+      <DependentUpon>TipoTramiteFrm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\DepartamentoFrm.xaml.cs">
       <DependentUpon>DepartamentoFrm.xaml</DependentUpon>
@@ -94,9 +115,37 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\PagoFrm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\RelacionesLaboralesDG.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\UsuarioDG.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\TipoTramiteDG.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\DepartamentoDG.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\RelacionesLaboralesFrm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\UsuarioFrm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\TipoTramiteFrm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\DepartamentoFrm.xaml">
       <SubType>Designer</SubType>

@@ -1,0 +1,21 @@
+Modulo de Gestión
+	-Seleccion
+		+El Gerente y los Asistentes tendrán una 2da sección para asignar a cada usuario seleccionado con un entrevistador(Empleador)
+	-Contratación
+	-Despido
+
+Modulo de Actividad
+	-Control de Rendimiento
+
+Modulo de Administración
+	-Gestión de datos de empleado
+		+Agregar
+		+Actualizar
+		+Eliminar
+		+Buscar
+	-Nomina
+		+Remuneración del empleado
+		+Administración de beneficios
+	-Relaciones Laborales
+		+Proceso
+		+CRUD TipoTramite [Creo]

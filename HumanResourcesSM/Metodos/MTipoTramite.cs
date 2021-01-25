@@ -63,13 +63,10 @@ namespace Metodos
             string respuesta = "";
 
             string query = @"
-                        UPDATE tipoTramite SET (
-                            nombre,
-                            statusCambio
-                        ) VALUES(
-                            @nombre,
-                            @statusCambio
-                        ) WHERE idTipoTramite = @idTipoTramite;
+                        UPDATE tipoTramite SET
+                            nombre = @nombre,
+                            statusCambio = @statusCambio
+                            WHERE idTipoTramite = @idTipoTramite;
 	        ";
 
             using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
@@ -104,7 +101,7 @@ namespace Metodos
         }
 
 
-        public string Eiminar(DTipoTramite TipoTramite)
+        public string Eliminar(DTipoTramite TipoTramite)
         {
             string respuesta = "";
 
@@ -172,6 +169,59 @@ namespace Metodos
                             {
                                 ListaGenerica.Add(new DTipoTramite
                                 {
+                                    idTipoTramite = reader.GetInt32(0),
+                                    nombre = reader.GetString(1),
+                                    statusCambio = reader.GetString(2)
+                                });
+                            }
+                        }
+                    }
+                    catch (SqlException e)
+                    {
+                        //error
+                    }
+                    finally
+                    {
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            conn.Close();
+                        }
+                    }
+                    return ListaGenerica;
+                }
+            }
+
+        }
+
+        public List<DTipoTramite> Encontrar(int Buscar)
+        {
+            List<DTipoTramite> ListaGenerica = new List<DTipoTramite>();
+
+            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            {
+
+                using (SqlCommand comm = new SqlCommand())
+                {
+                    comm.Connection = conn;
+
+                    comm.CommandText = "SELECT * from [tipoTramite] where idTipoTramite= " + Buscar + " ";
+
+
+                    //comm.Parameters.AddWithValue("@textoBuscar", "");
+
+                    try
+                    {
+
+                        conn.Open();
+
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+                                ListaGenerica.Add(new DTipoTramite
+                                {
+                                    idTipoTramite = reader.GetInt32(0),
                                     nombre = reader.GetString(1),
                                     statusCambio = reader.GetString(2)
                                 });

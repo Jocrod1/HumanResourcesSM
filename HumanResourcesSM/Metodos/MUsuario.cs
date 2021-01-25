@@ -5,6 +5,7 @@ using Datos;
 
 using System.Data;
 using System.Data.SqlClient;
+using System.Windows;
 
 namespace Metodos
 {
@@ -21,12 +22,12 @@ namespace Metodos
                         INSERT INTO usuario(
                             idRol,
                             usuario,
-                            constraseña,
+                            contraseña,
                             confirmacion
                         ) VALUES(
                             @idRol,
                             @usuario,
-                            @constraseña,
+                            @contraseña,
                             @confirmacion
                         );
 	        ";
@@ -38,7 +39,7 @@ namespace Metodos
                 {
                     comm.Parameters.AddWithValue("@idRol", Usuario.idRol);
                     comm.Parameters.AddWithValue("@usuario", Usuario.usuario);
-                    comm.Parameters.AddWithValue("@constraseña", Usuario.contraseña);
+                    comm.Parameters.AddWithValue("@contraseña", Usuario.contraseña);
                     comm.Parameters.AddWithValue("@confirmacion", Usuario.confirmacion);
 
                     try
@@ -71,12 +72,12 @@ namespace Metodos
                         UPDATE usuario SET (
                             idRol,
                             usuario,
-                            constraseña,
+                            contraseña,
                             confirmacion
                         ) VALUES(
                             @idRol,
                             @usuario,
-                            @constraseña,
+                            @contraseña,
                             @confirmacion
                         ) WHERE idUsuario = @idUsuario;
 	        ";
@@ -88,7 +89,7 @@ namespace Metodos
                 {
                     comm.Parameters.AddWithValue("@idRol", Usuario.idRol);
                     comm.Parameters.AddWithValue("@usuario", Usuario.usuario);
-                    comm.Parameters.AddWithValue("@constraseña", Usuario.contraseña);
+                    comm.Parameters.AddWithValue("@contraseña", Usuario.contraseña);
                     comm.Parameters.AddWithValue("@confirmacion", Usuario.confirmacion);
 
                     comm.Parameters.AddWithValue("@idUsuario", Usuario.idUsuario);
@@ -115,7 +116,7 @@ namespace Metodos
         }
 
 
-        public string Eiminar(DUsuario Usuario)
+        public string Eliminar(DUsuario Usuario)
         {
             string respuesta = "";
 
@@ -183,8 +184,11 @@ namespace Metodos
                             {
                                 ListaGenerica.Add(new DUsuario
                                 {
+                                    idUsuario = reader.GetInt32(0),
                                     idRol = reader.GetInt32(1),
-                                    usuario = reader.GetString(2)
+                                    usuario = reader.GetString(2),
+                                    contraseña = reader.GetString(3),
+                                    confirmacion = reader.GetString(4)
                                 });
                             }
                         }
@@ -192,6 +196,117 @@ namespace Metodos
                     catch (SqlException e)
                     {
                         //error
+                        MessageBox.Show(e.Message);
+                    }
+                    finally
+                    {
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            conn.Close();
+                        }
+                    }
+                    return ListaGenerica;
+                }
+            }
+
+        }
+
+        public List<DUsuario> Login(string Usuario, string Contraseña)
+        {
+            List<DUsuario> ListaGenerica = new List<DUsuario>();
+
+            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            {
+
+                using (SqlCommand comm = new SqlCommand())
+                {
+                    comm.Connection = conn;
+
+                    comm.CommandText = "SELECT * from [usuario] WHERE usuario= '" + Usuario + "' AND contraseña= '" + Contraseña + "'";
+
+
+                    //comm.Parameters.AddWithValue("@textoBuscar", "");
+
+                    try
+                    {
+
+                        conn.Open();
+
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+                                ListaGenerica.Add(new DUsuario
+                                {
+                                    idUsuario = reader.GetInt32(0),
+                                    idRol = reader.GetInt32(1),
+                                    usuario = reader.GetString(2),
+                                    contraseña = reader.GetString(3),
+                                    confirmacion = reader.GetString(4)
+                                });
+                            }
+                        }
+                    }
+                    catch (SqlException e)
+                    {
+                        //error
+                        MessageBox.Show(e.Message);
+                    }
+                    finally
+                    {
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            conn.Close();
+                        }
+                    }
+                    return ListaGenerica;
+                }
+            }
+
+        }
+
+        public List<DUsuario> Encontrar(int Buscar)
+        {
+            List<DUsuario> ListaGenerica = new List<DUsuario>();
+
+            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            {
+
+                using (SqlCommand comm = new SqlCommand())
+                {
+                    comm.Connection = conn;
+
+                    comm.CommandText = "SELECT * from [usuario] WHERE idUsuario= " + Buscar + "";
+
+
+                    //comm.Parameters.AddWithValue("@textoBuscar", "");
+
+                    try
+                    {
+
+                        conn.Open();
+
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+                                ListaGenerica.Add(new DUsuario
+                                {
+                                    idUsuario = reader.GetInt32(0),
+                                    idRol = reader.GetInt32(1),
+                                    usuario = reader.GetString(2),
+                                    contraseña = reader.GetString(3),
+                                    confirmacion = reader.GetString(4)
+                                });
+                            }
+                        }
+                    }
+                    catch (SqlException e)
+                    {
+                        //error
+                        MessageBox.Show(e.Message);
                     }
                     finally
                     {

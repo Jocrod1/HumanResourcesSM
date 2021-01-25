@@ -120,7 +120,7 @@ namespace Metodos
 
 
 
-        public string Eiminar(DPago Pago)
+        public string Eliminar(DPago Pago)
         {
             string respuesta = "";
 

@@ -5,6 +5,7 @@ using Datos;
 
 using System.Data;
 using System.Data.SqlClient;
+using System.Windows;
 
 namespace Metodos
 {
@@ -293,6 +294,60 @@ namespace Metodos
                     catch
                     {
                         //error
+                    }
+                    finally
+                    {
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            conn.Close();
+                        }
+                    }
+                    return ListaGenerica;
+                }
+            }
+
+        }
+
+
+        public List<DEmpleado> MostrarEmpleado(string Buscar)
+        {
+            List<DEmpleado> ListaGenerica = new List<DEmpleado>();
+
+
+            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            {
+
+                using (SqlCommand comm = new SqlCommand())
+                {
+                    comm.Connection = conn;
+
+                    comm.CommandText = "SELECT * from [empleado] where cedula like '" + Buscar + "%'";
+
+                    try
+                    {
+
+                        conn.Open();
+
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+                                ListaGenerica.Add(new DEmpleado
+                                {
+                                    idEmpleado = reader.GetInt32(0),
+                                    idDepartamento = reader.GetInt32(1),
+                                    nombre = reader.GetString(2),
+                                    apellido = reader.GetString(3),
+                                    cedula = reader.GetString(4)
+                                });
+                            }
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        //error
+                        MessageBox.Show(e.Message);
                     }
                     finally
                     {
