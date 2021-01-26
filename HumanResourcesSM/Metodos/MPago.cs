@@ -15,9 +15,17 @@ namespace Metodos
 
         public string Insertar(DPago Pago, List<DDetallePago> Detalle)
         {
+
+            //colocar bonificaciones
+
             string respuesta = "";
 
-            string query = @"
+
+            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            {
+
+
+                string query = @"
                         INSERT INTO pago(
                             idPago,
                             idEmpleado,
@@ -39,10 +47,7 @@ namespace Metodos
                             @montoTotal,
                             @estado
                         );
-	        ";
-
-            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
-            {
+	            ";
 
                 using (SqlCommand comm = new SqlCommand(query, conn))
                 {
@@ -120,7 +125,11 @@ namespace Metodos
 
 
 
+<<<<<<< Updated upstream
         public string Eliminar(DPago Pago)
+=======
+        public string Anular(DPago Pago)
+>>>>>>> Stashed changes
         {
             string respuesta = "";
 
@@ -135,7 +144,7 @@ namespace Metodos
 
                 using (SqlCommand comm = new SqlCommand(query, conn))
                 {
-
+                    comm.Parameters.AddWithValue("@estado", 0);
                     comm.Parameters.AddWithValue("@idPago", Pago.idPago);
 
                     try

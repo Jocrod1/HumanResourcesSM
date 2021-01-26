@@ -16,7 +16,7 @@ namespace Metodos
             string respuesta = "";
 
             string query = @"
-                        INSERT INTO relacionesLaborales(
+                        INSERT INTO RelacionesLaborales(
                             idEmpleado,
                             idTipoTramite,
                             fechaTramite,
@@ -51,6 +51,7 @@ namespace Metodos
                                 {
                                     comm2.Connection = conn;
 
+<<<<<<< Updated upstream
                                     comm2.CommandText = "SELECT statusCambio from [tipoTramite] where idTipoTramite = " + RelacionesLaborales.idTipoTramite + "";
 
                                 try
@@ -68,6 +69,25 @@ namespace Metodos
 
                                     string query3 = @"
                                                     UPDATE empleado SET
+=======
+                                    comm2.CommandText = "SELECT t.statusCambio from [TipoTramite] t inner join [RelacionesLaborales] r on t.idTipoTramite=r.idTipoTramite where t.idTipoTramite = @idTipoTramite";
+
+                                    try
+                                    {
+                                        string TipoCambio="";
+
+                                        using (SqlDataReader reader = comm2.ExecuteReader())
+                                        {
+
+                                            if (reader.Read())
+                                            {
+                                                TipoCambio = reader.GetString(0);
+                                            }
+                                        }
+
+                                        string query3 = @"
+                                                    UPDATE Empleado SET
+>>>>>>> Stashed changes
                                                         estadoLegal = @estadoLegal
                                                     WHERE idEmpleado = @idEmpleado;
 	                                    ";
@@ -257,5 +277,82 @@ namespace Metodos
             }
 
         }
+
+
+
+
+        public string Eiminar(DRelacionesLaborales RelacionesLaborales)
+        {
+            string respuesta = "";
+
+            string query = @"
+                        DELETE FROM RelacionesLaborales WHERE idRelacionesLaborales=@idRelacionesLaborales
+	        ";
+
+            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            {
+
+                using (SqlCommand comm = new SqlCommand(query, conn))
+                {
+
+                    comm.Parameters.AddWithValue("@idRelacionesLaborales", RelacionesLaborales.idRelacionesLaborales);
+
+                    try
+                    {
+                        conn.Open();
+                        respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se elimino el Registro de la relacion laboral";
+
+                        if(respuesta.Equals("OK"))
+                        {
+                            string query2 = @"
+                                        SELECT statusCambio from [relacionesLaborales] where idTipoCambio = @idTipoCambio
+                            ";
+
+                            using (SqlCommand comm2 = new SqlCommand(query2, conn))
+                            {
+
+                                comm2.Parameters.AddWithValue("@idRelacionesLaborales", RelacionesLaborales.idRelacionesLaborales);
+
+                                try
+                                {
+                                    conn.Open();
+                                    respuesta = comm2.ExecuteNonQuery() == 1 ? "OK" : "No se elimino el Registro de la relacion laboral";
+
+                                    
+                                }
+                                catch (SqlException e)
+                                {
+                                    respuesta = e.Message;
+                                }
+                                finally
+                                {
+                                    if (conn.State == ConnectionState.Open)
+                                    {
+                                        conn.Close();
+                                    }
+                                }
+                                return respuesta;
+                            }
+                        }
+                    }
+                    catch (SqlException e)
+                    {
+                        respuesta = e.Message;
+                    }
+                    finally
+                    {
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            conn.Close();
+                        }
+                    }
+                    return respuesta;
+                }
+            }
+        }
+
+
+
+
     }
 }
