@@ -125,11 +125,7 @@ namespace Metodos
 
 
 
-<<<<<<< Updated upstream
-        public string Eliminar(DPago Pago)
-=======
         public string Anular(DPago Pago)
->>>>>>> Stashed changes
         {
             string respuesta = "";
 

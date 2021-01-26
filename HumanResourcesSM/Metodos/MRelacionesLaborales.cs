@@ -51,8 +51,7 @@ namespace Metodos
                                 {
                                     comm2.Connection = conn;
 
-<<<<<<< Updated upstream
-                                    comm2.CommandText = "SELECT statusCambio from [tipoTramite] where idTipoTramite = " + RelacionesLaborales.idTipoTramite + "";
+                                    comm2.CommandText = "SELECT t.statusCambio from [TipoTramite] t inner join [RelacionesLaborales] r on t.idTipoTramite=r.idTipoTramite where t.idTipoTramite = @idTipoTramite";
 
                                 try
                                 {
@@ -67,33 +66,14 @@ namespace Metodos
                                         }
                                     }
 
-                                    string query3 = @"
-                                                    UPDATE empleado SET
-=======
-                                    comm2.CommandText = "SELECT t.statusCambio from [TipoTramite] t inner join [RelacionesLaborales] r on t.idTipoTramite=r.idTipoTramite where t.idTipoTramite = @idTipoTramite";
-
-                                    try
+                                    if (TipoCambio != "")
                                     {
-                                        string TipoCambio="";
-
-                                        using (SqlDataReader reader = comm2.ExecuteReader())
-                                        {
-
-                                            if (reader.Read())
-                                            {
-                                                TipoCambio = reader.GetString(0);
-                                            }
-                                        }
-
                                         string query3 = @"
                                                     UPDATE Empleado SET
->>>>>>> Stashed changes
                                                         estadoLegal = @estadoLegal
                                                     WHERE idEmpleado = @idEmpleado;
 	                                    ";
 
-                                    if (TipoCambio != "")
-                                    {
                                         using (SqlCommand comm3 = new SqlCommand(query3, conn))
                                         {
                                             comm3.Parameters.AddWithValue("@estadoLegal", TipoCambio);
@@ -305,20 +285,67 @@ namespace Metodos
                         if(respuesta.Equals("OK"))
                         {
                             string query2 = @"
-                                        SELECT statusCambio from [relacionesLaborales] where idTipoCambio = @idTipoCambio
+                                        SELECT t.statusCambio from [TipoTramite] t inner join [RelacionesLaborales] r on t.tipoTramite=r.tipoTramite where r.idEmpleado = @idEmpleado ORDER BY r.idRelacionesLaborales DESC
                             ";
 
                             using (SqlCommand comm2 = new SqlCommand(query2, conn))
                             {
 
-                                comm2.Parameters.AddWithValue("@idRelacionesLaborales", RelacionesLaborales.idRelacionesLaborales);
+                                comm2.Parameters.AddWithValue("@idEmpleado", RelacionesLaborales.idEmpleado);
 
                                 try
                                 {
                                     conn.Open();
-                                    respuesta = comm2.ExecuteNonQuery() == 1 ? "OK" : "No se elimino el Registro de la relacion laboral";
+                                    respuesta = comm2.ExecuteNonQuery() == 1 ? "OK" : "No se selecciono el status cambio";
 
-                                    
+                                    string StatusCambio = "";
+
+                                    using (SqlDataReader reader = comm2.ExecuteReader())
+                                    {
+
+                                        if (reader.Read())
+                                        {
+                                            StatusCambio = reader.GetString(0);
+                                        }
+                                    }
+
+                                    if (StatusCambio != "")
+                                    {
+                                        string query3 = @"
+                                                    UPDATE Empleado SET
+                                                        estadoLegal = @estadoLegal
+                                                    WHERE idEmpleado = @idEmpleado;
+	                                    ";
+
+                                        using (SqlCommand comm3 = new SqlCommand(query3, conn))
+                                        {
+                                            comm3.Parameters.AddWithValue("@estadoLegal", StatusCambio);
+                                            comm3.Parameters.AddWithValue("@idEmpleado", RelacionesLaborales.idEmpleado);
+
+                                            try
+                                            {
+                                                conn.Open();
+                                                respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el empleado";
+                                            }
+                                            catch (SqlException e)
+                                            {
+                                                MessageBox.Show(e.Message);
+                                            }
+                                            finally
+                                            {
+                                                if (conn.State == ConnectionState.Open)
+                                                {
+                                                    conn.Close();
+                                                }
+                                            }
+                                            return respuesta;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        respuesta = "Tipo de Tramite erroneo";
+                                    }
+
                                 }
                                 catch (SqlException e)
                                 {
