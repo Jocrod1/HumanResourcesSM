@@ -118,7 +118,7 @@ namespace HumanResourcesSM.Windows
             {
                 idRelacionesLaborales = id
             };
-            //Metodos.Eliminar(item);  //PENDIENTE POR HACER
+            Metodos.Eliminar(item);
             Refresh();
         }
         private void txtVer_Click(object sender, RoutedEventArgs e)

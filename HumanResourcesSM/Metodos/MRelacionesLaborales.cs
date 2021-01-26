@@ -237,7 +237,7 @@ namespace Metodos
 
 
 
-        public string Eiminar(DRelacionesLaborales RelacionesLaborales)
+        public string Eliminar(DRelacionesLaborales RelacionesLaborales)
         {
             string respuesta = "";
 
