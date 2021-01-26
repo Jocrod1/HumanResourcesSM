@@ -114,10 +114,8 @@ namespace HumanResourcesSM.Windows
             if (Resp != MessageBoxResult.Yes)
                 return;
             int id = (int)((Button)sender).CommandParameter;
-            DRelacionesLaborales item = new DRelacionesLaborales()
-            {
-                idRelacionesLaborales = id
-            };
+            var response = Metodos.Encontrar(id);
+            DRelacionesLaborales item = response[0];
             Metodos.Eliminar(item);
             Refresh();
         }

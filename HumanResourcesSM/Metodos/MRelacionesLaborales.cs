@@ -261,7 +261,7 @@ namespace Metodos
                         if(respuesta.Equals("OK"))
                         {
                             string query2 = @"
-                                        SELECT t.statusCambio from [TipoTramite] t inner join [RelacionesLaborales] r on t.tipoTramite=r.tipoTramite where r.idEmpleado = @idEmpleado ORDER BY r.idRelacionesLaborales DESC
+                                        SELECT t.statusCambio from [TipoTramite] t inner join [RelacionesLaborales] r on t.idTipoTramite=r.idTipoTramite where r.idEmpleado = @idEmpleado ORDER BY r.idRelacionesLaborales DESC
                             ";
 
                             using (SqlCommand comm2 = new SqlCommand(query2, conn))
@@ -269,9 +269,6 @@ namespace Metodos
 
                                 comm2.Parameters.AddWithValue("@idEmpleado", RelacionesLaborales.idEmpleado);
 
-                                try
-                                {
-                                    conn.Open();
                                     respuesta = comm2.ExecuteNonQuery() == 1 ? "OK" : "No se selecciono el status cambio";
 
                                     string StatusCambio = "";
@@ -282,6 +279,9 @@ namespace Metodos
                                         if (reader.Read())
                                         {
                                             StatusCambio = reader.GetString(0);
+                                        } else
+                                        {
+                                            StatusCambio = "Sin Registro";
                                         }
                                     }
 
@@ -298,43 +298,14 @@ namespace Metodos
                                             comm3.Parameters.AddWithValue("@estadoLegal", StatusCambio);
                                             comm3.Parameters.AddWithValue("@idEmpleado", RelacionesLaborales.idEmpleado);
 
-                                            try
-                                            {
-                                                conn.Open();
-                                                respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el empleado";
-                                            }
-                                            catch (SqlException e)
-                                            {
-                                                MessageBox.Show(e.Message);
-                                            }
-                                            finally
-                                            {
-                                                if (conn.State == ConnectionState.Open)
-                                                {
-                                                    conn.Close();
-                                                }
-                                            }
-                                            return respuesta;
+                                            respuesta = comm3.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el empleado";
+
                                         }
                                     }
                                     else
                                     {
                                         respuesta = "Tipo de Tramite erroneo";
                                     }
-
-                                }
-                                catch (SqlException e)
-                                {
-                                    respuesta = e.Message;
-                                }
-                                finally
-                                {
-                                    if (conn.State == ConnectionState.Open)
-                                    {
-                                        conn.Close();
-                                    }
-                                }
-                                return respuesta;
                             }
                         }
                     }
