@@ -59,7 +59,6 @@ namespace Metodos
 
                                     using (SqlDataReader reader = comm2.ExecuteReader())
                                     {
-
                                         if (reader.Read())
                                         {
                                             TipoCambio = reader.GetString(0);
@@ -76,11 +75,10 @@ namespace Metodos
 
                                         using (SqlCommand comm3 = new SqlCommand(query3, conn))
                                         {
-                                            comm3.Parameters.AddWithValue("@estadoLegal", TipoCambio);
                                             comm3.Parameters.AddWithValue("@idEmpleado", RelacionesLaborales.idEmpleado);
+                                            comm3.Parameters.AddWithValue("@estadoLegal", TipoCambio);
 
-
-                                            respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el empleado";
+                                            respuesta = comm3.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el empleado";
                                         }
                                     }
                                     else

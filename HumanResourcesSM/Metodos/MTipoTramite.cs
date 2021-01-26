@@ -154,9 +154,6 @@ namespace Metodos
 
                     comm.CommandText = "SELECT * from [tipoTramite] where nombre like '" + Buscar + "%' order by nombre";
 
-
-                    //comm.Parameters.AddWithValue("@textoBuscar", "");
-
                     try
                     {
 
