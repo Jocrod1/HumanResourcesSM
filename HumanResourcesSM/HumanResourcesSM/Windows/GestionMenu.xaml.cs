@@ -10,71 +10,56 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-
-using Datos;
-using Metodos;
 
 namespace HumanResourcesSM.Windows
 {
     /// <summary>
-    /// Interaction logic for Menu.xaml
+    /// Interaction logic for SeleccionFrm.xaml
     /// </summary>
-    public partial class Menu : Window
+    public partial class GestionMenu : Page
     {
-        public DUsuario ActUsuario;
-        public Menu(DUsuario User)
+        public GestionMenu()
         {
             InitializeComponent();
-            ActUsuario = User;
-        }
 
-        public Border LastSelected;
-        public int LastIndex = -1;
+            SeleccionFrm frm = new SeleccionFrm();
+            ContentFrame.Content = frm;
+        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            int index = int.Parse(((Button)e.Source).Uid);
+            Button thisbtn = (Button)e.Source;
 
-            if (index == LastIndex)
-                return;
+            int index = int.Parse(thisbtn.Uid);
 
             var par = VisualTreeHelper.GetParent((Button)e.Source) as UIElement;
-            Border PBord = (par as Border);
+            Grid PGrid = (par as Grid);
 
-            PBord.BorderThickness = new Thickness(0, 0, 0, 5);
-            
-            if(LastIndex > -1)
-            {
-                LastSelected.BorderThickness = new Thickness(0, 0, 0, 0);
-            }
+            var ParBoord = VisualTreeHelper.GetParent(SelectedBord);
+            Grid LastPGrid = ParBoord as Grid;
 
-            LastIndex = index;
-            LastSelected = PBord;
+            LastPGrid.Children.Remove(SelectedBord);
+
+            PGrid.Children.Add(SelectedBord);
 
             switch (index)
             {
                 case 0:
-                    GestionMenu frm2 = new GestionMenu();
-                    ContentFrame.Content = frm2;
-                    
+                    SeleccionFrm frm = new SeleccionFrm();
+                    ContentFrame.Content = frm;
                     break;
                 case 1:
                     RelacionesLaboralesDG frm1 = new RelacionesLaboralesDG();
                     ContentFrame.Content = frm1;
                     break;
                 case 2:
-                    TipoTramiteDG frm = new TipoTramiteDG();
-                    ContentFrame.Content = frm;
                     break;
                 case 3:
                     break;
-                case 4:
-                    break;
-
             }
 
-            
         }
     }
 }

@@ -30,20 +30,20 @@
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
-                        <Border BorderThickness="0 0 0 5" BorderBrush="#C22723">
-                            <Button Grid.Column="0" Content="Gestion" Background="{x:Null}" BorderBrush="{x:Null}" Height="50" Click="Button_Click"  Foreground="Black" Padding="5"/>
+                        <Border BorderThickness="0 0 0 0" BorderBrush="#C22723">
+                            <Button Grid.Column="0" Name="defButton" Uid="0" Content="Gestion" Background="{x:Null}" BorderBrush="{x:Null}" Height="50" Click="Button_Click"  Foreground="Black" Padding="5"/>
                         </Border>
                         <Border BorderThickness="0 0 0 0" Grid.Column="1" BorderBrush="#C22723">
-                            <Button  Content="Actividad" Background="{x:Null}" BorderBrush="{x:Null}" Height="50"  Foreground="Black" Padding="5"/>
+                            <Button Uid="1"  Content="Actividad" Background="{x:Null}" BorderBrush="{x:Null}" Height="50" Click="Button_Click"  Foreground="Black" Padding="5"/>
                         </Border>
                         <Border BorderThickness="0 0 0 0" Grid.Column="2" BorderBrush="#C22723">
-                            <Button  Content="Administración" Background="{x:Null}" BorderBrush="{x:Null}" Height="50"  Foreground="Black" Padding="5"/>
+                            <Button Uid="2"  Content="Administración" Background="{x:Null}" BorderBrush="{x:Null}" Height="50" Click="Button_Click"  Foreground="Black" Padding="5"/>
                         </Border>
                         <Border BorderThickness="0 0 0 0" Grid.Column="3" BorderBrush="#C22723">
-                            <Button  Content="Consultas" Background="{x:Null}" BorderBrush="{x:Null}" Height="50"  Foreground="Black" Padding="5"/>
+                            <Button Uid="3"  Content="Consultas" Background="{x:Null}" BorderBrush="{x:Null}" Height="50" Click="Button_Click"  Foreground="Black" Padding="5"/>
                         </Border>
                         <Border BorderThickness="0 0 0 0" Grid.Column="4" BorderBrush="#C22723">
-                            <Button  Content="Reportes" Background="{x:Null}" BorderBrush="{x:Null}" Height="50"  Foreground="Black" Padding="5"/>
+                            <Button Uid="4"  Content="Reportes" Background="{x:Null}" BorderBrush="{x:Null}" Height="50" Click="Button_Click"  Foreground="Black" Padding="5"/>
                         </Border>
                     </Grid>
                 </Grid>
