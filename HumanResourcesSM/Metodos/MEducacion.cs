@@ -5,13 +5,12 @@ using Datos;
 
 using System.Data;
 using System.Data.SqlClient;
+using System.Windows;
 
 namespace Metodos
 {
     public class MEducacion:DEducacion
     {
-
-        //Metodos
 
         public string Insertar(DEducacion Educacion)
         {
@@ -174,9 +173,6 @@ namespace Metodos
 
                     comm.CommandText = "SELECT * from [educacion] where idEmpleado like '" + Buscar + "%' order by idEmpleado";
 
-
-                    //comm.Parameters.AddWithValue("@textoBuscar", "");
-
                     try
                     {
 
@@ -200,7 +196,7 @@ namespace Metodos
                     }
                     catch (SqlException e)
                     {
-                        //error
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     finally
                     {

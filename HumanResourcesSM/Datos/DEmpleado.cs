@@ -63,20 +63,6 @@ namespace Datos
             set { _Direccion = value; }
         }
 
-        private string _Ciudad;
-        public string ciudad
-        {
-            get { return _Ciudad; }
-            set { _Ciudad = value; }
-        }
-
-        private string _Estado;
-        public string estado
-        {
-            get { return _Estado; }
-            set { _Estado = value; }
-        }
-
         private string _Email;
         public string email
         {
@@ -133,12 +119,19 @@ namespace Datos
             set { _FechaRevision = value; }
         }
 
+        private string _NombrePuesto;
+        public string nombrePuesto
+        {
+            get { return _NombrePuesto; }
+            set { _NombrePuesto = value; }
+        }
+
         public DEmpleado()
         {
 
         }
 
-        public DEmpleado(int IdEmpleado, int IdDepartamento, string Nombre, string Apellido, string Cedula, DateTime FechaNacimiento, string Nacimiento, string Direccion, string Ciudad, string Estado, string Email, int Telefono, string Curriculum, int EstadoLegal, DateTime FechaCulminacion, int Status, DateTime FechaAplicacion, DateTime FechaRevision)
+        public DEmpleado(int IdEmpleado, int IdDepartamento, string Nombre, string Apellido, string Cedula, DateTime FechaNacimiento, string Nacimiento, string Direccion, string Email, int Telefono, string Curriculum, int EstadoLegal, DateTime FechaCulminacion, int Status, DateTime FechaAplicacion, DateTime FechaRevision, string NombrePuesto)
         {
             this.idEmpleado = IdEmpleado;
             this.idDepartamento = IdDepartamento;
@@ -148,8 +141,6 @@ namespace Datos
             this.fechaNacimiento = FechaNacimiento;
             this.nacimiento = Nacimiento;
             this.direccion = Direccion;
-            this.ciudad = Ciudad;
-            this.estado = Estado;
             this.email = Email;
             this.telefono = Telefono;
             this.curriculum = Curriculum;
@@ -158,6 +149,7 @@ namespace Datos
             this.status = Status;
             this.fechaAplicacion = FechaAplicacion;
             this.fechaRevision = FechaRevision;
+            this.nombrePuesto = NombrePuesto;
         }
     }
 }

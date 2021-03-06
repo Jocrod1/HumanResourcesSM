@@ -56,13 +56,20 @@ namespace Datos
             set { _FechaRevision = value; }
         }
 
+        private string _NombrePuesto;
+        public string nombrePuesto
+        {
+                get { return _NombrePuesto; }
+                set { _NombrePuesto = value; }
+        }
+
 
         public DSeleccion()
         {
 
         }
 
-        public DSeleccion(int IdSeleccion, int IdEmpleado, int IdEntrevistador, int IdSeleccionador, DateTime FechaAplicacion, int Status, DateTime FechaRevision)
+        public DSeleccion(int IdSeleccion, int IdEmpleado, int IdEntrevistador, int IdSeleccionador, DateTime FechaAplicacion, int Status, DateTime FechaRevision, string NombrePuesto)
         {
             this.idSeleccion = IdSeleccion;
             this.idEmpleado = IdEmpleado;
@@ -71,6 +78,7 @@ namespace Datos
             this.fechaAplicacion = FechaAplicacion;
             this.status = Status;
             this.fechaRevision = FechaRevision;
+            this.nombrePuesto = NombrePuesto;
         }
 
     }

@@ -5,6 +5,7 @@ using Datos;
 
 using System.Data;
 using System.Data.SqlClient;
+using System.Windows;
 
 namespace Metodos
 {
@@ -190,7 +191,7 @@ namespace Metodos
                     }
                     catch (SqlException e)
                     {
-                        //error
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     finally
                     {

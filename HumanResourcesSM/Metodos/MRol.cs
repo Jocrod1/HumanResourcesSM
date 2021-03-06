@@ -11,10 +11,6 @@ namespace Metodos
 {
     public class MRol:DUsuario
     {
-
-        //Metodos
-
-        //funcionando
         public List<DRol> Mostrar()
         {
             List<DRol> ListaGenerica = new List<DRol>();
@@ -27,9 +23,6 @@ namespace Metodos
                     comm.Connection = conn;
 
                     comm.CommandText = "SELECT * from [rol]";
-
-
-                    //comm.Parameters.AddWithValue("@textoBuscar", "");
 
                     try
                     {
@@ -53,8 +46,7 @@ namespace Metodos
                     }
                     catch (SqlException e)
                     {
-                        //error
-                        MessageBox.Show(e.Message);
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     finally
                     {

@@ -11,9 +11,6 @@ namespace Metodos
 {
     public class MUsuario:DUsuario
     {
-
-        //Metodos
-
         public string Insertar(DUsuario Usuario)
         {
             string respuesta = "";
@@ -169,9 +166,6 @@ namespace Metodos
 
                     comm.CommandText = "SELECT * from [usuario] where usuario like '" + Buscar + "%' order by usuario";
 
-
-                    //comm.Parameters.AddWithValue("@textoBuscar", "");
-
                     try
                     {
 
@@ -195,8 +189,7 @@ namespace Metodos
                     }
                     catch (SqlException e)
                     {
-                        //error
-                        MessageBox.Show(e.Message);
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     finally
                     {
@@ -250,8 +243,7 @@ namespace Metodos
                     }
                     catch (SqlException e)
                     {
-                        //error
-                        MessageBox.Show(e.Message);
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     finally
                     {
@@ -279,9 +271,6 @@ namespace Metodos
 
                     comm.CommandText = "SELECT * from [usuario] WHERE idUsuario= " + Buscar + "";
 
-
-                    //comm.Parameters.AddWithValue("@textoBuscar", "");
-
                     try
                     {
 
@@ -305,8 +294,7 @@ namespace Metodos
                     }
                     catch (SqlException e)
                     {
-                        //error
-                        MessageBox.Show(e.Message);
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     finally
                     {

@@ -5,14 +5,13 @@ using Datos;
 
 using System.Data;
 using System.Data.SqlClient;
+using System.Windows;
 
 namespace Metodos
 {
     public class MTipoTramite:DTipoTramite
     {
 
-
-        //Metodos
 
         public string Insertar(DTipoTramite TipoTramite)
         {
@@ -175,7 +174,7 @@ namespace Metodos
                     }
                     catch (SqlException e)
                     {
-                        //error
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     finally
                     {
@@ -203,9 +202,6 @@ namespace Metodos
 
                     comm.CommandText = "SELECT * from [tipoTramite] where idTipoTramite= " + Buscar + " ";
 
-
-                    //comm.Parameters.AddWithValue("@textoBuscar", "");
-
                     try
                     {
 
@@ -227,7 +223,7 @@ namespace Metodos
                     }
                     catch (SqlException e)
                     {
-                        //error
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     finally
                     {

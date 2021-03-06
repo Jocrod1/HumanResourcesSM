@@ -26,8 +26,6 @@ namespace Metodos
                             fechaNacimiento,
                             nacimiento,
                             direccion,
-                            ciudad,
-                            estado,
                             email,
                             telefono,
                             curriculum,
@@ -42,8 +40,6 @@ namespace Metodos
                             @fechaNacimiento,
                             @nacimiento,
                             @direccion,
-                            @ciudad,
-                            @estado,
                             @email,
                             @telefono,
                             @curriculum,
@@ -65,8 +61,6 @@ namespace Metodos
                     comm.Parameters.AddWithValue("@fechaNacimiento", Empleado.fechaNacimiento);
                     comm.Parameters.AddWithValue("@nacimiento", Empleado.nacimiento);
                     comm.Parameters.AddWithValue("@direccion", Empleado.direccion);
-                    comm.Parameters.AddWithValue("@ciudad", Empleado.ciudad);
-                    comm.Parameters.AddWithValue("@estado", Empleado.estado);
                     comm.Parameters.AddWithValue("@email", Empleado.email);
                     comm.Parameters.AddWithValue("@telefono", Empleado.telefono);
                     comm.Parameters.AddWithValue("@curriculum", Empleado.curriculum);
@@ -90,13 +84,15 @@ namespace Metodos
                                             idSeleccionador,
                                             fechaAplicacion,
                                             status,
-                                            fechaRevision
+                                            fechaRevision,
+                                            nombrePuesto
                                         ) VALUES(
                                             @idEmpleado,
                                             @idSeleccionador,
                                             @fechaAplicacion,
                                             @status,
-                                            @fechaRevision
+                                            @fechaRevision,
+                                            @nombrePuesto
                                         );
 	                        ";
 
@@ -107,6 +103,7 @@ namespace Metodos
                                 comm2.Parameters.AddWithValue("@fechaAplicacion", Seleccion.fechaAplicacion);
                                 comm2.Parameters.AddWithValue("@status", Seleccion.status);
                                 comm2.Parameters.AddWithValue("@fechaRevision", DateTime.Now);
+                                comm2.Parameters.AddWithValue("@nombrePuesto", Seleccion.nombrePuesto);
 
                                 respuesta = comm2.ExecuteNonQuery() == 1 ? "OK" : "No se ingreso el Registro de la seleccion";
 
@@ -262,7 +259,7 @@ namespace Metodos
                 {
                     comm.Connection = conn;
 
-                    comm.CommandText = "SELECT e.cedula, e.apellido, e.nombre, e.estado, e.ciudad, e.email, e.telefono, e.curriculum, e.estadoLegal, s.fechaAplicacion, s.fechaRevision from [empleado] e inner join [seleccion] s on e.idEmpleado=s.idEmpleado where s.idEntrevistaodor = " + Buscar + " order by e.cedula";
+                    comm.CommandText = "SELECT e.cedula, e.apellido, e.nombre, e.email, e.telefono, e.curriculum, e.estadoLegal, s.nombrePuesto, s.fechaAplicacion, s.fechaRevision from [empleado] e inner join [seleccion] s on e.idEmpleado=s.idEmpleado where s.idEntrevistaodor = " + Buscar + " order by e.cedula";
 
                     try
                     {
@@ -279,21 +276,20 @@ namespace Metodos
                                     cedula = reader.GetString(0),
                                     apellido = reader.GetString(1),
                                     nombre = reader.GetString(2),
-                                    estado = reader.GetString(3),
-                                    ciudad = reader.GetString(4),
-                                    email = reader.GetString(5),
-                                    telefono = reader.GetInt32(7),
-                                    curriculum = reader.GetString(8),
-                                    estadoLegal = reader.GetInt32(9),
-                                    fechaAplicacion = reader.GetDateTime(10),
-                                    fechaRevision = reader.GetDateTime(11)
+                                    email = reader.GetString(3),
+                                    telefono = reader.GetInt32(4),
+                                    curriculum = reader.GetString(5),
+                                    estadoLegal = reader.GetInt32(6),
+                                    nombrePuesto = reader.GetString(7),
+                                    fechaAplicacion = reader.GetDateTime(8),
+                                    fechaRevision = reader.GetDateTime(9)
                                 });
                             }
                         }
                     }
-                    catch
+                    catch (SqlException e)
                     {
-                        //error
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     finally
                     {
@@ -346,8 +342,7 @@ namespace Metodos
                     }
                     catch(Exception e)
                     {
-                        //error
-                        MessageBox.Show(e.Message);
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK ,MessageBoxImage.Error);
                     }
                     finally
                     {

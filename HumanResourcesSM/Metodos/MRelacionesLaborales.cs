@@ -122,7 +122,7 @@ namespace Metodos
                 {
                     Query += "idEmpleado= " + idEmpleado;
                 }
-                else if(idEmpleado > -1)
+                else if(idTramite > -1)
                 {
                     Query += " idTipoTramite= " + idTramite;
                 }
@@ -136,9 +136,6 @@ namespace Metodos
                     comm.Connection = conn;
 
                     comm.CommandText = "SELECT * from [relacionesLaborales] " + Query + "";
-
-
-                    //comm.Parameters.AddWithValue("@textoBuscar", "");
 
                     try
                     {
@@ -163,8 +160,7 @@ namespace Metodos
                     }
                     catch (SqlException e)
                     {
-                        //error
-                        MessageBox.Show(e.Message);
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     finally
                     {
@@ -218,8 +214,7 @@ namespace Metodos
                     }
                     catch (SqlException e)
                     {
-                        //error
-                        MessageBox.Show(e.Message);
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     finally
                     {

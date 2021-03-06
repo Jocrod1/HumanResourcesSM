@@ -5,14 +5,12 @@ using Datos;
 
 using System.Data;
 using System.Data.SqlClient;
+using System.Windows;
 
 namespace Metodos
 {
     public class MDepartamento:DDepartamento
     {
-
-
-        //Metodos
 
         public string Insertar(DDepartamento Departamento)
         {
@@ -139,8 +137,6 @@ namespace Metodos
         }
 
 
-
-        //funcionando
         public List<DDepartamento> Mostrar(string Buscar)
         {
             List<DDepartamento> ListaGenerica = new List<DDepartamento>();
@@ -153,9 +149,6 @@ namespace Metodos
                     comm.Connection = conn;
 
                     comm.CommandText = "SELECT * from [departamento] where nombre like '" + Buscar + "%' order by nombre";
-
-
-                    //comm.Parameters.AddWithValue("@textoBuscar", "");
 
                     try
                     {
@@ -178,7 +171,7 @@ namespace Metodos
                     }
                     catch (SqlException e)
                     {
-                        Console.WriteLine(e);
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     finally
                     {
@@ -206,9 +199,6 @@ namespace Metodos
 
                     comm.CommandText = "SELECT * from [departamento] WHERE idDepartamento= " + Buscar + "";
 
-
-                    //comm.Parameters.AddWithValue("@textoBuscar", "");
-
                     try
                     {
 
@@ -230,7 +220,7 @@ namespace Metodos
                     }
                     catch (SqlException e)
                     {
-                        //error
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     finally
                     {

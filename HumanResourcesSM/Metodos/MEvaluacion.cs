@@ -5,13 +5,12 @@ using Datos;
 
 using System.Data;
 using System.Data.SqlClient;
+using System.Windows;
 
 namespace Metodos
 {
     public class MEvaluacion:DEvaluacion
     {
-
-
 
         public string Insertar(DEvaluacion Evaluacion)
         {
@@ -197,7 +196,7 @@ namespace Metodos
                     }
                     catch (SqlException e)
                     {
-                        //error
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     finally
                     {
