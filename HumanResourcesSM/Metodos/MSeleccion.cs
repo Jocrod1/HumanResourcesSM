@@ -24,7 +24,7 @@ namespace Metodos
                             apellido,
                             cedula,
                             fechaNacimiento,
-                            nacimiento,
+                            nacionalidad,
                             direccion,
                             email,
                             telefono,
@@ -38,7 +38,7 @@ namespace Metodos
                             @apellido,
                             @cedula,
                             @fechaNacimiento,
-                            @nacimiento,
+                            @nacionalidad,
                             @direccion,
                             @email,
                             @telefono,
@@ -59,7 +59,7 @@ namespace Metodos
                     comm.Parameters.AddWithValue("@apellido", Empleado.apellido);
                     comm.Parameters.AddWithValue("@cedula", Empleado.cedula);
                     comm.Parameters.AddWithValue("@fechaNacimiento", Empleado.fechaNacimiento);
-                    comm.Parameters.AddWithValue("@nacimiento", Empleado.nacimiento);
+                    comm.Parameters.AddWithValue("@nacionalidad", Empleado.nacionalidad);
                     comm.Parameters.AddWithValue("@direccion", Empleado.direccion);
                     comm.Parameters.AddWithValue("@email", Empleado.email);
                     comm.Parameters.AddWithValue("@telefono", Empleado.telefono);
@@ -222,7 +222,7 @@ namespace Metodos
 
                 using (SqlCommand comm = new SqlCommand(query, conn))
                 {
-                    comm.Parameters.AddWithValue("@status",0);
+                    comm.Parameters.AddWithValue("@status", 0);
                     comm.Parameters.AddWithValue("@idSeleccion", IdSeleccion);
 
                     try
@@ -277,9 +277,9 @@ namespace Metodos
                                     apellido = reader.GetString(1),
                                     nombre = reader.GetString(2),
                                     email = reader.GetString(3),
-                                    telefono = reader.GetInt32(4),
+                                    telefono = reader.GetString(4),
                                     curriculum = reader.GetString(5),
-                                    estadoLegal = reader.GetInt32(6),
+                                    estadoLegal = reader.GetString(6),
                                     nombrePuesto = reader.GetString(7),
                                     fechaAplicacion = reader.GetDateTime(8),
                                     fechaRevision = reader.GetDateTime(9)

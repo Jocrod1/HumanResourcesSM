@@ -49,11 +49,11 @@ namespace Datos
             set { _FechaNacimiento = value; }
         }
 
-        private string _Nacimiento;
-        public string nacimiento
+        private string _Nacionalidad;
+        public string nacionalidad
         {
-            get { return _Nacimiento; }
-            set { _Nacimiento = value; }
+            get { return _Nacionalidad; }
+            set { _Nacionalidad = value; }
         }
 
         private string _Direccion;
@@ -70,8 +70,8 @@ namespace Datos
             set { _Email = value; }
         }
 
-        private int _Telefono;
-        public int telefono
+        private string _Telefono;
+        public string telefono
         {
             get { return _Telefono; }
             set { _Telefono = value; }
@@ -84,8 +84,8 @@ namespace Datos
             set { _Curriculum = value; }
         }
 
-        private int _EstadoLegal;
-        public int estadoLegal
+        private string _EstadoLegal;
+        public string estadoLegal
         {
             get { return _EstadoLegal; }
             set { _EstadoLegal = value; }
@@ -131,7 +131,7 @@ namespace Datos
 
         }
 
-        public DEmpleado(int IdEmpleado, int IdDepartamento, string Nombre, string Apellido, string Cedula, DateTime FechaNacimiento, string Nacimiento, string Direccion, string Email, int Telefono, string Curriculum, int EstadoLegal, DateTime FechaCulminacion, int Status, DateTime FechaAplicacion, DateTime FechaRevision, string NombrePuesto)
+        public DEmpleado(int IdEmpleado, int IdDepartamento, string Nombre, string Apellido, string Cedula, DateTime FechaNacimiento, string Nacionalidad, string Direccion, string Email, string Telefono, string Curriculum, string EstadoLegal, DateTime FechaCulminacion, int Status, DateTime FechaAplicacion, DateTime FechaRevision, string NombrePuesto)
         {
             this.idEmpleado = IdEmpleado;
             this.idDepartamento = IdDepartamento;
@@ -139,7 +139,7 @@ namespace Datos
             this.apellido = Apellido;
             this.cedula = Cedula;
             this.fechaNacimiento = FechaNacimiento;
-            this.nacimiento = Nacimiento;
+            this.nacionalidad = Nacionalidad;
             this.direccion = Direccion;
             this.email = Email;
             this.telefono = Telefono;
