@@ -20,12 +20,14 @@ namespace Metodos
                             idRol,
                             usuario,
                             contraseña,
-                            confirmacion
+                            confirmacion,
+                            entrevistando
                         ) VALUES(
                             @idRol,
                             @usuario,
                             @contraseña,
-                            @confirmacion
+                            @confirmacion,
+                            @entrevistando
                         );
 	        ";
 
@@ -38,6 +40,7 @@ namespace Metodos
                     comm.Parameters.AddWithValue("@usuario", Usuario.usuario);
                     comm.Parameters.AddWithValue("@contraseña", Usuario.contraseña);
                     comm.Parameters.AddWithValue("@confirmacion", Usuario.confirmacion);
+                    comm.Parameters.AddWithValue("@entrevistando", 0);
 
                     try
                     {
@@ -70,12 +73,14 @@ namespace Metodos
                             idRol,
                             usuario,
                             contraseña,
-                            confirmacion
+                            confirmacion,
+                            entrevistando
                         ) VALUES(
                             @idRol,
                             @usuario,
                             @contraseña,
-                            @confirmacion
+                            @confirmacion,
+                            @entrevistando
                         ) WHERE idUsuario = @idUsuario;
 	        ";
 
@@ -88,6 +93,7 @@ namespace Metodos
                     comm.Parameters.AddWithValue("@usuario", Usuario.usuario);
                     comm.Parameters.AddWithValue("@contraseña", Usuario.contraseña);
                     comm.Parameters.AddWithValue("@confirmacion", Usuario.confirmacion);
+                    comm.Parameters.AddWithValue("@entrevistando", Usuario.entrevistando);
 
                     comm.Parameters.AddWithValue("@idUsuario", Usuario.idUsuario);
 
@@ -182,7 +188,8 @@ namespace Metodos
                                     idRol = reader.GetInt32(1),
                                     usuario = reader.GetString(2),
                                     contraseña = reader.GetString(3),
-                                    confirmacion = reader.GetString(4)
+                                    confirmacion = reader.GetString(4),
+                                    entrevistando = reader.GetInt16(5)
                                 });
                             }
                         }
@@ -236,7 +243,8 @@ namespace Metodos
                                     idRol = reader.GetInt32(1),
                                     usuario = reader.GetString(2),
                                     contraseña = reader.GetString(3),
-                                    confirmacion = reader.GetString(4)
+                                    confirmacion = reader.GetString(4),
+                                    entrevistando = reader.GetInt16(5)
                                 });
                             }
                         }
@@ -287,7 +295,8 @@ namespace Metodos
                                     idRol = reader.GetInt32(1),
                                     usuario = reader.GetString(2),
                                     contraseña = reader.GetString(3),
-                                    confirmacion = reader.GetString(4)
+                                    confirmacion = reader.GetString(4),
+                                    entrevistando = reader.GetInt16(5)
                                 });
                             }
                         }
@@ -307,6 +316,55 @@ namespace Metodos
                 }
             }
 
+        }
+
+
+
+
+        public string Entrevistando(int IdUsuario, bool Entrevistando)
+        {
+            string respuesta = "";
+
+            string query = @"
+                        UPDATE usuario SET (
+                            entrevistando
+                        ) VALUES(
+                            @entrevistando
+                        ) WHERE idUsuario = @idUsuario;
+	        ";
+
+            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            {
+
+                using (SqlCommand comm = new SqlCommand(query, conn))
+                {
+                    if (Entrevistando)
+                        comm.Parameters.AddWithValue("@entrevistando", 0);
+                    else
+                        comm.Parameters.AddWithValue("@entrevistando", 1);
+
+
+                    comm.Parameters.AddWithValue("@idUsuario", IdUsuario);
+
+                    try
+                    {
+                        conn.Open();
+                        respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el Registro del usuario";
+                    }
+                    catch (SqlException e)
+                    {
+                        respuesta = e.Message;
+                    }
+                    finally
+                    {
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            conn.Close();
+                        }
+                    }
+                    return respuesta;
+                }
+            }
         }
     }
 }

@@ -42,19 +42,27 @@ namespace Datos
             set { _Confirmacion = value; }
         }
 
+        private int _Entrevistando;
+        public int entrevistando
+        {
+            get { return _Entrevistando; }
+            set { _Entrevistando = value; }
+        }
+
 
         public DUsuario()
         {
 
         }
 
-        public DUsuario(int IdUsuario, int IdRol, string Usuario, string Contraseña, string Confirmacion)
+        public DUsuario(int IdUsuario, int IdRol, string Usuario, string Contraseña, string Confirmacion, int Entrevistando)
         {
             this.idUsuario = IdUsuario;
             this.idRol = IdRol;
             this.usuario = Usuario;
             this.contraseña = Contraseña;
             this.confirmacion = Confirmacion;
+            this.entrevistando = Entrevistando;
         }
     }
 }

@@ -28,9 +28,8 @@ namespace Metodos
                             direccion,
                             email,
                             telefono,
-                            curriculum,
+                            curriculoUrl,
                             estadoLegal,
-                            fechaCulminacion,
                             status
                         ) VALUES(
                             @idDepartamento,
@@ -44,7 +43,6 @@ namespace Metodos
                             @telefono,
                             @curriculum,
                             @estadoLegal,
-                            @fechaCulminacion,
                             @status
                         );
 	        ";
@@ -65,7 +63,6 @@ namespace Metodos
                     comm.Parameters.AddWithValue("@telefono", Empleado.telefono);
                     comm.Parameters.AddWithValue("@curriculum", Empleado.curriculum);
                     comm.Parameters.AddWithValue("@estadoLegal", Empleado.estadoLegal);
-                    comm.Parameters.AddWithValue("@fechaCulminacion", Empleado.fechaCulminacion);
                     comm.Parameters.AddWithValue("@status", Empleado.status);
 
                     try
