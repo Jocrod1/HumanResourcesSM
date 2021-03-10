@@ -1,0 +1,33 @@
+﻿<Page x:Class="HumanResourcesSM.Windows.AjustesMenu"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:HumanResourcesSM.Windows"
+      mc:Ignorable="d" 
+      d:DesignHeight="520" d:DesignWidth="800"
+      Title="SeleccionFrm">
+
+    <Grid Background="WhiteSmoke">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1" Background="#595959">
+            <StackPanel VerticalAlignment="Center">
+                <Grid>
+                    <Button Content="Editar Perfil" Uid="0" Background="{x:Null}" BorderBrush="{x:Null}" Click="Button_Click"/>
+                    <Border x:Name="SelectedBord"  Background="Black" Opacity=".3"/>
+                </Grid>
+                <Grid>
+                    <Button Content="Servicios" Uid="1" Background="{x:Null}" BorderBrush="{x:Null}" Click="Button_Click"/>
+                </Grid>
+                <Grid>
+                    <Button Content="Ayuda" Uid="2" Background="{x:Null}" BorderBrush="{x:Null}" Click="Button_Click"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+        <Frame Grid.Column="0" x:Name="ContentFrame" NavigationUIVisibility="Hidden" Background="WhiteSmoke">
+        </Frame>
+    </Grid>
+</Page>

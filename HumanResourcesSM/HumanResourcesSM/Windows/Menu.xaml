@@ -6,65 +6,82 @@
         xmlns:local="clr-namespace:HumanResourcesSM.Windows"
         mc:Ignorable="d"
         Title="Menu" Height="600" Width="800">
-    <Grid Background="WhiteSmoke">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Border BorderThickness="0 0 0 1" BorderBrush="Black">
-            <Grid Name="NavGrid" Height="50" Background="White">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid Margin="5 10 30 10">
-                    <Image Source="/HumanResourcesSM;component/Img/Logo.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                </Grid>
-                <Grid Grid.Column="1">
-                    <Grid HorizontalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Border BorderThickness="0 0 0 0" BorderBrush="#C22723">
-                            <Button Grid.Column="0" Name="defButton" Uid="0" Content="Gestion" Background="{x:Null}" BorderBrush="{x:Null}" Height="50" Click="Button_Click"  Foreground="Black" Padding="5"/>
-                        </Border>
-                        <Border BorderThickness="0 0 0 0" Grid.Column="1" BorderBrush="#C22723">
-                            <Button Uid="1"  Content="Actividad" Background="{x:Null}" BorderBrush="{x:Null}" Height="50" Click="Button_Click"  Foreground="Black" Padding="5"/>
-                        </Border>
-                        <Border BorderThickness="0 0 0 0" Grid.Column="2" BorderBrush="#C22723">
-                            <Button Uid="2"  Content="Administración" Background="{x:Null}" BorderBrush="{x:Null}" Height="50" Click="Button_Click"  Foreground="Black" Padding="5"/>
-                        </Border>
-                        <Border BorderThickness="0 0 0 0" Grid.Column="3" BorderBrush="#C22723">
-                            <Button Uid="3"  Content="Consultas" Background="{x:Null}" BorderBrush="{x:Null}" Height="50" Click="Button_Click"  Foreground="Black" Padding="5"/>
-                        </Border>
-                        <Border BorderThickness="0 0 0 0" Grid.Column="4" BorderBrush="#C22723">
-                            <Button Uid="4"  Content="Reportes" Background="{x:Null}" BorderBrush="{x:Null}" Height="50" Click="Button_Click"  Foreground="Black" Padding="5"/>
-                        </Border>
-                    </Grid>
-                </Grid>
-                <Grid Grid.Column="2">
+    <Grid>
+        <Grid Background="WhiteSmoke">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border BorderThickness="0 0 0 1" BorderBrush="Black">
+                <Grid Name="NavGrid" Height="50" Background="White">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <Grid>
+                    <Grid Margin="5 10 30 10">
+                        <Image Source="/HumanResourcesSM;component/Img/Logo.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Grid HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Border BorderThickness="0 0 0 0" BorderBrush="#C22723">
+                                <Button Grid.Column="0" Name="defButton" Uid="0" Content="Gestion" Background="{x:Null}" BorderBrush="{x:Null}" Height="50" Click="Button_Click"  Foreground="Black" Padding="5"/>
+                            </Border>
+                            <Border BorderThickness="0 0 0 0" Grid.Column="1" BorderBrush="#C22723">
+                                <Button Uid="1"  Content="Actividad" Background="{x:Null}" BorderBrush="{x:Null}" Height="50" Click="Button_Click"  Foreground="Black" Padding="5"/>
+                            </Border>
+                            <Border BorderThickness="0 0 0 0" Grid.Column="2" BorderBrush="#C22723">
+                                <Button Uid="2"  Content="Administración" Background="{x:Null}" BorderBrush="{x:Null}" Height="50" Click="Button_Click"  Foreground="Black" Padding="5"/>
+                            </Border>
+                            <Border BorderThickness="0 0 0 0" Grid.Column="3" BorderBrush="#C22723">
+                                <Button Uid="3"  Content="Consultas" Background="{x:Null}" BorderBrush="{x:Null}" Height="50" Click="Button_Click"  Foreground="Black" Padding="5"/>
+                            </Border>
+                            <Border BorderThickness="0 0 0 0" Grid.Column="4" BorderBrush="#C22723">
+                                <Button Uid="4"  Content="Reportes" Background="{x:Null}" BorderBrush="{x:Null}" Height="50" Click="Button_Click"  Foreground="Black" Padding="5"/>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Column="2" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="Administrador" FontSize="13" FontWeight="Bold" VerticalAlignment="Center" Margin="10 0"/>
-                        <Border Grid.Column="1" Width="40" Height="40" CornerRadius="20" BorderThickness="2" BorderBrush="#C22723"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Administrador" FontSize="13" FontWeight="Bold" VerticalAlignment="Center" Margin="10 0"/>
+                            <Border Grid.Column="1" Width="40" Height="40" CornerRadius="20" BorderThickness="2" BorderBrush="#C22723"/>
+                        </Grid>
+                        <Grid Grid.Column="1" Margin="6 0" VerticalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="1" Margin="3 0 0 0">
+                                <Image Grid.Column="1" Source="/HumanResourcesSM;component/Img/off-button.png" Width="17" Height="17"/>
+                                <Button Grid.Column="1" Name="BtnLogOut" Width="17" Height="17" Background="Transparent" BorderBrush="Transparent" Click="BtnSettings_Click">
+                                </Button>
+                            </Grid>
+                            <Grid Grid.Column="0" Margin="0 0 3 0">
+                                <Image Grid.Column="1" Source="/HumanResourcesSM;component/Img/settings (1).png" Width="20" Height="20"/>
+                                <Button Grid.Column="1" Name="BtnSettings" Width="20" Height="20" Background="Transparent" BorderBrush="Transparent" Click="BtnSettings_Click">
+                                </Button>
+                            </Grid>
+                        </Grid>
                     </Grid>
-                    <Border Grid.Column="1" Width="20" Height="20" Background="Gray" CornerRadius="15" Margin="10 0"/>
                 </Grid>
-            </Grid>
-        </Border>
-        <Frame Grid.Row="1" x:Name="ContentFrame" NavigationUIVisibility="Hidden" Background="Gray">
-        </Frame>
+            </Border>
+            <Frame Grid.Row="1" x:Name="ContentFrame" NavigationUIVisibility="Hidden" Background="Gray">
+            </Frame>
+        </Grid>
     </Grid>
 </Window>

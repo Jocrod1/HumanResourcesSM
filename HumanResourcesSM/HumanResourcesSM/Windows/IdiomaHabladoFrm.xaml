@@ -1,0 +1,42 @@
+﻿<Window x:Class="HumanResourcesSM.Windows.IdiomaHabladoFrm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HumanResourcesSM.Windows"
+        mc:Ignorable="d"
+        Title="DepartamentoFrm" Height="360" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
+    <Grid Background="WhiteSmoke">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid Name="BgTitulo" Grid.Row="0" Background="#248232">
+            <TextBlock Name="txtTitulo"
+                       Text="Insertar" 
+                       Foreground="White"
+                       HorizontalAlignment="Left"
+                       FontWeight="Bold"
+                       FontSize="25"
+                       Margin="20 30 0 15"/>
+            <!--<Separator VerticalAlignment="Bottom" Foreground="Black" />-->
+        </Grid>
+        <StackPanel Grid.Row="1"  Margin="50 10">
+            <Grid Margin="0 10">
+                <TextBlock x:Name="PlaceIdioma" Text="Idioma" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
+                <ComboBox Name="CbIdioma" FontSize="15" SelectionChanged="CbIdioma_SelectionChanged"/>
+            </Grid>
+            <Grid Margin="0 10">
+                <TextBlock x:Name="PlaceNivel" Text="Nivel" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
+                <ComboBox Name="CbNivel" FontSize="15" SelectionChanged="CbNivel_SelectionChanged">
+                    <ComboBoxItem>Basico</ComboBoxItem>
+                    <ComboBoxItem>Intermedio</ComboBoxItem>
+                    <ComboBoxItem>Avanzado</ComboBoxItem>
+                    <ComboBoxItem>Fluido</ComboBoxItem>
+                </ComboBox>
+            </Grid>
+        </StackPanel>
+        <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Content="Agregar" Margin="0 10" Click="Button_Click" HorizontalAlignment="Center"/>
+    </Grid>
+</Window>

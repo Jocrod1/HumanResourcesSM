@@ -41,8 +41,8 @@ namespace Datos
             set { _FechaIngreso = value; }
         }
 
-        private DateTime _FechaEgreso;
-        public DateTime fechaEgreso
+        private DateTime? _FechaEgreso;
+        public DateTime? fechaEgreso
         {
             get { return _FechaEgreso; }
             set { _FechaEgreso = value; }
@@ -54,7 +54,7 @@ namespace Datos
 
         }
 
-        public DEducacion(int IdEducacion, int IdEmpleado, string NombreCarrera, string NombreInstitucion, DateTime FechaIngreso, DateTime FechaEgreso)
+        public DEducacion(int IdEducacion, int IdEmpleado, string NombreCarrera, string NombreInstitucion, DateTime FechaIngreso, DateTime? FechaEgreso)
         {
             this.idEducacion = IdEducacion;
             this.idEmpleado = IdEmpleado;

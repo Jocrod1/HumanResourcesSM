@@ -255,7 +255,7 @@ namespace HumanResourcesSM.Windows
         {
             if (txtNombre.txt.Text == "")
             {
-                MessageBox.Show("Debes llenar el campo Nombre!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Debes llenar el campo Nombre!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                 txtNombre.txt.Focus();
                 return true;
             }

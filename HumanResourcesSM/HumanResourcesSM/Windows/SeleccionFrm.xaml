@@ -10,17 +10,25 @@
       Title="SeleccionFrm">
 
     <Grid Background="WhiteSmoke">
-        <ScrollViewer VerticalScrollBarVisibility="Visible" CanContentScroll="True" >
-            <StackPanel Margin="100 50">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Border BorderThickness="0 0 0 1" BorderBrush="Black">
+            <TextBlock Text="Seleccionar Empleado" FontWeight="Bold" FontSize="23" HorizontalAlignment="Center" Margin="0 10"/>
+        </Border>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" CanContentScroll="False" Grid.Row="1">
+            <StackPanel Margin="100 10">
                 <Grid Margin="0 10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <local:UserInputText Grid.Column="0" FontSize="15" Placeholder="Nombre" Margin="0 0 10 0"/>
-                    <local:UserInputText Grid.Column="1" FontSize="15" Placeholder="Apellido" Margin="10 0 0 0"/>
+                    <local:UserInputText Grid.Column="0" x:Name="txtNombre" FontSize="15" Placeholder="Nombre" Margin="0 0 10 0"/>
+                    <local:UserInputText Grid.Column="1" x:Name="txtApellido" FontSize="15" Placeholder="Apellido" Margin="10 0 0 0"/>
                 </Grid>
-                <local:UserInputText FontSize="15" Placeholder="DNI" Margin="0 10"/>
+                <local:UserInputText FontSize="15" x:Name="txtDNI" Placeholder="DNI" Margin="0 10"/>
                 <Grid Margin="0 10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -32,29 +40,91 @@
                     </Grid>
                     <Grid Grid.Column="1" Margin="10 0 0 0">
                         <TextBlock x:Name="PlaceFechaNac" Text="Fecha de Nacimiento" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
-                        <DatePicker Name="CbFechaNac" FontSize="15" SelectedDateChanged="CbFechaNac_SelectedDateChanged"/>
+                        <DatePicker Name="CbFechaNac" FontSize="15" SelectedDateChanged="CbFechaNac_SelectedDateChanged" Focusable="False"/>
                     </Grid>
                 </Grid>
+                <StackPanel Margin="0 10">
+                    <TextBlock Text="Idiomas Hablados" FontWeight="Bold" FontSize="20" Margin="5 10"/>
+                    <Border BorderBrush="Black" BorderThickness="1">
+                        <ScrollViewer VerticalScrollBarVisibility="Visible" CanContentScroll="False" Height="100" Margin="0 10">
+                            <StackPanel Name="IdiomaList">
+                                <Border BorderBrush="Black" BorderThickness="0">
+                                    <Grid Height="30">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Name="BtnDelete" Click="BtnDelete_Click" Background="Transparent" BorderBrush="Transparent" Margin="10 2" Padding="0" Height="23">
+                                            <Image Source="/HumanResourcesSM;component/Img/delete.png" RenderOptions.BitmapScalingMode="HighQuality" />
+                                        </Button>
+                                        <TextBlock Grid.Column="1" Text="Inglés" VerticalAlignment="Center" FontWeight="Bold" FontSize="14" Margin="5 0"/>
+                                        <Button Name="BtnUpdate" Click="BtnUpdate_Click" Grid.Column="2" Background="Transparent" BorderBrush="Transparent" Margin="10 3" Padding="0" Height="23">
+                                            <Image Source="/HumanResourcesSM;component/Img/edit.png" />
+                                        </Button>
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Border>
+                    <Button x:Name="BtnAgregarIdioma" Click="BtnAgregarIdioma_Click" Content="Agregar" Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" HorizontalAlignment="Left" Margin="0 10"/>
+                </StackPanel>
                 <Grid Margin="0 10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <local:UserInputText Grid.Column="0" FontSize="15" Placeholder="Email" Margin="0 0 10 0"/>
-                    <local:UserInputText Grid.Column="1" FontSize="15" Placeholder="Número Telefónico" Margin="10 0 0 0"/>
+                    <local:UserInputText Grid.Column="0" x:Name="txtEmail" FontSize="15" Placeholder="Email" Margin="0 0 10 0"/>
+                    <local:UserInputText Grid.Column="1" x:Name="txtTelefono" FontSize="15" Placeholder="Número Telefónico" Margin="10 0 0 0"/>
                 </Grid>
-                <local:UserInputText FontSize="15" Placeholder="Dirección de Vivienda" Margin="0 10" Height="100"/>
-                <local:UserInputText FontSize="15" Placeholder="Estado Legal" Margin="0 10"/>
+                <local:UserInputText x:Name="txtDireccion" FontSize="15" Placeholder="Dirección de Vivienda" Margin="0 10" Height="100"/>
+                <!--<local:UserInputText FontSize="15" Placeholder="Estado Legal" Margin="0 10"/>-->
+                <Grid Margin="0 10">
+                    <TextBlock x:Name="PlaceEstadoLegal" Text="Estado Legal" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
+                    <ComboBox Name="CbEstadoLegal" FontSize="15" IsEditable="True" GotFocus="CbEstadoLegal_GotFocus" LostFocus="CbEstadoLegal_LostFocus"/>
+                </Grid>
                 <Grid Margin="0 10">
                     <TextBlock x:Name="PlaceDepartamento" Text="Departamento" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
                     <ComboBox Name="CbDepartamento" FontSize="15" SelectionChanged="CbDepartamento_SelectionChanged"/>
                 </Grid>
+                <local:UserInputText x:Name="txtNombrePuesto" FontSize="15" Placeholder="Nombre de la Posición" Margin="0 10"/>
                 <Grid Margin="0 10">
                     <TextBlock x:Name="PlaceFechaApl" Text="Fecha de Aplicación" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
-                    <DatePicker Name="CbFechaApl" FontSize="15" />
+                    <DatePicker Name="CbFechaApl" FontSize="15" SelectedDateChanged="CbFechaApl_SelectedDateChanged" Focusable="False"/>
                 </Grid>
-                <local:UserInputText FontSize="15" Placeholder="URL Curriculum" Margin="0 10"/>
+                <StackPanel Margin="0 10">
+                    <TextBlock Text="Educación" FontWeight="Bold" FontSize="20" Margin="5 10"/>
+                    <Border BorderBrush="Black" BorderThickness="1">
+                        <ScrollViewer VerticalScrollBarVisibility="Visible" CanContentScroll="False" Height="100" Margin="0 10">
+                            <StackPanel Name="EducacionList">
+                                <Border BorderBrush="Black" BorderThickness="0">
+                                    <Grid Height="30">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="150"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Name="BtnEduDelete" Click="BtnEduDelete_Click" Background="Transparent" BorderBrush="Transparent" Margin="10 2" Padding="0" Height="23">
+                                            <Image Source="/HumanResourcesSM;component/Img/delete.png" RenderOptions.BitmapScalingMode="HighQuality" />
+                                        </Button>
+                                        <TextBlock Grid.Column="1" Text="Ingeniería de Computación" VerticalAlignment="Center" FontWeight="Bold" TextTrimming="CharacterEllipsis" FontSize="14" Margin="5 0"/>
+                                        <TextBlock Grid.Column="2" Text=" 2017 - Actualidad " VerticalAlignment="Center" FontWeight="Bold" FontSize="14" Margin="5 0"/>
+                                        <Button Name="BtnEduUpdate" Click="BtnEduUpdate_Click" Grid.Column="3" Background="Transparent" BorderBrush="Transparent" Margin="10 3" Padding="0" Height="23">
+                                            <Image Source="/HumanResourcesSM;component/Img/edit.png" />
+                                        </Button>
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Border>
+                    <Button x:Name="BtnAgregarEducacion" Click="BtnAgregarEducacion_Click" Content="Agregar" Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" HorizontalAlignment="Left" Margin="0 10"/>
+                </StackPanel>
+                <local:UserInputText x:Name="txtURLCV" FontSize="15" Placeholder="URL del Currículo" Margin="0 10"/>
             </StackPanel>
         </ScrollViewer>
+        <Border Grid.Row="2" BorderBrush="Black" BorderThickness="0 1 0 0">
+            <Button Content="Enviar" Click="Button_Click" Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Width="150" Margin="0 10"/>
+        </Border>
     </Grid>
 </Page>

@@ -22,7 +22,7 @@ namespace HumanResourcesSM.Windows
     /// </summary>
     public partial class Menu : Window
     {
-        public DUsuario ActUsuario;
+        public static DUsuario ActUsuario;
         public Menu(DUsuario User)
         {
             InitializeComponent();
@@ -68,6 +68,8 @@ namespace HumanResourcesSM.Windows
                     ContentFrame.Content = frm;
                     break;
                 case 3:
+                    UsuarioDG DG = new UsuarioDG();
+                    ContentFrame.Content = DG;
                     break;
                 case 4:
                     break;
@@ -75,6 +77,20 @@ namespace HumanResourcesSM.Windows
             }
 
             
+        }
+
+        private void BtnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            if (LastIndex > -1)
+            {
+                LastSelected.BorderThickness = new Thickness(0, 0, 0, 0);
+            }
+
+            LastIndex = -1;
+            LastSelected = null;
+
+            AjustesMenu frm = new AjustesMenu();
+            ContentFrame.Content = frm;
         }
     }
 }

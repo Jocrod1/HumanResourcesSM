@@ -189,6 +189,54 @@ namespace Metodos
 
         }
 
+
+        public List<DTipoTramite> MostrarStatus()
+        {
+            List<DTipoTramite> ListaGenerica = new List<DTipoTramite>();
+
+            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            {
+
+                using (SqlCommand comm = new SqlCommand())
+                {
+                    comm.Connection = conn;
+
+                    comm.CommandText = "SELECT [statusCambio] from [tipoTramite] group by statusCambio";
+
+                    try
+                    {
+
+                        conn.Open();
+
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+                                ListaGenerica.Add(new DTipoTramite
+                                {
+                                    statusCambio = reader.GetString(0)
+                                });
+                            }
+                        }
+                    }
+                    catch (SqlException e)
+                    {
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    finally
+                    {
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            conn.Close();
+                        }
+                    }
+                    return ListaGenerica;
+                }
+            }
+
+        }
+
         public List<DTipoTramite> Encontrar(int Buscar)
         {
             List<DTipoTramite> ListaGenerica = new List<DTipoTramite>();

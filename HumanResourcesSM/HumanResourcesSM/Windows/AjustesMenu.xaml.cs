@@ -13,19 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using Datos;
-using Metodos;
-
 namespace HumanResourcesSM.Windows
 {
     /// <summary>
     /// Interaction logic for SeleccionFrm.xaml
     /// </summary>
-    public partial class GestionMenu : Page
+    public partial class AjustesMenu : Page
     {
-
-        public DUsuario ActUsuario;
-        public GestionMenu()
+        public AjustesMenu()
         {
             InitializeComponent();
 

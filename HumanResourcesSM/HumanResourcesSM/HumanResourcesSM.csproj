@@ -67,6 +67,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Windows\AjustesMenu.xaml.cs">
+      <DependentUpon>AjustesMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\EducacionFrm.xaml.cs">
+      <DependentUpon>EducacionFrm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\IdiomaHabladoFrm.xaml.cs">
+      <DependentUpon>IdiomaHabladoFrm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PagoFrm.xaml.cs">
       <DependentUpon>PagoFrm.xaml</DependentUpon>
     </Compile>
@@ -76,8 +85,14 @@
     <Compile Include="Windows\GestionMenu.xaml.cs">
       <DependentUpon>GestionMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\AsignacionFrm.xaml.cs">
+      <DependentUpon>AsignacionFrm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\SeleccionFrm.xaml.cs">
       <DependentUpon>SeleccionFrm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\AsignacionUsuario.xaml.cs">
+      <DependentUpon>AsignacionUsuario.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\UsuarioDG.xaml.cs">
       <DependentUpon>UsuarioDG.xaml</DependentUpon>
@@ -121,6 +136,18 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\AjustesMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\EducacionFrm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\IdiomaHabladoFrm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\PagoFrm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -133,9 +160,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Windows\AsignacionFrm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\SeleccionFrm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AsignacionUsuario.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\UsuarioDG.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -229,6 +264,12 @@
     <Resource Include="Img\book.png" />
     <Resource Include="Img\delete.png" />
     <Resource Include="Img\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Img\settings %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Img\off-button.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets')" />

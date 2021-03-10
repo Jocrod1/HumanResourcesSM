@@ -1,0 +1,50 @@
+﻿<Window x:Class="HumanResourcesSM.Windows.EducacionFrm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HumanResourcesSM.Windows"
+        mc:Ignorable="d"
+        Title="DepartamentoFrm" Height="360" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
+    <Grid Background="WhiteSmoke">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid Name="BgTitulo" Grid.Row="0" Background="#248232">
+            <TextBlock Name="txtTitulo"
+                       Text="Insertar" 
+                       Foreground="White"
+                       HorizontalAlignment="Left"
+                       FontWeight="Bold"
+                       FontSize="25"
+                       Margin="20 30 0 15"/>
+            <!--<Separator VerticalAlignment="Bottom" Foreground="Black" />-->
+        </Grid>
+        <StackPanel Grid.Row="1"  Margin="50 10">
+            <local:UserInputText x:Name="txtNombreCarrera" FontSize="15" Placeholder="Nombre de Titulo" Margin="0 10"/>
+            <local:UserInputText x:Name="txtNombreInstitucion" FontSize="15" Placeholder="Nombre Institución" Margin="0 10"/>
+            <Grid Margin="0 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid Margin="0 0 5 0" Grid.Column="0">
+                    <TextBlock x:Name="PlaceFechaIngreso" Text="Fecha de Ingreso" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
+                    <DatePicker Name="CbFechaIngreso" FontSize="15" Focusable="False" SelectedDateChanged="CbFechaIngreso_SelectedDateChanged"/>
+                </Grid>
+                <Grid Margin="5 0 0 0" Grid.Column="1">
+                    <TextBlock x:Name="PlaceFechaEgreso" Text="Fecha de Egreso" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
+                    <DatePicker Name="CbFechaEgreso" FontSize="15" Focusable="False" SelectedDateChanged="CbFechaEgreso_SelectedDateChanged"/>
+                </Grid>
+                <CheckBox Grid.Column="1" Grid.Row="1" Name="ChBNotEnded" Content="No Terminado" FontWeight="Bold" Checked="ChBNotEnded_Checked" Unchecked="ChBNotEnded_Unchecked"/>
+            </Grid>
+        </StackPanel>
+        <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Content="Agregar" Margin="0 10" Click="Button_Click" HorizontalAlignment="Center"/>
+    </Grid>
+</Window>

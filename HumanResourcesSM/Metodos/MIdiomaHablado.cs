@@ -209,7 +209,54 @@ namespace Metodos
                 {
                     comm.Connection = conn;
 
-                    comm.CommandText = "SELECT * from [idioma] order by idIdioma ASC";
+                    comm.CommandText = "SELECT * from [idioma] order by nombre";
+
+
+                    try
+                    {
+
+                        conn.Open();
+
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+                                ListaGenerica.Add(new DIdioma
+                                {
+                                    idIdioma = reader.GetInt32(0),
+                                    nombre = reader.GetString(1)
+                                });
+                            }
+                        }
+                    }
+                    catch (SqlException e)
+                    {
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    finally
+                    {
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            conn.Close();
+                        }
+                    }
+                    return ListaGenerica;
+                }
+            }
+        }
+        public List<DIdioma> EncontrarIdioma(int Buscar)
+        {
+            List<DIdioma> ListaGenerica = new List<DIdioma>();
+
+            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            {
+
+                using (SqlCommand comm = new SqlCommand())
+                {
+                    comm.Connection = conn;
+
+                    comm.CommandText = "SELECT * from [idioma] where idIdioma = " + Buscar + " order by nombre";
 
 
                     try
