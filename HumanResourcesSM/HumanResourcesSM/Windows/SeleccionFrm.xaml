@@ -28,7 +28,7 @@
                     <local:UserInputText Grid.Column="0" x:Name="txtNombre" FontSize="15" Placeholder="Nombre" Margin="0 0 10 0"/>
                     <local:UserInputText Grid.Column="1" x:Name="txtApellido" FontSize="15" Placeholder="Apellido" Margin="10 0 0 0"/>
                 </Grid>
-                <local:UserInputText FontSize="15" x:Name="txtDNI" Placeholder="DNI" Margin="0 10"/>
+                <local:UserInputText FontSize="15" x:Name="txtDNI" Placeholder="DNI o Pasaporte" Margin="0 10"/>
                 <Grid Margin="0 10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>

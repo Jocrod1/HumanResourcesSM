@@ -97,9 +97,9 @@ namespace HumanResourcesSM.Windows
                                                 nacionalidad,
                                                 direccion,
                                                 email,
-                                                int.Parse(telefono),
+                                                telefono,
                                                 URLCV,
-                                                int.Parse(estadoLegal),
+                                                estadoLegal,
                                                 DateTime.Now, 0, DateTime.Now, DateTime.Now,
                                                 nombrePuesto);
 

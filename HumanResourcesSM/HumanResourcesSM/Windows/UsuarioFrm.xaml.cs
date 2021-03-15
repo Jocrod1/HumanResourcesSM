@@ -93,7 +93,7 @@ namespace HumanResourcesSM.Windows
                                  idRol,
                                  usuario,
                                  password,
-                                 confirmacion);
+                                 confirmacion, 0);
         }
 
         void Create()
