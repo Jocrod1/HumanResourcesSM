@@ -189,7 +189,7 @@ namespace Metodos
                                     usuario = reader.GetString(2),
                                     contraseña = reader.GetString(3),
                                     confirmacion = reader.GetString(4),
-                                    entrevistando = reader.GetInt16(5)
+                                    entrevistando = reader.GetInt32(5)
                                 });
                             }
                         }
@@ -244,7 +244,7 @@ namespace Metodos
                                     usuario = reader.GetString(2),
                                     contraseña = reader.GetString(3),
                                     confirmacion = reader.GetString(4),
-                                    entrevistando = reader.GetInt16(5)
+                                    entrevistando = reader.GetInt32(5)
                                 });
                             }
                         }
@@ -326,11 +326,9 @@ namespace Metodos
             string respuesta = "";
 
             string query = @"
-                        UPDATE usuario SET (
-                            entrevistando
-                        ) VALUES(
-                            @entrevistando
-                        ) WHERE idUsuario = @idUsuario;
+                        UPDATE usuario SET 
+                            entrevistando = @entrevistando
+                            WHERE idUsuario = @idUsuario;
 	        ";
 
             using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
@@ -338,7 +336,7 @@ namespace Metodos
 
                 using (SqlCommand comm = new SqlCommand(query, conn))
                 {
-                    if (Entrevistando)
+                    if (!Entrevistando)
                         comm.Parameters.AddWithValue("@entrevistando", 0);
                     else
                         comm.Parameters.AddWithValue("@entrevistando", 1);
@@ -353,7 +351,7 @@ namespace Metodos
                     }
                     catch (SqlException e)
                     {
-                        respuesta = e.Message;
+                        MessageBox.Show(e.Message);
                     }
                     finally
                     {

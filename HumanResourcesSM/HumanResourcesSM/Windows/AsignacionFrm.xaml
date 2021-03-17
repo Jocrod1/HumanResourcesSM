@@ -15,16 +15,24 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <Grid Background="#2A347B" Margin="0 0 0 10">
+        <Grid Background="#2A347B" Margin="0 0 0 5">
             <TextBlock Text="Asignar Entrevistadores" Foreground="White" FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" Margin="10 10" VerticalAlignment="Center"/>
         </Grid>
 
-        <Grid Grid.Row="1" Margin="0 10">
+        <Grid Grid.Row="1" Margin="0 0 0 20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="No Entrevistadores" FontWeight="Bold" FontSize="25" HorizontalAlignment="Center" Margin="0 10"/>
+            <TextBlock Grid.Column="1" Text="Entrevistadores" FontWeight="Bold" FontSize="25" HorizontalAlignment="Center" Margin="0 10"/>
+
             <DataGrid x:Name="DgUsuarios" 
+                  Grid.Row="1"
                   AutoGenerateColumns="false" 
                   IsReadOnly="true" 
                   Margin="7 0"
@@ -61,8 +69,9 @@
                                         Click="txtVer_Click"
                                         Background="{x:Null}" BorderBrush="{x:Null}"
                                         Margin="5 0"
-                                        Padding="5">
-                                        <Image Source="/HumanResourcesSM;component/Img/book.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                        Height="20"
+                                        Padding="0">
+                                        <Image Source="/HumanResourcesSM;component/Img/check-mark.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                                     </Button>
                                 </StackPanel>
                             </DataTemplate>
@@ -71,6 +80,7 @@
                 </DataGrid.Columns>
             </DataGrid>
             <DataGrid x:Name="DgEntrevistadores" 
+                  Grid.Row="1"
                   Grid.Column="1"
                   AutoGenerateColumns="false" 
                   IsReadOnly="true" 
@@ -107,8 +117,9 @@
                                         Click="btnEliminar_Click"
                                         Background="{x:Null}" BorderBrush="{x:Null}"
                                         Margin="5 0 0 0"
+                                        Height="20"
                                         Padding="0">
-                                        <Image Source="/HumanResourcesSM;component/Img/delete.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                        <Image Source="/HumanResourcesSM;component/Img/close.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                                     </Button>
                                 </StackPanel>
                             </DataTemplate>

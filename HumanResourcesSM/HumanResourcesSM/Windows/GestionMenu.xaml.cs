@@ -56,7 +56,7 @@ namespace HumanResourcesSM.Windows
                     ContentFrame.Content = frm;
                     break;
                 case 1:
-                    RelacionesLaboralesDG frm1 = new RelacionesLaboralesDG();
+                    AsignacionFrm frm1 = new AsignacionFrm();
                     ContentFrame.Content = frm1;
                     break;
                 case 2:

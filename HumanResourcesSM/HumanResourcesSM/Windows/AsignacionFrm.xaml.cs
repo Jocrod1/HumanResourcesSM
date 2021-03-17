@@ -29,29 +29,67 @@ namespace HumanResourcesSM.Windows
             InitializeComponent();
         }
 
-        private void btnEliminar_Click(object sender, RoutedEventArgs e)
-        {
+        MUsuario Metodos = new MUsuario();
 
-        }
+        void RefreshDG() {
+            var usuarios = Metodos.Mostrar("");
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
+            List<ModeloUsuario> NoEntrevistadores = new List<ModeloUsuario>();
+            List<ModeloUsuario> Entrevistadores = new List<ModeloUsuario>();
 
-        }
+            foreach(DUsuario item in usuarios)
+            {
+                string rol = item.idRol == 1 ? "Administrador" : "Normal";
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
+                if(item.entrevistando == 0)
+                {
+                    NoEntrevistadores.Add(new ModeloUsuario(item.idUsuario, item.usuario, rol));
+                }
+                else
+                {
+                    Entrevistadores.Add(new ModeloUsuario(item.idUsuario, item.usuario, rol));
+                }
+            }
 
+            DgUsuarios.ItemsSource = NoEntrevistadores;
+            DgEntrevistadores.ItemsSource = Entrevistadores;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-
+            RefreshDG();
         }
 
         private void txtVer_Click(object sender, RoutedEventArgs e)
         {
+            int id = (int)((Button)sender).CommandParameter;
 
+            Metodos.Entrevistando(id, true);
+
+            RefreshDG();
+        }
+
+        private void btnEliminar_Click(object sender, RoutedEventArgs e)
+        {
+            int id = (int)((Button)sender).CommandParameter;
+
+            Metodos.Entrevistando(id, false);
+
+            RefreshDG();
+        }
+
+        class ModeloUsuario
+        {
+            public ModeloUsuario(int idUsuario, string usuario, string rol)
+            {
+                this.idUsuario = idUsuario;
+                this.usuario = usuario;
+                this.rol = rol;
+            }
+
+            public int idUsuario { get; set; }
+            public string usuario { get; set; }
+            public string rol { get; set; }
         }
     }
 }

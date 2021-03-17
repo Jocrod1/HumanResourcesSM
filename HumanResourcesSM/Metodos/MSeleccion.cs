@@ -31,7 +31,8 @@ namespace Metodos
                             curriculoUrl,
                             estadoLegal,
                             status
-                        ) VALUES(
+                        ) OUTPUT Inserted.idEmpleado
+                        VALUES(
                             @idDepartamento,
                             @nombre,
                             @apellido,
@@ -68,9 +69,14 @@ namespace Metodos
                     try
                     {
                         conn.Open();
-                        respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingreso el Registro de la seleccion";
 
-                        this.idEmpleado = Convert.ToInt32(comm.Parameters["@idEmpleado"].Value);
+                        this.idEmpleado = (int)comm.ExecuteScalar();
+
+                        //respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingreso el Registro de la seleccion";
+
+                        //this.idEmpleado = Convert.ToInt32(comm.Parameters["@idEmpleado"].Value);
+
+                        respuesta = !String.IsNullOrEmpty(this.idEmpleado.ToString()) ? "OK" : "No se ingreso el Registro de la seleccion";
 
                         if (respuesta.Equals("OK"))
                         {
@@ -79,6 +85,7 @@ namespace Metodos
                                         INSERT INTO seleccion(
                                             idEmpleado,
                                             idSeleccionador,
+                                            idEntrevistador,
                                             fechaAplicacion,
                                             status,
                                             fechaRevision,
@@ -86,6 +93,7 @@ namespace Metodos
                                         ) VALUES(
                                             @idEmpleado,
                                             @idSeleccionador,
+                                            @idEntrevistador,
                                             @fechaAplicacion,
                                             @status,
                                             @fechaRevision,
@@ -97,6 +105,7 @@ namespace Metodos
                             {
                                 comm2.Parameters.AddWithValue("@idEmpleado", this.idEmpleado);
                                 comm2.Parameters.AddWithValue("@idSeleccionador", Seleccion.idSeleccionador);
+                                comm2.Parameters.AddWithValue("@idEntrevistador", 1);
                                 comm2.Parameters.AddWithValue("@fechaAplicacion", Seleccion.fechaAplicacion);
                                 comm2.Parameters.AddWithValue("@status", Seleccion.status);
                                 comm2.Parameters.AddWithValue("@fechaRevision", DateTime.Now);
@@ -146,7 +155,12 @@ namespace Metodos
                                         foreach (DEducacion det in Educacion)
                                         {
 
-                                            string query4 = @"
+
+                                            string query4;
+
+                                            if(Educacion[x].fechaEgreso != null)
+                                            {
+                                                query4 = @"
                                                         INSERT INTO educacion(
                                                             idEmpleado,
                                                             nombreCarrera,
@@ -157,10 +171,25 @@ namespace Metodos
                                                             @idEmpleado,
                                                             @nombreCarrera,
                                                             @nombreInstitucion,
-                                                            @fechaIngreso,
+                                                            @fechaIngreso, 
                                                             @fechaEgreso
-                                                        );
-	                                        ";
+                                                        );";
+                                            }
+                                            else
+                                            {
+                                                query4 = @"
+                                                        INSERT INTO educacion(
+                                                            idEmpleado,
+                                                            nombreCarrera,
+                                                            nombreInstitucion,
+                                                            fechaIngreso
+                                                        ) VALUES(
+                                                            @idEmpleado,
+                                                            @nombreCarrera,
+                                                            @nombreInstitucion,
+                                                            @fechaIngreso
+                                                        );";
+                                            }
 
                                             using (SqlCommand comm4 = new SqlCommand(query4, conn))
                                             {
@@ -168,7 +197,8 @@ namespace Metodos
                                                 comm4.Parameters.AddWithValue("@nombreCarrera", Educacion[x].nombreCarrera);
                                                 comm4.Parameters.AddWithValue("@nombreInstitucion", Educacion[x].nombreInstitucion);
                                                 comm4.Parameters.AddWithValue("@fechaIngreso", Educacion[x].fechaIngreso);
-                                                comm4.Parameters.AddWithValue("@fechaEgreso", Educacion[x].fechaEgreso);
+                                                if (Educacion[x].fechaEgreso != null)
+                                                    comm4.Parameters.AddWithValue("@fechaEgreso", Educacion[x].fechaEgreso);
 
                                                 respuesta = comm4.ExecuteNonQuery() == 1 ? "OK" : "No se ingreso el Registro de la educacion";
                                                 x++;
