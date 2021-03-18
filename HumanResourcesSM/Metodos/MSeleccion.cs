@@ -230,6 +230,51 @@ namespace Metodos
             }
         }
 
+        public string Editar(DSeleccion Seleccion)
+        {
+            string respuesta = "";
+
+            string query = @"
+                        UPDATE seleccion SET (
+                            fechaAplicacion,
+                            nombrePuesto
+                        ) VALUES(
+                            @fechaAplicacion,
+                            @nombrePuesto
+                        ) WHERE idSeleccion = @idSeleccion;
+	        ";
+
+            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            {
+
+                using (SqlCommand comm = new SqlCommand(query, conn))
+                {
+                    comm.Parameters.AddWithValue("@fechaAplicacion", Seleccion.fechaAplicacion);
+                    comm.Parameters.AddWithValue("@nombrePuesto", Seleccion.nombrePuesto);
+
+                    comm.Parameters.AddWithValue("@idSeleccion", Seleccion.idSeleccion);
+
+                    try
+                    {
+                        conn.Open();
+                        respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el Registro de la seleccion";
+                    }
+                    catch (SqlException e)
+                    {
+                        respuesta = e.Message;
+                    }
+                    finally
+                    {
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            conn.Close();
+                        }
+                    }
+                    return respuesta;
+                }
+            }
+        }
+
 
 
 
