@@ -63,15 +63,11 @@ namespace Metodos
             string respuesta = "";
 
             string query = @"
-                        UPDATE idiomaHablado SET (
-                            idIdioma,
-                            idEmpleado,
-                            nivel
-                        ) VALUES(
-                            @idIdioma,
-                            @idEmpleado,
-                            @nivel
-                        ) WHERE idIdiomaHablado = @idIdiomaHablado;
+                        UPDATE idiomaHablado SET 
+                            idIdioma = @idIdioma,
+                            idEmpleado = @idEmpleado,
+                            nivel = @nivel
+                         WHERE idIdiomaHablado = @idIdiomaHablado;
 	        ";
 
             using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
@@ -107,7 +103,7 @@ namespace Metodos
         }
 
 
-        public string Eiminar(DIdiomaHablado IdiomaHablado)
+        public string Eliminar(int id)
         {
             string respuesta = "";
 
@@ -121,7 +117,7 @@ namespace Metodos
                 using (SqlCommand comm = new SqlCommand(query, conn))
                 {
 
-                    comm.Parameters.AddWithValue("@idIdiomaHablado", IdiomaHablado.idIdiomaHablado);
+                    comm.Parameters.AddWithValue("@idIdiomaHablado", id);
 
                     try
                     {
@@ -147,7 +143,7 @@ namespace Metodos
 
 
         //funcionando
-        public List<DIdiomaHablado> Mostrar(string Buscar)
+        public List<DIdiomaHablado> Mostrar(int Buscar)
         {
             List<DIdiomaHablado> ListaGenerica = new List<DIdiomaHablado>();
 
@@ -158,7 +154,7 @@ namespace Metodos
                 {
                     comm.Connection = conn;
 
-                    comm.CommandText = "SELECT * from [idiomaHablado] where idIdioma = " + Buscar + " order by idIdioma";
+                    comm.CommandText = "SELECT * from [idiomaHablado] where idEmpleado = " + Buscar + " order by idIdioma";
 
                     try
                     {
@@ -172,6 +168,57 @@ namespace Metodos
                             {
                                 ListaGenerica.Add(new DIdiomaHablado
                                 {
+                                    idIdiomaHablado = reader.GetInt32(0),
+                                    idIdioma = reader.GetInt32(1),
+                                    idEmpleado = reader.GetInt32(2),
+                                    nivel = reader.GetInt32(3)
+                                });
+                            }
+                        }
+                    }
+                    catch (SqlException e)
+                    {
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    finally
+                    {
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            conn.Close();
+                        }
+                    }
+                    return ListaGenerica;
+                }
+            }
+
+        }
+
+        public List<DIdiomaHablado> Encontrar(int Buscar)
+        {
+            List<DIdiomaHablado> ListaGenerica = new List<DIdiomaHablado>();
+
+            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            {
+
+                using (SqlCommand comm = new SqlCommand())
+                {
+                    comm.Connection = conn;
+
+                    comm.CommandText = "SELECT * from [idiomaHablado] where idIdiomaHablado = " + Buscar + "";
+
+                    try
+                    {
+
+                        conn.Open();
+
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+                                ListaGenerica.Add(new DIdiomaHablado
+                                {
+                                    idIdiomaHablado = reader.GetInt32(0),
                                     idIdioma = reader.GetInt32(1),
                                     idEmpleado = reader.GetInt32(2),
                                     nivel = reader.GetInt32(3)

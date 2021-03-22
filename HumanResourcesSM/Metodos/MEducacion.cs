@@ -70,19 +70,13 @@ namespace Metodos
             string respuesta = "";
 
             string query = @"
-                        UPDATE educacion SET (
-                            idEmpleado,
-                            nombreCarrera,
-                            nombreInstitucion,
-                            fechaIngreso,
-                            fechaEgreso
-                        ) VALUES(
-                            @idEmpleado,
-                            @nombreCarrera,
-                            @nombreInstitucion,
-                            @fechaIngreso,
-                            @fechaEgreso
-                        ) WHERE idEducacion = @idEducacion;
+                        UPDATE educacion SET 
+                            idEmpleado = @idEmpleado,
+                            nombreCarrera = @nombreCarrera,
+                            nombreInstitucion = @nombreInstitucion,
+                            fechaIngreso = @fechaIngreso,
+                            fechaEgreso = @fechaEgreso
+                        WHERE idEducacion = @idEducacion;
 	        ";
 
             using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
@@ -120,7 +114,7 @@ namespace Metodos
         }
 
 
-        public string Eiminar(DEducacion Educacion)
+        public string Eliminar(int id)
         {
             string respuesta = "";
 
@@ -134,7 +128,7 @@ namespace Metodos
                 using (SqlCommand comm = new SqlCommand(query, conn))
                 {
 
-                    comm.Parameters.AddWithValue("@idEducacion", Educacion.idEducacion);
+                    comm.Parameters.AddWithValue("@idEducacion", id);
 
                     try
                     {
@@ -160,7 +154,7 @@ namespace Metodos
 
 
         //funcionando
-        public List<DEducacion> Mostrar(string Buscar)
+        public List<DEducacion> Mostrar(int Buscar)
         {
             List<DEducacion> ListaGenerica = new List<DEducacion>();
 
@@ -171,7 +165,7 @@ namespace Metodos
                 {
                     comm.Connection = conn;
 
-                    comm.CommandText = "SELECT * from [educacion] where idEmpleado like '" + Buscar + "%' order by idEmpleado";
+                    comm.CommandText = "SELECT * from [educacion] where idEmpleado = " + Buscar + " order by idEmpleado";
 
                     try
                     {
@@ -181,15 +175,82 @@ namespace Metodos
                         using (SqlDataReader reader = comm.ExecuteReader())
                         {
 
+                            
                             while (reader.Read())
                             {
+                                DateTime? fe = null;
+                                if (!reader.IsDBNull(5))
+                                {
+                                    fe = reader.GetDateTime(5);
+                                }
+
                                 ListaGenerica.Add(new DEducacion
                                 {
+                                    idEducacion = reader.GetInt32(0),
                                     idEmpleado = reader.GetInt32(1),
                                     nombreCarrera = reader.GetString(2),
                                     nombreInstitucion = reader.GetString(3),
                                     fechaIngreso = reader.GetDateTime(4),
-                                    fechaEgreso = reader.GetDateTime(5)
+                                    fechaEgreso = fe
+                                });
+                            }
+                        }
+                    }
+                    catch (SqlException e)
+                    {
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    finally
+                    {
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            conn.Close();
+                        }
+                    }
+                    return ListaGenerica;
+                }
+            }
+
+        }
+
+        public List<DEducacion> Encontrar(int Buscar)
+        {
+            List<DEducacion> ListaGenerica = new List<DEducacion>();
+
+            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            {
+
+                using (SqlCommand comm = new SqlCommand())
+                {
+                    comm.Connection = conn;
+
+                    comm.CommandText = "SELECT * from [educacion] where idEducacion = " + Buscar + "";
+
+                    try
+                    {
+
+                        conn.Open();
+
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+
+
+                            while (reader.Read())
+                            {
+                                DateTime? fe = null;
+                                if (!reader.IsDBNull(5))
+                                {
+                                    fe = reader.GetDateTime(5);
+                                }
+
+                                ListaGenerica.Add(new DEducacion
+                                {
+                                    idEducacion = reader.GetInt32(0),
+                                    idEmpleado = reader.GetInt32(1),
+                                    nombreCarrera = reader.GetString(2),
+                                    nombreInstitucion = reader.GetString(3),
+                                    fechaIngreso = reader.GetDateTime(4),
+                                    fechaEgreso = fe
                                 });
                             }
                         }

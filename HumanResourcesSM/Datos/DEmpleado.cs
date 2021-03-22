@@ -91,8 +91,8 @@ namespace Datos
             set { _EstadoLegal = value; }
         }
 
-        private DateTime _FechaCulminacion;
-        public DateTime fechaCulminacion
+        private DateTime? _FechaCulminacion;
+        public DateTime? fechaCulminacion
         {
             get { return _FechaCulminacion; }
             set { _FechaCulminacion = value; }
@@ -131,7 +131,7 @@ namespace Datos
 
         }
 
-        public DEmpleado(int IdEmpleado, int IdDepartamento, string Nombre, string Apellido, string Cedula, DateTime FechaNacimiento, string Nacionalidad, string Direccion, string Email, string Telefono, string Curriculum, string EstadoLegal, DateTime FechaCulminacion, int Status, DateTime FechaAplicacion, DateTime FechaRevision, string NombrePuesto)
+        public DEmpleado(int IdEmpleado, int IdDepartamento, string Nombre, string Apellido, string Cedula, DateTime FechaNacimiento, string Nacionalidad, string Direccion, string Email, string Telefono, string Curriculum, string EstadoLegal, DateTime? FechaCulminacion, int Status, DateTime FechaAplicacion, DateTime FechaRevision, string NombrePuesto)
         {
             this.idEmpleado = IdEmpleado;
             this.idDepartamento = IdDepartamento;

@@ -556,19 +556,7 @@ namespace HumanResourcesSM.Windows
             public DSeleccion seleccion { get; set; }
             public List<DIdiomaHablado> Idiomas { get; set; }
             public List<DEducacion> Educacion { get; set; }
-        }
-
-        public class ModelIdiomaHablado
-        {
-            public ModelIdiomaHablado(string nombreIdioma, int nivel)
-            {
-                this.nombreIdioma = nombreIdioma;
-                this.nivel = nivel;
-            }
-
-            public string nombreIdioma { get; set; }
-            public int nivel { get; set; }
-        }
+        }        
 
         #region Validation
         bool Validate()
@@ -646,5 +634,17 @@ namespace HumanResourcesSM.Windows
 
         #endregion
 
+    }
+
+    public class ModelIdiomaHablado
+    {
+        public ModelIdiomaHablado(string nombreIdioma, int nivel)
+        {
+            this.nombreIdioma = nombreIdioma;
+            this.nivel = nivel;
+        }
+
+        public string nombreIdioma { get; set; }
+        public int nivel { get; set; }
     }
 }
