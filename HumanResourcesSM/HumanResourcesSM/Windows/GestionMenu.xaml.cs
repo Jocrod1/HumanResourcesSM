@@ -60,6 +60,8 @@ namespace HumanResourcesSM.Windows
                     ContentFrame.Content = frm1;
                     break;
                 case 2:
+                    EntrevistarFrm frm2 = new EntrevistarFrm();
+                    ContentFrame.Content = frm2;
                     break;
                 case 3:
                     break;

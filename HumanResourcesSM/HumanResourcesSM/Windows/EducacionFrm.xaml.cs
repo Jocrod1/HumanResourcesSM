@@ -30,6 +30,15 @@ namespace HumanResourcesSM.Windows
             InitializeComponent();
 
             ParentFrm = Par;
+            isSelection = true;
+        }
+
+        public EducacionFrm(EntrevistarFrm Par)
+        {
+            InitializeComponent();
+
+            ParentFrmEN = Par;
+            isSelection = false;
         }
 
 
@@ -41,6 +50,8 @@ namespace HumanResourcesSM.Windows
         public MEducacion Metodos = new MEducacion();
 
         public SeleccionFrm ParentFrm;
+        public EntrevistarFrm ParentFrmEN;
+        bool isSelection;
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -97,8 +108,12 @@ namespace HumanResourcesSM.Windows
             fillData();
             if (UForm == null)
                 return;
-            //string response = Metodos.Insertar(UForm);
-            ParentFrm.InsertEducacion(UForm);
+
+            if (isSelection)
+                ParentFrm.InsertEducacion(UForm);
+            else
+                ParentFrmEN.InsertEducacion(UForm);
+
             this.DialogResult = true;
             this.Close();
 
@@ -109,8 +124,13 @@ namespace HumanResourcesSM.Windows
             fillData();
             if (UForm == null)
                 return;
+
             UForm.idEducacion = DataFill.idEducacion;
-            ParentFrm.EditEducacion(UForm, UForm.idEducacion);
+            if (isSelection)
+                ParentFrm.EditEducacion(UForm, UForm.idEducacion);
+            else
+                ParentFrmEN.EditEducacion(UForm);
+
             this.DialogResult = true;
             this.Close();
         }

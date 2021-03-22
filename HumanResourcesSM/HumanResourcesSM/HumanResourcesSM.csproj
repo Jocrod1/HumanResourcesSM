@@ -72,6 +72,9 @@
     <Compile Include="Windows\AjustesMenu.xaml.cs">
       <DependentUpon>AjustesMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\ContratoFrm.xaml.cs">
+      <DependentUpon>ContratoFrm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\EducacionFrm.xaml.cs">
       <DependentUpon>EducacionFrm.xaml</DependentUpon>
     </Compile>
@@ -90,11 +93,14 @@
     <Compile Include="Windows\AsignacionFrm.xaml.cs">
       <DependentUpon>AsignacionFrm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\SeleccionarMenu.xaml.cs">
-      <DependentUpon>SeleccionarMenu.xaml</DependentUpon>
+    <Compile Include="Windows\EntrevistarFrm.xaml.cs">
+      <DependentUpon>EntrevistarFrm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\SeleccionFrm.xaml.cs">
       <DependentUpon>SeleccionFrm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\SeleccionVista.xaml.cs">
+      <DependentUpon>SeleccionVista.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\UsuarioDG.xaml.cs">
       <DependentUpon>UsuarioDG.xaml</DependentUpon>
@@ -142,6 +148,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Windows\ContratoFrm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\EducacionFrm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -166,13 +176,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Windows\SeleccionarMenu.xaml">
+    <Page Include="Windows\EntrevistarFrm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\SeleccionFrm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\SeleccionVista.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\UsuarioDG.xaml">
       <Generator>MSBuild:Compile</Generator>

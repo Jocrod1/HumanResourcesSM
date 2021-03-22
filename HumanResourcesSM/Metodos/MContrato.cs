@@ -96,7 +96,7 @@ namespace Metodos
 
 
          
-        public string Insertar(DContrato Contrato, int IdEmpleado)
+        public string Insertar(DContrato Contrato)
         {
             string respuesta = "";
 
@@ -123,7 +123,7 @@ namespace Metodos
 
                 using (SqlCommand comm = new SqlCommand(query, conn))
                 {
-                    comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
+                    comm.Parameters.AddWithValue("@idEmpleado", Contrato.idEmpleado);
                     comm.Parameters.AddWithValue("@fechaContratacion", DateTime.Now);
                     comm.Parameters.AddWithValue("@nombrePuesto", Contrato.nombrePuesto);
                     comm.Parameters.AddWithValue("@fechaCulminacion", Contrato.fechaCulminacion);

@@ -64,7 +64,7 @@ namespace Metodos
                     comm.Parameters.AddWithValue("@telefono", Empleado.telefono);
                     comm.Parameters.AddWithValue("@curriculum", Empleado.curriculum);
                     comm.Parameters.AddWithValue("@estadoLegal", Empleado.estadoLegal);
-                    comm.Parameters.AddWithValue("@status", Empleado.status);
+                    comm.Parameters.AddWithValue("@status", 1);
 
                     try
                     {
@@ -107,7 +107,7 @@ namespace Metodos
                                 comm2.Parameters.AddWithValue("@idSeleccionador", Seleccion.idSeleccionador);
                                 comm2.Parameters.AddWithValue("@idEntrevistador", 1);
                                 comm2.Parameters.AddWithValue("@fechaAplicacion", Seleccion.fechaAplicacion);
-                                comm2.Parameters.AddWithValue("@status", Seleccion.status);
+                                comm2.Parameters.AddWithValue("@status", 1);
                                 comm2.Parameters.AddWithValue("@fechaRevision", DateTime.Now);
                                 comm2.Parameters.AddWithValue("@nombrePuesto", Seleccion.nombrePuesto);
 
@@ -470,6 +470,127 @@ namespace Metodos
                     catch(Exception e)
                     {
                         MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK ,MessageBoxImage.Error);
+                    }
+                    finally
+                    {
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            conn.Close();
+                        }
+                    }
+                    return ListaGenerica;
+                }
+            }
+
+        }
+
+        public List<DEmpleado> EmpleadoEntrevista()
+        {
+            List<DEmpleado> ListaGenerica = new List<DEmpleado>();
+
+
+            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            {
+
+                using (SqlCommand comm = new SqlCommand())
+                {
+                    comm.Connection = conn;
+
+                    comm.CommandText = "SELECT * from [empleado] where status = 1";
+
+                    try
+                    {
+
+                        conn.Open();
+
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+
+                                DateTime? FC = null;
+                                if (!reader.IsDBNull(12))
+                                    FC = reader.GetDateTime(12);
+
+                                ListaGenerica.Add(new DEmpleado
+                                {
+                                    idEmpleado = reader.GetInt32(0),
+                                    idDepartamento = reader.GetInt32(1),
+                                    nombre = reader.GetString(2),
+                                    apellido = reader.GetString(3),
+                                    cedula = reader.GetString(4),
+                                    fechaNacimiento = reader.GetDateTime(5),
+                                    nacionalidad = reader.GetString(6),
+                                    direccion = reader.GetString(7),
+                                    email = reader.GetString(8),
+                                    telefono = reader.GetString(9),
+                                    curriculum =reader.GetString(10),
+                                    estadoLegal = reader.GetString(11),
+                                    fechaCulminacion = FC,
+                                    status = reader.GetInt32(13)
+                                });
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    finally
+                    {
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            conn.Close();
+                        }
+                    }
+                    return ListaGenerica;
+                }
+            }
+
+        }
+
+        public List<DSeleccion> EncontrarSeleccion(int Buscar)
+        {
+            List<DSeleccion> ListaGenerica = new List<DSeleccion>();
+
+
+            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            {
+
+                using (SqlCommand comm = new SqlCommand())
+                {
+                    comm.Connection = conn;
+
+                    comm.CommandText = "SELECT * from [Seleccion] where idEmpleado = " + Buscar + "";
+
+                    try
+                    {
+
+                        conn.Open();
+
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+                                ListaGenerica.Add(new DSeleccion
+                                {
+                                    idSeleccion = reader.GetInt32(0),
+                                    idEmpleado = reader.GetInt32(1),
+                                    idSeleccionador = reader.GetInt32(2),
+                                    idEntrevistador = reader.GetInt32(3),
+                                    fechaAplicacion = reader.GetDateTime(4),
+                                    status = reader.GetInt32(5),
+                                    fechaRevision = reader.GetDateTime(6),
+                                    nombrePuesto = reader.GetString(7)
+                                });
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     finally
                     {

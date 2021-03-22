@@ -1,0 +1,78 @@
+﻿<Window x:Class="HumanResourcesSM.Windows.SeleccionVista"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HumanResourcesSM.Windows"
+        mc:Ignorable="d"
+        Title="DepartamentoFrm" Height="500" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
+    <Grid Background="WhiteSmoke">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid Name="BgTitulo" Grid.Row="0" Background="#2A347B">
+            <TextBlock Name="txtTitulo"
+                       Text="Editar Empleado" 
+                       Foreground="White"
+                       HorizontalAlignment="Left"
+                       FontWeight="Bold"
+                       FontSize="25"
+                       Margin="20 30 0 15"/>
+            <!--<Separator VerticalAlignment="Bottom" Foreground="Black" />-->
+        </Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" CanContentScroll="False" Grid.Row="1">
+            <StackPanel Margin="30 10">
+                <Grid Margin="0 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <local:UserInputText Grid.Column="0" x:Name="txtNombre" FontSize="15" Placeholder="Nombre" Margin="0 0 10 0"/>
+                    <local:UserInputText Grid.Column="1" x:Name="txtApellido" FontSize="15" Placeholder="Apellido" Margin="10 0 0 0"/>
+                </Grid>
+                <local:UserInputText FontSize="15" x:Name="txtDNI" Placeholder="DNI o Pasaporte" Margin="0 10"/>
+                <Grid Margin="0 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Margin="0 0 10 0">
+                        <TextBlock x:Name="PlacePaisNac" Text="País de Nacimiento" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
+                        <ComboBox Name="CbPaisNac" FontSize="15" SelectionChanged="CbPaisNac_SelectionChanged"/>
+                    </Grid>
+                    <Grid Grid.Column="1" Margin="10 0 0 0">
+                        <TextBlock x:Name="PlaceFechaNac" Text="Fecha de Nacimiento" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
+                        <DatePicker Name="CbFechaNac" FontSize="15" SelectedDateChanged="CbFechaNac_SelectedDateChanged" Focusable="False"/>
+                    </Grid>
+                </Grid>
+                <Grid Margin="0 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <local:UserInputText Grid.Column="0" x:Name="txtEmail" FontSize="15" Placeholder="Email" Margin="0 0 10 0"/>
+                    <local:UserInputText Grid.Column="1" x:Name="txtTelefono" FontSize="15" Placeholder="Número Telefónico" Margin="10 0 0 0"/>
+                </Grid>
+                <local:UserInputText x:Name="txtDireccion" FontSize="15" Placeholder="Dirección de Vivienda" Margin="0 10" Height="100"/>
+                <!--<local:UserInputText FontSize="15" Placeholder="Estado Legal" Margin="0 10"/>-->
+                <Grid Margin="0 10">
+                    <TextBlock x:Name="PlaceEstadoLegal" Text="Estado Legal" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
+                    <ComboBox Name="CbEstadoLegal" FontSize="15" IsEditable="True" GotFocus="CbEstadoLegal_GotFocus" LostFocus="CbEstadoLegal_LostFocus"/>
+                </Grid>
+                <Grid Margin="0 10">
+                    <TextBlock x:Name="PlaceDepartamento" Text="Departamento" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
+                    <ComboBox Name="CbDepartamento" FontSize="15" SelectionChanged="CbDepartamento_SelectionChanged"/>
+                </Grid>
+                <local:UserInputText x:Name="txtNombrePuesto" FontSize="15" Placeholder="Nombre de la Posición" Margin="0 10"/>
+                <Grid Margin="0 10">
+                    <TextBlock x:Name="PlaceFechaApl" Text="Fecha de Aplicación" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
+                    <DatePicker Name="CbFechaApl" FontSize="15" SelectedDateChanged="CbFechaApl_SelectedDateChanged" Focusable="False"/>
+                </Grid>
+                <local:UserInputText x:Name="txtURLCV" FontSize="15" Placeholder="URL del Currículo" Margin="0 10"/>
+            </StackPanel>
+        </ScrollViewer>
+        <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#2A347B" BorderBrush="#2A347B" Content="Editar" Margin="0 10" Click="Button_Click" HorizontalAlignment="Center"/>
+    </Grid>
+</Window>
