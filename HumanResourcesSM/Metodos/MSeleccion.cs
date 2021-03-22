@@ -230,7 +230,7 @@ namespace Metodos
             }
         }
 
-        public string Editar(DSeleccion Seleccion)
+        public string Editar(DSeleccion Seleccion, DEmpleado Empleado)
         {
             string respuesta = "";
 
@@ -258,6 +258,61 @@ namespace Metodos
                     {
                         conn.Open();
                         respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el Registro de la seleccion";
+
+                        if (respuesta.Equals("OK"))
+                        {
+                            string query2 = @"
+                                        UPDATE empleado SET (
+                                            idDepartamento,
+                                            nombre,
+                                            apellido,
+                                            cedula,
+                                            fechaNacimiento,
+                                            nacionalidad,
+                                            direccion,
+                                            email,
+                                            telefono,
+                                            curriculoUrl,
+                                            estadoLegal,
+                                            status
+                                        ) VALUES(
+                                            @idDepartamento,
+                                            @nombre,
+                                            @apellido,
+                                            @cedula,
+                                            @fechaNacimiento,
+                                            @nacionalidad,
+                                            @direccion,
+                                            @email,
+                                            @telefono,
+                                            @curriculoUrl,
+                                            @estadoLegal,
+                                            @status
+                                        ) WHERE idEmpleado = @idEmpleado;
+	                        ";
+
+                            using (SqlCommand comm2 = new SqlCommand(query2, conn))
+                            {
+                                comm.Parameters.AddWithValue("@idDepartamento", Empleado.idDepartamento);
+                                comm.Parameters.AddWithValue("@nombre", Empleado.nombre);
+                                comm.Parameters.AddWithValue("@apellido", Empleado.apellido);
+                                comm.Parameters.AddWithValue("@cedula", Empleado.cedula);
+                                comm.Parameters.AddWithValue("@fechaNacimiento", Empleado.fechaNacimiento);
+                                comm.Parameters.AddWithValue("@nacionalidad", Empleado.nacionalidad);
+                                comm.Parameters.AddWithValue("@direccion", Empleado.direccion);
+                                comm.Parameters.AddWithValue("@email", Empleado.email);
+                                comm.Parameters.AddWithValue("@telefono", Empleado.telefono);
+                                comm.Parameters.AddWithValue("@curriculum", Empleado.curriculum);
+                                comm.Parameters.AddWithValue("@estadoLegal", Empleado.estadoLegal);
+                                comm.Parameters.AddWithValue("@status", Empleado.status);
+
+                                comm.Parameters.AddWithValue("@idEmpleado", Empleado.idEmpleado);
+
+                                respuesta = comm2.ExecuteNonQuery() == 1 ? "OK" : "No se Actalizó el Empleado";
+
+
+                            }
+                        }
                     }
                     catch (SqlException e)
                     {
