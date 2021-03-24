@@ -126,6 +126,13 @@ namespace Datos
             set { _NombrePuesto = value; }
         }
 
+        private string _NombreDepartamento;
+        public string nombreDepartamento
+        {
+            get { return _NombreDepartamento; }
+            set { _NombreDepartamento = value; }
+        }
+
         public DEmpleado()
         {
 

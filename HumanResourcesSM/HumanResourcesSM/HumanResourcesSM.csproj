@@ -75,6 +75,9 @@
     <Compile Include="Windows\ContratoFrm.xaml.cs">
       <DependentUpon>ContratoFrm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\DespidoDG.xaml.cs">
+      <DependentUpon>DespidoDG.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\EducacionFrm.xaml.cs">
       <DependentUpon>EducacionFrm.xaml</DependentUpon>
     </Compile>
@@ -149,6 +152,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\ContratoFrm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\DespidoDG.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

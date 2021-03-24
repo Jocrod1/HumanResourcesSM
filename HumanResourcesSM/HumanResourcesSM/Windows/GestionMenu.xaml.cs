@@ -64,6 +64,8 @@ namespace HumanResourcesSM.Windows
                     ContentFrame.Content = frm2;
                     break;
                 case 3:
+                    DespidoDG dg = new DespidoDG();
+                    ContentFrame.Content = dg;
                     break;
             }
 

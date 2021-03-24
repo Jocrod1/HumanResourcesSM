@@ -444,7 +444,7 @@ namespace Metodos
                 {
                     comm.Connection = conn;
 
-                    comm.CommandText = "SELECT * from [empleado] where cedula like '" + Buscar + "%'";
+                    comm.CommandText = "SELECT * from [empleado] where nombre + ' ' + apellido like '" + Buscar + "%'";
 
                     try
                     {
@@ -470,6 +470,58 @@ namespace Metodos
                     catch(Exception e)
                     {
                         MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK ,MessageBoxImage.Error);
+                    }
+                    finally
+                    {
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            conn.Close();
+                        }
+                    }
+                    return ListaGenerica;
+                }
+            }
+
+        }
+
+        public List<DEmpleado> MostrarEmpleadoDG(string Buscar)
+        {
+            List<DEmpleado> ListaGenerica = new List<DEmpleado>();
+
+
+            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            {
+
+                using (SqlCommand comm = new SqlCommand())
+                {
+                    comm.Connection = conn;
+
+                    comm.CommandText = "SELECT em.idEmpleado, (em.nombre + ' ' + em.apellido) as nombre, em.cedula, p.pais, d.nombre from [empleado] em inner join [departamento] d on em.idDepartamento = d.idDepartamento inner join [Paises] p on em.nacionalidad = p.codigo where em.nombre + ' ' + em.apellido like '" + Buscar + "%'";
+
+                    try
+                    {
+
+                        conn.Open();
+
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+                                ListaGenerica.Add(new DEmpleado
+                                {
+                                    idEmpleado = reader.GetInt32(0),
+                                    nombre = reader.GetString(1),
+                                    cedula = reader.GetString(2),
+                                    nacionalidad = reader.GetString(3),
+                                    nombreDepartamento = reader.GetString(4),
+                                });
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     finally
                     {
