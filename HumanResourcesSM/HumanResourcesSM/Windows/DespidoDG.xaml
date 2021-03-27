@@ -81,28 +81,14 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Width="auto">
 
-                                <Button Name="txtVer"
+                                <Button Name="BtnFire"
                                         CommandParameter="{Binding idEmpleado}"
-                                        Click="txtVer_Click"
-                                        Background="{x:Null}" BorderBrush="{x:Null}"
+                                        Click="BtnFire_Click"
+                                        Background="#C22723" BorderBrush="#C22723"
+                                        Content="Despedir"
                                         Margin="5 0"
                                         Padding="5">
-                                    <Image Source="/HumanResourcesSM;component/Img/book.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                                </Button>
-                                <Button CommandParameter="{Binding idEmpleado}"
-                                        Click="Button_Click_1"
-                                        Background="{x:Null}" BorderBrush="{x:Null}"
-                                        Margin="0 0 5 0"
-                                        Padding="5">
-                                    <Image Source="/HumanResourcesSM;component/Img/edit.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                                </Button>
-                                <Button x:Name="btnEliminar"
-                                        CommandParameter="{Binding idEmpleado}" 
-                                        Click="btnEliminar_Click"
-                                        Background="{x:Null}" BorderBrush="{x:Null}"
-                                        Margin="5 0 0 0"
-                                        Padding="0">
-                                    <Image Source="/HumanResourcesSM;component/Img/delete.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                    <!--<Image Source="/HumanResourcesSM;component/Img/book.png" RenderOptions.BitmapScalingMode="HighQuality"/>-->
                                 </Button>
                             </StackPanel>
                         </DataTemplate>

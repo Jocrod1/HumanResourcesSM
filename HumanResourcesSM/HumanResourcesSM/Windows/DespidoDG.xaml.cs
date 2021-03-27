@@ -54,36 +54,11 @@ namespace HumanResourcesSM.Windows
             Refresh(txtBuscar.Text);
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            //int id = (int)((Button)sender).CommandParameter;
-            //var response = Metodos.Encontrar(id);
-
-            //DepartamentoFrm frm = new DepartamentoFrm();
-            //frm.Type = TypeForm.Update;
-            //frm.DataFill = response[0];
-            //bool Resp = frm.ShowDialog() ?? false;
-            //Refresh(txtBuscar.Text);
-        }
-
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             Refresh(txtBuscar.Text);
         }
 
-        private void btnEliminar_Click(object sender, RoutedEventArgs e)
-        {
-            //MessageBoxResult Resp = MessageBox.Show("¿Seguro que quieres eliminrar este item?", "Magicolor", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            //if (Resp != MessageBoxResult.Yes)
-            //    return;
-            //int id = (int)((Button)sender).CommandParameter;
-            //DDepartamento item = new DDepartamento()
-            //{
-            //    idDepartamento = id
-            //};
-            //Metodos.Eliminar(item);
-            //Refresh(txtBuscar.Text);
-        }
 
         private void txtBuscar_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -117,5 +92,13 @@ namespace HumanResourcesSM.Windows
             //MessageBox.Show(response[0].fechaNacimiento.ToString());
         }
 
+        private void BtnFire_Click(object sender, RoutedEventArgs e)
+        {
+            int id = (int)((Button)sender).CommandParameter;
+
+            DespidoVista Vista = new DespidoVista(id);
+
+            Vista.ShowDialog();
+        }
     }
 }

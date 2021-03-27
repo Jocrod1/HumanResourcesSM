@@ -81,6 +81,9 @@
     <Compile Include="Windows\EducacionFrm.xaml.cs">
       <DependentUpon>EducacionFrm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\DespidoVista.xaml.cs">
+      <DependentUpon>DespidoVista.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\IdiomaHabladoFrm.xaml.cs">
       <DependentUpon>IdiomaHabladoFrm.xaml</DependentUpon>
     </Compile>
@@ -160,6 +163,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\EducacionFrm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\DespidoVista.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

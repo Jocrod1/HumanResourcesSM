@@ -657,6 +657,72 @@ namespace Metodos
 
         }
 
+        public List<DEmpleado> EncontrarEmpleado(int Buscar)
+        {
+            List<DEmpleado> ListaGenerica = new List<DEmpleado>();
+
+
+            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            {
+
+                using (SqlCommand comm = new SqlCommand())
+                {
+                    comm.Connection = conn;
+
+                    comm.CommandText = "SELECT * from [empleado] where idEmpleado = " + Buscar + "";
+
+                    try
+                    {
+
+                        conn.Open();
+
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+
+                                DateTime? FC = null;
+                                if (!reader.IsDBNull(12))
+                                    FC = reader.GetDateTime(12);
+
+                                ListaGenerica.Add(new DEmpleado
+                                {
+                                    idEmpleado = reader.GetInt32(0),
+                                    idDepartamento = reader.GetInt32(1),
+                                    nombre = reader.GetString(2),
+                                    apellido = reader.GetString(3),
+                                    cedula = reader.GetString(4),
+                                    fechaNacimiento = reader.GetDateTime(5),
+                                    nacionalidad = reader.GetString(6),
+                                    direccion = reader.GetString(7),
+                                    email = reader.GetString(8),
+                                    telefono = reader.GetString(9),
+                                    curriculum = reader.GetString(10),
+                                    estadoLegal = reader.GetString(11),
+                                    fechaCulminacion = FC,
+                                    status = reader.GetInt32(13)
+                                });
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    finally
+                    {
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            conn.Close();
+                        }
+                    }
+                    return ListaGenerica;
+                }
+            }
+
+        }
+
         public List<DPais> MostrarPaises(string Buscar)
         {
             List<DPais> ListaGenerica = new List<DPais>();
