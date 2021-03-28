@@ -15,11 +15,11 @@ namespace Datos
             set { _IdMeta = value; }
         }
 
-        private string _TipoMetrica;
-        public string tipoMetrica
+        private int _IdTipoMetrica;
+        public int idTipoMetrica
         {
-            get { return _TipoMetrica; }
-            set { _TipoMetrica = value; }
+            get { return _IdTipoMetrica; }
+            set { _IdTipoMetrica = value; }
         }
 
         private double _ValorMeta;
@@ -36,6 +36,13 @@ namespace Datos
             set { _IdEmpleado = value; }
         }
 
+        private int _IdDepartamento;
+        public int idDepartamento
+        {
+            get { return _IdDepartamento; }
+            set { _IdDepartamento = value; }
+        }
+
         private int _Status;
         public int status
         {
@@ -43,11 +50,18 @@ namespace Datos
             set { _Status = value; }
         }
 
-        private DateTime _Periodo;
-        public DateTime periodo
+        private DateTime _FechaInicio;
+        public DateTime fechaInicio
         {
-            get { return _Periodo; }
-            set { _Periodo = value; }
+            get { return _FechaInicio; }
+            set { _FechaInicio = value; }
+        }
+
+        private DateTime _FechaFinal;
+        public DateTime fechaFinal
+        {
+            get { return _FechaFinal; }
+            set { _FechaFinal = value; }
         }
 
         private string _Cedula;
@@ -57,20 +71,57 @@ namespace Datos
             set { _Cedula = value; }
         }
 
+        private int _IdUsuario;
+        public int idUsuario
+        {
+            get { return _IdUsuario; }
+            set { _IdUsuario = value; }
+        }
+
+
+        //valores no registro
+
+        private string _Usuario;
+        public string usuario
+        {
+            get { return _Usuario; }
+            set { _Usuario = value; }
+        }
+
+        private string _Departamento;
+        public string departamento
+        {
+            get { return _Departamento; }
+            set { _Departamento = value; }
+        }
+
+        private string _NombreMetrica;
+        public string nombreMetrica
+        {
+            get { return _NombreMetrica; }
+            set { _NombreMetrica = value; }
+        }
+
         public DMeta()
         {
 
         }
 
-        public DMeta(int IdMeta, string TipoMetrica, double ValorMeta, int IdEmpleado, int Status, DateTime Periodo, string Cedula)
+        public DMeta(int IdMeta, int IdTipoMetrica, double ValorMeta, int IdEmpleado, int IdDepartamento, int Status, DateTime FechaInicio, DateTime FechaFinal, string Cedula, int IdUsuario, string Usuario, string Departamento, string NombreMetrica)
         {
             this.idMeta = IdMeta;
-            this.tipoMetrica = TipoMetrica;
+            this.idTipoMetrica = IdTipoMetrica;
             this.valorMeta = ValorMeta;
             this.idEmpleado = IdEmpleado;
+            this.idDepartamento = IdDepartamento;
             this.status = Status;
-            this.periodo = Periodo;
+            this.fechaInicio = FechaInicio;
+            this.fechaFinal = FechaFinal;
             this.cedula = Cedula;
+            this.idUsuario = IdUsuario;
+            this.usuario = Usuario;
+            this.departamento = Departamento;
+            this.nombreMetrica = NombreMetrica;
         }
     }
 }

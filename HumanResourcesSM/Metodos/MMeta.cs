@@ -19,17 +19,24 @@ namespace Metodos
 
             string query = @"
                         INSERT INTO meta(
-                            tipoMetrica,
+                            idTipoMetrica,
                             valorMeta,
                             idEmpleado,
+                            idDepartamento,
                             status,
-                            periodo
+                            fechaInicio,
+                            fechaFinal,
+                            idUsuario
                         ) VALUES(
-                            @tipoMetrica,
+                            @idTipoMetrica,
                             @valorMeta,
                             @idEmpleado,
+                            @idDepartamento,
                             @status,
-                            @periodo
+                            @periodo,
+                            @fechaInicio,
+                            @fechaFinal,
+                            @idUsuario
                         );
 	        ";
 
@@ -38,11 +45,14 @@ namespace Metodos
 
                 using (SqlCommand comm = new SqlCommand(query, conn))
                 {
-                    comm.Parameters.AddWithValue("@tipoMetrica", Meta.tipoMetrica);
+                    comm.Parameters.AddWithValue("@idTipoMetrica", Meta.idTipoMetrica);
                     comm.Parameters.AddWithValue("@valorMeta", Meta.valorMeta);
                     comm.Parameters.AddWithValue("@idEmpleado", Meta.idEmpleado);
+                    comm.Parameters.AddWithValue("@idDepartamento", Meta.idDepartamento);
                     comm.Parameters.AddWithValue("@status", Meta.status);
-                    comm.Parameters.AddWithValue("@periodo", Meta.periodo);
+                    comm.Parameters.AddWithValue("@fechaInicio", Meta.fechaInicio);
+                    comm.Parameters.AddWithValue("@fechaFinal", Meta.fechaFinal);
+                    comm.Parameters.AddWithValue("@idUsuario", Meta.idUsuario);
 
                     try
                     {
@@ -72,11 +82,14 @@ namespace Metodos
 
             string query = @"
                         UPDATE meta SET
-                            tipoMetrica = @tipoMetrica,
+                            idTipoMetrica = @idTipoMetrica,
                             valorMeta = @valorMeta,
                             idEmpleado = @idEmpleado,
+                            idDepartamento = @idDepartamento,
                             status = @status,
-                            periodo = @periodo
+                            fechaInicio = @fechaInicio,
+                            fechaFinal = @fechaFinal,
+                            idUsuario = @idUsuario
                         WHERE idMeta = @idMeta;
 	        ";
 
@@ -86,11 +99,14 @@ namespace Metodos
                 using (SqlCommand comm = new SqlCommand(query, conn))
                 {
                     comm.Parameters.AddWithValue("@idMeta", Meta.idMeta);
-                    comm.Parameters.AddWithValue("@tipoMetrica", Meta.tipoMetrica);
+                    comm.Parameters.AddWithValue("@idTipoMetrica", Meta.idTipoMetrica);
                     comm.Parameters.AddWithValue("@valorMeta", Meta.valorMeta);
                     comm.Parameters.AddWithValue("@idEmpleado", Meta.idEmpleado);
+                    comm.Parameters.AddWithValue("@idDepartamento", Meta.idDepartamento);
                     comm.Parameters.AddWithValue("@status", Meta.status);
-                    comm.Parameters.AddWithValue("@periodo", Meta.periodo);
+                    comm.Parameters.AddWithValue("@fechaInicio", Meta.fechaInicio);
+                    comm.Parameters.AddWithValue("@fechaFinal", Meta.fechaFinal);
+                    comm.Parameters.AddWithValue("@idUsuario", Meta.idUsuario);
 
                     try
                     {
@@ -165,7 +181,7 @@ namespace Metodos
                 {
                     comm.Connection = conn;
 
-                    comm.CommandText = "SELECT m.idMeta, m.tipoMetrica, m.valorMeta, e.cedula, m.periodo, m.status from [meta] m inner join [empleado] e on m.idEmpleado=e.idEmpleado where e.cedula like '" + Buscar + "%' order by e.cedula";
+                    comm.CommandText = "SELECT m.idMeta, tm.nombre, m.valorMeta, e.cedula, u.usuario, d.nombre, m.fechaInicio, m.fechaFinal, m.status from [meta] m inner join [Empleado] e on m.idEmpleado=e.idEmpleado inner join [Usuario] u on m.idUsuario=u.idUsuario inner join [Departamento] d on m.idDepartamento=d.idDepartamento inner join [TipoMetrica] tm on m.idTipoMetrica=tm.idTipoMetrica where e.cedula like '" + Buscar + "%' order by e.cedula";
 
                     try
                     {
@@ -180,11 +196,14 @@ namespace Metodos
                                 ListaGenerica.Add(new DMeta
                                 {
                                     idMeta = reader.GetInt32(0),
-                                    tipoMetrica = reader.GetString(1),
+                                    nombreMetrica = reader.GetString(1),
                                     valorMeta = reader.GetDouble(2),
                                     cedula = reader.GetString(3),
-                                    periodo = reader.GetDateTime(4),
-                                    status = reader.GetInt32(5)
+                                    usuario = reader.GetString(4),
+                                    departamento = reader.GetString(5),
+                                    fechaInicio = reader.GetDateTime(6),
+                                    fechaFinal = reader.GetDateTime(7),
+                                    status = reader.GetInt32(8)
                                 });
                             }
                         }

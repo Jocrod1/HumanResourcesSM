@@ -49,11 +49,11 @@ namespace Datos
             set { _Status = value; }
         }
 
-        private DateTime _Periodo;
-        public DateTime periodo
+        private DateTime _FechaEvaluacion;
+        public DateTime fechaEvaluacion
         {
-            get { return _Periodo; }
-            set { _Periodo = value; }
+            get { return _FechaEvaluacion; }
+            set { _FechaEvaluacion = value; }
         }
 
         private string _Cedula;
@@ -69,7 +69,7 @@ namespace Datos
         }
 
 
-        public DEvaluacion(int IdEvaluacion, int IdUsuario, int IdMeta, double ValorEvaluado, string Observacion, int Status, DateTime Periodo, string Cedula)
+        public DEvaluacion(int IdEvaluacion, int IdUsuario, int IdMeta, double ValorEvaluado, string Observacion, int Status, DateTime FechaEvaluacion, string Cedula)
         {
             this.idEvaluacion = IdEvaluacion;
             this.idUsuario = IdUsuario;
@@ -77,7 +77,7 @@ namespace Datos
             this.valorEvaluado = ValorEvaluado;
             this.observacion = Observacion;
             this.status = Status;
-            this.periodo = Periodo;
+            this.fechaEvaluacion = FechaEvaluacion;
             this.cedula = Cedula;
         }
     }

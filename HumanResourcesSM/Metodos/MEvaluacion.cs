@@ -23,14 +23,14 @@ namespace Metodos
                             valorEvaluado,
                             observacion,
                             status,
-                            periodo
+                            fechaEvaluacion
                         ) VALUES(
                             @idUsuario,
                             @idMeta,
                             @valorEvaluado,
                             @observacion,
                             @status,
-                            @periodo
+                            @fechaEvaluacion
                         );
 	        ";
 
@@ -44,7 +44,7 @@ namespace Metodos
                     comm.Parameters.AddWithValue("@valorEvaluado", Evaluacion.valorEvaluado);
                     comm.Parameters.AddWithValue("@observacion", Evaluacion.observacion);
                     comm.Parameters.AddWithValue("@status", Evaluacion.status);
-                    comm.Parameters.AddWithValue("@periodo", Evaluacion.periodo);
+                    comm.Parameters.AddWithValue("@fechaEvaluacion", Evaluacion.fechaEvaluacion);
 
                     try
                     {
@@ -79,7 +79,7 @@ namespace Metodos
                             valorEvaluado = @valorEvaluado,
                             observacion = @observacion,
                             status = @status,
-                            periodo = @periodo
+                            fechaEvaluacion = @fechaEvaluacion
                         WHERE idEvaluacion = @idEvaluacion;
 	        ";
 
@@ -93,7 +93,7 @@ namespace Metodos
                     comm.Parameters.AddWithValue("@valorEvaluado", Evaluacion.valorEvaluado);
                     comm.Parameters.AddWithValue("@observacion", Evaluacion.observacion);
                     comm.Parameters.AddWithValue("@status", Evaluacion.status);
-                    comm.Parameters.AddWithValue("@periodo", Evaluacion.periodo);
+                    comm.Parameters.AddWithValue("@fechaEvaluacion", Evaluacion.fechaEvaluacion);
                     comm.Parameters.AddWithValue("@idEvaluacion", Evaluacion.idEvaluacion);
 
                     try
@@ -169,7 +169,7 @@ namespace Metodos
                 {
                     comm.Connection = conn;
 
-                    comm.CommandText = "SELECT ev.idEvaluacion, ev.idMeta, e.cedula, ev.valorEvaluado, ev.observacion, ev.periodo, ev.status from [evaluacion] ev inner join [empleado] e on ev.idUsuario=e.idEmpleado where e.cedula like '" + Buscar + "%' order by e.cedula";
+                    comm.CommandText = "SELECT ev.idEvaluacion, ev.idMeta, e.cedula, ev.valorEvaluado, ev.observacion, ev.fechaEvaluacion, ev.status from [evaluacion] ev inner join [empleado] e on ev.idUsuario=e.idEmpleado where e.cedula like '" + Buscar + "%' order by e.cedula";
 
                     try
                     {
@@ -188,7 +188,7 @@ namespace Metodos
                                     cedula = reader.GetString(2),
                                     valorEvaluado = reader.GetDouble(3),
                                     observacion = reader.GetString(4),
-                                    periodo = reader.GetDateTime(5),
+                                    fechaEvaluacion = reader.GetDateTime(5),
                                     status = reader.GetInt32(6)
                                 });
                             }

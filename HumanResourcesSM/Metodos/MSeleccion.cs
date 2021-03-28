@@ -308,7 +308,7 @@ namespace Metodos
 
                                 comm.Parameters.AddWithValue("@idEmpleado", Empleado.idEmpleado);
 
-                                respuesta = comm2.ExecuteNonQuery() == 1 ? "OK" : "No se Actalizó el Empleado";
+                                respuesta = comm2.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó el Empleado";
 
 
                             }
