@@ -30,6 +30,8 @@ namespace HumanResourcesSM.Windows
         {
             InitializeComponent();
 
+            txtSueldo.txt.KeyDown += new KeyEventHandler(Validaciones.TextBoxValidatePrices);
+
             ParentFrm = Par;
         }
 

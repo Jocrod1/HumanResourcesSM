@@ -60,7 +60,7 @@ namespace HumanResourcesSM.Windows
                     
                     break;
                 case 1:
-                    RelacionesLaboralesDG frm1 = new RelacionesLaboralesDG();
+                    ActividadMenu frm1 = new ActividadMenu();
                     ContentFrame.Content = frm1;
                     break;
                 case 2:

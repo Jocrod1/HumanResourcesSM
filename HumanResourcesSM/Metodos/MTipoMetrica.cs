@@ -62,9 +62,9 @@ namespace Metodos
             string respuesta = "";
 
             string query = @"
-                        UPDATE educacion SET 
+                        UPDATE TipoMetrica SET 
                             nombre = @nombre,
-                            idDepartamento = @idDepartamento,
+                            idDepartamento = @idDepartamento
                         WHERE idTipoMetrica = @idTipoMetrica;
 	        ";
 
@@ -144,6 +144,13 @@ namespace Metodos
         {
             List<DTipoMetrica> ListaGenerica = new List<DTipoMetrica>();
 
+            string BuscarByDepartamento = "";
+
+            if(Buscar > 0)
+            {
+                BuscarByDepartamento = "where tp.idDepartamento = " + Buscar;
+            }
+
             using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
             {
 
@@ -151,7 +158,7 @@ namespace Metodos
                 {
                     comm.Connection = conn;
 
-                    comm.CommandText = "SELECT * from [TipoMetrica] where idTipoMetrica = " + Buscar + " order by idTipoMetrica";
+                    comm.CommandText = "select tp.idTipoMetrica, tp.nombre, tp.idDepartamento, d.nombre as DepartamentoNombre from [TipoMetrica] tp inner join [Departamento] d on tp.idDepartamento = d.idDepartamento " + BuscarByDepartamento + "";
 
                     try
                     {
@@ -169,7 +176,8 @@ namespace Metodos
                                 {
                                     idTipoMetrica = reader.GetInt32(0),
                                     nombre = reader.GetString(1),
-                                    idDepartamento = reader.GetInt32(2)
+                                    idDepartamento = reader.GetInt32(2),
+                                    nombreDepartamento = reader.GetString(3)
                                 });
                             }
                         }

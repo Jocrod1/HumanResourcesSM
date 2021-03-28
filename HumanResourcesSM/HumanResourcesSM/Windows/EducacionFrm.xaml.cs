@@ -162,10 +162,14 @@ namespace HumanResourcesSM.Windows
             if (CbFechaIngreso.SelectedDate != null)
             {
                 PlaceFechaIngreso.Text = "";
+
+                CbFechaEgreso.DisplayDateStart = CbFechaIngreso.SelectedDate?.Date;
             }
             else
             {
                 PlaceFechaIngreso.Text = "Fecha de Ingreso";
+
+                CbFechaEgreso.DisplayDateStart = null;
             }
         }
 
@@ -174,10 +178,14 @@ namespace HumanResourcesSM.Windows
             if (CbFechaEgreso.SelectedDate != null)
             {
                 PlaceFechaEgreso.Text = "";
+
+                CbFechaIngreso.DisplayDateEnd = CbFechaEgreso.SelectedDate?.Date;
             }
             else
             {
                 PlaceFechaEgreso.Text = "Fecha de Egreso";
+
+                CbFechaIngreso.DisplayDateEnd = null;
             }
         }
 

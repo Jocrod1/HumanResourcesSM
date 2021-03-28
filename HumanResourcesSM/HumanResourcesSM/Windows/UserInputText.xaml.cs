@@ -33,6 +33,7 @@ namespace HumanResourcesSM.Windows
             if(text == "")
             {
                 txtPlaceHolder.Visibility = Visibility.Visible;
+                txt.Text = text;
             }
             else
             {

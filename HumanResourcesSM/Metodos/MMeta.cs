@@ -33,7 +33,6 @@ namespace Metodos
                             @idEmpleado,
                             @idDepartamento,
                             @status,
-                            @periodo,
                             @fechaInicio,
                             @fechaFinal,
                             @idUsuario

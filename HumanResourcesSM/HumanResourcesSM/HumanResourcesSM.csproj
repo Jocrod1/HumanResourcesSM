@@ -84,11 +84,20 @@
     <Compile Include="Windows\DespidoVista.xaml.cs">
       <DependentUpon>DespidoVista.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\ActividadMenu.xaml.cs">
+      <DependentUpon>ActividadMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\IdiomaHabladoFrm.xaml.cs">
       <DependentUpon>IdiomaHabladoFrm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\PagoFrm.xaml.cs">
       <DependentUpon>PagoFrm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\TipoMetricaFrm.xaml.cs">
+      <DependentUpon>TipoMetricaFrm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\TIpoMetricaDG.xaml.cs">
+      <DependentUpon>TIpoMetricaDG.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\RelacionesLaboralesDG.xaml.cs">
       <DependentUpon>RelacionesLaboralesDG.xaml</DependentUpon>
@@ -101,6 +110,9 @@
     </Compile>
     <Compile Include="Windows\EntrevistarFrm.xaml.cs">
       <DependentUpon>EntrevistarFrm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MetaFrm.xaml.cs">
+      <DependentUpon>MetaFrm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\SeleccionFrm.xaml.cs">
       <DependentUpon>SeleccionFrm.xaml</DependentUpon>
@@ -170,6 +182,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Windows\ActividadMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\IdiomaHabladoFrm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -177,6 +193,14 @@
     <Page Include="Windows\PagoFrm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\TipoMetricaFrm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\TIpoMetricaDG.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\RelacionesLaboralesDG.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -193,6 +217,10 @@
     <Page Include="Windows\EntrevistarFrm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MetaFrm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\SeleccionFrm.xaml">
       <SubType>Designer</SubType>

@@ -27,6 +27,14 @@ namespace Datos
             set { _IdDepartamento = value; }
         }
 
+        private string _NombreDepartamento;
+
+        public string nombreDepartamento
+        {
+            get { return _NombreDepartamento; }
+            set { _NombreDepartamento = value; }
+        }
+
 
         public DTipoMetrica()
         {
