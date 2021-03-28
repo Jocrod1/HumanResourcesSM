@@ -69,7 +69,7 @@ namespace Datos
         }
 
 
-        public DEvaluacion(int IdEvaluacion, int IdUsuario, int IdMeta, double ValorEvaluado, string Observacion, int Status, DateTime FechaEvaluacion, string Cedula)
+        public DEvaluacion(int IdEvaluacion, int IdUsuario, int IdMeta, double ValorEvaluado, string Observacion, int Status, DateTime FechaEvaluacion)
         {
             this.idEvaluacion = IdEvaluacion;
             this.idUsuario = IdUsuario;
@@ -78,7 +78,6 @@ namespace Datos
             this.observacion = Observacion;
             this.status = Status;
             this.fechaEvaluacion = FechaEvaluacion;
-            this.cedula = Cedula;
         }
     }
 }

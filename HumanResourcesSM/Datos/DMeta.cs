@@ -79,8 +79,6 @@ namespace Datos
         }
 
 
-        //valores no registro
-
         private string _Usuario;
         public string usuario
         {
@@ -107,7 +105,7 @@ namespace Datos
 
         }
 
-        public DMeta(int IdMeta, int IdTipoMetrica, double ValorMeta, int IdEmpleado, int IdDepartamento, int Status, DateTime FechaInicio, DateTime FechaFinal, string Cedula, int IdUsuario, string Usuario, string Departamento, string NombreMetrica)
+        public DMeta(int IdMeta, int IdTipoMetrica, double ValorMeta, int IdEmpleado, int IdDepartamento, int Status, DateTime FechaInicio, DateTime FechaFinal, string Cedula, int IdUsuario)
         {
             this.idMeta = IdMeta;
             this.idTipoMetrica = IdTipoMetrica;
@@ -119,9 +117,6 @@ namespace Datos
             this.fechaFinal = FechaFinal;
             this.cedula = Cedula;
             this.idUsuario = IdUsuario;
-            this.usuario = Usuario;
-            this.departamento = Departamento;
-            this.nombreMetrica = NombreMetrica;
         }
     }
 }

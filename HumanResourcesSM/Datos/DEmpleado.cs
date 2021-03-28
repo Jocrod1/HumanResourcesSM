@@ -138,7 +138,7 @@ namespace Datos
 
         }
 
-        public DEmpleado(int IdEmpleado, int IdDepartamento, string Nombre, string Apellido, string Cedula, DateTime FechaNacimiento, string Nacionalidad, string Direccion, string Email, string Telefono, string Curriculum, string EstadoLegal, DateTime? FechaCulminacion, int Status, DateTime FechaAplicacion, DateTime FechaRevision, string NombrePuesto)
+        public DEmpleado(int IdEmpleado, int IdDepartamento, string Nombre, string Apellido, string Cedula, DateTime FechaNacimiento, string Nacionalidad, string Direccion, string Email, string Telefono, string Curriculum, string EstadoLegal, int Status)
         {
             this.idEmpleado = IdEmpleado;
             this.idDepartamento = IdDepartamento;
@@ -152,11 +152,7 @@ namespace Datos
             this.telefono = Telefono;
             this.curriculum = Curriculum;
             this.estadoLegal = EstadoLegal;
-            this.fechaCulminacion = FechaCulminacion;
             this.status = Status;
-            this.fechaAplicacion = FechaAplicacion;
-            this.fechaRevision = FechaRevision;
-            this.nombrePuesto = NombrePuesto;
         }
     }
 }

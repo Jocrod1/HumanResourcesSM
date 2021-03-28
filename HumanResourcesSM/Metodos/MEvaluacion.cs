@@ -50,6 +50,22 @@ namespace Metodos
                     {
                         conn.Open();
                         respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingreso el Registro de la evaluacion del empleado";
+
+                        if(respuesta.Equals("OK"))
+                        {
+                            string query2 = @"
+                                        UPDATE meta SET
+                                            status = 2
+                                        WHERE idUsuario = @idUsuario;
+	                        ";
+
+                            using (SqlCommand comm2 = new SqlCommand(query2, conn))
+                            {
+                                comm2.Parameters.AddWithValue("@idUsuario", Evaluacion.idUsuario);
+
+                                respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el Registro de la meta";
+                            }
+                        }
                     }
                     catch (SqlException e)
                     {

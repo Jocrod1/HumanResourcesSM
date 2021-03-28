@@ -89,7 +89,7 @@ namespace Datos
 
         }
 
-        public DPago(int IdPago, int IdEmpleado, DateTime FechaPago, string Banco, string NumeroReferencia, int CantidadHoras, DateTime PeriodoPago, double MontoTotal, string Cedula, string Nombre, int Estado)
+        public DPago(int IdPago, int IdEmpleado, DateTime FechaPago, string Banco, string NumeroReferencia, int CantidadHoras, DateTime PeriodoPago, double MontoTotal, int Estado)
         {
             this.idPago = IdPago;
             this.idEmpleado = IdEmpleado;
@@ -99,8 +99,6 @@ namespace Datos
             this.cantidadHoras = CantidadHoras;
             this.periodoPago = PeriodoPago;
             this.montoTotal = MontoTotal;
-            this.cedula = Cedula;
-            this.nombre = Nombre;
             this.estado = Estado;
         }
     }
