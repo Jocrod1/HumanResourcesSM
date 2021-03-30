@@ -93,6 +93,13 @@ namespace Datos
             set { _Departamento = value; }
         }
 
+        private string _Empleado;
+        public string empleado
+        {
+            get { return _Empleado; }
+            set { _Empleado = value; }
+        }
+
         private string _NombreMetrica;
         public string nombreMetrica
         {
@@ -105,7 +112,7 @@ namespace Datos
 
         }
 
-        public DMeta(int IdMeta, int IdTipoMetrica, double ValorMeta, int IdEmpleado, int IdDepartamento, int Status, DateTime FechaInicio, DateTime FechaFinal, string Cedula, int IdUsuario)
+        public DMeta(int IdMeta, int IdTipoMetrica, double ValorMeta, int IdEmpleado, int IdDepartamento, int Status, DateTime FechaInicio, DateTime FechaFinal, int IdUsuario)
         {
             this.idMeta = IdMeta;
             this.idTipoMetrica = IdTipoMetrica;
@@ -115,7 +122,6 @@ namespace Datos
             this.status = Status;
             this.fechaInicio = FechaInicio;
             this.fechaFinal = FechaFinal;
-            this.cedula = Cedula;
             this.idUsuario = IdUsuario;
         }
     }

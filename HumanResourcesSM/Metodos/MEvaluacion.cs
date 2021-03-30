@@ -56,14 +56,14 @@ namespace Metodos
                             string query2 = @"
                                         UPDATE meta SET
                                             status = 2
-                                        WHERE idUsuario = @idUsuario;
+                                        WHERE idMeta = @idMeta;
 	                        ";
 
                             using (SqlCommand comm2 = new SqlCommand(query2, conn))
                             {
-                                comm2.Parameters.AddWithValue("@idUsuario", Evaluacion.idUsuario);
+                                comm2.Parameters.AddWithValue("@idMeta", Evaluacion.idMeta);
 
-                                respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el Registro de la meta";
+                                respuesta = comm2.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el Registro de la meta";
                             }
                         }
                     }

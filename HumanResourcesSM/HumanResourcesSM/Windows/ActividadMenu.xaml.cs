@@ -56,7 +56,7 @@ namespace HumanResourcesSM.Windows
                     ContentFrame.Content = frm;
                     break;
                 case 1:
-                    AsignacionFrm frm1 = new AsignacionFrm();
+                    EvaluacionFrm frm1 = new EvaluacionFrm();
                     ContentFrame.Content = frm1;
                     break;
                 case 2:

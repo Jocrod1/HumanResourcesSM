@@ -484,6 +484,56 @@ namespace Metodos
 
         }
 
+        public List<DEmpleado> MostrarEmpleadoByDepartamento(int BuscarDepartamento)
+        {
+            List<DEmpleado> ListaGenerica = new List<DEmpleado>();
+
+
+            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            {
+
+                using (SqlCommand comm = new SqlCommand())
+                {
+                    comm.Connection = conn;
+
+                    comm.CommandText = "SELECT idEmpleado, idDepartamento, (nombre + ' ' + apellido) as nombre from [empleado] where idDepartamento = " + BuscarDepartamento + "";
+
+                    try
+                    {
+
+                        conn.Open();
+
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+                                ListaGenerica.Add(new DEmpleado
+                                {
+                                    idEmpleado = reader.GetInt32(0),
+                                    idDepartamento = reader.GetInt32(1),
+                                    nombre = reader.GetString(2),
+                                });
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    finally
+                    {
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            conn.Close();
+                        }
+                    }
+                    return ListaGenerica;
+                }
+            }
+
+        }
+
         public List<DEmpleado> MostrarEmpleadoDG(string Buscar)
         {
             List<DEmpleado> ListaGenerica = new List<DEmpleado>();

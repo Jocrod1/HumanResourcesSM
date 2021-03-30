@@ -96,7 +96,7 @@ namespace HumanResourcesSM.Windows
             DateTime? fechaEgreso = CbFechaEgreso.SelectedDate;
 
             UForm = new DEducacion(0,
-                                   0,
+                                   Menu.ActUsuario.idUsuario,
                                    nombreCarrera,
                                    nombreInstitucion,
                                    fechaingreso,

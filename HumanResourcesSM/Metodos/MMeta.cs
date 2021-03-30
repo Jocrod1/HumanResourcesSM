@@ -129,7 +129,7 @@ namespace Metodos
         }
 
 
-        public string Eiminar(DMeta Meta)
+        public string Eliminar(DMeta Meta)
         {
             string respuesta = "";
 
@@ -223,5 +223,119 @@ namespace Metodos
             }
 
         }
+
+        public List<DMeta> MostrarByDepartamento(int BuscarDepartamento)
+        {
+            List<DMeta> ListaGenerica = new List<DMeta>();
+
+            string Searcher = "";
+            
+            if(BuscarDepartamento > 0)
+            {
+                Searcher = " and m.idDepartamento = " + BuscarDepartamento;
+            }
+
+            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            {
+
+                using (SqlCommand comm = new SqlCommand())
+                {
+                    comm.Connection = conn;
+
+                    comm.CommandText = "select m.idMeta, tp.nombre as TipoMetrica, d.nombre as Departamento, m.valorMeta from [Meta] m inner join [Departamento] d on m.idDepartamento = d.idDepartamento inner join [TipoMetrica] tp on m.idTipoMetrica = tp.idTipoMetrica where m.status = 1" + Searcher;
+
+                    try
+                    {
+
+                        conn.Open();
+
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+                                ListaGenerica.Add(new DMeta
+                                {
+                                    idMeta = reader.GetInt32(0),
+                                    nombreMetrica = reader.GetString(1),
+                                    departamento = reader.GetString(2),
+                                    valorMeta = (double)reader.GetDecimal(3),
+                                });
+                            }
+                        }
+                    }
+                    catch (SqlException e)
+                    {
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    finally
+                    {
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            conn.Close();
+                        }
+                    }
+                    return ListaGenerica;
+                }
+            }
+
+        }
+
+        public List<DMeta> Encontrar(int Buscar)
+        {
+            List<DMeta> ListaGenerica = new List<DMeta>();
+
+            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            {
+
+                using (SqlCommand comm = new SqlCommand())
+                {
+                    comm.Connection = conn;
+
+                    comm.CommandText = "SELECT m.idMeta, tm.nombre as TipoMetrica, m.valorMeta, e.idEmpleado, (e.nombre + ' ' + e.apellido) as NombreEmpleado, d.nombre as NombreDepartamento, m.fechaInicio, m.fechaFinal, m.status from [meta] m inner join [Empleado] e on m.idEmpleado=e.idEmpleado inner join [Departamento] d on m.idDepartamento=d.idDepartamento inner join [TipoMetrica] tm on m.idTipoMetrica=tm.idTipoMetrica where m.idMeta = " + Buscar + "";
+
+                    try
+                    {
+
+                        conn.Open();
+
+                        using (SqlDataReader reader = comm.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+                                ListaGenerica.Add(new DMeta
+                                {
+                                    idMeta = reader.GetInt32(0),
+                                    nombreMetrica = reader.GetString(1),
+                                    valorMeta = (double)reader.GetDecimal(2),
+                                    idEmpleado = reader.GetInt32(3),
+                                    empleado = reader.GetString(4),
+                                    departamento = reader.GetString(5),
+                                    fechaInicio = reader.GetDateTime(6),
+                                    fechaFinal = reader.GetDateTime(7),
+                                    status = reader.GetInt32(8)
+                                });
+                            }
+                        }
+                    }
+                    catch (SqlException e)
+                    {
+                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    finally
+                    {
+                        if (conn.State == ConnectionState.Open)
+                        {
+                            conn.Close();
+                        }
+                    }
+                    return ListaGenerica;
+                }
+            }
+
+        }
+
+
     }
 }

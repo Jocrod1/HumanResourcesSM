@@ -1,0 +1,63 @@
+﻿<Page x:Class="HumanResourcesSM.Windows.EvaluacionFrm"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:HumanResourcesSM.Windows"
+      mc:Ignorable="d" 
+      d:DesignHeight="520" d:DesignWidth="650"
+      Loaded="Page_Loaded"
+      Title="SeleccionFrm">
+
+    <Grid Background="WhiteSmoke">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Border BorderThickness="0 0 0 1" BorderBrush="#2A347B">
+            <TextBlock Text="Registrar Evaluación" FontWeight="Bold" FontSize="23" HorizontalAlignment="Center" Margin="0 10"/>
+        </Border>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" CanContentScroll="False" Grid.Row="1">
+            <StackPanel Margin="100 10" VerticalAlignment="Center">
+                <StackPanel>
+                    <TextBlock Text="Meta Establecida" FontSize="17" FontWeight="Bold"/>
+                    <Border BorderBrush="Gray" BorderThickness=".5" x:Name="BordMeta" Visibility="Collapsed">
+                        <StackPanel>
+                            <Grid Margin="50 10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal">
+                                    <RadioButton x:Name="RBEmpleado" FontSize="15" VerticalAlignment="Center" FontWeight="Bold" Padding="0" Focusable="False" IsHitTestVisible="False"/>
+                                    <TextBlock Text="Empleado" Margin="5 0" VerticalAlignment="Center" FontSize="15" FontWeight="Bold"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Grid.Column="1">
+                                    <RadioButton x:Name="RBDepartamento" FontSize="15" VerticalAlignment="Center" FontWeight="Bold" Padding="0" Focusable="False" IsHitTestVisible="False"/>
+                                    <TextBlock Text="Departamento" Margin="5 0" VerticalAlignment="Center" FontSize="15" FontWeight="Bold"/>
+                                </StackPanel>
+                            </Grid>
+                            <TextBlock x:Name="txtEmpleado" Text="Empleado: " FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" Margin="0 3"/>
+                            <TextBlock x:Name="txtDepartamento" Text="Departamento: " FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" Margin="0 3"/>
+                            <TextBlock x:Name="txtValorMeta" Text="Valor Meta: " FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" Margin="0 3"/>
+                        </StackPanel>
+                    </Border>
+                    <Button x:Name="BtnSeleccionarMeta" Content="Seleccionar Meta" 
+                            Click="BtnSeleccionarMeta_Click"
+                            HorizontalAlignment="Left" Background="{x:Null}" FontWeight="Bold" 
+                            Foreground="#2A347B" BorderBrush="#2A347B" 
+                            Margin="5 5"/>
+                </StackPanel>
+                <StackPanel Margin="0 10">
+                    <local:UserInputText FontSize="15" x:Name="txtValorEvaluado" Placeholder="Valor Evaluado" />
+                    <TextBlock x:Name="txtTipoMetrica" Text="Métrica: Ventas" FontWeight="Bold" FontSize="14" Visibility="Collapsed"/>
+                </StackPanel>
+                <local:UserInputText FontSize="15" x:Name="txtobservacion" Placeholder="Observaciones" Margin="0 10" Height="100"/>
+            </StackPanel>
+        </ScrollViewer>
+        <Border Grid.Row="2" BorderBrush="#2A347B" BorderThickness="0 1 0 0">
+            <Button Content="Enviar" Click="Button_Click" Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Width="150" Margin="0 10"/>
+        </Border>
+    </Grid>
+</Page>

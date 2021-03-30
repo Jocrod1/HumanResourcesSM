@@ -100,8 +100,7 @@ namespace HumanResourcesSM.Windows
                                                 telefono,
                                                 URLCV,
                                                 estadoLegal,
-                                                DateTime.Now, 0, DateTime.Now, DateTime.Now,
-                                                nombrePuesto);
+                                                0);
 
             DSeleccion Seleccion = new DSeleccion(0,
                                                     0,

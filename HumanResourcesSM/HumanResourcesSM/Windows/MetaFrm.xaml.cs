@@ -78,7 +78,7 @@ namespace HumanResourcesSM.Windows
                               1,
                               FechaInicio,
                               FechaFinal,
-                              "",Menu.ActUsuario.idUsuario,"","","");
+                              Menu.ActUsuario.idUsuario);
         }
 
         void Limpiar()

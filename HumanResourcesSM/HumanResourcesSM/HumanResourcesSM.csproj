@@ -75,6 +75,9 @@
     <Compile Include="Windows\ContratoFrm.xaml.cs">
       <DependentUpon>ContratoFrm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\MetaVista.xaml.cs">
+      <DependentUpon>MetaVista.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\DespidoDG.xaml.cs">
       <DependentUpon>DespidoDG.xaml</DependentUpon>
     </Compile>
@@ -89,6 +92,9 @@
     </Compile>
     <Compile Include="Windows\IdiomaHabladoFrm.xaml.cs">
       <DependentUpon>IdiomaHabladoFrm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\EvaluacionFrm.xaml.cs">
+      <DependentUpon>EvaluacionFrm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\PagoFrm.xaml.cs">
       <DependentUpon>PagoFrm.xaml</DependentUpon>
@@ -170,6 +176,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Windows\MetaVista.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\DespidoDG.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -187,6 +197,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\IdiomaHabladoFrm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\EvaluacionFrm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
