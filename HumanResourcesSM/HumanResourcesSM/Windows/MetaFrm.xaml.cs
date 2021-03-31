@@ -114,7 +114,7 @@ namespace HumanResourcesSM.Windows
 
             CbSeleccion.ItemsSource = res;
             CbSeleccion.DisplayMemberPath = "nombre";
-            CbSeleccion.SelectedValuePath = "idDepartamento";
+            CbSeleccion.SelectedValuePath = "idEmpleado";
 
             CbSeleccion.SelectedIndex = -1;
             PlaceSeleccion.Text = "Seleccionar Empleado";
@@ -170,7 +170,20 @@ namespace HumanResourcesSM.Windows
             {
                 PlaceSeleccion.Visibility = Visibility.Hidden;
 
-                var resp = new MTipoMetrica().Mostrar((int)CbSeleccion.SelectedValue);
+                
+
+                int id = 0;
+                if(RBEmpleado.IsChecked ?? false)
+                {
+                    var Empleado = (DEmpleado)CbSeleccion.SelectedItem;
+                    id = Empleado.idDepartamento;
+                }
+                else
+                {
+                    id = (int)CbSeleccion.SelectedValue;
+                }
+
+                var resp = new MTipoMetrica().Mostrar(id);
 
                 CbTipoMetrica.ItemsSource = resp;
                 CbTipoMetrica.DisplayMemberPath = "nombre";

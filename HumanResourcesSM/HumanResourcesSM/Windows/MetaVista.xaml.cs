@@ -36,10 +36,20 @@ namespace HumanResourcesSM.Windows
 
         public void Refresh()
         {
+            if (searchType == SearchType.Departamento)
+            {
+                int id = CbDepartamento.SelectedIndex > -1 ? (int)CbDepartamento.SelectedValue : -1;
+                var items = Metodos.MostrarByDepartamento(id);
 
-            var items = Metodos.MostrarByDepartamento(CbDepartamento.SelectedIndex);
+                dgDepartamento.ItemsSource = items;
+            }
+            else if(searchType == SearchType.Empleado)
+            {
+                int id = CbEmpleado.SelectedIndex > -1 ? (int)CbEmpleado.SelectedValue : -1;
+                var items = Metodos.MostrarByEmpleado(id);
 
-            dgDepartamento.ItemsSource = items;
+                dgEmpleado.ItemsSource = items;
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -56,30 +66,44 @@ namespace HumanResourcesSM.Windows
             Refresh();
         }
 
-        private void TextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            Refresh();
-        }
-
         private void txtSeleccionar_Click(object sender, RoutedEventArgs e)
         {
             int id = (int)((Button)sender).CommandParameter;
 
-            var resp = Metodos.Encontrar(id)[0];
+            
 
-            bool isEmpleado = RBEmpleado.IsChecked ?? false;
+            bool isEmpleado = searchType == SearchType.Empleado;
+            if (isEmpleado)
+            {
+                var resp = Metodos.EncontrarByEmpleado(id)[0];
+                Parentfrm.SeleccionarMeta(resp, isEmpleado);
+                
+            }
+            else
+            {
+                var resp = Metodos.EncontrarByDepartamento(id)[0];
+                Parentfrm.SeleccionarMeta(resp, isEmpleado);
+            }
 
-            Parentfrm.SeleccionarMeta(resp, isEmpleado);
             this.Close();
         }
+
+        SearchType searchType = SearchType.Departamento;
+
         private void RBEmpleado_Checked(object sender, RoutedEventArgs e)
         {
             GridCBEmpleado.Visibility = Visibility.Visible;
+            dgEmpleado.Visibility = Visibility.Visible;
+            searchType = SearchType.Empleado;
+            Refresh();
         }
 
         private void RBDepartamento_Checked(object sender, RoutedEventArgs e)
         {
             GridCBEmpleado.Visibility = Visibility.Collapsed;
+            dgEmpleado.Visibility = Visibility.Collapsed;
+            searchType = SearchType.Departamento;
+            Refresh();
         }
 
         private void CbDepartamento_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -121,6 +145,13 @@ namespace HumanResourcesSM.Windows
         private void txtLimpiar_Click(object sender, RoutedEventArgs e)
         {
             CbDepartamento.SelectedIndex = -1;
+            Refresh();
+        }
+
+        enum SearchType
+        {
+            Empleado,
+            Departamento
         }
     }
 }
