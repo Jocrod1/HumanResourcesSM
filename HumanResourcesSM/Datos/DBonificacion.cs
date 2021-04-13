@@ -28,18 +28,25 @@ namespace Datos
                 set { _MontoBonificacion = value; }
             }
 
-            private int _Repetitivo;
-            public int repetitivo
+            private int _Pagado;
+            public int pagado
             {
-                get { return _Repetitivo; }
-                set { _Repetitivo = value; }
+                get { return _Pagado; }
+                set { _Pagado = value; }
             }
 
-            private DateTime _PeriodoPago;
-            public DateTime periodoPago
+            private string _Concepto;
+            public string concepto
             {
-                get { return _PeriodoPago; }
-                set { _PeriodoPago = value; }
+                get { return _Concepto; }
+                set { _Concepto = value; }
+            }
+
+            private int _TipoDeuda;
+            public int tipoDeuda
+            {
+                get { return _TipoDeuda; }
+                set { _TipoDeuda = value; }
             }
 
             private int _Status;
@@ -56,13 +63,14 @@ namespace Datos
 
             }
 
-            public DBonificacion(int IdBonificacion, int IdEmpleado, double MontoBonificacion, int Repetitivo, DateTime PeriodoPago, int Status)
+            public DBonificacion(int IdBonificacion, int IdEmpleado, double MontoBonificacion, int Pagado, string Concepto, int TipoDeuda, int Status)
             {
                 this.idBonificacion = IdBonificacion;
                 this.idEmpleado = IdEmpleado;
                 this.montoBonificacion = MontoBonificacion;
-                this.repetitivo = Repetitivo;
-                this.periodoPago = PeriodoPago;
+                this.pagado = Pagado;
+                this.concepto = Concepto;
+                this.tipoDeuda = TipoDeuda;
                 this.status = Status;
             }
         }

@@ -49,11 +49,18 @@ namespace Datos
             set { _CantidadHoras = value; }
         }
 
-        private DateTime _PeriodoPago;
-        public DateTime periodoPago
+        private DateTime _PeriodoInicio;
+        public DateTime periodoInicio
         {
-            get { return _PeriodoPago; }
-            set { _PeriodoPago = value; }
+            get { return _PeriodoInicio; }
+            set { _PeriodoInicio = value; }
+        }
+
+        private DateTime _PeriodoFinal;
+        public DateTime periodoFinal
+        {
+            get { return _PeriodoFinal; }
+            set { _PeriodoFinal = value; }
         }
 
         private double _MontoTotal;
@@ -89,7 +96,7 @@ namespace Datos
 
         }
 
-        public DPago(int IdPago, int IdEmpleado, DateTime FechaPago, string Banco, string NumeroReferencia, int CantidadHoras, DateTime PeriodoPago, double MontoTotal, int Estado)
+        public DPago(int IdPago, int IdEmpleado, DateTime FechaPago, string Banco, string NumeroReferencia, int CantidadHoras, DateTime PeriodoInicio, DateTime PeriodoFinal, double MontoTotal, int Estado)
         {
             this.idPago = IdPago;
             this.idEmpleado = IdEmpleado;
@@ -97,7 +104,8 @@ namespace Datos
             this.banco = Banco;
             this.numeroReferencia = NumeroReferencia;
             this.cantidadHoras = CantidadHoras;
-            this.periodoPago = PeriodoPago;
+            this.periodoInicio = PeriodoInicio;
+            this.periodoFinal = PeriodoFinal;
             this.montoTotal = MontoTotal;
             this.estado = Estado;
         }

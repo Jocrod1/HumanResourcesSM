@@ -21,6 +21,13 @@ namespace Datos
             set { _IdPago = value; }
         }
 
+        private int _IdDeuda;
+        public int idDeuda
+        {
+            get { return _IdDeuda; }
+            set { _IdDeuda = value; }
+        }
+
         private string _Concepto;
         public string concepto
         {
@@ -40,10 +47,11 @@ namespace Datos
 
         }
 
-        public DDetallePago(int IdDetallePago, int IdPago, string Concepto, double SubTotal)
+        public DDetallePago(int IdDetallePago, int IdPago, int IdDeuda, string Concepto, double SubTotal)
         {
             this.idDetallePago = IdDetallePago;
             this.idPago = IdPago;
+            this.idDeuda = IdDeuda;
             this.concepto = Concepto;
             this.subTotal = SubTotal;
         }

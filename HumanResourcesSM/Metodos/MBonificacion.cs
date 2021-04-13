@@ -29,14 +29,16 @@ namespace Metodos
                                 INSERT INTO Bonificacion(
                                         idEmpleado,
                                         montoBonificacion,
-                                        repetitivo,
-                                        periodoPago,
+                                        pagado,
+                                        concepto,
+                                        tipoDeuda,
                                         status
                                     ) VALUES(
                                         @idEmpleado,
                                         @montoBonificacion,
-                                        @repetitivo,
-                                        @periodoPago,
+                                        @pagado,
+                                        @concepto,
+                                        @tipoDeuda,
                                         @status
                                     );
 	                            ";
@@ -45,8 +47,9 @@ namespace Metodos
                         {
                             comm.Parameters.AddWithValue("@idEmpleado", Detalle[i].idEmpleado);
                             comm.Parameters.AddWithValue("@montoBonificacion", Detalle[i].montoBonificacion);
-                            comm.Parameters.AddWithValue("@repetitivo", Detalle[i].repetitivo);
-                            comm.Parameters.AddWithValue("@periodoPago", Detalle[i].periodoPago);
+                            comm.Parameters.AddWithValue("@pagado", Detalle[i].pagado);
+                            comm.Parameters.AddWithValue("@concepto", Detalle[i].concepto);
+                            comm.Parameters.AddWithValue("@tipoDeuda", Detalle[i].tipoDeuda);
                             comm.Parameters.AddWithValue("@status", 1);
 
 
