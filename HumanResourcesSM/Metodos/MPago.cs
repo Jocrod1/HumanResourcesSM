@@ -53,6 +53,12 @@ namespace Metodos
             );
 	    ";
 
+        private string queryUpdateDebtDetail = @"
+            UPDATE deuda SET
+                pagado += @pagado
+            WHERE idDeuda = @idDeuda;
+	    ";
+
         //anular
         private string queryNullPay = @"
             UPDATE pago SET
@@ -81,7 +87,7 @@ namespace Metodos
         #endregion
 
 
-        public string Insertar(DPago Pago, List<DDetallePago> Detalle)
+        public string Insertar(DPago Pago, List<DDetallePago> DetallePago, List<double> MontoDeuda)
         {
             string respuesta = "";
 
@@ -102,33 +108,34 @@ namespace Metodos
 
                 respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingreso el Registro del pago";
 
-                this.idPago = Convert.ToInt32(comm.Parameters["@idPago"].Value);
-
                 if (!respuesta.Equals("OK")) return "No se ingreso el Registro del pago";
-                return InsertarDetallePago(this.idPago, Detalle);
+
+                this.idPago = Convert.ToInt32(comm.Parameters["@idPago"].Value);
+                return InsertarDetallePago(this.idPago, DetallePago, MontoDeuda);
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
-        private string InsertarDetallePago(int IdPago, List<DDetallePago> Detalle)
+        private string InsertarDetallePago(int IdPago, List<DDetallePago> DetallePago, List<double> MontoDeuda)
         {
             string respuesta = "";
             int i = 0;
 
             try
             {
-                foreach (DDetallePago det in Detalle)
+                foreach (DDetallePago det in DetallePago)
                 {
                     using SqlCommand comm = new SqlCommand(queryInsertPayDetail, Conexion.ConexionSql);
                     comm.Parameters.AddWithValue("@idPago", IdPago);
-                    comm.Parameters.AddWithValue("@idDeuda", Detalle[i].idDeuda);
-                    comm.Parameters.AddWithValue("@concepto", Detalle[i].concepto);
-                    comm.Parameters.AddWithValue("@subTotal", Detalle[i].subTotal);
+                    comm.Parameters.AddWithValue("@idDeuda", DetallePago[i].idDeuda == 0 ? DetallePago[i].idDeuda : DBNull.Value);
+                    comm.Parameters.AddWithValue("@concepto", DetallePago[i].concepto);
+                    comm.Parameters.AddWithValue("@subTotal", DetallePago[i].subTotal);
 
                     respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingresaron los detalles del pago";
+                    if (!respuesta.Equals("OK") && DetallePago[i].idDeuda != 0 && !ActualizarDeuda(DetallePago[i].idDeuda, MontoDeuda[i]).Equals("OK"))
+                        break;
 
-                    if (!respuesta.Equals("OK")) break;
                     i++;
                 }
             }
@@ -137,6 +144,23 @@ namespace Metodos
 
             return respuesta; 
         }
+
+        private string ActualizarDeuda(int IdDeuda, double MontoDeuda)
+        {
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryUpdateDebtDetail, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@pagado", MontoDeuda);
+                comm.Parameters.AddWithValue("@idDeuda", IdDeuda);
+
+                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó la Deuda";
+            }
+            catch (SqlException e) { return e.Message; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+        }
+
 
         public string Anular(int IdPago)
         {
@@ -152,6 +176,7 @@ namespace Metodos
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
+
 
         public List<DPago> Mostrar(string numeroReferencia)
         {

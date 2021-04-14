@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Datos;
-
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
@@ -11,240 +10,161 @@ namespace Metodos
 {
     public class MIdiomaHablado : DIdiomaHablado
     {
+        #region QUERIES
+        private string queryInsert = @"
+            INSERT INTO idiomaHablado (
+                idIdioma,
+                idEmpleado,
+                nivel
+            ) VALUES (
+                @idIdioma,
+                @idEmpleado,
+                @nivel
+            )
+	    ";
+
+        private string queryUpdate = @"
+            UPDATE idiomaHablado SET 
+                idIdioma = @idIdioma,
+                idEmpleado = @idEmpleado,
+                nivel = @nivel
+            WHERE idIdiomaHablado = @idIdiomaHablado;
+	    ";
+
+        private string queryDelete = @"
+            DELETE FROM idiomaHablado 
+            WHERE idIdiomaHablado = @idIdiomaHablado
+	    ";
+
+        private string queryListEmployee = @"
+            SELECT FROM idiomaHablado
+            WHERE idEmpleado = @idEmpleado 
+            ORDER BY idIdioma
+        ";
+
+        private string queryListLanguage = @"
+            SELECT FROM idiomaHablado
+            WHERE idIdioma = @idIdioma 
+            ORDER BY idIdioma
+        ";
+
+        #endregion
+
         public string Insertar(DIdiomaHablado IdiomaHablado)
         {
-            string respuesta = "";
-
-            string query = @"
-                        INSERT INTO idiomaHablado(
-                            idIdioma,
-                            idEmpleado,
-                            nivel
-                        ) VALUES(
-                            @idIdioma,
-                            @idEmpleado,
-                            @nivel
-                        );
-	        ";
-
-            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            try
             {
+                Conexion.ConexionSql.Open();
 
-                using (SqlCommand comm = new SqlCommand(query, conn))
-                {
-                    comm.Parameters.AddWithValue("@idIdioma", IdiomaHablado.idIdioma);
-                    comm.Parameters.AddWithValue("@idEmpleado", IdiomaHablado.idEmpleado);
-                    comm.Parameters.AddWithValue("@nivel", IdiomaHablado.nivel);
+                using SqlCommand comm = new SqlCommand(queryInsert, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idIdioma", IdiomaHablado.idIdioma);
+                comm.Parameters.AddWithValue("@idEmpleado", IdiomaHablado.idEmpleado);
+                comm.Parameters.AddWithValue("@nivel", IdiomaHablado.nivel);
 
-                    try
-                    {
-                        conn.Open();
-                        respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingreso el Registro del idioma hablado";
-                    }
-                    catch (SqlException e)
-                    {
-                        respuesta = e.Message;
-                    }
-                    finally
-                    {
-                        if (conn.State == ConnectionState.Open)
-                        {
-                            conn.Close();
-                        }
-                    }
-                    return respuesta;
-                }
+                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingreso el Registro del idioma hablado";
             }
+            catch (SqlException e) { return e.Message; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
 
         public string Editar(DIdiomaHablado IdiomaHablado)
         {
-            string respuesta = "";
-
-            string query = @"
-                        UPDATE idiomaHablado SET 
-                            idIdioma = @idIdioma,
-                            idEmpleado = @idEmpleado,
-                            nivel = @nivel
-                         WHERE idIdiomaHablado = @idIdiomaHablado;
-	        ";
-
-            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            try
             {
+                Conexion.ConexionSql.Open();
 
-                using (SqlCommand comm = new SqlCommand(query, conn))
-                {
-                    comm.Parameters.AddWithValue("@idIdioma", IdiomaHablado.idIdioma);
-                    comm.Parameters.AddWithValue("@idEmpleado", IdiomaHablado.idEmpleado);
-                    comm.Parameters.AddWithValue("@nivel", IdiomaHablado.nivel);
+                using SqlCommand comm = new SqlCommand(queryUpdate, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idIdioma", IdiomaHablado.idIdioma);
+                comm.Parameters.AddWithValue("@idEmpleado", IdiomaHablado.idEmpleado);
+                comm.Parameters.AddWithValue("@nivel", IdiomaHablado.nivel);
+                comm.Parameters.AddWithValue("@idIdiomaHablado", IdiomaHablado.idIdiomaHablado);
 
-                    comm.Parameters.AddWithValue("@idIdiomaHablado", IdiomaHablado.idIdiomaHablado);
-
-                    try
-                    {
-                        conn.Open();
-                        respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el Registro del idioma hablado";
-                    }
-                    catch (SqlException e)
-                    {
-                        respuesta = e.Message;
-                    }
-                    finally
-                    {
-                        if (conn.State == ConnectionState.Open)
-                        {
-                            conn.Close();
-                        }
-                    }
-                    return respuesta;
-                }
+                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el Registro del idioma hablado";
             }
+            catch (SqlException e) { return e.Message; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
 
-        public string Eliminar(int id)
+        public string Eliminar(int IdIdioma)
         {
-            string respuesta = "";
-
-            string query = @"
-                        DELETE FROM idiomaHablado WHERE idIdiomaHablado=@idIdiomaHablado
-	        ";
-
-            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            try
             {
+                Conexion.ConexionSql.Open();
 
-                using (SqlCommand comm = new SqlCommand(query, conn))
-                {
+                using SqlCommand comm = new SqlCommand(queryDelete, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idIdiomaHablado", IdIdioma);
 
-                    comm.Parameters.AddWithValue("@idIdiomaHablado", id);
-
-                    try
-                    {
-                        conn.Open();
-                        respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se elimino el Registro del idioma hablado";
-                    }
-                    catch (SqlException e)
-                    {
-                        respuesta = e.Message;
-                    }
-                    finally
-                    {
-                        if (conn.State == ConnectionState.Open)
-                        {
-                            conn.Close();
-                        }
-                    }
-                    return respuesta;
-                }
+                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se elimino el Registro del idioma hablado";
             }
+            catch (SqlException e) { return e.Message; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
 
-
-        //funcionando
-        public List<DIdiomaHablado> Mostrar(int Buscar)
+        public List<DIdiomaHablado> Mostrar(int IdEmpleado)
         {
             List<DIdiomaHablado> ListaGenerica = new List<DIdiomaHablado>();
 
-            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            try
             {
+                Conexion.ConexionSql.Open();
 
-                using (SqlCommand comm = new SqlCommand())
+                using SqlCommand comm = new SqlCommand(queryListEmployee, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
                 {
-                    comm.Connection = conn;
-
-                    comm.CommandText = "SELECT * from [idiomaHablado] where idEmpleado = " + Buscar + " order by idIdioma";
-
-                    try
+                    ListaGenerica.Add(new DIdiomaHablado
                     {
-
-                        conn.Open();
-
-                        using (SqlDataReader reader = comm.ExecuteReader())
-                        {
-
-                            while (reader.Read())
-                            {
-                                ListaGenerica.Add(new DIdiomaHablado
-                                {
-                                    idIdiomaHablado = reader.GetInt32(0),
-                                    idIdioma = reader.GetInt32(1),
-                                    idEmpleado = reader.GetInt32(2),
-                                    nivel = reader.GetInt32(3)
-                                });
-                            }
-                        }
-                    }
-                    catch (SqlException e)
-                    {
-                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    finally
-                    {
-                        if (conn.State == ConnectionState.Open)
-                        {
-                            conn.Close();
-                        }
-                    }
-                    return ListaGenerica;
-                }
+                        idIdiomaHablado = reader.GetInt32(0),
+                        idIdioma = reader.GetInt32(1),
+                        idEmpleado = reader.GetInt32(2),
+                        nivel = reader.GetInt32(3)
+                    });
+                } 
             }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
 
+            return ListaGenerica;
         }
 
-        public List<DIdiomaHablado> Encontrar(int Buscar)
+
+        public List<DIdiomaHablado> Encontrar(int IdIdioma)
         {
             List<DIdiomaHablado> ListaGenerica = new List<DIdiomaHablado>();
 
-            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            try
             {
+                Conexion.ConexionSql.Open();
 
-                using (SqlCommand comm = new SqlCommand())
+                using SqlCommand comm = new SqlCommand(queryListLanguage, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idIdioma", IdIdioma);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
                 {
-                    comm.Connection = conn;
-
-                    comm.CommandText = "SELECT * from [idiomaHablado] where idIdiomaHablado = " + Buscar + "";
-
-                    try
+                    ListaGenerica.Add(new DIdiomaHablado
                     {
-
-                        conn.Open();
-
-                        using (SqlDataReader reader = comm.ExecuteReader())
-                        {
-
-                            while (reader.Read())
-                            {
-                                ListaGenerica.Add(new DIdiomaHablado
-                                {
-                                    idIdiomaHablado = reader.GetInt32(0),
-                                    idIdioma = reader.GetInt32(1),
-                                    idEmpleado = reader.GetInt32(2),
-                                    nivel = reader.GetInt32(3)
-                                });
-                            }
-                        }
-                    }
-                    catch (SqlException e)
-                    {
-                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    finally
-                    {
-                        if (conn.State == ConnectionState.Open)
-                        {
-                            conn.Close();
-                        }
-                    }
-                    return ListaGenerica;
+                        idIdiomaHablado = reader.GetInt32(0),
+                        idIdioma = reader.GetInt32(1),
+                        idEmpleado = reader.GetInt32(2),
+                        nivel = reader.GetInt32(3)
+                    });
                 }
-            }
 
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
         }
 
 
-
+        //idiomas
         public List<DIdioma> MostrarIdioma(string Buscar)
         {
             List<DIdioma> ListaGenerica = new List<DIdioma>();
@@ -256,7 +176,7 @@ namespace Metodos
                 {
                     comm.Connection = conn;
 
-                    comm.CommandText = "SELECT * from [idioma] order by nombre";
+                    comm.CommandText = "SELECT from [idioma] order by nombre";
 
 
                     try

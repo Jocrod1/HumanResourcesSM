@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Datos;
-
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
@@ -11,265 +10,170 @@ namespace Metodos
 {
     public class MEducacion:DEducacion
     {
+        #region QUERIES
+        private string queryInsert = @"
+            INSERT INTO educacion (
+                idEmpleado,
+                nombreCarrera,
+                nombreInstitucion,
+                fechaIngreso,
+                fechaEgreso
+            ) VALUES (
+                @idEmpleado,
+                @nombreCarrera,
+                @nombreInstitucion,
+                @fechaIngreso,
+                @fechaEgreso
+            );
+	    ";
+
+        private string queryUpdate = @"
+            UPDATE educacion SET 
+                idEmpleado = @idEmpleado,
+                nombreCarrera = @nombreCarrera,
+                nombreInstitucion = @nombreInstitucion,
+                fechaIngreso = @fechaIngreso,
+                fechaEgreso = @fechaEgreso
+            WHERE idEducacion = @idEducacion;
+	    ";
+
+        private string queryDelete = @"
+            DELETE FROM educacion 
+            WHERE idEducacion = @idEducacion
+	    ";
+
+        private string queryListName = @"
+            SELECT from educacion
+            WHERE nombreCarrera LIKE @nombreCarrera
+            ORDER BY nombreCarrera
+        ";
+
+        private string queryListID = @"
+            SELECT from educacion
+            WHERE idEducacion LIKE @idEducacion
+            ORDER BY idEducacion
+        ";
+
+        #endregion
 
         public string Insertar(DEducacion Educacion)
         {
-            string respuesta = "";
-
-            string query = @"
-                        INSERT INTO educacion(
-                            idEmpleado,
-                            nombreCarrera,
-                            nombreInstitucion,
-                            fechaIngreso,
-                            fechaEgreso
-                        ) VALUES(
-                            @idEmpleado,
-                            @nombreCarrera,
-                            @nombreInstitucion,
-                            @fechaIngreso,
-                            @fechaEgreso
-                        );
-	        ";
-
-            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            try
             {
+                Conexion.ConexionSql.Open();
 
-                using (SqlCommand comm = new SqlCommand(query, conn))
-                {
-                    comm.Parameters.AddWithValue("@idEmpleado", Educacion.idEmpleado);
-                    comm.Parameters.AddWithValue("@nombreCarrera", Educacion.nombreCarrera);
-                    comm.Parameters.AddWithValue("@nombreInstitucion", Educacion.nombreInstitucion);
-                    comm.Parameters.AddWithValue("@fechaIngreso", Educacion.fechaIngreso);
-                    comm.Parameters.AddWithValue("@fechaEgreso", Educacion.fechaEgreso);
+                using SqlCommand comm = new SqlCommand(queryInsert, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idEmpleado", Educacion.idEmpleado);
+                comm.Parameters.AddWithValue("@nombreCarrera", Educacion.nombreCarrera);
+                comm.Parameters.AddWithValue("@nombreInstitucion", Educacion.nombreInstitucion);
+                comm.Parameters.AddWithValue("@fechaIngreso", Educacion.fechaIngreso);
+                comm.Parameters.AddWithValue("@fechaEgreso", Educacion.fechaEgreso);
 
-                    try
-                    {
-                        conn.Open();
-                        respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingreso el Registro de la educacion";
-                    }
-                    catch (SqlException e)
-                    {
-                        respuesta = e.Message;
-                    }
-                    finally
-                    {
-                        if (conn.State == ConnectionState.Open)
-                        {
-                            conn.Close();
-                        }
-                    }
-                    return respuesta;
-                }
+                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingreso el Registro de la Educacion";
             }
+            catch (SqlException e) { return e.Message; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
 
         public string Editar(DEducacion Educacion)
         {
-            string respuesta = "";
-
-            string query = @"
-                        UPDATE educacion SET 
-                            idEmpleado = @idEmpleado,
-                            nombreCarrera = @nombreCarrera,
-                            nombreInstitucion = @nombreInstitucion,
-                            fechaIngreso = @fechaIngreso,
-                            fechaEgreso = @fechaEgreso
-                        WHERE idEducacion = @idEducacion;
-	        ";
-
-            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            try
             {
+                Conexion.ConexionSql.Open();
 
-                using (SqlCommand comm = new SqlCommand(query, conn))
-                {
-                    comm.Parameters.AddWithValue("@idEmpleado", Educacion.idEmpleado);
-                    comm.Parameters.AddWithValue("@nombreCarrera", Educacion.nombreCarrera);
-                    comm.Parameters.AddWithValue("@nombreInstitucion", Educacion.nombreInstitucion);
-                    comm.Parameters.AddWithValue("@fechaIngreso", Educacion.fechaIngreso);
-                    comm.Parameters.AddWithValue("@fechaEgreso", Educacion.fechaEgreso);
+                using SqlCommand comm = new SqlCommand(queryUpdate, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idEmpleado", Educacion.idEmpleado);
+                comm.Parameters.AddWithValue("@nombreCarrera", Educacion.nombreCarrera);
+                comm.Parameters.AddWithValue("@nombreInstitucion", Educacion.nombreInstitucion);
+                comm.Parameters.AddWithValue("@fechaIngreso", Educacion.fechaIngreso);
+                comm.Parameters.AddWithValue("@fechaEgreso", Educacion.fechaEgreso);
+                comm.Parameters.AddWithValue("@idEducacion", Educacion.idEducacion);
 
-                    comm.Parameters.AddWithValue("@idEducacion", Educacion.idEducacion);
-
-                    try
-                    {
-                        conn.Open();
-                        respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el Registro de la educacion";
-                    }
-                    catch (SqlException e)
-                    {
-                        respuesta = e.Message;
-                    }
-                    finally
-                    {
-                        if (conn.State == ConnectionState.Open)
-                        {
-                            conn.Close();
-                        }
-                    }
-                    return respuesta;
-                }
+                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el Registro de la educacion";
             }
+            catch (SqlException e) { return e.Message; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
 
-        public string Eliminar(int id)
+        public string Eliminar(int IdEducacion)
         {
-            string respuesta = "";
-
-            string query = @"
-                        DELETE FROM educacion WHERE idEducacion=@idEducacion
-	        ";
-
-            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            try
             {
+                Conexion.ConexionSql.Open();
 
-                using (SqlCommand comm = new SqlCommand(query, conn))
-                {
+                using SqlCommand comm = new SqlCommand(queryDelete, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idEducacion", IdEducacion);
 
-                    comm.Parameters.AddWithValue("@idEducacion", id);
-
-                    try
-                    {
-                        conn.Open();
-                        respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se elimino el Registro de la educacion";
-                    }
-                    catch (SqlException e)
-                    {
-                        respuesta = e.Message;
-                    }
-                    finally
-                    {
-                        if (conn.State == ConnectionState.Open)
-                        {
-                            conn.Close();
-                        }
-                    }
-                    return respuesta;
-                }
+                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se elimino el Registro de la educacion";
             }
+            catch (SqlException e) { return e.Message; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
 
-
-        //funcionando
-        public List<DEducacion> Mostrar(int Buscar)
+        public List<DEducacion> Mostrar(string NombreCarrera)
         {
             List<DEducacion> ListaGenerica = new List<DEducacion>();
 
-            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            try
             {
+                Conexion.ConexionSql.Open();
 
-                using (SqlCommand comm = new SqlCommand())
+                using SqlCommand comm = new SqlCommand(queryListName, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@nombreCarrera", NombreCarrera);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
                 {
-                    comm.Connection = conn;
-
-                    comm.CommandText = "SELECT * from [educacion] where idEmpleado = " + Buscar + " order by idEmpleado";
-
-                    try
+                    ListaGenerica.Add(new DEducacion
                     {
-
-                        conn.Open();
-
-                        using (SqlDataReader reader = comm.ExecuteReader())
-                        {
-
-                            
-                            while (reader.Read())
-                            {
-                                DateTime? fe = null;
-                                if (!reader.IsDBNull(5))
-                                {
-                                    fe = reader.GetDateTime(5);
-                                }
-
-                                ListaGenerica.Add(new DEducacion
-                                {
-                                    idEducacion = reader.GetInt32(0),
-                                    idEmpleado = reader.GetInt32(1),
-                                    nombreCarrera = reader.GetString(2),
-                                    nombreInstitucion = reader.GetString(3),
-                                    fechaIngreso = reader.GetDateTime(4),
-                                    fechaEgreso = fe
-                                });
-                            }
-                        }
-                    }
-                    catch (SqlException e)
-                    {
-                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    finally
-                    {
-                        if (conn.State == ConnectionState.Open)
-                        {
-                            conn.Close();
-                        }
-                    }
-                    return ListaGenerica;
+                        idEducacion = reader.GetInt32(0),
+                        idEmpleado = reader.GetInt32(1),
+                        nombreCarrera = reader.GetString(2),
+                        nombreInstitucion = reader.GetString(3),
+                        fechaIngreso = reader.GetDateTime(4),
+                        fechaEgreso = reader.IsDBNull(5) ? null : reader.GetDateTime(5)
+                    });
                 }
             }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
 
+            return ListaGenerica;
         }
 
-        public List<DEducacion> Encontrar(int Buscar)
+
+        public List<DEducacion> Encontrar(int IdEducacion)
         {
             List<DEducacion> ListaGenerica = new List<DEducacion>();
 
-            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            try
             {
+                Conexion.ConexionSql.Open();
 
-                using (SqlCommand comm = new SqlCommand())
+                using SqlCommand comm = new SqlCommand(queryListID, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idEducacion", IdEducacion);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
                 {
-                    comm.Connection = conn;
-
-                    comm.CommandText = "SELECT * from [educacion] where idEducacion = " + Buscar + "";
-
-                    try
+                    ListaGenerica.Add(new DEducacion
                     {
-
-                        conn.Open();
-
-                        using (SqlDataReader reader = comm.ExecuteReader())
-                        {
-
-
-                            while (reader.Read())
-                            {
-                                DateTime? fe = null;
-                                if (!reader.IsDBNull(5))
-                                {
-                                    fe = reader.GetDateTime(5);
-                                }
-
-                                ListaGenerica.Add(new DEducacion
-                                {
-                                    idEducacion = reader.GetInt32(0),
-                                    idEmpleado = reader.GetInt32(1),
-                                    nombreCarrera = reader.GetString(2),
-                                    nombreInstitucion = reader.GetString(3),
-                                    fechaIngreso = reader.GetDateTime(4),
-                                    fechaEgreso = fe
-                                });
-                            }
-                        }
-                    }
-                    catch (SqlException e)
-                    {
-                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    finally
-                    {
-                        if (conn.State == ConnectionState.Open)
-                        {
-                            conn.Close();
-                        }
-                    }
-                    return ListaGenerica;
+                        idEducacion = reader.GetInt32(0),
+                        idEmpleado = reader.GetInt32(1),
+                        nombreCarrera = reader.GetString(2),
+                        nombreInstitucion = reader.GetString(3),
+                        fechaIngreso = reader.GetDateTime(4),
+                        fechaEgreso = reader.IsDBNull(5) ? null : reader.GetDateTime(5)
+                    });
                 }
             }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
 
+            return ListaGenerica;
         }
     }
 }

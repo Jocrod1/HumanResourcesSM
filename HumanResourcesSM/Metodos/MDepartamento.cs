@@ -11,7 +11,7 @@ namespace Metodos
     public class MDepartamento:DDepartamento
     {
         #region QUERIES
-        private string queryInsertDepartment = @"
+        private string queryInsert = @"
             INSERT INTO departamento(
                 nombre,
                 descripcion
@@ -21,6 +21,27 @@ namespace Metodos
             );
 	    ";
 
+        private string queryUpdate = @"
+            UPDATE departamento SET
+                nombre = @nombre,
+                descripcion = @descripcion
+            WHERE idDepartamento = @idDepartamento;
+	    ";
+
+        private string queryDelete = @"
+            DELETE FROM departamento 
+            WHERE idDepartamento=@idDepartamento
+	    ";
+
+        private string queryListName = @"
+            SELECT FROM departamento 
+            WHERE nombre LIKE @nombre 
+            ORDER BY nombre";
+
+        private string queryListID = @"
+            SELECT FROM departamento 
+            WHERE idDepartamento = @idDepartamento
+        ";
         #endregion
 
         public string Insertar(DDepartamento Departamento)
@@ -29,7 +50,7 @@ namespace Metodos
             {
                 Conexion.ConexionSql.Open();
 
-                using SqlCommand comm = new SqlCommand(queryInsertDepartment, Conexion.ConexionSql);
+                using SqlCommand comm = new SqlCommand(queryInsert, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@nombre", Departamento.nombre);
                 comm.Parameters.AddWithValue("@descripcion", Departamento.descripcion);
 
@@ -42,181 +63,93 @@ namespace Metodos
 
         public string Editar(DDepartamento Departamento)
         {
-            string respuesta = "";
-
-            string query = @"
-                        UPDATE departamento SET
-                            nombre = @nombre,
-                            descripcion = @descripcion
-                            WHERE idDepartamento = @idDepartamento;
-	        ";
-
-            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            try
             {
+                Conexion.ConexionSql.Open();
 
-                using (SqlCommand comm = new SqlCommand(query, conn))
-                {
-                    comm.Parameters.AddWithValue("@nombre", Departamento.nombre);
-                    comm.Parameters.AddWithValue("@descripcion", Departamento.descripcion);
+                using SqlCommand comm = new SqlCommand(queryUpdate, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@nombre", Departamento.nombre);
+                comm.Parameters.AddWithValue("@descripcion", Departamento.descripcion);
+                comm.Parameters.AddWithValue("@idDepartamento", Departamento.idDepartamento);
 
-                    comm.Parameters.AddWithValue("@idDepartamento", Departamento.idDepartamento);
-
-                    try
-                    {
-                        conn.Open();
-                        respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el Registro del departamento";
-                    }
-                    catch (SqlException e)
-                    {
-                        respuesta = e.Message;
-                    }
-                    finally
-                    {
-                        if (conn.State == ConnectionState.Open)
-                        {
-                            conn.Close();
-                        }
-                    }
-                    return respuesta;
-                }
+                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el Registro del departamento";
             }
+            catch (SqlException e) { return e.Message; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
 
-        public string Eliminar(DDepartamento Departamento)
+        public string Eliminar(int IdDepartamento)
         {
-            string respuesta = "";
-
-            string query = @"
-                        DELETE FROM departamento WHERE idDepartamento=@idDepartamento
-	        ";
-
-            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            try
             {
+                Conexion.ConexionSql.Open();
 
-                using (SqlCommand comm = new SqlCommand(query, conn))
-                {
+                using SqlCommand comm = new SqlCommand(queryDelete, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idDepartamento", IdDepartamento);
 
-                    comm.Parameters.AddWithValue("@idDepartamento", Departamento.idDepartamento);
-
-                    try
-                    {
-                        conn.Open();
-                        respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se elimino el Registro del departamento";
-                    }
-                    catch (SqlException e)
-                    {
-                        respuesta = e.Message;
-                    }
-                    finally
-                    {
-                        if (conn.State == ConnectionState.Open)
-                        {
-                            conn.Close();
-                        }
-                    }
-                    return respuesta;
-                }
+                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se elimino el Registro del departamento";
             }
+            catch (SqlException e) { return e.Message; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
 
-        public List<DDepartamento> Mostrar(string Buscar)
+        public List<DDepartamento> Mostrar(string Nombre)
         {
             List<DDepartamento> ListaGenerica = new List<DDepartamento>();
 
-            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            try
             {
+                Conexion.ConexionSql.Open();
 
-                using (SqlCommand comm = new SqlCommand())
+                using SqlCommand comm = new SqlCommand(queryListName, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@nombre", Nombre);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
                 {
-                    comm.Connection = conn;
-
-                    comm.CommandText = "SELECT * from [departamento] where nombre like '" + Buscar + "%' order by nombre";
-
-                    try
+                    ListaGenerica.Add(new DDepartamento
                     {
-
-                        conn.Open();
-
-                        using (SqlDataReader reader = comm.ExecuteReader())
-                        {
-
-                            while (reader.Read())
-                            {
-                                ListaGenerica.Add(new DDepartamento
-                                {
-                                    idDepartamento = reader.GetInt32(0),
-                                    nombre = reader.GetString(1),
-                                    descripcion = reader.GetString(2)
-                                });
-                            }
-                        }
-                    }
-                    catch (SqlException e)
-                    {
-                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    finally
-                    {
-                        if (conn.State == ConnectionState.Open)
-                        {
-                            conn.Close();
-                        }
-                    }
-                    return ListaGenerica;
+                        idDepartamento = reader.GetInt32(0),
+                        nombre = reader.GetString(1),
+                        descripcion = reader.GetString(2)
+                    });
                 }
             }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
 
+            return ListaGenerica;
         }
 
-        public List<DDepartamento> Encontrar(int Buscar)
+
+        public List<DDepartamento> Encontrar(int IdDepartamento)
         {
             List<DDepartamento> ListaGenerica = new List<DDepartamento>();
 
-            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            try
             {
+                Conexion.ConexionSql.Open();
 
-                using (SqlCommand comm = new SqlCommand())
+                using SqlCommand comm = new SqlCommand(queryListID, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idDepartamento", IdDepartamento);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
                 {
-                    comm.Connection = conn;
-
-                    comm.CommandText = "SELECT * from [departamento] WHERE idDepartamento= " + Buscar + "";
-
-                    try
+                    ListaGenerica.Add(new DDepartamento
                     {
-
-                        conn.Open();
-
-                        using (SqlDataReader reader = comm.ExecuteReader())
-                        {
-
-                            while (reader.Read())
-                            {
-                                ListaGenerica.Add(new DDepartamento
-                                {
-                                    idDepartamento = reader.GetInt32(0),
-                                    nombre = reader.GetString(1),
-                                    descripcion = reader.GetString(2)
-                                });
-                            }
-                        }
-                    }
-                    catch (SqlException e)
-                    {
-                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    finally
-                    {
-                        if (conn.State == ConnectionState.Open)
-                        {
-                            conn.Close();
-                        }
-                    }
-                    return ListaGenerica;
+                        idDepartamento = reader.GetInt32(0),
+                        nombre = reader.GetString(1),
+                        descripcion = reader.GetString(2)
+                    });
                 }
             }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
 
+            return ListaGenerica;
         }
     }
 }

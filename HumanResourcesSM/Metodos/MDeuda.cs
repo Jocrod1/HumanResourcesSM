@@ -55,7 +55,6 @@ namespace Metodos
             WHERE e.idEmpleado = @idEmpleado AND d.status LIKE @status AND d.status != 0
             ORDER BY d.idDeuda
         ";
-
         #endregion
 
 
@@ -66,6 +65,8 @@ namespace Metodos
 
             try
             {
+                Conexion.ConexionSql.Open();
+
                 foreach (DDeuda det in Detalle)
                 {
                     using SqlCommand comm = new SqlCommand(queryInsertDebt, Conexion.ConexionSql);
@@ -103,7 +104,7 @@ namespace Metodos
         }
 
 
-        public List<DDeuda> MostrarDeudaEmpleado(int idEmpleado, int? status)
+        public List<DDeuda> MostrarDeudaEmpleado(int IdEmpleado, int? Status)
         {
             List<DDeuda> ListaGenerica = new List<DDeuda>();
 
@@ -112,8 +113,8 @@ namespace Metodos
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryListDebt, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@idEmpleado", idEmpleado);
-                comm.Parameters.AddWithValue("@status", status);
+                comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
+                comm.Parameters.AddWithValue("@status", Status);
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 while (reader.Read())
