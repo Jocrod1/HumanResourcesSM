@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Datos;
-
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
@@ -11,48 +10,33 @@ namespace Metodos
 {
     public class MDepartamento:DDepartamento
     {
+        #region QUERIES
+        private string queryInsertDepartment = @"
+            INSERT INTO departamento(
+                nombre,
+                descripcion
+            ) VALUES(
+                @nombre,
+                @descripcion
+            );
+	    ";
+
+        #endregion
 
         public string Insertar(DDepartamento Departamento)
         {
-            string respuesta = "";
-
-            string query = @"
-                        INSERT INTO departamento(
-                            nombre,
-                            descripcion
-                        ) VALUES(
-                            @nombre,
-                            @descripcion
-                        );
-	        ";
-
-            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            try
             {
+                Conexion.ConexionSql.Open();
 
-                using (SqlCommand comm = new SqlCommand(query, conn))
-                {
-                    comm.Parameters.AddWithValue("@nombre", Departamento.nombre);
-                    comm.Parameters.AddWithValue("@descripcion", Departamento.descripcion);
+                using SqlCommand comm = new SqlCommand(queryInsertDepartment, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@nombre", Departamento.nombre);
+                comm.Parameters.AddWithValue("@descripcion", Departamento.descripcion);
 
-                    try
-                    {
-                        conn.Open();
-                        respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingreso el Registro del departamento";
-                    }
-                    catch (SqlException e)
-                    {
-                        respuesta = e.Message;
-                    }
-                    finally
-                    {
-                        if (conn.State == ConnectionState.Open)
-                        {
-                            conn.Close();
-                        }
-                    }
-                    return respuesta;
-                }
+                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingreso el Registro del Departamento";
             }
+            catch (SqlException e) { return e.Message; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
 
