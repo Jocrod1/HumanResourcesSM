@@ -12,35 +12,36 @@ namespace Metodos
     {
         #region QUERIES
         private string queryInsert = @"
-            INSERT INTO departamento(
+            INSERT INTO [Departamento] (
                 nombre,
                 descripcion
-            ) VALUES(
+            ) VALUES (
                 @nombre,
                 @descripcion
             );
 	    ";
 
         private string queryUpdate = @"
-            UPDATE departamento SET
+            UPDATE [Departamento] SET
                 nombre = @nombre,
                 descripcion = @descripcion
             WHERE idDepartamento = @idDepartamento;
 	    ";
 
         private string queryDelete = @"
-            DELETE FROM departamento 
-            WHERE idDepartamento=@idDepartamento
+            DELETE FROM [Departamento] 
+            WHERE idDepartamento = @idDepartamento;
 	    ";
 
         private string queryListName = @"
-            SELECT FROM departamento 
-            WHERE nombre LIKE @nombre 
-            ORDER BY nombre";
+            SELECT FROM [Departamento] 
+            WHERE nombre LIKE '@nombre%'
+            ORDER BY nombre;
+        ";
 
         private string queryListID = @"
-            SELECT FROM departamento 
-            WHERE idDepartamento = @idDepartamento
+            SELECT FROM [Departamento] 
+            WHERE idDepartamento = @idDepartamento;
         ";
         #endregion
 

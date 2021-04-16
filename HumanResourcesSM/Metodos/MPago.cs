@@ -14,7 +14,7 @@ namespace Metodos
         #region QUERIES
         //insertar
         private string queryInsertPay = @"
-            INSERT INTO pago (
+            INSERT INTO [Pago] (
                 idPago,
                 idEmpleado,
                 fechaPago,
@@ -40,7 +40,7 @@ namespace Metodos
 	    ";
 
         private string queryInsertPayDetail = @"
-            INSERT INTO detallePago (
+            INSERT INTO [DetallePago] (
                 idPago,
                 idDeuda,
                 concepto,
@@ -54,14 +54,14 @@ namespace Metodos
 	    ";
 
         private string queryUpdateDebtDetail = @"
-            UPDATE deuda SET
-                pagado += @pagado
+            UPDATE [Deuda] SET
+                pagado = pagado + @pagado
             WHERE idDeuda = @idDeuda;
 	    ";
 
         //anular
         private string queryNullPay = @"
-            UPDATE pago SET
+            UPDATE [Pago] SET
                 estado = 0
             WHERE idPago = @idPago;
 	    ";
@@ -79,10 +79,10 @@ namespace Metodos
                 p.periodoFinal,
                 p.montoTotal, 
                 p.estado 
-            FROM [pago] p 
-                INNER JOIN [empleado] e on p.idEmpleado=e.idEmpleado 
+            FROM [Pago] p 
+                INNER JOIN [Empleado] e ON p.idEmpleado=e.idEmpleado 
             WHERE p.numeroReferencia = @numeroReferencia
-            ORDER BY p.numeroReferencia
+            ORDER BY p.numeroReferencia;
         ";
         #endregion
 
@@ -178,7 +178,7 @@ namespace Metodos
         }
 
 
-        public List<DPago> Mostrar(string numeroReferencia)
+        public List<DPago> Mostrar(string NumeroReferencia)
         {
             List<DPago> ListaGenerica = new List<DPago>();
 
@@ -187,7 +187,7 @@ namespace Metodos
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryListPay, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@numeroReferencia", numeroReferencia);
+                comm.Parameters.AddWithValue("@numeroReferencia", NumeroReferencia);
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 while (reader.Read())

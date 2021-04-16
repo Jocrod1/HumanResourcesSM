@@ -12,7 +12,7 @@ namespace Metodos
     {
         #region QUERIES
         private string queryInsert = @"
-            INSERT INTO idiomaHablado (
+            INSERT INTO [IdiomaHablado] (
                 idIdioma,
                 idEmpleado,
                 nivel
@@ -20,11 +20,11 @@ namespace Metodos
                 @idIdioma,
                 @idEmpleado,
                 @nivel
-            )
+            );
 	    ";
 
         private string queryUpdate = @"
-            UPDATE idiomaHablado SET 
+            UPDATE [IdiomaHablado] SET 
                 idIdioma = @idIdioma,
                 idEmpleado = @idEmpleado,
                 nivel = @nivel
@@ -32,22 +32,32 @@ namespace Metodos
 	    ";
 
         private string queryDelete = @"
-            DELETE FROM idiomaHablado 
+            DELETE FROM [IdiomaHablado] 
             WHERE idIdiomaHablado = @idIdiomaHablado
 	    ";
 
         private string queryListEmployee = @"
-            SELECT FROM idiomaHablado
+            SELECT FROM [IdiomaHablado]
             WHERE idEmpleado = @idEmpleado 
-            ORDER BY idIdioma
+            ORDER BY idIdioma;
         ";
 
         private string queryListLanguage = @"
-            SELECT FROM idiomaHablado
+            SELECT FROM [IdiomaHablado]
             WHERE idIdioma = @idIdioma 
-            ORDER BY idIdioma
+            ORDER BY idIdioma;
         ";
 
+        private string queryListLanguageGeneral = @"
+            SELECT FROM [Idioma] 
+            ORDER BY nombre;
+        ";
+
+        private string queryListLanguageSpecific = @"
+            SELECT FROM [Idioma]
+            WHERE idIdioma = @idIdioma
+            ORDER BY nombre;
+        ";
         #endregion
 
         public string Insertar(DIdiomaHablado IdiomaHablado)
@@ -165,99 +175,57 @@ namespace Metodos
 
 
         //idiomas
-        public List<DIdioma> MostrarIdioma(string Buscar)
+        public List<DIdioma> MostrarIdioma()
         {
             List<DIdioma> ListaGenerica = new List<DIdioma>();
 
-            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            try
             {
+                Conexion.ConexionSql.Open();
 
-                using (SqlCommand comm = new SqlCommand())
+                using SqlCommand comm = new SqlCommand(queryListLanguageGeneral, Conexion.ConexionSql);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
                 {
-                    comm.Connection = conn;
-
-                    comm.CommandText = "SELECT from [idioma] order by nombre";
-
-
-                    try
+                    ListaGenerica.Add(new DIdioma
                     {
-
-                        conn.Open();
-
-                        using (SqlDataReader reader = comm.ExecuteReader())
-                        {
-
-                            while (reader.Read())
-                            {
-                                ListaGenerica.Add(new DIdioma
-                                {
-                                    idIdioma = reader.GetInt32(0),
-                                    nombre = reader.GetString(1)
-                                });
-                            }
-                        }
-                    }
-                    catch (SqlException e)
-                    {
-                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    finally
-                    {
-                        if (conn.State == ConnectionState.Open)
-                        {
-                            conn.Close();
-                        }
-                    }
-                    return ListaGenerica;
+                        idIdioma = reader.GetInt32(0),
+                        nombre = reader.GetString(1)
+                    });
                 }
             }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
         }
-        public List<DIdioma> EncontrarIdioma(int Buscar)
+
+        public List<DIdioma> EncontrarIdioma(int IdIdioma)
         {
             List<DIdioma> ListaGenerica = new List<DIdioma>();
 
-            using (SqlConnection conn = new SqlConnection(Conexion.CadenaConexion))
+            try
             {
+                Conexion.ConexionSql.Open();
 
-                using (SqlCommand comm = new SqlCommand())
+                using SqlCommand comm = new SqlCommand(queryListLanguageSpecific, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idIdioma", IdIdioma);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
                 {
-                    comm.Connection = conn;
-
-                    comm.CommandText = "SELECT * from [idioma] where idIdioma = " + Buscar + " order by nombre";
-
-
-                    try
+                    ListaGenerica.Add(new DIdioma
                     {
-
-                        conn.Open();
-
-                        using (SqlDataReader reader = comm.ExecuteReader())
-                        {
-
-                            while (reader.Read())
-                            {
-                                ListaGenerica.Add(new DIdioma
-                                {
-                                    idIdioma = reader.GetInt32(0),
-                                    nombre = reader.GetString(1)
-                                });
-                            }
-                        }
-                    }
-                    catch (SqlException e)
-                    {
-                        MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    finally
-                    {
-                        if (conn.State == ConnectionState.Open)
-                        {
-                            conn.Close();
-                        }
-                    }
-                    return ListaGenerica;
+                        idIdioma = reader.GetInt32(0),
+                        nombre = reader.GetString(1)
+                    });
                 }
             }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
         }
     }
 }

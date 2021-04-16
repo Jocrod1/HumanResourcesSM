@@ -12,7 +12,7 @@ namespace Metodos
     {
         #region QUERIES
         private string queryInsert = @"
-            INSERT INTO educacion (
+            INSERT INTO [Educacion] (
                 idEmpleado,
                 nombreCarrera,
                 nombreInstitucion,
@@ -28,7 +28,7 @@ namespace Metodos
 	    ";
 
         private string queryUpdate = @"
-            UPDATE educacion SET 
+            UPDATE [Educacion] SET 
                 idEmpleado = @idEmpleado,
                 nombreCarrera = @nombreCarrera,
                 nombreInstitucion = @nombreInstitucion,
@@ -38,20 +38,20 @@ namespace Metodos
 	    ";
 
         private string queryDelete = @"
-            DELETE FROM educacion 
-            WHERE idEducacion = @idEducacion
+            DELETE FROM [Educacion] 
+            WHERE idEducacion = @idEducacion;
 	    ";
 
         private string queryListName = @"
-            SELECT from educacion
-            WHERE nombreCarrera LIKE @nombreCarrera
-            ORDER BY nombreCarrera
+            SELECT FROM [Educacion]
+            WHERE nombreCarrera LIKE '@nombreCarrera%'
+            ORDER BY nombreCarrera;
         ";
 
         private string queryListID = @"
-            SELECT from educacion
-            WHERE idEducacion LIKE @idEducacion
-            ORDER BY idEducacion
+            SELECT FROM [Educacion]
+            WHERE idEducacion LIKE '@idEducacion%'
+            ORDER BY idEducacion;
         ";
 
         #endregion

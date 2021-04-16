@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Datos;
-
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
@@ -14,14 +13,14 @@ namespace Metodos
         #region QUERIES
         //insertar
         private string queryInsert = @"
-            INSERT INTO evaluacion(
+            INSERT INTO [Evaluacion] (
                 idUsuario,
                 idMeta,
                 valorEvaluado,
                 observacion,
                 status,
                 fechaEvaluacion
-            ) VALUES(
+            ) VALUES (
                 @idUsuario,
                 @idMeta,
                 @valorEvaluado,
@@ -32,27 +31,27 @@ namespace Metodos
 	    ";
 
         private string queryUpdateGoal = @"
-            UPDATE meta SET
+            UPDATE [Meta] SET
                 status = 2
-            WHERE idMeta = @idMeta
+            WHERE idMeta = @idMeta;
         ";
 
         //editar
         private string queryUpdate = @"
-            UPDATE evaluacion SET
+            UPDATE [Evaluacion] SET
                 idUsuario = @idUsuario,
                 idMeta = @idMeta,
                 valorEvaluado = @valorEvaluado,
                 observacion = @observacion,
                 status = @status,
                 fechaEvaluacion = @fechaEvaluacion
-            WHERE idEvaluacion = @idEvaluacion
+            WHERE idEvaluacion = @idEvaluacion;
 	    ";
 
         //eliminar
         private string queryDelete = @"
-            DELETE FROM evaluacion 
-            WHERE idEvaluacion = @idEvaluacion
+            DELETE FROM [Evaluacion] 
+            WHERE idEvaluacion = @idEvaluacion;
 	    ";
 
         //mostrar
@@ -65,18 +64,16 @@ namespace Metodos
                 ev.observacion, 
                 ev.fechaEvaluacion, 
                 ev.status 
-            FROM evaluacion ev 
-                INNER JOIN [empleado] e ON ev.idUsuario = e.idEmpleado 
-            WHERE e.cedula LIKE @cedula 
-            ORDER BY e.cedula
+            FROM [Evaluacion] ev 
+                INNER JOIN [Empleado] e ON ev.idUsuario = e.idEmpleado 
+            WHERE e.cedula LIKE '@cedula%'
+            ORDER BY e.cedula;
         ";
         
         #endregion
 
         public string Insertar(DEvaluacion Evaluacion)
         {
-            string respuesta = "";
-
             try
             {
                 Conexion.ConexionSql.Open();
@@ -89,7 +86,7 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@status", Evaluacion.status);
                 comm.Parameters.AddWithValue("@fechaEvaluacion", Evaluacion.fechaEvaluacion);
 
-                respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingreso el Registro de la evaluacion del empleado";
+                string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingreso el Registro de la evaluacion del empleado";
 
                 if (!respuesta.Equals("OK")) return respuesta;
                 return ActualizarMeta(Evaluacion.idMeta);

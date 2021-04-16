@@ -11,30 +11,27 @@ namespace Metodos
     public class MContrato : DSeleccion
     {
         #region QUERIES
-        //asignar
         private string queryUpdateSelection = @"
-            UPDATE seleccion SET
+            UPDATE [Seleccion] SET
                 idEntrevistador = @idEntrevistador
             WHERE idSeleccion = @idSeleccion;
 	    ";
 
-        //no contratado
         private string queryNotHired = @"
-            UPDATE seleccion SET
+            UPDATE [Seleccion] SET
                 status = 2
             WHERE idSeleccion = @idSeleccion;
 	    ";
 
-        //insertar
         private string queryInsertContract = @"
-            INSERT INTO contrato(
+            INSERT INTO [Contrato] (
                 idEmpleado,
                 fechaContratacion,
                 nombrePuesto,
                 fechaCulminacion,
                 sueldo,
                 horasSemanales
-            ) VALUES(
+            ) VALUES (
                 @idEmpleado,
                 @fechaContratacion,
                 @nombrePuesto,

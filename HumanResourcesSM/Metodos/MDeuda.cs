@@ -11,9 +11,8 @@ namespace Metodos
     public class MDeuda:DDeuda
     {
         #region QUERIES
-        //insertar
-        private string queryInsertDebt = @"
-            INSERT INTO Deuda (
+        private string queryInsert = @"
+            INSERT INTO [Deuda] (
                 idEmpleado,
                 monto,
                 pagado,
@@ -30,33 +29,30 @@ namespace Metodos
             );
 	    ";
 
-        //anular
-        private string queryNullDebt = @"
-            UPDATE Deuda SET
+        private string queryNull = @"
+            UPDATE [Deuda] SET
                 status = 0
             WHERE idDeuda = @idDeuda;
 	    ";
 
-        //mostrar
-        private string queryListDebt = @"
+        private string queryList = @"
             SELECT 
                 d.idDeuda, 
                 e.cedula, 
-                (e.apellido + ' ' + e.nombre) as NombreCompleto, 
+                (e.apellido + ' ' + e.nombre) as nombreCompleto, 
                 de.nombre, 
                 d.monto, 
                 d.pagado,
                 d.concepto,
                 d.tipoDeuda, 
                 d.status 
-            FROM [deuda] d 
-                INNER JOIN [empleado] e ON d.idEmpleado = e.idEmpleado
-                INNER JOIN [departamento] de ON de.idDepartamento = e.idDepartamento
+            FROM [Deuda] d 
+                INNER JOIN [Empleado] e ON d.idEmpleado = e.idEmpleado
+                INNER JOIN [Departamento] de ON de.idDepartamento = e.idDepartamento
             WHERE e.idEmpleado = @idEmpleado AND d.status LIKE @status AND d.status != 0
-            ORDER BY d.idDeuda
+            ORDER BY d.idDeuda;
         ";
         #endregion
-
 
         public string Insertar(List<DDeuda> Detalle)
         {
@@ -69,7 +65,7 @@ namespace Metodos
 
                 foreach (DDeuda det in Detalle)
                 {
-                    using SqlCommand comm = new SqlCommand(queryInsertDebt, Conexion.ConexionSql);
+                    using SqlCommand comm = new SqlCommand(queryInsert, Conexion.ConexionSql);
                     comm.Parameters.AddWithValue("@idEmpleado", Detalle[i].idEmpleado);
                     comm.Parameters.AddWithValue("@monto", Detalle[i].monto);
                     comm.Parameters.AddWithValue("@pagado", Detalle[i].pagado);
@@ -94,7 +90,7 @@ namespace Metodos
             {
                 Conexion.ConexionSql.Open();
 
-                using SqlCommand comm = new SqlCommand(queryNullDebt, Conexion.ConexionSql);
+                using SqlCommand comm = new SqlCommand(queryNull, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@idDeuda", IdDeuda);
 
                 return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Anuló la Deuda";
@@ -112,7 +108,7 @@ namespace Metodos
             {
                 Conexion.ConexionSql.Open();
 
-                using SqlCommand comm = new SqlCommand(queryListDebt, Conexion.ConexionSql);
+                using SqlCommand comm = new SqlCommand(queryList, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
                 comm.Parameters.AddWithValue("@status", Status);
 
