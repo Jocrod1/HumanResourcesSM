@@ -120,6 +120,7 @@ namespace Metodos
                 return InsertarDetallePago(this.idPago, DetallePago, MontoDeuda);
             }
             catch (SqlException e) { return e.Message; }
+            catch (Exception ex) { return ex.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
@@ -128,63 +129,43 @@ namespace Metodos
             string respuesta = "";
             int i = 0;
 
-            try
+            foreach (DDetallePago det in DetallePago)
             {
-                foreach (DDetallePago det in DetallePago)
-                {
-                    using SqlCommand comm = new SqlCommand(queryInsertPayDetail, Conexion.ConexionSql);
-                    comm.Parameters.AddWithValue("@idPago", IdPago);
-                    comm.Parameters.AddWithValue("@idDeuda", DetallePago[i].idDeuda == 0 ? DetallePago[i].idDeuda : DBNull.Value);
-                    comm.Parameters.AddWithValue("@concepto", DetallePago[i].concepto);
-                    comm.Parameters.AddWithValue("@subTotal", DetallePago[i].subTotal);
+                using SqlCommand comm = new SqlCommand(queryInsertPayDetail, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idPago", IdPago);
+                comm.Parameters.AddWithValue("@idDeuda", DetallePago[i].idDeuda == 0 ? DetallePago[i].idDeuda : DBNull.Value);
+                comm.Parameters.AddWithValue("@concepto", DetallePago[i].concepto);
+                comm.Parameters.AddWithValue("@subTotal", DetallePago[i].subTotal);
 
-                    respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingresaron los detalles del pago";
-                    if (!respuesta.Equals("OK") || DetallePago[i].idDeuda != 0 || !ActualizarDeuda(DetallePago[i].idDeuda, MontoDeuda[i]).Equals("OK"))
-                        break;
+                respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingresaron los detalles del pago";
 
-                    i++;
-                }
+                if (!respuesta.Equals("OK") || DetallePago[i].idDeuda != 0 || !ActualizarDeuda(DetallePago[i].idDeuda, MontoDeuda[i]).Equals("OK"))
+                    throw new NullReferenceException("Error en el Registro del Detalle del Pago");
+
+                i++;
             }
-            catch (SqlException e) { respuesta = e.Message; }
-            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
 
             return respuesta; 
         }
 
         private string ActualizarDeuda(int IdDeuda, double MontoDeuda)
         {
-            string respuesta = "";
+            using SqlCommand comm = new SqlCommand(queryUpdateDebt, Conexion.ConexionSql);
+            comm.Parameters.AddWithValue("@pagado", MontoDeuda);
+            comm.Parameters.AddWithValue("@idDeuda", IdDeuda);
 
-            try
-            {
-                Conexion.ConexionSql.Open();
+            string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó la Deuda";
+            if (respuesta.Equals("OK")) return CompletarDeuda(IdDeuda);
 
-                using SqlCommand comm = new SqlCommand(queryUpdateDebt, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@pagado", MontoDeuda);
-                comm.Parameters.AddWithValue("@idDeuda", IdDeuda);
-
-                respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó la Deuda";
-
-                if (respuesta.Equals("OK")) return CompletarDeuda(IdDeuda);
-                return respuesta;
-            }
-            catch (SqlException e) { return e.Message; }
-            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+            throw new NullReferenceException("Error en la Actualización de la Deuda");
         }
 
         private string CompletarDeuda(int IdDeuda)
         {
-            try
-            {
-                Conexion.ConexionSql.Open();
+            using SqlCommand comm = new SqlCommand(queryUpdateDebtComplete, Conexion.ConexionSql);
+            comm.Parameters.AddWithValue("@idDeuda", IdDeuda);
 
-                using SqlCommand comm = new SqlCommand(queryUpdateDebtComplete, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@idDeuda", IdDeuda);
-
-                return comm.ExecuteNonQuery() == 1 ? "OK" : "No Completó la Deuda";
-            }
-            catch (SqlException e) { return e.Message; }
-            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+            return comm.ExecuteNonQuery() == 1 ? "OK" : "No Completó la Deuda";
         }
 
 
