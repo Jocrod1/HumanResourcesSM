@@ -38,19 +38,19 @@ namespace Metodos
 	    ";
 
         private string queryDelete = @"
-            DELETE FROM [Educacion] 
+            DELETE * FROM [Educacion] 
             WHERE idEducacion = @idEducacion;
 	    ";
 
         private string queryListName = @"
-            SELECT FROM [Educacion]
-            WHERE nombreCarrera LIKE '@nombreCarrera%'
+            SELECT * FROM [Educacion]
+            WHERE nombreCarrera LIKE @nombreCarrera + '%'
             ORDER BY nombreCarrera;
         ";
 
         private string queryListID = @"
-            SELECT FROM [Educacion]
-            WHERE idEducacion LIKE '@idEducacion%'
+            SELECT * FROM [Educacion]
+            WHERE idEducacion LIKE @idEducacion + '%'
             ORDER BY idEducacion;
         ";
 

@@ -29,7 +29,7 @@ namespace Metodos
 	    ";
 
         private string queryDelete = @"
-            DELETE FROM [TipoMetrica] 
+            DELETE * FROM [TipoMetrica] 
             WHERE idTipoMetrica = @idTipoMetrica;
 	    ";
 
@@ -45,7 +45,7 @@ namespace Metodos
         ";
 
         private string queryListID = @"
-            SELECT FROM [TipoMetrica] 
+            SELECT * FROM [TipoMetrica] 
             WHERE idTipoMetrica = @idTipoMetrica;
         ";
         #endregion
@@ -73,7 +73,7 @@ namespace Metodos
             {
                 Conexion.ConexionSql.Open();
 
-                using SqlCommand comm = new SqlCommand(query, Conexion.ConexionSql);
+                using SqlCommand comm = new SqlCommand(queryUpdate, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@nombre", TipoMetrica.nombre);
                 comm.Parameters.AddWithValue("@idDepartamento", TipoMetrica.idDepartamento);
                 comm.Parameters.AddWithValue("@idTipoMetrica", TipoMetrica.idTipoMetrica);

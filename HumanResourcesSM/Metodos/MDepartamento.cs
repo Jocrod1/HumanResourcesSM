@@ -29,18 +29,18 @@ namespace Metodos
 	    ";
 
         private string queryDelete = @"
-            DELETE FROM [Departamento] 
+            DELETE * FROM [Departamento] 
             WHERE idDepartamento = @idDepartamento;
 	    ";
 
         private string queryListName = @"
-            SELECT FROM [Departamento] 
-            WHERE nombre LIKE '@nombre%'
+            SELECT * FROM [Departamento] 
+            WHERE nombre LIKE @nombre + '%'
             ORDER BY nombre;
         ";
 
         private string queryListID = @"
-            SELECT FROM [Departamento] 
+            SELECT * FROM [Departamento] 
             WHERE idDepartamento = @idDepartamento;
         ";
         #endregion

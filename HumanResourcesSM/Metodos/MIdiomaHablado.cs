@@ -32,29 +32,29 @@ namespace Metodos
 	    ";
 
         private string queryDelete = @"
-            DELETE FROM [IdiomaHablado] 
+            DELETE * FROM [IdiomaHablado] 
             WHERE idIdiomaHablado = @idIdiomaHablado
 	    ";
 
         private string queryListEmployee = @"
-            SELECT FROM [IdiomaHablado]
+            SELECT * FROM [IdiomaHablado]
             WHERE idEmpleado = @idEmpleado 
             ORDER BY idIdioma;
         ";
 
         private string queryListLanguage = @"
-            SELECT FROM [IdiomaHablado]
+            SELECT * FROM [IdiomaHablado]
             WHERE idIdioma = @idIdioma 
             ORDER BY idIdioma;
         ";
 
         private string queryListLanguageGeneral = @"
-            SELECT FROM [Idioma] 
+            SELECT * FROM [Idioma] 
             ORDER BY nombre;
         ";
 
         private string queryListLanguageSpecific = @"
-            SELECT FROM [Idioma]
+            SELECT * FROM [Idioma]
             WHERE idIdioma = @idIdioma
             ORDER BY nombre;
         ";

@@ -48,7 +48,7 @@ namespace Metodos
 	    ";
 
         private string queryDelete = @"
-            DELETE FROM [Meta] 
+            DELETE * FROM [Meta] 
             WHERE idMeta = @idMeta
 	    ";
 
@@ -68,8 +68,9 @@ namespace Metodos
                 INNER JOIN [Usuario] u ON m.idUsuario=u.idUsuario 
                 INNER JOIN [Departamento] d ON m.idDepartamento=d.idDepartamento 
                 INNER JOIN [TipoMetrica] tm ON m.idTipoMetrica=tm.idTipoMetrica 
-            WHERE e.cedula LIKE '@cedula%'
-            ORDER BY e.cedula;";
+            WHERE e.cedula LIKE @cedula + '%'
+            ORDER BY e.cedula;
+        ";
 
         private string queryListByDepartment = @"
             SELECT 

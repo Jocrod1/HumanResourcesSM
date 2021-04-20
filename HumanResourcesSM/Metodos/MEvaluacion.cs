@@ -50,7 +50,7 @@ namespace Metodos
 
         //eliminar
         private string queryDelete = @"
-            DELETE FROM [Evaluacion] 
+            DELETE * FROM [Evaluacion] 
             WHERE idEvaluacion = @idEvaluacion;
 	    ";
 
@@ -66,7 +66,7 @@ namespace Metodos
                 ev.status 
             FROM [Evaluacion] ev 
                 INNER JOIN [Empleado] e ON ev.idUsuario = e.idEmpleado 
-            WHERE e.cedula LIKE '@cedula%'
+            WHERE e.cedula LIKE @cedula + '%'
             ORDER BY e.cedula;
         ";
         

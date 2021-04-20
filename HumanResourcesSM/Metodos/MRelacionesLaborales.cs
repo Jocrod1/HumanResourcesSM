@@ -40,16 +40,16 @@ namespace Metodos
         ";
 
         private string queryDelete = @"
-            DELETE FROM [RelacionesLaborales] 
+            DELETE * FROM [RelacionesLaborales] 
             WHERE idRelacionesLaborales = @idRelacionesLaborales;
         ";
 
         private string queryList = @"
-            SELECT FROM [RelacionesLaborales];
+            SELECT * FROM [RelacionesLaborales];
         ";
 
         private string queryListID = @"
-            SELECT FROM [RelacionesLaborales] 
+            SELECT * FROM [RelacionesLaborales] 
             WHERE idRelacionesLaborales = @idRelacionesLaborales;
         ";
         #endregion

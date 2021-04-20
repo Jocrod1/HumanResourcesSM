@@ -49,7 +49,7 @@ namespace Metodos
             FROM [Deuda] d 
                 INNER JOIN [Empleado] e ON d.idEmpleado = e.idEmpleado
                 INNER JOIN [Departamento] de ON de.idDepartamento = e.idDepartamento
-            WHERE e.idEmpleado = @idEmpleado AND d.status LIKE @status AND d.status != 0
+            WHERE e.idEmpleado = @idEmpleado AND d.status LIKE @status + '%' AND d.status != 0
             ORDER BY d.idDeuda;
         ";
         #endregion

@@ -160,12 +160,12 @@ namespace Metodos
 
         //mostrar empleado
         private string queryListEmployeeName = @"
-            SELECT FROM [Empleado] 
-            WHERE nombre + ' ' + apellido LIKE '@nombreCompleto%';
+            SELECT * FROM [Empleado] 
+            WHERE nombre + ' ' + apellido LIKE @nombreCompleto + '%';
         ";
 
         private string queryListEmployeID = @"
-            SELECT FROM [Empleado] 
+            SELECT * FROM [Empleado] 
             WHERE idEmpleado = @idEmpleado;
         ";
 
@@ -188,23 +188,23 @@ namespace Metodos
             FROM [Empleado] em 
                 INNER JOIN [Departamento] d ON em.idDepartamento = d.idDepartamento 
                 INNER JOIN [Paises] p ON em.nacionalidad = p.codigo 
-            WHERE em.nombre + ' ' + em.apellido LIKE '@nombreCompleto%';
+            WHERE em.nombre + ' ' + em.apellido LIKE @nombreCompleto + '%';
         ";
 
         private string queryListEmployeeActive = @"
-            SELECT FROM [Empleado] 
+            SELECT * FROM [Empleado] 
             WHERE status = 1;
         ";
 
         //mostrar seleccion
         private string queryListSelection = @"
-            SELECT FROM [Seleccion] 
+            SELECT * FROM [Seleccion] 
             WHERE idEmpleado = @idEmpleado;
         ";
 
         //mostrar paises
         private string queryListCountry = @"
-            SELECT FROM [Paises] 
+            SELECT * FROM [Paises] 
             ORDER BY pais;
         ";
 
@@ -379,7 +379,6 @@ namespace Metodos
 
         public string Anular(int IdSeleccion)
         {
-
             try
             {
                 Conexion.ConexionSql.Open();
@@ -387,7 +386,7 @@ namespace Metodos
                 using SqlCommand comm = new SqlCommand(queryNull, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@idSeleccion", IdSeleccion);
 
-                respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Anuló la Selección";
+                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Anuló la Selección";
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }

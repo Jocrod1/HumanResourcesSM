@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Datos;
-
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
@@ -30,24 +29,24 @@ namespace Metodos
         ";
 
         private string queryDelete = @"
-            DELETE FROM [TipoTramite] 
+            DELETE * FROM [TipoTramite] 
             WHERE idTipoTramite = @idTipoTramite;
         ";
 
         private string queryListName = @"
-            SELECT FROM [TipoTramite] 
-            WHERE nombre LIKE '@nombre%' 
+            SELECT * FROM [TipoTramite] 
+            WHERE nombre LIKE @nombre + '%' 
             ORDER BY nombre;
         ";
 
         private string queryListStatus = @"
-            SELECT statusCambio 
+            SELECT * statusCambio 
             FROM [TipoTramite] 
             GROUP BY statusCambio;
         ";
 
         private string queryListID = @"
-            SELECT FROM [TipoTramite] 
+            SELECT * FROM [TipoTramite] 
             WHERE idTipoTramite = @idTipoTramite;
         ";
         #endregion

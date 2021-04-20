@@ -12,7 +12,7 @@ namespace Metodos
     {
         #region QUERIES
         private string queryList = @"
-            SELECT FROM [Rol];
+            SELECT * FROM [Rol];
         ";
         #endregion
 

@@ -13,20 +13,20 @@ namespace Metodos
     { 
         #region QUERIES 
         private string queryInsert = @"
-                        INSERT INTO [Usuario] (
-                            idRol,
-                            usuario,
-                            contraseña,
-                            confirmacion,
-                            entrevistando
-                        ) VALUES (
-                            @idRol,
-                            @usuario,
-                            @contraseña,
-                            @confirmacion,
-                            0
-                        );
-	        ";
+            INSERT INTO [Usuario] (
+                idRol,
+                usuario,
+                contraseña,
+                confirmacion,
+                entrevistando
+            ) VALUES (
+                @idRol,
+                @usuario,
+                @contraseña,
+                @confirmacion,
+                0
+            );
+	    ";
 
         private string queryUpdate = @"
             UPDATE [Usuario] SET (
@@ -45,22 +45,22 @@ namespace Metodos
         ";
 
         private string queryDelete = @"
-            DELETE FROM [Usuario] 
+            DELETE * FROM [Usuario] 
             WHERE idUsuario = @idUsuario
         ";
 
         private string queryList = @"
-            SELECT FROM [Usuario] 
-            WHERE usuario LIKE '@usuario%' 
+            SELECT * FROM [Usuario] 
+            WHERE usuario LIKE @usuario + '%' 
             ORDER BY usuario";
 
         private string queryLogin = @"
-            SELECT FROM [Usuario] 
+            SELECT * FROM [Usuario] 
             WHERE usuario = @usuario AND contraseña = @contraseña;
         ";
 
         private string queryListID = @"
-            SELECT FROM [Usuario] 
+            SELECT * FROM [Usuario] 
             WHERE idUsuario = @idUsuario
         ";
 
