@@ -639,6 +639,8 @@ namespace Metodos
 
             try
             {
+                Conexion.ConexionSql.Open();
+
                 using SqlCommand comm = new SqlCommand(queryListCountry, Conexion.ConexionSql);
 
                 using SqlDataReader reader = comm.ExecuteReader();

@@ -28,7 +28,7 @@ namespace HumanResourcesSM.Windows
         {
             InitializeComponent();
 
-            SeleccionFrm frm = new SeleccionFrm();
+            PagoFrm frm = new PagoFrm();
             ContentFrame.Content = frm;
         }
 
@@ -51,7 +51,7 @@ namespace HumanResourcesSM.Windows
             switch (index)
             {
                 case 0:
-                    SeleccionFrm frm = new SeleccionFrm();
+                    PagoFrm frm = new PagoFrm();
                     ContentFrame.Content = frm;
                     break;
                 case 1:

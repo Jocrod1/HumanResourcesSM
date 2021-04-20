@@ -30,7 +30,8 @@ namespace HumanResourcesSM.Windows
 
         private void BtnSeleccionarEmpleado_Click(object sender, RoutedEventArgs e)
         {
-
+            PagoSeleccionVista Frm = new PagoSeleccionVista(this);
+            Frm.ShowDialog();
         }
 
         private void BtnAccept_Click(object sender, RoutedEventArgs e)
