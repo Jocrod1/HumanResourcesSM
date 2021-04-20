@@ -90,6 +90,67 @@ namespace Metodos
             WHERE p.numeroReferencia = @numeroReferencia
             ORDER BY p.numeroReferencia;
         ";
+
+        private string queryListEmployee = @"
+            SELECT 
+                e.idEmpleado,
+                (e.apellido + ' ' + e.nombre) AS NombreCompleto, 
+				d.nombre,
+                ISNULL(c.sueldo, 0) AS sueldoFinal, 
+				ISNULL((
+					SELECT TOP 1
+						montoTotal
+					FROM [Pago]
+					ORDER BY idPago DESC), 0) AS ultimoPago,
+				ISNULL((
+					SELECT TOP 1
+						periodoInicio
+					FROM [Pago]
+					ORDER BY idPago DESC), null) AS ultimoPeriodoInicio,
+				ISNULL((
+					SELECT TOP 1
+						periodoFinal
+					FROM [Pago]
+					ORDER BY idPago DESC), null) AS ultimoPeriodoFinal,
+				e.status
+            FROM [Empleado] e
+				INNER JOIN [Contrato] c ON e.idEmpleado = c.idEmpleado
+				INNER JOIN [Departamento] d ON e.idDepartamento = d.idDepartamento
+            WHERE e.nombre LIKE @nombre + '%' 
+            ORDER BY e.nombre
+        ";
+
+        private string queryListEmpleyeeDetail = @"
+            SELECT 
+				e.idEmpleado,
+                e.nombre, 
+				e.apellido,
+                ISNULL(c.sueldo, 0) AS sueldo, 
+				d.nombre,
+				e.email,
+				e.telefono,
+				ISNULL((
+					SELECT TOP 1
+						fechaPago
+					FROM [Pago]
+					ORDER BY idPago DESC), null) AS ultimoPagoFecha,
+				ISNULL((
+					SELECT TOP 1
+						periodoInicio
+					FROM [Pago]
+					ORDER BY idPago DESC), null) AS ultimoPeriodoInicio,
+				ISNULL((
+					SELECT TOP 1
+						periodoFinal
+					FROM [Pago]
+					ORDER BY idPago DESC), null) AS ultimoPeriodoFinal,
+				e.status
+            FROM [Empleado] e
+				INNER JOIN [Contrato] c ON e.idEmpleado = c.idEmpleado
+				INNER JOIN [Departamento] d ON e.idDepartamento = d.idDepartamento
+            WHERE e.idEmpleado = @idEmpleado 
+            ORDER BY e.idEmpleado
+        ";
         #endregion
 
 
@@ -221,5 +282,87 @@ namespace Metodos
             return ListaGenerica;
 
         }
+
+
+        public List<DEmpleado> MostrarEmpleado(string Nombre)
+        {
+            List<DEmpleado> ListaGenerica = new List<DEmpleado>();
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryListEmployee, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@nombre", Nombre);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    string periodoPago;
+                    if (reader.GetDateTime(5) == null || reader.GetDateTime(6) == null)
+                        periodoPago = "No existen Períodos de Pago";
+                    else 
+                        periodoPago = (reader.GetDateTime(5) - reader.GetDateTime(6)).ToString();
+
+                    ListaGenerica.Add(new DEmpleado
+                    {
+                        idEmpleado = reader.GetInt32(0),
+                        nombre = reader.GetString(1),
+                        nombreDepartamento = reader.GetString(2),
+                        sueldo = (double)reader.GetDecimal(3),
+                        ultimoPago = (double)reader.GetDecimal(4),
+                        periodo = periodoPago,
+                        status = reader.GetInt32(7)
+                    });
+                }
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+        }
+
+
+        public List<DEmpleado> MostrarEmpleadoDetalle(string IdEmpleado)
+        {
+            List<DEmpleado> ListaGenerica = new List<DEmpleado>();
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryListEmpleyeeDetail, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    string periodoPago;
+                    if (reader.GetDateTime(8) == null || reader.GetDateTime(9) == null)
+                        periodoPago = "No existen Períodos de Pago";
+                    else
+                        periodoPago = (reader.GetDateTime(8) - reader.GetDateTime(9)).ToString();
+
+                    ListaGenerica.Add(new DEmpleado
+                    {
+                        idEmpleado = reader.GetInt32(0),
+                        nombre = reader.GetString(1),
+                        apellido = reader.GetString(2),
+                        sueldo = (double)reader.GetDecimal(3),
+                        nombreDepartamento = reader.GetString(4),
+                        email = reader.GetString(5),
+                        telefono = reader.GetString(6),
+                        ultimoPagoFecha = reader.GetDateTime(7),
+                        periodo = periodoPago,
+                        status = reader.GetInt32(10)
+                    });
+                }
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+        }
+
     }
 }

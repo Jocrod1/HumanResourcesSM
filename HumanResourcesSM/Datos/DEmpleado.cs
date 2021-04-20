@@ -133,6 +133,35 @@ namespace Datos
             set { _NombreDepartamento = value; }
         }
 
+        private double _Sueldo;
+        public double sueldo
+        {
+            get { return _Sueldo; }
+            set { _Sueldo = value; }
+        }
+
+        private double _UltimoPago;
+        public double ultimoPago
+        {
+            get { return _UltimoPago; }
+            set { _UltimoPago = value; }
+        }
+
+        private string _Periodo;
+        public string periodo
+        {
+            get { return _Periodo; }
+            set { _Periodo = value; }
+        }
+
+
+        private DateTime _UltimoPagoFecha;
+        public DateTime ultimoPagoFecha
+        {
+            get { return _UltimoPagoFecha; }
+            set { _UltimoPagoFecha = value; }
+        }
+
         public DEmpleado()
         {
 
