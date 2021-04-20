@@ -62,7 +62,7 @@ namespace HumanResourcesSM.Windows
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var resp = Metodos.MostrarIdioma("");
+            var resp = Metodos.MostrarIdioma();
 
             foreach(DIdioma item in resp)
             {

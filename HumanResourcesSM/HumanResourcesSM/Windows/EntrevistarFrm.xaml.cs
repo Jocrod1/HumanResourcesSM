@@ -44,8 +44,6 @@ namespace HumanResourcesSM.Windows
 
             var Empleado = SelMetodo.EmpleadoEntrevista()[0];
 
-            Console.WriteLine("Hola");
-
             var DatosSeleccion = SelMetodo.EncontrarSeleccion(Empleado.idEmpleado)[0];
 
             EmpleadoEntrevistado = Empleado;

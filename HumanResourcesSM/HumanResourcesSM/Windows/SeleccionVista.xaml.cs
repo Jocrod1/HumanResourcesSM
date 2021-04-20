@@ -56,7 +56,7 @@ namespace HumanResourcesSM.Windows
         {
             MSeleccion Metd = new MSeleccion();
 
-            var resp = Metd.MostrarPaises("");
+            var resp = Metd.MostrarPaises();
 
             CbPaisNac.ItemsSource = resp;
             CbPaisNac.DisplayMemberPath = "Pais";

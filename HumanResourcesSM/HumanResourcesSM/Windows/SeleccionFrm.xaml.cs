@@ -45,10 +45,10 @@ namespace HumanResourcesSM.Windows
             fillData();
             if (UForm == null)
                 return;
-            var resp = Metodos.Insertar(UForm.empleado,
-                                        UForm.seleccion,
-                                        UForm.Idiomas,
-                                        UForm.Educacion);
+            var resp = Metodos.InsertarEmpleado(UForm.empleado,
+                                                UForm.seleccion,
+                                                UForm.Idiomas,
+                                                UForm.Educacion);
             MessageBox.Show(resp);
             if(resp == "OK")
             {
@@ -118,7 +118,7 @@ namespace HumanResourcesSM.Windows
         {
             MSeleccion Metd = new MSeleccion();
 
-            var resp = Metd.MostrarPaises("");
+            var resp = Metd.MostrarPaises();
 
             CbPaisNac.ItemsSource = resp;
             CbPaisNac.DisplayMemberPath = "Pais";

@@ -64,7 +64,7 @@ namespace HumanResourcesSM.Windows
                     ContentFrame.Content = frm1;
                     break;
                 case 2:
-                    TipoTramiteDG frm = new TipoTramiteDG();
+                    AdministracionMenu frm = new AdministracionMenu();
                     ContentFrame.Content = frm;
                     break;
                 case 3:

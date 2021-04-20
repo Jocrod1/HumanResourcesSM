@@ -46,12 +46,21 @@ namespace Metodos
                 d.concepto,
                 d.tipoDeuda, 
                 d.status 
-            FROM [Deuda] d 
-                INNER JOIN [Empleado] e ON d.idEmpleado = e.idEmpleado
-                INNER JOIN [Departamento] de ON de.idDepartamento = e.idDepartamento
-            WHERE e.idEmpleado = @idEmpleado AND d.status LIKE @status + '%' AND d.status != 0
-            ORDER BY d.idDeuda;
+            FROM [deuda] d 
+                INNER JOIN [empleado] e ON d.idEmpleado = e.idEmpleado
+                INNER JOIN [departamento] de ON de.idDepartamento = e.idDepartamento
+            WHERE e.idEmpleado LIKE @idEmpleado AND d.status LIKE @status AND d.status != 0
+            ORDER BY d.idDeuda
         ";
+
+        //mostrar
+        private string queryGetDebt = @"
+            SELECT 
+                *
+            FROM [deuda] d 
+            WHERE d.idDeuda = @idDeuda 
+        ";
+
         #endregion
 
         public string Insertar(List<DDeuda> Detalle)
@@ -126,6 +135,38 @@ namespace Metodos
                         concepto = reader.GetString(6),
                         tipoDeuda = reader.GetInt32(7),
                         status = reader.GetInt32(8)
+                    });
+                }
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+        }
+
+        public List<DDeuda> Encontrar(int idDeuda)
+        {
+            List<DDeuda> ListaGenerica = new List<DDeuda>();
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryGetDebt, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idDeuda", idDeuda);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListaGenerica.Add(new DDeuda
+                    {
+                        idDeuda = reader.GetInt32(0),
+                        idEmpleado = reader.GetInt32(1),
+                        monto = (double)reader.GetDecimal(2),
+                        pagado = (double)reader.GetDecimal(3),
+                        concepto = reader.GetString(4),
+                        tipoDeuda = reader.GetInt32(5),
+                        status = reader.GetInt32(6)
                     });
                 }
             }

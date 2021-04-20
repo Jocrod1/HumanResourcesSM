@@ -301,8 +301,8 @@ namespace Metodos
                     string periodoPago;
                     if (reader.GetDateTime(5) == null || reader.GetDateTime(6) == null)
                         periodoPago = "No existen Períodos de Pago";
-                    else 
-                        periodoPago = (reader.GetDateTime(5) - reader.GetDateTime(6)).ToString();
+                    else
+                        periodoPago = reader.GetDateTime(5) + " - " + reader.GetDateTime(6);
 
                     ListaGenerica.Add(new DEmpleado
                     {

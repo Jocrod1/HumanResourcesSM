@@ -49,11 +49,40 @@ namespace Datos
             set { _TipoDeuda = value; }
         }
 
+        public string tipoDeudaString
+        {
+            get
+            {
+                if (tipoDeuda == 0)
+                {
+                    return "Bonificación";
+                }
+                else if (tipoDeuda == 1)
+                {
+                    return "Deducción";
+                }
+                else return "ERROR";
+            }
+        }
+
+
         private int _Status;
         public int status
         {
             get { return _Status; }
             set { _Status = value; }
+        }
+        public string statusString
+        {
+            get {
+                if (status == 1)
+                    return "No Pagado";
+                else if (status == 2)
+                    return "Pagado";
+                else if (status == 0)
+                    return "Anulado";
+                else return "ERROR";
+            }
         }
 
         private string _Cedula;

@@ -75,6 +75,12 @@
     <Compile Include="Windows\ContratoFrm.xaml.cs">
       <DependentUpon>ContratoFrm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\AdministracionMenu.xaml.cs">
+      <DependentUpon>AdministracionMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PagoSeleccionVista.xaml.cs">
+      <DependentUpon>PagoSeleccionVista.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\MetaVista.xaml.cs">
       <DependentUpon>MetaVista.xaml</DependentUpon>
     </Compile>
@@ -98,6 +104,12 @@
     </Compile>
     <Compile Include="Windows\PagoFrm.xaml.cs">
       <DependentUpon>PagoFrm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\DeudaDG.xaml.cs">
+      <DependentUpon>DeudaDG.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\DeudaFrm.xaml.cs">
+      <DependentUpon>DeudaFrm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\TipoMetricaFrm.xaml.cs">
       <DependentUpon>TipoMetricaFrm.xaml</DependentUpon>
@@ -176,6 +188,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Windows\AdministracionMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PagoSeleccionVista.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\MetaVista.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -207,6 +227,14 @@
     <Page Include="Windows\PagoFrm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\DeudaDG.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\DeudaFrm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\TipoMetricaFrm.xaml">
       <Generator>MSBuild:Compile</Generator>
