@@ -44,7 +44,7 @@ namespace Metodos
 
         private string queryListName = @"
             SELECT * FROM [Educacion]
-            WHERE nombreCarrera LIKE @nombreCarrera + '%'
+            WHERE idEmpleado = @idEmpleado
             ORDER BY nombreCarrera;
         ";
 
@@ -113,7 +113,7 @@ namespace Metodos
         }
 
 
-        public List<DEducacion> Mostrar(string NombreCarrera)
+        public List<DEducacion> Mostrar(int idEmpleado)
         {
             List<DEducacion> ListaGenerica = new List<DEducacion>();
 
@@ -122,7 +122,7 @@ namespace Metodos
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryListName, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@nombreCarrera", NombreCarrera);
+                comm.Parameters.AddWithValue("@@idEmpleado", idEmpleado);
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 while (reader.Read())
