@@ -15,7 +15,6 @@ namespace Metodos
         //insertar
         private string queryInsertPay = @"
             INSERT INTO [Pago] (
-                idPago,
                 idEmpleado,
                 fechaPago,
                 banco,
@@ -25,7 +24,7 @@ namespace Metodos
                 periodoFinal,
                 montoTotal,
                 estado
-            ) VALUES (
+            ) VALUES OUTPUT Inserted.idPago (
                 @idPago,
                 @idEmpleado,
                 @fechaPago,
@@ -156,14 +155,11 @@ namespace Metodos
 
         public string Insertar(DPago Pago, List<DDetallePago> DetallePago)
         {
-            string respuesta = "";
-
             try
             {
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryInsertPay, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@idPago", Pago.idPago);
                 comm.Parameters.AddWithValue("@idEmpleado", Pago.idEmpleado);
                 comm.Parameters.AddWithValue("@fechaPago", Pago.fechaPago);
                 comm.Parameters.AddWithValue("@banco", Pago.banco);
@@ -172,12 +168,12 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@periodoInicio", Pago.periodoInicio);
                 comm.Parameters.AddWithValue("@periodoFinal", Pago.periodoFinal);
                 comm.Parameters.AddWithValue("@montoTotal", Pago.montoTotal);
+                int idPago = (int)comm.ExecuteScalar();
 
-                respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingreso el Registro del pago";
+                string respuesta = !String.IsNullOrEmpty(idEmpleado.ToString()) ? "OK" : "No se Ingresó el Registro del Empleado";
 
                 if (!respuesta.Equals("OK")) return "No se ingreso el Registro del pago";
 
-                this.idPago = Convert.ToInt32(comm.Parameters["@idPago"].Value);
                 return InsertarDetallePago(this.idPago, DetallePago);
             }
             catch (SqlException e) { return e.Message; }
