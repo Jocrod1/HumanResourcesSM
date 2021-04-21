@@ -102,6 +102,8 @@ namespace HumanResourcesSM.Windows
             }
 
             var resp = new MPago().Insertar(pago, detallepagos);
+
+            MessageBox.Show(resp);
         }
 
         int HorasTrabajadas = 0;

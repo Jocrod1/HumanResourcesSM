@@ -72,6 +72,9 @@
     <Compile Include="Windows\AjustesMenu.xaml.cs">
       <DependentUpon>AjustesMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\PagoRealizadoVista.xaml.cs">
+      <DependentUpon>PagoRealizadoVista.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ContratoFrm.xaml.cs">
       <DependentUpon>ContratoFrm.xaml</DependentUpon>
     </Compile>
@@ -181,6 +184,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Windows\AjustesMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PagoRealizadoVista.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
