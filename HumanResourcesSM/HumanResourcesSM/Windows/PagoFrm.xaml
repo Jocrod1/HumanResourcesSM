@@ -7,7 +7,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="520" d:DesignWidth="660"
       Title="PagoFrm">
-
+    
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -92,7 +92,7 @@
                 </StackPanel>
                 <TextBlock Text="Bonificaciones" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
                 <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
-                    <StackPanel Orientation="Horizontal" Background="LightGray" x:Name="StackBonificaciones">
+                    <StackPanel Orientation="Horizontal" Background="LightGray" x:Name="StackBonificaciones" Height="90">
                         <Border HorizontalAlignment="Left" BorderBrush="Black" BorderThickness="1" Background="WhiteSmoke" Visibility="Hidden">
                             <StackPanel>
                                 <Border BorderBrush="Black" BorderThickness="0 0 0 1">
@@ -137,8 +137,8 @@
                 </ScrollViewer>
                 <TextBlock Text="Deducciones" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
                 <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Hidden">
-                    <StackPanel Orientation="Horizontal" Background="LightGray" x:Name="StackDeducciones">
-                        <Border HorizontalAlignment="Left" BorderBrush="Black" BorderThickness="1" Background="WhiteSmoke" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal" Background="LightGray" x:Name="StackDeducciones" Height="90">
+                        <Border HorizontalAlignment="Left" BorderBrush="Black" BorderThickness="1" Background="WhiteSmoke" Visibility="Hidden">
                             <StackPanel>
                                 <StackPanel>
                                     <Border BorderBrush="Black" BorderThickness="0 0 0 1">

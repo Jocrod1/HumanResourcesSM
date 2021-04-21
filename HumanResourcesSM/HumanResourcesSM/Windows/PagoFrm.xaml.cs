@@ -39,6 +39,30 @@ namespace HumanResourcesSM.Windows
             );
         }
 
+        void limpiar()
+        {
+            BordEmpleado.Visibility = Visibility.Collapsed;
+
+            EmpleadoSeleccionado = null;
+
+            Deudas.Clear();
+            modelo.Clear();
+            StackBonificaciones.Children.Clear();
+            StackDeducciones.Children.Clear();
+
+            Sueldo = Bonificaciones = Deducciones = Total = 0;
+
+            txtHorasTrabajadas.Text = "0";
+
+            txtMontoSueldo.Text = Sueldo.ToString("0.00") + " €";
+            txtMontoBonificaciones.Text = Bonificaciones.ToString("0.00") + " €";
+            txtMontoDeducciones.Text = "-" + Deducciones.ToString("0.00") + " €";
+            txtMontoTotal.Text = Total.ToString("0.00") + " €";
+
+            
+
+        }
+
         private void BtnSeleccionarEmpleado_Click(object sender, RoutedEventArgs e)
         {
             PagoSeleccionVista Frm = new PagoSeleccionVista(this);
@@ -81,8 +105,7 @@ namespace HumanResourcesSM.Windows
                         PagoData.periodoInicio,
                         PagoData.periodoFinal,
                         Total,
-                        1
-                        );
+                        1);
 
             List<DDetallePago> detallepagos = new List<DDetallePago>();
             detallepagos.Add(
@@ -93,17 +116,21 @@ namespace HumanResourcesSM.Windows
                 if (!item.Enabled)
                     continue;
 
+                double multiplier = item.deuda.tipoDeuda == 0 ? 1 : -1;
+
                 detallepagos.Add(
                     new DDetallePago(0, 0,
                                      item.deuda.idDeuda,
                                      item.deuda.concepto,
-                                     item.Pagando)
+                                     item.Pagando * multiplier)
                 );
             }
 
             var resp = new MPago().Insertar(pago, detallepagos);
 
             MessageBox.Show(resp);
+
+            limpiar();
         }
 
         int HorasTrabajadas = 0;
@@ -156,6 +183,8 @@ namespace HumanResourcesSM.Windows
             if (EmpleadoSeleccionado == null)
                 return;
 
+            Sueldo = Bonificaciones = Deducciones = Total = 0;
+
             Sueldo = EmpleadoSeleccionado.sueldo * HorasTrabajadas;
 
             foreach(var item in modelo)
@@ -186,6 +215,8 @@ namespace HumanResourcesSM.Windows
 
         List<DDeuda> Deudas = new List<DDeuda>();
         List<ModeloDetallePago> modelo = new List<ModeloDetallePago>();
+
+        
 
         void ConstruirDeudas()
         {

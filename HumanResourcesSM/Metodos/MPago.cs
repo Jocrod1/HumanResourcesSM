@@ -43,7 +43,7 @@ namespace Metodos
                 idPago,
                 idDeuda,
                 concepto,
-                subtotal
+                subtotalItem
             ) VALUES (
                 @idPago,
                 @idDeuda,
@@ -188,9 +188,10 @@ namespace Metodos
 
             foreach (DDetallePago det in DetallePago)
             {
+
                 using SqlCommand comm = new SqlCommand(queryInsertPayDetail, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@idPago", IdPago);
-                comm.Parameters.AddWithValue("@idDeuda", DetallePago[i].idDeuda == 0 ? DetallePago[i].idDeuda : DBNull.Value);
+                comm.Parameters.AddWithValue("@idDeuda", DetallePago[i].idDeuda == 0 ? DBNull.Value : DetallePago[i].idDeuda );
                 comm.Parameters.AddWithValue("@concepto", DetallePago[i].concepto);
                 comm.Parameters.AddWithValue("@subTotal", DetallePago[i].subTotal);
 
@@ -211,7 +212,7 @@ namespace Metodos
         private string ActualizarDeuda(int IdDeuda, double MontoDeuda)
         {
             using SqlCommand comm = new SqlCommand(queryUpdateDebt, Conexion.ConexionSql);
-            comm.Parameters.AddWithValue("@pagado", MontoDeuda);
+            comm.Parameters.AddWithValue("@pagado", Math.Abs(MontoDeuda));
             comm.Parameters.AddWithValue("@idDeuda", IdDeuda);
 
             string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó la Deuda";
