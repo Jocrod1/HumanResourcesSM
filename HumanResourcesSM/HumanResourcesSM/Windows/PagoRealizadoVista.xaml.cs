@@ -35,11 +35,11 @@ namespace HumanResourcesSM.Windows
 
 
         public TypeForm Type;
-        public DContrato DataFill;
+        public DPago DataFill;
 
-        public DContrato UForm;
+        public DPago UForm;
 
-        public MContrato Metodos = new MContrato();
+        public MPago Metodos = new MPago();
 
         public PagoFrm ParentFrm;
 
@@ -65,13 +65,16 @@ namespace HumanResourcesSM.Windows
             DateTime PeriodoInicio = CbPeriodoInicio.SelectedDate ?? DateTime.Now.AddYears(1);
             DateTime PeriodoFinal = CbPeriodoFinal.SelectedDate ?? DateTime.Now.AddYears(1);
 
-            UForm = new DContrato(0,
-                                  0,
-                                  DateTime.Now,
-                                  "",
-                                  FechaCulminacion,
-                                  Sueldo,
-                                  HorasSemanales);
+            UForm = new DPago(0,
+                              0,
+                              DateTime.Now,
+                              Banco,
+                              Referencia,
+                              0,
+                              PeriodoInicio,
+                              PeriodoFinal,
+                              0,
+                              1);
         }
 
         void Create()
@@ -80,7 +83,7 @@ namespace HumanResourcesSM.Windows
             if (UForm == null)
                 return;
 
-            ParentFrm.RegistrarContrato(UForm);
+            ParentFrm.RealizarPago(UForm);
 
             this.DialogResult = true;
             this.Close();
@@ -89,34 +92,56 @@ namespace HumanResourcesSM.Windows
 
         private void CbPeriodoInicio_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (CbPeriodoInicio.SelectedDate != null)
+            {
+                PlacePeriodoInicio.Text = "";
 
+                CbPeriodoFinal.DisplayDateStart = CbPeriodoInicio.SelectedDate?.Date;
+            }
+            else
+            {
+                PlacePeriodoInicio.Text = "Periodo Inicio";
+
+                CbPeriodoFinal.DisplayDateStart = null;
+            }
         }
 
         private void CbPeriodoFinal_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (CbPeriodoFinal.SelectedDate != null)
+            {
+                PlacePeriodoFinal.Text = "";
 
+                CbPeriodoInicio.DisplayDateEnd = CbPeriodoFinal.SelectedDate?.Date;
+            }
+            else
+            {
+                PlacePeriodoFinal.Text = "Periodo Final";
+
+                CbPeriodoInicio.DisplayDateEnd = null;
+            }
         }
 
 
         #region Validation
         bool Validate()
         {
-            if (txtSueldo.txt.Text == "")
+            if (txtBanco.txt.Text == "")
             {
-                MessageBox.Show("Debes llenar el Campo Sueldo!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtSueldo.txt.Focus();
+                MessageBox.Show("Debes llenar el Campo Banco!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtBanco.txt.Focus();
                 return true;
             }
-            if (txtHorasSemanales.txt.Text == "")
+            if (txtReferencia.txt.Text == "")
             {
-                MessageBox.Show("Debes llenar el Campo de Horas Semanales!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtHorasSemanales.txt.Focus();
+                MessageBox.Show("Debes llenar el Campo Referencia!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtReferencia.txt.Focus();
                 return true;
             }
-            if (CbFechaCulminacion.SelectedDate == null)
+            if (CbPeriodoInicio.SelectedDate == null || CbPeriodoFinal.SelectedDate == null)
             {
-                MessageBox.Show("Debes Seleccionar una Fecha de Culminación de Contrato!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                CbFechaCulminacion.Focus();
+                MessageBox.Show("Debes Seleccionar un periodo!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                CbPeriodoInicio.Focus();
                 return true;
             }
 

@@ -47,7 +47,61 @@ namespace HumanResourcesSM.Windows
 
         private void BtnAccept_Click(object sender, RoutedEventArgs e)
         {
+            if(EmpleadoSeleccionado == null)
+            {
+                return;
+            }
+            if(HorasTrabajadas == 0)
+            {
+                return;
+            }
 
+            PagoRealizadoVista frm = new PagoRealizadoVista(this);
+            frm.ShowDialog();
+ 
+        }
+
+        public void RealizarPago(DPago PagoData)
+        {
+            if (EmpleadoSeleccionado == null)
+            {
+                return;
+            }
+            if (HorasTrabajadas == 0)
+            {
+                return;
+            }
+
+            DPago pago = new DPago(0,
+                        Menu.ActUsuario.idUsuario,
+                        DateTime.Now,
+                        PagoData.banco,
+                        PagoData.numeroReferencia,
+                        HorasTrabajadas,
+                        PagoData.periodoInicio,
+                        PagoData.periodoFinal,
+                        Total,
+                        1
+                        );
+
+            List<DDetallePago> detallepagos = new List<DDetallePago>();
+            detallepagos.Add(
+                new DDetallePago(0, 0, 0, "Sueldo", Sueldo)
+            );
+            foreach (var item in modelo)
+            {
+                if (!item.Enabled)
+                    continue;
+
+                detallepagos.Add(
+                    new DDetallePago(0, 0,
+                                     item.deuda.idDeuda,
+                                     item.deuda.concepto,
+                                     item.Pagando)
+                );
+            }
+
+            var resp = new MPago().Insertar(pago, detallepagos);
         }
 
         int HorasTrabajadas = 0;
@@ -93,12 +147,14 @@ namespace HumanResourcesSM.Windows
             RefreshMoney();
         }
 
+        double Sueldo = 0, Bonificaciones = 0, Deducciones = 0, Total = 0;
+
         void RefreshMoney()
         {
+            if (EmpleadoSeleccionado == null)
+                return;
 
-            double Sueldo = EmpleadoSeleccionado.sueldo * HorasTrabajadas;
-
-            double Bonificaciones = 0, Deducciones = 0;
+            Sueldo = EmpleadoSeleccionado.sueldo * HorasTrabajadas;
 
             foreach(var item in modelo)
             {
@@ -115,7 +171,7 @@ namespace HumanResourcesSM.Windows
                 }
             }
 
-            double Total = Sueldo + Bonificaciones - Deducciones;
+            Total = Sueldo + Bonificaciones - Deducciones;
 
             txtMontoSueldo.Text = Sueldo.ToString("0.00") + " €";
             txtMontoBonificaciones.Text = Bonificaciones.ToString("0.00") + " €";
