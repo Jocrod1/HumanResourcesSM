@@ -24,7 +24,8 @@ namespace Metodos
                 periodoFinal,
                 montoTotal,
                 estado
-            ) VALUES OUTPUT Inserted.idPago (
+            ) OUTPUT Inserted.idPago 
+            VALUES (
                 @idEmpleado,
                 @fechaPago,
                 @banco,
