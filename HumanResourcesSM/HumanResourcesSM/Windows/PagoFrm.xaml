@@ -21,7 +21,7 @@
             <StackPanel Margin="50 10">
                 <StackPanel>
                     <TextBlock Text="Empleado" FontSize="17" FontWeight="Bold"/>
-                    <Border BorderBrush="Gray" BorderThickness=".5" x:Name="BordMeta" Visibility="Visible">
+                    <Border BorderBrush="Gray" BorderThickness=".5" x:Name="BordEmpleado" Visibility="Collapsed">
                         <StackPanel>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -69,11 +69,11 @@
                                         </StackPanel>
                                         <StackPanel Grid.Column="0" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5">
                                             <TextBlock Text="Fecha Ultimo Pago" FontWeight="Bold" FontSize="11"/>
-                                            <TextBlock x:Name="txtPaisNac" Text="12/01/2021" FontSize="10"  Margin="7 0 0 0" TextTrimming="CharacterEllipsis"/>
+                                            <TextBlock x:Name="txtUltimoPago" Text="12/01/2021" FontSize="10"  Margin="7 0 0 0" TextTrimming="CharacterEllipsis"/>
                                         </StackPanel>
                                         <StackPanel Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5">
                                             <TextBlock Text="Periodo Ultimo Pago" FontWeight="Bold" FontSize="11"/>
-                                            <TextBlock x:Name="txtEstadoLegal" Text="01/01/2021 - 30/01/2021" FontSize="10"  Margin="7 0 0 0" TextTrimming="CharacterEllipsis"/>
+                                            <TextBlock x:Name="TxtUltimoPeriodo" Text="01/01/2021 - 30/01/2021" FontSize="10"  Margin="7 0 0 0" TextTrimming="CharacterEllipsis"/>
                                         </StackPanel>
                                     </Grid>
                                 </Border>
@@ -88,46 +88,46 @@
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Center" Width="200" Margin="0 5">
                     <TextBlock Text="Horas trabajadas" FontSize="17" FontWeight="Bold" HorizontalAlignment="Center"/>
-                    <TextBox Text="0" HorizontalContentAlignment="Right" FontSize="15" Width="70" LostFocus="TextBox_LostFocus"/>
+                    <TextBox Name="txtHorasTrabajadas" Text="0" HorizontalContentAlignment="Right" FontSize="15" Width="70" LostFocus="TextBox_LostFocus"/>
                 </StackPanel>
                 <TextBlock Text="Bonificaciones" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
                 <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
                     <StackPanel Orientation="Horizontal" Background="LightGray" x:Name="StackBonificaciones">
-                        <Border HorizontalAlignment="Left" BorderBrush="Black" BorderThickness="1" Background="WhiteSmoke" Visibility="Visible">
+                        <Border HorizontalAlignment="Left" BorderBrush="Black" BorderThickness="1" Background="WhiteSmoke" Visibility="Hidden">
                             <StackPanel>
                                 <Border BorderBrush="Black" BorderThickness="0 0 0 1">
                                     <Grid>
                                         <CheckBox IsChecked="True"/>
-                                        <TextBlock Text="'Horas Trabajadas'" HorizontalAlignment="Center" FontWeight="Bold" Margin="10 5"/>
+                                        <TextBlock Text="'Horas Trabajadas'" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" Margin="10 5"/>
                                     </Grid>
                                 </Border>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="180"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <Border BorderBrush="Black" BorderThickness="0 0 1 0">
                                         <StackPanel Margin="5">
                                             <Grid>
-                                                <TextBlock Text="Inicial" FontSize="8" FontWeight="Bold" Foreground="Gray"/>
-                                                <TextBlock Text="100.00 €" FontSize="8" HorizontalAlignment="Right" FontWeight="Bold"/>
+                                                <TextBlock Text="Inicial" FontSize="12" FontWeight="Bold" Foreground="Gray"/>
+                                                <TextBlock Text="100.00 €" FontSize="12" HorizontalAlignment="Right" FontWeight="Bold"/>
                                             </Grid>
                                             <Grid>
-                                                <TextBlock Text="Pagado" FontSize="8" FontWeight="Bold" Foreground="Gray"/>
-                                                <TextBlock Text="80.00 €" FontSize="8" HorizontalAlignment="Right" FontWeight="Bold"/>
+                                                <TextBlock Text="Pagado" FontSize="12" FontWeight="Bold" Foreground="Gray"/>
+                                                <TextBlock Text="80.00 €" FontSize="12" HorizontalAlignment="Right" FontWeight="Bold"/>
                                             </Grid>
                                             <Separator Margin="0"/>
                                             <Grid>
-                                                <TextBlock Text="Restante" FontSize="8" FontWeight="Bold" />
-                                                <TextBlock Text="20.00 €" FontSize="8" HorizontalAlignment="Right" FontWeight="Bold"/>
+                                                <TextBlock Text="Restante" FontSize="12" FontWeight="Bold" />
+                                                <TextBlock Text="20.00 €" FontSize="12" HorizontalAlignment="Right" FontWeight="Bold"/>
                                             </Grid>
                                         </StackPanel>
                                     </Border>
                                     <StackPanel Grid.Column="1" Margin="5 3">
-                                        <ComboBox FontSize="9" Text="Cantidad Específica" Height="20" Width="90" Padding="0" Margin="0 0 0 3"/>
+                                        <ComboBox FontSize="15" Text="Cantidad Específica" Width="130" Padding="0" Margin="0 0 0 3"/>
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" IsEnabled="False">
-                                            <TextBox FontSize="9" Text="20.00" Height="19" Width="60" Padding="0" VerticalAlignment="Center" HorizontalContentAlignment="Right" FontWeight="Bold"/>
-                                            <TextBlock Text="€" FontSize="14" FontWeight="Bold" VerticalAlignment="Center" Margin="3 0 0 0" Foreground="Gray"/>
+                                            <TextBox FontSize="12" Text="20.00" Width="60" Padding="0" VerticalAlignment="Center" HorizontalContentAlignment="Right" FontWeight="Bold" />
+                                            <TextBlock Text="€" FontSize="15" FontWeight="Bold" VerticalAlignment="Center" Margin="3 0 0 0" Foreground="Gray"/>
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>
@@ -136,9 +136,9 @@
                     </StackPanel>
                 </ScrollViewer>
                 <TextBlock Text="Deducciones" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
+                <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Hidden">
                     <StackPanel Orientation="Horizontal" Background="LightGray" x:Name="StackDeducciones">
-                        <Border HorizontalAlignment="Left" BorderBrush="Black" BorderThickness="1" Background="WhiteSmoke" Visibility="Hidden">
+                        <Border HorizontalAlignment="Left" BorderBrush="Black" BorderThickness="1" Background="WhiteSmoke" Visibility="Collapsed">
                             <StackPanel>
                                 <StackPanel>
                                     <Border BorderBrush="Black" BorderThickness="0 0 0 1">
@@ -183,20 +183,20 @@
                 <StackPanel Margin="10 10">
                     <Grid>
                         <TextBlock Text="Sueldo" FontWeight="bold" FontSize="12" Foreground="Gray"/>
-                        <TextBlock Text="0.00 €" FontWeight="bold" FontSize="15" Foreground="Black" HorizontalAlignment="Right"/>
+                        <TextBlock x:Name="txtMontoSueldo" Text="0.00 €" FontWeight="bold" FontSize="15" Foreground="Black" HorizontalAlignment="Right"/>
                     </Grid>
                     <Grid>
                         <TextBlock Text="Bonificaciones" FontWeight="bold" FontSize="12" Foreground="Gray"/>
-                        <TextBlock Text="0.00 €" FontWeight="bold" FontSize="15" Foreground="Black" HorizontalAlignment="Right"/>
+                        <TextBlock x:Name="txtMontoBonificaciones" Text="0.00 €" FontWeight="bold" FontSize="15" Foreground="Black" HorizontalAlignment="Right"/>
                     </Grid>
                     <Grid>
                         <TextBlock Text="Deducciones" FontWeight="bold" FontSize="12" Foreground="Gray"/>
-                        <TextBlock Text="-0.00 €" FontWeight="bold" FontSize="15" Foreground="Black" HorizontalAlignment="Right"/>
+                        <TextBlock x:Name="txtMontoDeducciones" Text="-0.00 €" FontWeight="bold" FontSize="15" Foreground="Black" HorizontalAlignment="Right"/>
                     </Grid>
                     <Separator Margin="0"/>
                     <Grid>
                         <TextBlock Text="Total" FontWeight="bold" FontSize="14" Foreground="Black"/>
-                        <TextBlock Text="0.00 €" FontWeight="bold" FontSize="16" Foreground="Black" HorizontalAlignment="Right"/>
+                        <TextBlock x:Name="txtMontoTotal" Text="0.00 €" FontWeight="bold" FontSize="16" Foreground="Black" HorizontalAlignment="Right"/>
                     </Grid>
 
                 </StackPanel>

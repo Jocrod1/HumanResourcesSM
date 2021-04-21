@@ -1,0 +1,45 @@
+﻿<Window x:Class="HumanResourcesSM.Windows.PagoRealizadoVista"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HumanResourcesSM.Windows"
+        mc:Ignorable="d"
+        Title="DepartamentoFrm" Height="360" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
+    <Grid Background="WhiteSmoke">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid Name="BgTitulo" Grid.Row="0" Background="#248232">
+            <TextBlock Name="txtTitulo"
+                       Text="Registrar Pago" 
+                       Foreground="White"
+                       HorizontalAlignment="Left"
+                       FontWeight="Bold"
+                       FontSize="25"
+                       Margin="20 30 0 15"/>
+            <!--<Separator VerticalAlignment="Bottom" Foreground="Black" />-->
+        </Grid>
+        <StackPanel Grid.Row="1"  Margin="50 10">
+            <local:UserInputText x:Name="txtBanco" Margin="0 10" FontSize="15" Placeholder="Banco"/>
+            <local:UserInputText x:Name="txtReferencia" Margin="0 10" FontSize="15" Placeholder="Referencia"/>
+            <Grid Margin="0 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Margin="0 0 2 0">
+                    <TextBlock x:Name="PlacePeriodoInicio" Text="Periodo Inicio" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
+                    <DatePicker Name="CbPeriodoInicio" FontSize="15" Focusable="False" SelectedDateChanged="CbPeriodoInicio_SelectedDateChanged" />
+                </Grid>
+                <Grid Margin="2 0 0 0" Grid.Column="1">
+                    <TextBlock x:Name="PlacePeriodoFinal" Text="Periodo Final" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
+                    <DatePicker Name="CbPeriodoFinal" FontSize="15" Focusable="False" SelectedDateChanged="CbPeriodoFinal_SelectedDateChanged" />
+                </Grid>
+            </Grid>
+        </StackPanel>
+        <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Content="Registrar Pago" Margin="0 10" Click="Button_Click" HorizontalAlignment="Center"/>
+    </Grid>
+</Window>

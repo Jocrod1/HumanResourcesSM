@@ -140,6 +140,14 @@ namespace Datos
             set { _Sueldo = value; }
         }
 
+        public string SueldoString
+        {
+            get
+            {
+                return sueldo + "€/h";
+            }
+        }
+
         private double _UltimoPago;
         public double ultimoPago
         {
@@ -155,8 +163,8 @@ namespace Datos
         }
 
 
-        private DateTime _UltimoPagoFecha;
-        public DateTime ultimoPagoFecha
+        private string _UltimoPagoFecha;
+        public string ultimoPagoFecha
         {
             get { return _UltimoPagoFecha; }
             set { _UltimoPagoFecha = value; }

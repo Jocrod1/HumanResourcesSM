@@ -26,6 +26,17 @@ namespace HumanResourcesSM.Windows
         public PagoFrm()
         {
             InitializeComponent();
+
+            txtHorasTrabajadas.KeyDown += new KeyEventHandler(Validaciones.TextBox_KeyDown);
+            txtHorasTrabajadas.KeyDown += new KeyEventHandler(
+                (s,t) =>
+                {
+                    if(t.Key == Key.Enter)
+                    {
+                        BtnAccept.Focus();
+                    }
+                }
+            );
         }
 
         private void BtnSeleccionarEmpleado_Click(object sender, RoutedEventArgs e)
@@ -39,74 +50,210 @@ namespace HumanResourcesSM.Windows
 
         }
 
+        int HorasTrabajadas = 0;
+
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (((TextBox)sender).Text == "")
+                HorasTrabajadas = 0;
+
+            HorasTrabajadas = int.Parse(txtHorasTrabajadas.Text);
+
+
+            ((TextBox)sender).Text = HorasTrabajadas.ToString();
+            RefreshMoney();
+        }
+
+        public DEmpleado EmpleadoSeleccionado;
+
+        public void SetEmpleado(DEmpleado empleado)
+        {
+            BordEmpleado.Visibility = Visibility.Visible;
+
+            EmpleadoSeleccionado = empleado;
+
+            txtNombre.Text = empleado.nombre;
+            txtApellido.Text = empleado.apellido;
+            txtSueldo.Text = empleado.SueldoString;
+            txtDepartamento.Text = empleado.nombreDepartamento;
+
+            txtEmail.Text = empleado.email;
+            txtTelf.Text = empleado.telefono;
+            txtUltimoPago.Text = empleado.ultimoPagoFecha;
+            TxtUltimoPeriodo.Text = empleado.periodo;
+
+            var resp = new MDeuda().MostrarDeudaEmpleado(empleado.idEmpleado, 1);
+
+            Deudas = resp;
+
+            ConstruirDeudas();
+
+            txtHorasTrabajadas.Focus();
+
+            RefreshMoney();
+        }
+
+        void RefreshMoney()
+        {
+
+            double Sueldo = EmpleadoSeleccionado.sueldo * HorasTrabajadas;
+
+            double Bonificaciones = 0, Deducciones = 0;
+
+            foreach(var item in modelo)
+            {
+                if (!item.Enabled)
+                    continue;
+
+                if(item.deuda.tipoDeuda == 0)
+                {
+                    Bonificaciones += item.Pagando;
+                }
+                else
+                {
+                    Deducciones += item.Pagando;
+                }
+            }
+
+            double Total = Sueldo + Bonificaciones - Deducciones;
+
+            txtMontoSueldo.Text = Sueldo.ToString("0.00") + " €";
+            txtMontoBonificaciones.Text = Bonificaciones.ToString("0.00") + " €";
+            txtMontoDeducciones.Text = "-" + Deducciones.ToString("0.00") + " €";
+            txtMontoTotal.Text = Total.ToString("0.00") + " €";
 
         }
 
         //Refresh Bonificaciones y Deducciones
 
         List<DDeuda> Deudas = new List<DDeuda>();
+        List<ModeloDetallePago> modelo = new List<ModeloDetallePago>();
 
-        void RefreshDeuda()
-        {;
+        void ConstruirDeudas()
+        {
+            modelo.Clear();
+
             RefreshBonificaciones(Deudas.FindAll(x => x.tipoDeuda == 0));
             RefreshDeducciones(Deudas.FindAll(x => x.tipoDeuda == 1));
         }
 
         void RefreshBonificaciones(List<DDeuda> Bonificaciones)
         {
-            foreach(DDeuda bonificacion in Bonificaciones)
+            StackBonificaciones.Children.Clear();
+            
+
+            foreach (DDeuda bonificacion in Bonificaciones)
             {
                 StackBonificaciones.Children.Add(ConstruirDeuda(bonificacion));
+                modelo.Add(new ModeloDetallePago(bonificacion, (bonificacion.monto - bonificacion.pagado), true));
             }
         }
 
         void RefreshDeducciones(List<DDeuda> Deducciones)
         {
+            StackDeducciones.Children.Clear();
+
             foreach (DDeuda deduccion in Deducciones)
             {
                 StackDeducciones.Children.Add(ConstruirDeuda(deduccion));
+                modelo.Add(new ModeloDetallePago(deduccion, (deduccion.monto - deduccion.pagado), true));
             }
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             CheckBox chB = (CheckBox)sender;
-            if(chB.IsChecked ?? false)
+            int id = (int)chB.CommandParameter;
+            int index = modelo.FindIndex(x => x.deuda.idDeuda == id);
+
+            if (!(chB.IsChecked ?? false))
             {
                 var parent = VisualTreeHelper.GetParent(chB) as Grid;
                 var Title = parent.Children[1] as TextBlock;
                 Title.Foreground = Brushes.Gray;
+                modelo[index].Enabled = false;
             }
             else
             {
                 var parent = VisualTreeHelper.GetParent(chB) as Grid;
                 var Title = parent.Children[1] as TextBlock;
                 Title.Foreground = Brushes.Black;
+                modelo[index].Enabled = true;
+
             }
+            RefreshMoney();
+
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox CB = (ComboBox)sender;
-            if(CB.SelectedIndex == 0)
-            {
-                var parent = VisualTreeHelper.GetParent(CB) as StackPanel;
-                var PanelInput = parent.Children[1] as StackPanel;
+
+            var parent = VisualTreeHelper.GetParent(CB) as StackPanel;
+            var PanelInput = parent.Children[1] as StackPanel;
+            var MoneyText = PanelInput.Children[1] as TextBlock;
+
+            int id = GetIDFromStackPanel(parent);
+            int index = modelo.FindIndex(x => x.deuda.idDeuda == id);
+
+            if (CB.SelectedIndex == 0)
+            {   
                 PanelInput.IsEnabled = false;
-                var MoneyText = PanelInput.Children[1] as TextBlock;
                 MoneyText.Foreground = Brushes.Gray;
+                modelo[index].Pagando = (modelo[index].deuda.monto - modelo[index].deuda.pagado);
             }
             else
             {
-                var parent = VisualTreeHelper.GetParent(CB) as StackPanel;
-                var PanelInput = parent.Children[1] as StackPanel;
                 PanelInput.IsEnabled = true;
-                var MoneyText = PanelInput.Children[1] as TextBlock;
                 MoneyText.Foreground = Brushes.Black;
+                var MoneyBox = PanelInput.Children[0] as TextBox;
+                modelo[index].Pagando = double.Parse(MoneyBox.Text);
             }
+            RefreshMoney();
+
         }
+
+        private void TextPrecio_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox txt = (TextBox)sender;
+
+            var HorStack = VisualTreeHelper.GetParent(txt) as StackPanel;
+            var parent = VisualTreeHelper.GetParent(HorStack) as StackPanel;
+            int id = GetIDFromStackPanel(parent);
+            int index = modelo.FindIndex(x => x.deuda.idDeuda == id);
+
+            double CantidadEspecifica = 0;
+            if (txt.Text == "")
+                CantidadEspecifica = 0;
+            else
+            {
+                CantidadEspecifica = double.Parse(txt.Text);
+
+                
+                if(CantidadEspecifica < 0 || CantidadEspecifica > modelo[index].deuda.monto)
+                {
+                    //error
+                    CantidadEspecifica = modelo[index].deuda.monto - modelo[index].deuda.pagado;
+                }
+            }
+            txt.Text = CantidadEspecifica.ToString("0.00");
+            modelo[index].Pagando = CantidadEspecifica;
+            RefreshMoney();
+        }
+
+        int GetIDFromStackPanel(StackPanel SP)
+        {
+            var Cuerpo = VisualTreeHelper.GetParent(SP) as Grid;
+            var Marcototal = VisualTreeHelper.GetParent(Cuerpo) as StackPanel;
+            var marctoTitulo = Marcototal.Children[0] as Border;
+            var gridtitulo = marctoTitulo.Child as Grid;
+            CheckBox CB = gridtitulo.Children[0] as CheckBox;
+            int id = (int)CB.CommandParameter;
+
+            return id;
+        }
+
+
 
         Border ConstruirDeuda(DDeuda Deuda)
         {
@@ -126,6 +273,7 @@ namespace HumanResourcesSM.Windows
                 BorderBrush = Brushes.Black,
                 BorderThickness = new Thickness(0, 0, 0, 1)
             };
+            PilarPrincipal.Children.Add(MarcoTitulo);
 
             //Seccion Superior
 
@@ -144,6 +292,7 @@ namespace HumanResourcesSM.Windows
                 Text = Deuda.concepto,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 FontWeight = FontWeights.Bold,
+                FontSize = 15,
                 Margin = new Thickness(10, 5, 10, 5)
             });
             MarcoTitulo.Child = Titulo;
@@ -154,7 +303,7 @@ namespace HumanResourcesSM.Windows
             Cuerpo.ColumnDefinitions.Add(
                 new ColumnDefinition()
                 {
-                    Width = new GridLength(100, GridUnitType.Pixel)
+                    Width = new GridLength(180, GridUnitType.Pixel)
                 }
             );
             Cuerpo.ColumnDefinitions.Add(
@@ -163,6 +312,7 @@ namespace HumanResourcesSM.Windows
                     Width = new GridLength(1, GridUnitType.Star)
                 }
             );
+            PilarPrincipal.Children.Add(Cuerpo);
 
             //Montos
 
@@ -180,12 +330,14 @@ namespace HumanResourcesSM.Windows
             MarcoMontos.Child = PanelMontos;
 
 
+            int FontSizeMontos = 12;
+
             Grid GridMontoInicial = new Grid();
             GridMontoInicial.Children.Add(
                 new TextBlock()
                 {
                     Text = "Inicial",
-                    FontSize = 8,
+                    FontSize = FontSizeMontos,
                     FontWeight = FontWeights.Bold,
                     Foreground = Brushes.Gray
                 }
@@ -194,7 +346,7 @@ namespace HumanResourcesSM.Windows
                 new TextBlock()
                 {
                     Text = Deuda.monto.ToString("0.00") + " €",
-                    FontSize = 8,
+                    FontSize = FontSizeMontos,
                     FontWeight = FontWeights.Bold,
                     HorizontalAlignment = HorizontalAlignment.Right
                 }
@@ -205,7 +357,7 @@ namespace HumanResourcesSM.Windows
                 new TextBlock()
                 {
                     Text = "Pagado",
-                    FontSize = 8,
+                    FontSize = FontSizeMontos,
                     FontWeight = FontWeights.Bold,
                     Foreground = Brushes.Gray
                 }
@@ -214,7 +366,7 @@ namespace HumanResourcesSM.Windows
                 new TextBlock()
                 {
                     Text = Deuda.pagado.ToString("0.00") + " €",
-                    FontSize = 8,
+                    FontSize = FontSizeMontos,
                     FontWeight = FontWeights.Bold,
                     HorizontalAlignment = HorizontalAlignment.Right
                 }
@@ -225,7 +377,7 @@ namespace HumanResourcesSM.Windows
                 new TextBlock()
                 {
                     Text = "Restante",
-                    FontSize = 8,
+                    FontSize = FontSizeMontos,
                     FontWeight = FontWeights.Bold,
                     Foreground = Brushes.Black
                 }
@@ -234,7 +386,7 @@ namespace HumanResourcesSM.Windows
                 new TextBlock()
                 {
                     Text = (Deuda.monto - Deuda.pagado).ToString("0.00") + " €",
-                    FontSize = 8,
+                    FontSize = FontSizeMontos,
                     FontWeight = FontWeights.Bold,
                     HorizontalAlignment = HorizontalAlignment.Right
                 }
@@ -262,14 +414,14 @@ namespace HumanResourcesSM.Windows
 
             ComboBox SeleccionarCantidad = new ComboBox()
             {
-                FontSize = 9,
-                Height = 20,
-                Width = 90,
+                FontSize = 15,
+                Width = 130,
                 Padding = new Thickness(0),
                 Margin = new Thickness(0, 0, 0, 3)
             };
             SeleccionarCantidad.Items.Add("Pagar Todo");
             SeleccionarCantidad.Items.Add("Pagar Cantidad");
+            SeleccionarCantidad.SelectedIndex = 0;
             SeleccionarCantidad.SelectionChanged += new SelectionChangedEventHandler(ComboBox_SelectionChanged);
             CuerpoInputs.Children.Add(SeleccionarCantidad);
 
@@ -280,24 +432,36 @@ namespace HumanResourcesSM.Windows
                 HorizontalAlignment = HorizontalAlignment.Right,
                 IsEnabled = false
             };
-            PanelInputCantidad.Children.Add(
-                new TextBox()
+
+            TextBox textPrecio = new TextBox()
+            {
+                FontSize = 12,
+                Text = (Deuda.monto - Deuda.pagado).ToString("0.00"),
+                Width = 60,
+                Padding = new Thickness(0),
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalContentAlignment = HorizontalAlignment.Right,
+                FontWeight = FontWeights.Bold
+            };
+            textPrecio.LostFocus += new RoutedEventHandler(TextPrecio_LostFocus);
+            textPrecio.KeyDown += new KeyEventHandler(Validaciones.TextBoxValidatePrices);
+            textPrecio.KeyDown += new KeyEventHandler(
+                (s, t) =>
                 {
-                    FontSize = 9,
-                    Text = (Deuda.monto - Deuda.pagado).ToString("0.00"),
-                    Height = 19,
-                    Width = 60,
-                    Padding = new Thickness(0),
-                    VerticalAlignment = VerticalAlignment.Center,
-                    HorizontalContentAlignment = HorizontalAlignment.Right,
-                    FontWeight = FontWeights.Bold
-                }    
+                    if (t.Key == Key.Enter)
+                    {
+                        BtnAccept.Focus();
+                    }
+                }
+            );
+            PanelInputCantidad.Children.Add(
+                textPrecio
             );
             PanelInputCantidad.Children.Add(
                 new TextBlock()
                 {
                     Text = "€",
-                    FontSize = 14,
+                    FontSize = 15,
                     FontWeight = FontWeights.Bold,
                     VerticalAlignment = VerticalAlignment.Center,
                     Margin = new Thickness(3, 0, 0, 0),
@@ -314,6 +478,25 @@ namespace HumanResourcesSM.Windows
             return MarcoPrincipal;
         }
 
+
+        class ModeloDetallePago
+        {
+
+            public ModeloDetallePago()
+            {
+
+            }
+            public ModeloDetallePago(DDeuda deuda, double pagando, bool enabled)
+            {
+                this.deuda = deuda;
+                Pagando = pagando;
+                Enabled = enabled;
+            }
+
+            public DDeuda deuda { get; set; }
+            public double Pagando { get; set; }
+            public bool Enabled { get; set; }
+        }
         
     }
 }

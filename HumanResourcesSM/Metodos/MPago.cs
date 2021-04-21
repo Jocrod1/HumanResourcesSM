@@ -305,8 +305,8 @@ namespace Metodos
                 while (reader.Read())
                 {
                     string periodoPago;
-                    if (reader.GetDateTime(5) == null || reader.GetDateTime(6) == null)
-                        periodoPago = "No existen Períodos de Pago";
+                    if (reader.IsDBNull(5) || reader.IsDBNull(6))
+                        periodoPago = "N/A";
                     else
                         periodoPago = reader.GetDateTime(5) + " - " + reader.GetDateTime(6);
 
@@ -329,7 +329,7 @@ namespace Metodos
         }
 
 
-        public List<DEmpleado> MostrarEmpleadoDetalle(string IdEmpleado)
+        public List<DEmpleado> MostrarEmpleadoDetalle(int IdEmpleado)
         {
             List<DEmpleado> ListaGenerica = new List<DEmpleado>();
 
@@ -344,10 +344,16 @@ namespace Metodos
                 while (reader.Read())
                 {
                     string periodoPago;
-                    if (reader.GetDateTime(8) == null || reader.GetDateTime(9) == null)
-                        periodoPago = "No existen Períodos de Pago";
+                    if (reader.IsDBNull(8) || reader.IsDBNull(9))
+                        periodoPago = "N/A";
                     else
-                        periodoPago = (reader.GetDateTime(8) - reader.GetDateTime(9)).ToString();
+                        periodoPago = reader.GetDateTime(8) + " - " + reader.GetDateTime(9);
+
+                    string ultimopago = "";
+                    if (!reader.IsDBNull(7))
+                        ultimopago = reader.GetDateTime(7).ToShortDateString();
+                    else
+                        ultimopago = "N/A";
 
                     ListaGenerica.Add(new DEmpleado
                     {
@@ -358,7 +364,7 @@ namespace Metodos
                         nombreDepartamento = reader.GetString(4),
                         email = reader.GetString(5),
                         telefono = reader.GetString(6),
-                        ultimoPagoFecha = reader.GetDateTime(7),
+                        ultimoPagoFecha = ultimopago,
                         periodo = periodoPago,
                         status = reader.GetInt32(10)
                     });

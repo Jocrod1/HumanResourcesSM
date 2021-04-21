@@ -51,8 +51,9 @@ namespace HumanResourcesSM.Windows
 
         private void txtSeleccionar_Click(object sender, RoutedEventArgs e)
         {
-            int id = (int)((Button)sender).CommandParameter; 
-
+            int id = (int)((Button)sender).CommandParameter;
+            var resp = Metodos.MostrarEmpleadoDetalle(id)[0];
+            Parentfrm.SetEmpleado(resp);
 
             this.Close();
         }
