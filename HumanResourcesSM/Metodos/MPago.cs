@@ -169,7 +169,7 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@montoTotal", Pago.montoTotal);
                 int idPago = (int)comm.ExecuteScalar();
 
-                string respuesta = !String.IsNullOrEmpty(idPago.ToString()) ? "OK" : "No se Ingresó el Registro del Empleado";
+                string respuesta = !String.IsNullOrEmpty(idPago.ToString()) ? "OK" : "No se Ingresó el Registro del Pago";
 
                 if (!respuesta.Equals("OK")) return "No se ingreso el Registro del pago";
 
