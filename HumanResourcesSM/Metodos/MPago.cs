@@ -25,7 +25,6 @@ namespace Metodos
                 montoTotal,
                 estado
             ) VALUES OUTPUT Inserted.idPago (
-                @idPago,
                 @idEmpleado,
                 @fechaPago,
                 @banco,
@@ -170,11 +169,11 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@montoTotal", Pago.montoTotal);
                 int idPago = (int)comm.ExecuteScalar();
 
-                string respuesta = !String.IsNullOrEmpty(idEmpleado.ToString()) ? "OK" : "No se Ingresó el Registro del Empleado";
+                string respuesta = !String.IsNullOrEmpty(idPago.ToString()) ? "OK" : "No se Ingresó el Registro del Empleado";
 
                 if (!respuesta.Equals("OK")) return "No se ingreso el Registro del pago";
 
-                return InsertarDetallePago(this.idPago, DetallePago);
+                return InsertarDetallePago(idPago, DetallePago);
             }
             catch (SqlException e) { return e.Message; }
             catch (Exception ex) { return ex.Message; }
