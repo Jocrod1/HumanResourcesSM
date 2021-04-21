@@ -122,7 +122,7 @@ namespace Metodos
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryListName, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@@idEmpleado", idEmpleado);
+                comm.Parameters.AddWithValue("@idEmpleado", idEmpleado);
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 while (reader.Read())

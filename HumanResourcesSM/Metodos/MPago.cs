@@ -154,7 +154,7 @@ namespace Metodos
         #endregion
 
 
-        public string Insertar(DPago Pago, List<DDetallePago> DetallePago, List<double> MontoDeuda)
+        public string Insertar(DPago Pago, List<DDetallePago> DetallePago)
         {
             string respuesta = "";
 
@@ -178,14 +178,14 @@ namespace Metodos
                 if (!respuesta.Equals("OK")) return "No se ingreso el Registro del pago";
 
                 this.idPago = Convert.ToInt32(comm.Parameters["@idPago"].Value);
-                return InsertarDetallePago(this.idPago, DetallePago, MontoDeuda);
+                return InsertarDetallePago(this.idPago, DetallePago);
             }
             catch (SqlException e) { return e.Message; }
             catch (Exception ex) { return ex.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
-        private string InsertarDetallePago(int IdPago, List<DDetallePago> DetallePago, List<double> MontoDeuda)
+        private string InsertarDetallePago(int IdPago, List<DDetallePago> DetallePago)
         {
             string respuesta = "";
             int i = 0;
@@ -200,8 +200,11 @@ namespace Metodos
 
                 respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingresaron los detalles del pago";
 
-                if (!respuesta.Equals("OK") || DetallePago[i].idDeuda != 0 || !ActualizarDeuda(DetallePago[i].idDeuda, MontoDeuda[i]).Equals("OK"))
+                if (!respuesta.Equals("OK"))
                     throw new NullReferenceException("Error en el Registro del Detalle del Pago");
+
+                if (DetallePago[i].idDeuda > 0)
+                    respuesta = ActualizarDeuda(DetallePago[i].idDeuda, DetallePago[i].subTotal);
 
                 i++;
             }
@@ -216,9 +219,11 @@ namespace Metodos
             comm.Parameters.AddWithValue("@idDeuda", IdDeuda);
 
             string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó la Deuda";
-            if (respuesta.Equals("OK")) return CompletarDeuda(IdDeuda);
 
-            throw new NullReferenceException("Error en la Actualización de la Deuda");
+            if (!respuesta.Equals("OK"))
+                throw new NullReferenceException("Error en la Actualización de la Deuda");
+
+            return CompletarDeuda(IdDeuda);
         }
 
         private string CompletarDeuda(int IdDeuda)
@@ -226,7 +231,8 @@ namespace Metodos
             using SqlCommand comm = new SqlCommand(queryUpdateDebtComplete, Conexion.ConexionSql);
             comm.Parameters.AddWithValue("@idDeuda", IdDeuda);
 
-            return comm.ExecuteNonQuery() == 1 ? "OK" : "No Completó la Deuda";
+            // 1 completa la deuda, 0 no la completa
+            return comm.ExecuteNonQuery() == 1 ? "OK" : "OK";
         }
 
 
