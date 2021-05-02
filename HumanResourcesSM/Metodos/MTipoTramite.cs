@@ -40,9 +40,8 @@ namespace Metodos
         ";
 
         private string queryListStatus = @"
-            SELECT * statusCambio 
+            SELECT * 
             FROM [TipoTramite] 
-            GROUP BY statusCambio;
         ";
 
         private string queryListID = @"
@@ -146,7 +145,9 @@ namespace Metodos
                 {
                     ListaGenerica.Add(new DTipoTramite
                     {
-                        statusCambio = reader.GetString(0)
+                        idTipoTramite = reader.GetInt32(0),
+                        nombre = reader.GetString(1),
+                        statusCambio = reader.GetString(2)
                     });
                 }
             }

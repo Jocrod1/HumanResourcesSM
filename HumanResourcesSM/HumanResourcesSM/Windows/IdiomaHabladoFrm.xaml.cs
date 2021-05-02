@@ -33,11 +33,11 @@ namespace HumanResourcesSM.Windows
             isSelection = true;
         }
 
-        public IdiomaHabladoFrm(EntrevistarFrm Par)
+        public IdiomaHabladoFrm(DEmpleado empleado)
         {
             InitializeComponent();
 
-            ParentFrmEN = Par;
+            Empleado = empleado;
             isSelection = false;
         }
 
@@ -50,8 +50,11 @@ namespace HumanResourcesSM.Windows
         public MIdiomaHablado Metodos = new MIdiomaHablado();
 
         public SeleccionFrm ParentFrm;
-        public EntrevistarFrm ParentFrmEN;
+        public DEmpleado Empleado;
         bool isSelection;
+
+        MIdiomaHablado methodIH = new MIdiomaHablado();
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -91,6 +94,19 @@ namespace HumanResourcesSM.Windows
             }
         }
 
+        public void InsertIdioma(DIdiomaHablado idiomaHablado)
+        {
+            idiomaHablado.idEmpleado = Empleado.idEmpleado;
+            var resp = methodIH.Insertar(idiomaHablado);
+
+        }
+
+        public void EditIdioma(DIdiomaHablado idiomaHablado)
+        {
+            idiomaHablado.idEmpleado = Empleado.idEmpleado;
+            var resp = methodIH.Editar(idiomaHablado);
+
+        }
 
 
         void fillData()
@@ -119,7 +135,7 @@ namespace HumanResourcesSM.Windows
             if (isSelection)
                 ParentFrm.InsertIdioma(UForm);
             else
-                ParentFrmEN.InsertIdioma(UForm);
+                InsertIdioma(UForm);
 
             this.DialogResult = true;
             this.Close();
@@ -136,7 +152,7 @@ namespace HumanResourcesSM.Windows
             if (isSelection)
                 ParentFrm.EditIdioma(UForm, UForm.idIdiomaHablado);
             else
-                ParentFrmEN.EditIdioma(UForm);
+                EditIdioma(UForm);
 
             this.DialogResult = true;
             this.Close();

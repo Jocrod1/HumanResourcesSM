@@ -23,15 +23,16 @@ namespace HumanResourcesSM.Windows
     /// <summary>
     /// Interaction logic for SeleccionarMenu.xaml
     /// </summary>
-    public partial class EntrevistarFrm : Page
+    public partial class EmpleadoFrm : Window
     {
-        public EntrevistarFrm()
+        public EmpleadoFrm()
         {
             InitializeComponent();
         }
 
-        DEmpleado EmpleadoEntrevistado;
-        DSeleccion EmpleadoSelEntrevistado;
+        public DEmpleado Empleado;
+        public DSeleccion Seleccion;
+        public DContrato Contrato;
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
@@ -40,14 +41,6 @@ namespace HumanResourcesSM.Windows
 
         void FetchEmpleado()
         {
-            MSeleccion SelMetodo = new MSeleccion();
-
-            var Empleado = SelMetodo.EmpleadoEntrevista()[0];
-
-            var DatosSeleccion = SelMetodo.EncontrarSeleccion(Empleado.idEmpleado)[0];
-
-            EmpleadoEntrevistado = Empleado;
-            EmpleadoSelEntrevistado = DatosSeleccion;
 
             txtNombre.Text = Empleado.nombre;
             txtApellido.Text = Empleado.apellido;
@@ -65,9 +58,12 @@ namespace HumanResourcesSM.Windows
             txtTelf.Text = Empleado.telefono;
 
 
-            txtNombrePosicion.Text = DatosSeleccion.nombrePuesto;
+            txtNombrePosicion.Text = Seleccion.nombrePuesto;
             txtDepartamento.Text = Empleado.idDepartamento.ToString(); // actualmente se está viendo el id y no el nombre del departamento
-            txtFechaApl.Text = DatosSeleccion.fechaAplicacion.ToString();
+            txtFechaApl.Text = Seleccion.fechaAplicacion.ToString();
+            txtFechaRev.Text = Seleccion.fechaRevision.ToString();
+
+            txtStatus.Text = Empleado.StatusString;
 
 
             RefreshDGIdiomas();
@@ -81,6 +77,22 @@ namespace HumanResourcesSM.Windows
 
         MIdiomaHablado methodIH = new MIdiomaHablado();
 
+        public void InsertIdioma(DIdiomaHablado idiomaHablado)
+        {
+            idiomaHablado.idEmpleado = Empleado.idEmpleado;
+            var resp = methodIH.Insertar(idiomaHablado);
+
+            RefreshDGIdiomas();
+        }
+
+        public void EditIdioma(DIdiomaHablado idiomaHablado)
+        {
+            idiomaHablado.idEmpleado = Empleado.idEmpleado;
+            var resp = methodIH.Editar(idiomaHablado);
+
+            RefreshDGIdiomas();
+        }
+
         public void DeleteIdioma(int id)
         {
             var resp = methodIH.Eliminar(id);
@@ -90,9 +102,11 @@ namespace HumanResourcesSM.Windows
 
         private void BtnAgregarIdioma_Click(object sender, RoutedEventArgs e)
         {
-            IdiomaHabladoFrm Frm = new IdiomaHabladoFrm(EmpleadoEntrevistado);
+            IdiomaHabladoFrm Frm = new IdiomaHabladoFrm(Empleado);
 
             Frm.ShowDialog();
+            RefreshDGIdiomas();
+
         }
 
         private void BtnIdiDelete_Click(object sender, RoutedEventArgs e)
@@ -107,10 +121,12 @@ namespace HumanResourcesSM.Windows
 
             DIdiomaHablado resp = methodIH.Encontrar((int)((Button)e.Source).CommandParameter)[0];
 
-            IdiomaHabladoFrm frm = new IdiomaHabladoFrm(EmpleadoEntrevistado);
+            IdiomaHabladoFrm frm = new IdiomaHabladoFrm(Empleado);
             frm.Type = TypeForm.Update;
             frm.DataFill = resp;
             frm.ShowDialog();
+            RefreshDGIdiomas();
+
         }
 
         public void RefreshDGIdiomas()
@@ -120,7 +136,7 @@ namespace HumanResourcesSM.Windows
 
             
 
-            var IdiomasHablados = methodIH.Mostrar(EmpleadoEntrevistado.idEmpleado);
+            var IdiomasHablados = methodIH.Mostrar(Empleado.idEmpleado);
             IdiomaHablado = IdiomasHablados;
 
             foreach(DIdiomaHablado item in IdiomasHablados)
@@ -245,6 +261,22 @@ namespace HumanResourcesSM.Windows
 
         MEducacion methodEdu = new MEducacion();
 
+        public void InsertEducacion(DEducacion Edu)
+        {
+            Edu.idEmpleado = Empleado.idEmpleado;
+            var resp = methodEdu.Insertar(Edu);
+
+            RefreshDGEducacion();
+        }
+
+        public void EditEducacion(DEducacion Edu)
+        {
+            Edu.idEmpleado = Empleado.idEmpleado;
+            var resp = methodEdu.Editar(Edu);
+
+            RefreshDGEducacion();
+        }
+
         public void DeleteEducacion(int id)
         {
             var resp = methodEdu.Eliminar(id);
@@ -254,11 +286,9 @@ namespace HumanResourcesSM.Windows
 
         private void BtnAgregarEducacion_Click(object sender, RoutedEventArgs e)
         {
-            EducacionFrm Frm = new EducacionFrm(EmpleadoEntrevistado);
+            EducacionFrm Frm = new EducacionFrm(Empleado);
 
             Frm.ShowDialog();
-            RefreshDGEducacion();
-
         }
 
         private void BtnEduDelete_Click(object sender, RoutedEventArgs e)
@@ -273,17 +303,15 @@ namespace HumanResourcesSM.Windows
 
             DEducacion resp = methodEdu.Encontrar((int)((Button)e.Source).CommandParameter)[0];
 
-            EducacionFrm frm = new EducacionFrm(EmpleadoEntrevistado);
+            EducacionFrm frm = new EducacionFrm(Empleado);
             frm.Type = TypeForm.Update;
             frm.DataFill = resp;
             frm.ShowDialog();
-            RefreshDGEducacion();
-
         }
 
         public void RefreshDGEducacion()
         {
-            var Educacion = new MEducacion().Mostrar(EmpleadoEntrevistado.idEmpleado);
+            var Educacion = new MEducacion().Mostrar(Empleado.idEmpleado);
             ListaEducacion = Educacion;
 
             EducacionList.Children.Clear();
@@ -395,7 +423,7 @@ namespace HumanResourcesSM.Windows
 
         private void BtnInfoUpdate_Click(object sender, RoutedEventArgs e)
         {
-            SeleccionVista vista = new SeleccionVista(EmpleadoEntrevistado, EmpleadoSelEntrevistado);
+            SeleccionVista vista = new SeleccionVista(Empleado, Seleccion);
             vista.ShowDialog();
             FetchEmpleado();
         }
@@ -409,16 +437,16 @@ namespace HumanResourcesSM.Windows
 
         private void BtnAccept_Click(object sender, RoutedEventArgs e)
         {
-            ContratoFrm frm = new ContratoFrm(EmpleadoEntrevistado, EmpleadoSelEntrevistado);
+            ContratoFrm frm = new ContratoFrm(this);
             frm.ShowDialog();
         }
 
-        public void RegistrarContrato(DContrato contrato)
+        public void EditarContrato(DContrato contrato)
         {
             DContrato Data = new DContrato(0,
-                                           EmpleadoEntrevistado.idEmpleado,
+                                           Empleado.idEmpleado,
                                            DateTime.Now,
-                                           EmpleadoSelEntrevistado.nombrePuesto,
+                                           Seleccion.nombrePuesto,
                                            contrato.fechaCulminacion,
                                            contrato.sueldo,
                                            contrato.horasSemanales);
@@ -433,6 +461,11 @@ namespace HumanResourcesSM.Windows
             string navigateUri = hl.NavigateUri.ToString();
             Process.Start(new ProcessStartInfo(navigateUri));
             e.Handled = true;
+        }
+
+        private void BtnEditContract_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

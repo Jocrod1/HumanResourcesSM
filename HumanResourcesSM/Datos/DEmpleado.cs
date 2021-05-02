@@ -105,6 +105,28 @@ namespace Datos
             set { _Status = value; }
         }
 
+        public string StatusString
+        {
+            get
+            {
+                switch (_Status)
+                {
+                    case 0:
+                        return "Anulado";
+                    case 1:
+                        return "Seleccionado";
+                    case 3:
+                        return "Contratado";
+                    case 4:
+                        return "No Contratado";
+                    case 5:
+                        return "Despido";
+                    default:
+                        return "ERROR";
+                }
+            }
+        }
+
         private DateTime _FechaAplicacion;
         public DateTime fechaAplicacion
         {

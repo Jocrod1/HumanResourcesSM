@@ -23,7 +23,7 @@
             <!--<Separator VerticalAlignment="Bottom" Foreground="Black" />-->
         </Grid>
         <ScrollViewer VerticalScrollBarVisibility="Visible" CanContentScroll="False" Grid.Row="1">
-            <StackPanel Margin="30 10">
+            <StackPanel Margin="30 -200">
                 <Grid Margin="0 10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>

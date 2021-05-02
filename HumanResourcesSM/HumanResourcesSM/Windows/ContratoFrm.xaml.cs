@@ -26,13 +26,28 @@ namespace HumanResourcesSM.Windows
     public partial class ContratoFrm : Window
     {
 
-        public ContratoFrm(EntrevistarFrm Par)
+        public ContratoFrm(DEmpleado empleado, DSeleccion seleccion)
         {
             InitializeComponent();
 
             txtSueldo.txt.KeyDown += new KeyEventHandler(Validaciones.TextBoxValidatePrices);
+            txtHorasSemanales.KeyDown += new KeyEventHandler(Validaciones.TextBox_KeyDown);
 
-            ParentFrm = Par;
+            Empleado = empleado;
+            Seleccion = seleccion;
+
+        }
+
+        public ContratoFrm(DContrato contrato)
+        {
+            InitializeComponent();
+
+            txtSueldo.txt.KeyDown += new KeyEventHandler(Validaciones.TextBoxValidatePrices);
+            txtHorasSemanales.KeyDown += new KeyEventHandler(Validaciones.TextBox_KeyDown);
+
+            Type = TypeForm.Update;
+
+            DataFill = contrato;
         }
 
 
@@ -43,15 +58,53 @@ namespace HumanResourcesSM.Windows
 
         public MContrato Metodos = new MContrato();
 
-        public EntrevistarFrm ParentFrm;
+        public DEmpleado Empleado;
+        public DSeleccion Seleccion;
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Create();
+            if(Type == TypeForm.Update)
+            {
+                Update();
+            }
+            else
+            {
+                Create();
+            }
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-   
+            if(Type == TypeForm.Read)
+            {
+                txtTitulo.Text = "Ver Contrato";
+                fillForm(DataFill);
+                SetEnable(false);
+                btnEnviar.Visibility = Visibility.Collapsed;
+            }
+            else if(Type == TypeForm.Update)
+            {
+                txtTitulo.Text = "Editar Contrato";
+                BgTitulo.Background = (Brush)new BrushConverter().ConvertFrom("#2A347B");
+                btnEnviar.Content = "Editar";
+                btnEnviar.Foreground = (Brush)new BrushConverter().ConvertFrom("#2A347B");
+                btnEnviar.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#2A347B");
+                fillForm(DataFill);
+            }
+        }
+
+        public void RegistrarContrato(DContrato contrato)
+        {
+            DContrato Data = new DContrato(0,
+                                           Empleado.idEmpleado,
+                                           DateTime.Now,
+                                           Seleccion.nombrePuesto,
+                                           contrato.fechaCulminacion,
+                                           contrato.sueldo,
+                                           contrato.horasSemanales);
+
+            var resp = new MContrato().Insertar(Data);
+            MessageBox.Show(resp);
         }
 
         void fillData()
@@ -64,13 +117,13 @@ namespace HumanResourcesSM.Windows
 
             double Sueldo = double.Parse(txtSueldo.txt.Text);
             int HorasSemanales = int.Parse(txtHorasSemanales.txt.Text);
-            DateTime FechaCulminacion = CbFechaCulminacion.SelectedDate ?? DateTime.Now.AddYears(1);
+            //DateTime FechaCulminacion = CbFechaCulminacion.SelectedDate ?? DateTime.Now.AddYears(1);
 
             UForm = new DContrato(0,
                                   0,
                                   DateTime.Now,
                                   "",
-                                  FechaCulminacion,
+                                  DateTime.Now,
                                   Sueldo,
                                   HorasSemanales);
         }
@@ -81,24 +134,51 @@ namespace HumanResourcesSM.Windows
             if (UForm == null)
                 return;
 
-            ParentFrm.RegistrarContrato(UForm);
+            RegistrarContrato(UForm);
 
             this.DialogResult = true;
             this.Close();
 
         }
 
-        private void CbFechaCulminacion_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        void Update()
         {
-            if (CbFechaCulminacion.SelectedDate != null)
+            fillData();
+            if (UForm == null)
+                return;
+
+            RegistrarContrato(UForm);
+
+            this.DialogResult = true;
+            this.Close();
+        }
+
+        void SetEnable(bool Enable)
+        {
+            txtSueldo.IsEnabled = Enable;
+            txtHorasSemanales.IsEnabled = Enable;
+        }
+
+        void fillForm(DContrato Data)
+        {
+            if(Data != null)
             {
-                PlaceFechaCulminacion.Text = "";
-            }
-            else
-            {
-                PlaceFechaCulminacion.Text = "Culminación del Contrato";
+                txtSueldo.SetText(Data.sueldo.ToString());
+                txtHorasSemanales.SetText(Data.horasSemanales.ToString());
             }
         }
+
+        //private void CbFechaCulminacion_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    if (CbFechaCulminacion.SelectedDate != null)
+        //    {
+        //        PlaceFechaCulminacion.Text = "";
+        //    }
+        //    else
+        //    {
+        //        PlaceFechaCulminacion.Text = "Culminación del Contrato";
+        //    }
+        //}
 
 
         #region Validation
@@ -116,12 +196,12 @@ namespace HumanResourcesSM.Windows
                 txtHorasSemanales.txt.Focus();
                 return true;
             }
-            if (CbFechaCulminacion.SelectedDate == null)
-            {
-                MessageBox.Show("Debes Seleccionar una Fecha de Culminación de Contrato!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                CbFechaCulminacion.Focus();
-                return true;
-            }
+            //if (CbFechaCulminacion.SelectedDate == null)
+            //{
+            //    MessageBox.Show("Debes Seleccionar una Fecha de Culminación de Contrato!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    CbFechaCulminacion.Focus();
+            //    return true;
+            //}
 
             return false;
         }

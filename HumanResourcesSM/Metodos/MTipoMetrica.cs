@@ -40,8 +40,7 @@ namespace Metodos
                 tp.idDepartamento, 
                 d.nombre 
             FROM [TipoMetrica] tp 
-                INNER JOIN [Departamento] d ON tp.idDepartamento = d.idDepartamento 
-            @searcher;
+                INNER JOIN [Departamento] d ON tp.idDepartamento = d.idDepartamento
         ";
 
         private string queryListID = @"
@@ -104,14 +103,14 @@ namespace Metodos
         public List<DTipoMetrica> Mostrar(int Buscar)
         {
             List<DTipoMetrica> ListaGenerica = new List<DTipoMetrica>();
-            string buscarByDepartamento = (Buscar) > 0 ? (" WHERE tp.idDepartamento = " + Buscar) : "";
+            string buscarByDepartamento = (Buscar) > -1 ? (" WHERE tp.idDepartamento = " + Buscar) : "";
 
             try
             {
                 Conexion.ConexionSql.Open();
 
-                using SqlCommand comm = new SqlCommand(queryList, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@searcher", buscarByDepartamento);
+                using SqlCommand comm = new SqlCommand(queryList + buscarByDepartamento, Conexion.ConexionSql);
+                //comm.Parameters.AddWithValue("@searcher", buscarByDepartamento);
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 while (reader.Read())

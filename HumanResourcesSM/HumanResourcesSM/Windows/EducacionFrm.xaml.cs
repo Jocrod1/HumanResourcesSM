@@ -33,11 +33,11 @@ namespace HumanResourcesSM.Windows
             isSelection = true;
         }
 
-        public EducacionFrm(EntrevistarFrm Par)
+        public EducacionFrm(DEmpleado empleado)
         {
             InitializeComponent();
 
-            ParentFrmEN = Par;
+            Empleado = empleado;
             isSelection = false;
         }
 
@@ -50,8 +50,11 @@ namespace HumanResourcesSM.Windows
         public MEducacion Metodos = new MEducacion();
 
         public SeleccionFrm ParentFrm;
-        public EntrevistarFrm ParentFrmEN;
+        public DEmpleado Empleado;
         bool isSelection;
+
+        MEducacion methodEdu = new MEducacion();
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -79,6 +82,19 @@ namespace HumanResourcesSM.Windows
                 btnEnviar.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#2A347B");
                 fillForm(DataFill);
             }
+        }
+
+        public void InsertEducacion(DEducacion Edu)
+        {
+            Edu.idEmpleado = Empleado.idEmpleado;
+            var resp = methodEdu.Insertar(Edu);
+        }
+
+        public void EditEducacion(DEducacion Edu)
+        {
+            Edu.idEmpleado = Empleado.idEmpleado;
+            var resp = methodEdu.Editar(Edu);
+
         }
 
         void fillData()

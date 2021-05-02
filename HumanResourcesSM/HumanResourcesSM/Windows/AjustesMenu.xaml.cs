@@ -47,19 +47,31 @@ namespace HumanResourcesSM.Windows
             switch (index)
             {
                 case 0:
+                    UsuarioDG frm0 = new UsuarioDG();
+                    ContentFrame.Content = frm0;
+                    break;
+                case 1:
                     SeleccionFrm frm = new SeleccionFrm();
                     ContentFrame.Content = frm;
                     break;
-                case 1:
+                case 2:
                     RelacionesLaboralesDG frm1 = new RelacionesLaboralesDG();
                     ContentFrame.Content = frm1;
                     break;
-                case 2:
-                    break;
                 case 3:
+                    break;
+                case 4:
                     break;
             }
 
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            if(Menu.ActUsuario.idRol != 1)
+            {
+                BtnUsuarios.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

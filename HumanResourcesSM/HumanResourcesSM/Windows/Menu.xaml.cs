@@ -29,6 +29,11 @@ namespace HumanResourcesSM.Windows
             ActUsuario = User;
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            TxtUserName.Text = ActUsuario.usuario;
+        }
+
         public Border LastSelected;
         public int LastIndex = -1;
 
@@ -92,5 +97,14 @@ namespace HumanResourcesSM.Windows
             AjustesMenu frm = new AjustesMenu();
             ContentFrame.Content = frm;
         }
+
+        private void BtnLogOut_Click(object sender, RoutedEventArgs e)
+        {
+            Login login = new Login();
+            login.Show();
+            this.Close();
+        }
+
+        
     }
 }

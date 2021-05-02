@@ -6,6 +6,7 @@
       xmlns:local="clr-namespace:HumanResourcesSM.Windows"
       mc:Ignorable="d" 
       d:DesignHeight="520" d:DesignWidth="800"
+      Loaded="Page_Loaded"
       Title="SeleccionFrm">
 
     <Grid Background="WhiteSmoke">
@@ -15,15 +16,18 @@
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="1" Background="#595959">
             <StackPanel VerticalAlignment="Center">
+                <Grid x:Name="BtnUsuarios">
+                    <Button Content="Usuarios" Uid="0" Background="{x:Null}" BorderBrush="{x:Null}" Click="Button_Click"/>
+                </Grid>
                 <Grid>
-                    <Button Content="Editar Perfil" Uid="0" Background="{x:Null}" BorderBrush="{x:Null}" Click="Button_Click"/>
+                    <Button Content="Editar Perfil" Uid="1" Background="{x:Null}" BorderBrush="{x:Null}" Click="Button_Click"/>
                     <Border x:Name="SelectedBord"  Background="Black" Opacity=".3"/>
                 </Grid>
                 <Grid>
-                    <Button Content="Servicios" Uid="1" Background="{x:Null}" BorderBrush="{x:Null}" Click="Button_Click"/>
+                    <Button Content="Servicios" Uid="2" Background="{x:Null}" BorderBrush="{x:Null}" Click="Button_Click"/>
                 </Grid>
                 <Grid>
-                    <Button Content="Ayuda" Uid="2" Background="{x:Null}" BorderBrush="{x:Null}" Click="Button_Click"/>
+                    <Button Content="Ayuda" Uid="3" Background="{x:Null}" BorderBrush="{x:Null}" Click="Button_Click"/>
                 </Grid>
             </StackPanel>
         </Grid>

@@ -72,6 +72,12 @@
     <Compile Include="Windows\AjustesMenu.xaml.cs">
       <DependentUpon>AjustesMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\EmpleadoDG.xaml.cs">
+      <DependentUpon>EmpleadoDG.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\EmpleadoFrm.xaml.cs">
+      <DependentUpon>EmpleadoFrm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PagoRealizadoVista.xaml.cs">
       <DependentUpon>PagoRealizadoVista.xaml</DependentUpon>
     </Compile>
@@ -184,6 +190,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Windows\AjustesMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\EmpleadoDG.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\EmpleadoFrm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

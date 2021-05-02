@@ -25,13 +25,10 @@ namespace HumanResourcesSM.Windows
     /// </summary>
     public partial class SeleccionVista : Window
     {
-        public SeleccionVista(EntrevistarFrm Par, 
-                                DEmpleado empleado, 
-                                DSeleccion seleccion)
+        public SeleccionVista(DEmpleado empleado, DSeleccion seleccion)
         {
             InitializeComponent();
 
-            ParentFrm = Par;
             DataFill = new FormSeleccion(empleado, seleccion);
         }
 
@@ -111,7 +108,7 @@ namespace HumanResourcesSM.Windows
 
 
 
-            DEmpleado Empleado = new DEmpleado(0,
+            DEmpleado Empleado = new DEmpleado(DataFill.empleado.idEmpleado,
                                                 idDepartamento,
                                                 nombre,
                                                 apellido,
@@ -125,8 +122,8 @@ namespace HumanResourcesSM.Windows
                                                 estadoLegal,
                                                 0);
 
-            DSeleccion Seleccion = new DSeleccion(0,
-                                                    0,
+            DSeleccion Seleccion = new DSeleccion(DataFill.seleccion.idSeleccion,
+                                                    DataFill.empleado.idEmpleado,
                                                     0,
                                                     idSeleccionador,
                                                     fechaAplicacion,
@@ -156,8 +153,8 @@ namespace HumanResourcesSM.Windows
             if (UForm == null)
                 return;
 
-            //UForm.empleado.id = DataFill.idIdiomaHablado;
-            //ParentFrm.EditIdioma(UForm);
+            var resp = Metodos.EditarEmpleado(UForm.seleccion, UForm.empleado);
+            Console.WriteLine(resp);
 
             this.DialogResult = true;
             this.Close();

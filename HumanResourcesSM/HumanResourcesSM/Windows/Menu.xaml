@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HumanResourcesSM.Windows"
         mc:Ignorable="d"
+        Loaded="Window_Loaded"
         Title="Menu" Height="600" Width="800">
     <Grid>
         <Grid Background="WhiteSmoke">
@@ -55,11 +56,12 @@
                         </Grid.ColumnDefinitions>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="110"/>
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="Administrador" FontSize="13" FontWeight="Bold" VerticalAlignment="Center" Margin="10 0"/>
-                            <Border Grid.Column="1" Width="40" Height="40" CornerRadius="20" BorderThickness="2" BorderBrush="#C22723"/>
+                            <TextBlock Name="TxtUserName" Text="Administrador" FontSize="13" FontWeight="Bold" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"
+                                       HorizontalAlignment="Center" Margin="10 0"/>
+                            <Border Name="UserBorder" Grid.Column="1" Width="40" Height="40" CornerRadius="20" BorderThickness="2" BorderBrush="#C22723"/>
                         </Grid>
                         <Grid Grid.Column="1" Margin="6 0" VerticalAlignment="Center">
                             <Grid.ColumnDefinitions>
@@ -68,7 +70,7 @@
                             </Grid.ColumnDefinitions>
                             <Grid Grid.Column="1" Margin="3 0 0 0">
                                 <Image Grid.Column="1" Source="/HumanResourcesSM;component/Img/off-button.png" Width="17" Height="17"/>
-                                <Button Grid.Column="1" Name="BtnLogOut" Width="17" Height="17" Background="Transparent" BorderBrush="Transparent" Click="BtnSettings_Click">
+                                <Button Grid.Column="1" Name="BtnLogOut" Width="17" Height="17" Background="Transparent" BorderBrush="Transparent" Click="BtnLogOut_Click">
                                 </Button>
                             </Grid>
                             <Grid Grid.Column="0" Margin="0 0 3 0">
