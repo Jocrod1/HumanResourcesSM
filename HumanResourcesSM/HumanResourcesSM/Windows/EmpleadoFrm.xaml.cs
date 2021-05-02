@@ -25,9 +25,14 @@ namespace HumanResourcesSM.Windows
     /// </summary>
     public partial class EmpleadoFrm : Window
     {
-        public EmpleadoFrm()
+        public EmpleadoFrm(DEmpleado empleado, DSeleccion seleccion)
         {
             InitializeComponent();
+
+            Empleado = empleado;
+            Seleccion = seleccion;
+
+            //Cosa
         }
 
         public DEmpleado Empleado;
@@ -58,8 +63,10 @@ namespace HumanResourcesSM.Windows
             txtTelf.Text = Empleado.telefono;
 
 
+            var res = new MDepartamento().Encontrar(Empleado.idDepartamento)[0];
+
             txtNombrePosicion.Text = Seleccion.nombrePuesto;
-            txtDepartamento.Text = Empleado.idDepartamento.ToString(); // actualmente se está viendo el id y no el nombre del departamento
+            txtDepartamento.Text = res.nombre;
             txtFechaApl.Text = Seleccion.fechaAplicacion.ToString();
             txtFechaRev.Text = Seleccion.fechaRevision.ToString();
 
@@ -437,7 +444,7 @@ namespace HumanResourcesSM.Windows
 
         private void BtnAccept_Click(object sender, RoutedEventArgs e)
         {
-            ContratoFrm frm = new ContratoFrm(this);
+            ContratoFrm frm = new ContratoFrm(Contrato);
             frm.ShowDialog();
         }
 

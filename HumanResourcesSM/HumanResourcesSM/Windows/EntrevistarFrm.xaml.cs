@@ -64,9 +64,11 @@ namespace HumanResourcesSM.Windows
             txtEmail.Text = Empleado.email;
             txtTelf.Text = Empleado.telefono;
 
+            var res = new MDepartamento().Encontrar(Empleado.idDepartamento)[0];
+
 
             txtNombrePosicion.Text = DatosSeleccion.nombrePuesto;
-            txtDepartamento.Text = Empleado.idDepartamento.ToString(); // actualmente se está viendo el id y no el nombre del departamento
+            txtDepartamento.Text = res.nombre;
             txtFechaApl.Text = DatosSeleccion.fechaAplicacion.ToString();
 
 

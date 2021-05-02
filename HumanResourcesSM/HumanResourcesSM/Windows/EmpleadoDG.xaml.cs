@@ -54,15 +54,12 @@ namespace HumanResourcesSM.Windows
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             int id = (int)((Button)sender).CommandParameter;
-            var response = Metodos.EncontrarEmpleado(id);
-            var Selecciones = Metodos.EncontrarSeleccion(response[0].idEmpleado);
+            var Empleado = Metodos.EncontrarEmpleado(id);
+            var Selecciones = Metodos.EncontrarSeleccion(Empleado[0].idEmpleado);
 
-            EmpleadoFrm frmTrab = new EmpleadoFrm();
-            frmTrab.Empleado = response[0];
-            frmTrab.Seleccion = Selecciones[0];
+            EmpleadoFrm frmTrab = new EmpleadoFrm(Empleado[0], Selecciones[0]);
             bool Resp = frmTrab.ShowDialog() ?? false;
             Refresh(txtBuscar.Text);
-
         }
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
