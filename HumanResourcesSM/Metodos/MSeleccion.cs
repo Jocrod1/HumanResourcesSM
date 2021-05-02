@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace Metodos
 {
-    public class MSeleccion:DEmpleado
+    public class MSeleccion : DEmpleado
     {
         #region QUERIES
         //seleccion
@@ -133,10 +133,16 @@ namespace Metodos
 	    ";
 
         //anular
-        private string queryNull = @"
+        private string queryNullSelection = @"
             UPDATE [Seleccion] SET
                 status = 0
             WHERE idSeleccion = @idSeleccion;
+	    ";
+
+        private string queryNullEmployee = @"
+            UPDATE [Empleado] SET
+                status = 0
+            WHERE idEmpleado = @idEmpleado;
 	    ";
 
         //mostrar
@@ -216,6 +222,7 @@ namespace Metodos
             WHERE idEmpleado = @idEmpleado;
 	    ";
         #endregion
+
 
         public string InsertarEmpleado(DEmpleado Empleado, DSeleccion Seleccion, List<DIdiomaHablado> Idioma, List<DEducacion> Educacion)
         {
@@ -359,6 +366,7 @@ namespace Metodos
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
+
         private string EditarSeleccion(DSeleccion Seleccion)
         {
             try
@@ -377,16 +385,32 @@ namespace Metodos
         }
 
 
-        public string Anular(int IdSeleccion)
+        public string AnularSeleccion(int IdSeleccion)
         {
             try
             {
                 Conexion.ConexionSql.Open();
 
-                using SqlCommand comm = new SqlCommand(queryNull, Conexion.ConexionSql);
+                using SqlCommand comm = new SqlCommand(queryNullSelection, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@idSeleccion", IdSeleccion);
 
                 return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Anuló la Selección";
+            }
+            catch (SqlException e) { return e.Message; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+        }
+
+
+        public string AnularEmpleado(int IdEmpleado)
+        {
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryNullSelection, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
+
+                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Anuló el Empleado";
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
@@ -571,7 +595,7 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
 
                 using SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
+                if (reader.Read())
                 {
                     ListaGenerica.Add(new DSeleccion
                     {
@@ -605,7 +629,7 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
 
                 using SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
+                if (reader.Read())
                 {
                     ListaGenerica.Add(new DEmpleado
                     {

@@ -157,7 +157,7 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@idEducacion", IdEducacion);
 
                 using SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
+                if (reader.Read())
                 {
                     ListaGenerica.Add(new DEducacion
                     {

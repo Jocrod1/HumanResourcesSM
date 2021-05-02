@@ -144,7 +144,7 @@ namespace Metodos
             return ListaGenerica;
         }
 
-        public List<DDeuda> Encontrar(int idDeuda)
+        public List<DDeuda> Encontrar(int IdDeuda)
         {
             List<DDeuda> ListaGenerica = new List<DDeuda>();
 
@@ -153,10 +153,10 @@ namespace Metodos
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryGetDebt, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@idDeuda", idDeuda);
+                comm.Parameters.AddWithValue("@idDeuda", IdDeuda);
 
                 using SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
+                if (reader.Read())
                 {
                     ListaGenerica.Add(new DDeuda
                     {

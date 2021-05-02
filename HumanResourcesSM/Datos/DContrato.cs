@@ -35,13 +35,6 @@ namespace Datos
             set { _NombrePuesto = value; }
         }
 
-        private DateTime _FechaCulminacion;
-        public DateTime fechaCulminacion
-        {
-            get { return _FechaCulminacion; }
-            set { _FechaCulminacion = value; }
-        }
-
         private double _Sueldo;
         public double sueldo
         {
@@ -61,13 +54,12 @@ namespace Datos
 
         }
 
-        public DContrato(int IdContrato, int IdEmpleado, DateTime FechaContratacion, string NombrePuesto, DateTime FechaCulminacion, double Sueldo, int HorasSemanales)
+        public DContrato(int IdContrato, int IdEmpleado, DateTime FechaContratacion, string NombrePuesto, double Sueldo, int HorasSemanales)
         {
             this.idContrato = IdContrato;
             this.idEmpleado = IdEmpleado;
             this.fechaContratacion = FechaContratacion;
             this.nombrePuesto = NombrePuesto;
-            this.fechaCulminacion = FechaCulminacion;
             this.sueldo = Sueldo;
             this.horasSemanales = HorasSemanales;
         }

@@ -33,8 +33,7 @@ namespace Metodos
                     {
                         idRol = reader.GetInt32(0),
                         nombre = reader.GetString(1),
-                        descripcion = reader.GetString(2),
-                        nivel = reader.GetInt32(3)
+                        descripcion = reader.GetString(2)
                     });
                 }
             }

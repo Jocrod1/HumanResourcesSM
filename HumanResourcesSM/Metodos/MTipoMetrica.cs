@@ -144,7 +144,7 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@idTipoMetrica", IdTipoMetrica);
 
                 using SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
+                if (reader.Read())
                 {
                     ListaGenerica.Add(new DTipoMetrica
                     {

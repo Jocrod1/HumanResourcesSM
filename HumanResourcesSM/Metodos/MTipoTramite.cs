@@ -170,7 +170,7 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@idTipoTramite", IdTipoTramite);
 
                 using SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
+                if (reader.Read())
                 {
                     ListaGenerica.Add(new DTipoTramite
                     {

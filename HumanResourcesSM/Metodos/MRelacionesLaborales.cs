@@ -166,7 +166,7 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@idRelacionesLaborales", IdRelacionesLaborales);
 
                 using SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
+                if (reader.Read())
                 {
                     ListaGenerica.Add(new DRelacionesLaborales
                     {

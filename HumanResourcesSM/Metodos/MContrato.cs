@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Datos;
-
+using System.Windows;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -23,23 +23,36 @@ namespace Metodos
             WHERE idSeleccion = @idSeleccion;
 	    ";
 
-        private string queryInsertContract = @"
+        private string queryInsert = @"
             INSERT INTO [Contrato] (
                 idEmpleado,
                 fechaContratacion,
                 nombrePuesto,
-                fechaCulminacion,
                 sueldo,
                 horasSemanales
             ) VALUES (
                 @idEmpleado,
                 @fechaContratacion,
                 @nombrePuesto,
-                @fechaCulminacion,
                 @sueldo,
                 @horasSemanales
             );
 	    ";
+
+        private string queryUpdate = @"
+            UPDATE [Contrato] SET 
+                idEmpleado = @idEmpleado,
+                fechaContratacion = @fechaContratacion,
+                nombrePuesto = @nombrePuesto,
+                sueldo = @sueldo,
+                horasSemanales = @horasSemanales
+            WHERE idContrato = @idContrato;
+        ";
+
+        private string queryList = @"
+            SELECT * FROM [Contrato]
+            WHERE idContrato = @idContrato;
+        ";
         #endregion
 
         public string AsignarEntrevistador(int IdSeleccion, int IdEntrevistador)
@@ -81,11 +94,10 @@ namespace Metodos
             {
                 Conexion.ConexionSql.Open();
 
-                using SqlCommand comm = new SqlCommand(queryInsertContract, Conexion.ConexionSql);
+                using SqlCommand comm = new SqlCommand(queryInsert, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@idEmpleado", Contrato.idEmpleado);
                 comm.Parameters.AddWithValue("@fechaContratacion", DateTime.Now);
                 comm.Parameters.AddWithValue("@nombrePuesto", Contrato.nombrePuesto);
-                comm.Parameters.AddWithValue("@fechaCulminacion", Contrato.fechaCulminacion);
                 comm.Parameters.AddWithValue("@sueldo", Contrato.sueldo);
                 comm.Parameters.AddWithValue("@horasSemanales", Contrato.horasSemanales);
 
@@ -93,6 +105,59 @@ namespace Metodos
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+        }
+
+
+        public string Editar(DContrato Contrato)
+        {
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryUpdate, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idEmpleado", Contrato.idEmpleado);
+                comm.Parameters.AddWithValue("@nombreCarrera", Contrato.fechaContratacion);
+                comm.Parameters.AddWithValue("@nombreInstitucion", Contrato.nombrePuesto);
+                comm.Parameters.AddWithValue("@fechaIngreso", Contrato.sueldo);
+                comm.Parameters.AddWithValue("@fechaEgreso", Contrato.horasSemanales);
+                comm.Parameters.AddWithValue("@idEducacion", Contrato.idContrato);
+
+                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el Registro del Contrato";
+            }
+            catch (SqlException e) { return e.Message; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+        }
+
+
+        public List<DContrato> Encontrar(int IdContrato)
+        {
+            List<DContrato> ListaGenerica = new List<DContrato>();
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryList, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idContrato", IdContrato);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                if (reader.Read())
+                {
+                    ListaGenerica.Add(new DContrato
+                    {
+                        idContrato = reader.GetInt32(0),
+                        idEmpleado = reader.GetInt32(1),
+                        fechaContratacion = reader.GetDateTime(2),
+                        nombrePuesto = reader.GetString(3),
+                        sueldo = (double)reader.GetDecimal(4),
+                        horasSemanales = reader.GetInt32(5),
+                    });
+                }
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
         }
     }
 }

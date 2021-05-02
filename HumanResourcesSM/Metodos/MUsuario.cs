@@ -171,7 +171,7 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@contraseña", Contraseña);
 
                 using SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
+                if (reader.Read())
                 {
                     ListaGenerica.Add(new DUsuario
                     {
@@ -203,7 +203,7 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@idUsuario", IdUsuario);
 
                 using SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
+                if (reader.Read())
                 {
                     ListaGenerica.Add(new DUsuario
                     {

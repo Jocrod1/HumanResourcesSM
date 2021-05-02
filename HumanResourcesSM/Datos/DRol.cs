@@ -24,24 +24,17 @@ namespace Datos
             get { return _Descripcion; }
             set { _Descripcion = value; }
         }
-        private int _Nivel;
-        public int nivel
-        {
-            get { return _Nivel; }
-            set { _Nivel = nivel; }
-        }
 
         public DRol()
         {
 
         }
 
-        public DRol(int idRol, string nombre, string descripcion, int nivel)
+        public DRol(int idRol, string nombre, string descripcion)
         {
             this.idRol = idRol;
             this.nombre = nombre;
             this.descripcion = descripcion;
-            this.nivel = nivel;
         }
     }
 }

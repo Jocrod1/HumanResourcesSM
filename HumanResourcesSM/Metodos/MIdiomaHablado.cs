@@ -155,7 +155,7 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@idIdioma", IdIdioma);
 
                 using SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
+                if (reader.Read())
                 {
                     ListaGenerica.Add(new DIdiomaHablado
                     {
@@ -213,7 +213,7 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@idIdioma", IdIdioma);
 
                 using SqlDataReader reader = comm.ExecuteReader();
-                while (reader.Read())
+                if (reader.Read())
                 {
                     ListaGenerica.Add(new DIdioma
                     {
