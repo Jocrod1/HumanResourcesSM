@@ -25,27 +25,47 @@ namespace HumanResourcesSM.Windows
     /// </summary>
     public partial class EmpleadoFrm : Window
     {
-        public EmpleadoFrm(DEmpleado empleado, DSeleccion seleccion)
+        public EmpleadoFrm(int idempleado)
         {
             InitializeComponent();
 
-            Empleado = empleado;
-            Seleccion = seleccion;
+            idEmpleado = idempleado;
 
-            //Cosa
+            //Validar si hay contrato o no
         }
+
+        int idEmpleado;
 
         public DEmpleado Empleado;
         public DSeleccion Seleccion;
         public DContrato Contrato;
 
+        MSeleccion Metodos = new MSeleccion();
+
+
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             FetchEmpleado();
+
+            
+
         }
 
         void FetchEmpleado()
         {
+            Empleado = Metodos.EncontrarEmpleado(idEmpleado)[0];
+            Seleccion = Metodos.EncontrarSeleccion(Empleado.idEmpleado)[0];
+
+            var contrato = new MContrato().Encontrar(Empleado.idEmpleado);
+
+            if (contrato.Count > 0)
+            {
+                Contrato = contrato[0];
+            }
+            else
+            {
+                BtnEditContract.Visibility = Visibility.Collapsed;
+            }
 
             txtNombre.Text = Empleado.nombre;
             txtApellido.Text = Empleado.apellido;
@@ -436,32 +456,6 @@ namespace HumanResourcesSM.Windows
         }
 
 
-
-        private void BtnCancel_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void BtnAccept_Click(object sender, RoutedEventArgs e)
-        {
-            ContratoFrm frm = new ContratoFrm(Contrato);
-            frm.ShowDialog();
-        }
-
-        public void EditarContrato(DContrato contrato)
-        {
-            DContrato Data = new DContrato(0,
-                                           Empleado.idEmpleado,
-                                           DateTime.Now,
-                                           Seleccion.nombrePuesto,
-                                           contrato.fechaCulminacion,
-                                           contrato.sueldo,
-                                           contrato.horasSemanales);
-
-            var resp = new MContrato().Insertar(Data);
-            MessageBox.Show(resp);
-        }
-
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             Hyperlink hl = (Hyperlink)sender;
@@ -472,7 +466,9 @@ namespace HumanResourcesSM.Windows
 
         private void BtnEditContract_Click(object sender, RoutedEventArgs e)
         {
-
+            ContratoFrm frm = new ContratoFrm(Contrato);
+            frm.ShowDialog();
+            FetchEmpleado();
         }
     }
 }

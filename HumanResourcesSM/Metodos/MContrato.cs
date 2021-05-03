@@ -41,9 +41,6 @@ namespace Metodos
 
         private string queryUpdate = @"
             UPDATE [Contrato] SET 
-                idEmpleado = @idEmpleado,
-                fechaContratacion = @fechaContratacion,
-                nombrePuesto = @nombrePuesto,
                 sueldo = @sueldo,
                 horasSemanales = @horasSemanales
             WHERE idContrato = @idContrato;
@@ -51,7 +48,7 @@ namespace Metodos
 
         private string queryList = @"
             SELECT * FROM [Contrato]
-            WHERE idContrato = @idContrato;
+            WHERE idEmpleado = @idEmpleado;
         ";
         #endregion
 
@@ -115,12 +112,10 @@ namespace Metodos
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryUpdate, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@idEmpleado", Contrato.idEmpleado);
-                comm.Parameters.AddWithValue("@nombreCarrera", Contrato.fechaContratacion);
-                comm.Parameters.AddWithValue("@nombreInstitucion", Contrato.nombrePuesto);
-                comm.Parameters.AddWithValue("@fechaIngreso", Contrato.sueldo);
-                comm.Parameters.AddWithValue("@fechaEgreso", Contrato.horasSemanales);
-                comm.Parameters.AddWithValue("@idEducacion", Contrato.idContrato);
+                comm.Parameters.AddWithValue("@sueldo", Contrato.sueldo);
+                comm.Parameters.AddWithValue("@horasSemanales", Contrato.horasSemanales);
+                comm.Parameters.AddWithValue("@idContrato", Contrato.idContrato);
+
 
                 return comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el Registro del Contrato";
             }
@@ -138,7 +133,7 @@ namespace Metodos
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryList, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@idContrato", IdContrato);
+                comm.Parameters.AddWithValue("@idEmpleado", IdContrato);
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 if (reader.Read())

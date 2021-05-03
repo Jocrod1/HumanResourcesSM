@@ -44,7 +44,7 @@ namespace Metodos
 
         private string queryListLanguage = @"
             SELECT * FROM [IdiomaHablado]
-            WHERE idIdioma = @idIdioma 
+            WHERE idIdiomaHablado = @idIdioma 
             ORDER BY idIdioma;
         ";
 

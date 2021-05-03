@@ -54,10 +54,9 @@ namespace HumanResourcesSM.Windows
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             int id = (int)((Button)sender).CommandParameter;
-            var Empleado = Metodos.EncontrarEmpleado(id);
-            var Selecciones = Metodos.EncontrarSeleccion(Empleado[0].idEmpleado);
+            
 
-            EmpleadoFrm frmTrab = new EmpleadoFrm(Empleado[0], Selecciones[0]);
+            EmpleadoFrm frmTrab = new EmpleadoFrm(id);
             bool Resp = frmTrab.ShowDialog() ?? false;
             Refresh(txtBuscar.Text);
         }

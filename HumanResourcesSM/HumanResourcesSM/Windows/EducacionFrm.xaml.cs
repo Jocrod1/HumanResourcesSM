@@ -88,12 +88,15 @@ namespace HumanResourcesSM.Windows
         {
             Edu.idEmpleado = Empleado.idEmpleado;
             var resp = methodEdu.Insertar(Edu);
+            MessageBox.Show(resp);
         }
 
         public void EditEducacion(DEducacion Edu)
         {
             Edu.idEmpleado = Empleado.idEmpleado;
             var resp = methodEdu.Editar(Edu);
+            MessageBox.Show(resp);
+
 
         }
 
@@ -128,7 +131,7 @@ namespace HumanResourcesSM.Windows
             if (isSelection)
                 ParentFrm.InsertEducacion(UForm);
             else
-                ParentFrmEN.InsertEducacion(UForm);
+                InsertEducacion(UForm);
 
             this.DialogResult = true;
             this.Close();
@@ -145,7 +148,7 @@ namespace HumanResourcesSM.Windows
             if (isSelection)
                 ParentFrm.EditEducacion(UForm, UForm.idEducacion);
             else
-                ParentFrmEN.EditEducacion(UForm);
+                EditEducacion(UForm);
 
             this.DialogResult = true;
             this.Close();

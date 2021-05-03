@@ -93,43 +93,26 @@ namespace Metodos
 
         //editar
         private string queryUpdateEmployee = @"
-            UPDATE [Empleado] SET (
-                idDepartamento,
-                nombre,
-                apellido,
-                cedula,
-                fechaNacimiento,
-                nacionalidad,
-                direccion,
-                email,
-                telefono,
-                curriculoUrl,
-                estadoLegal,
-                status
-            ) VALUES (
-                @idDepartamento,
-                @nombre,
-                @apellido,
-                @cedula,
-                @fechaNacimiento,
-                @nacionalidad,
-                @direccion,
-                @email,
-                @telefono,
-                @curriculoUrl,
-                @estadoLegal,
-                @status
-            ) WHERE idEmpleado = @idEmpleado;
+            UPDATE [Empleado] SET 
+                idDepartamento = @idDepartamento,
+                nombre = @nombre,
+                apellido = @apellido,
+                cedula = @cedula,
+                fechaNacimiento = @fechaNacimiento,
+                nacionalidad = @nacionalidad,
+                direccion = @direccion,
+                email = @email,
+                telefono = @telefono,
+                curriculoUrl = @curriculum,
+                estadoLegal = @estadoLegal
+            WHERE idEmpleado = @idEmpleado;
         ";
 
         private string queryUpdateSelection = @"
-            UPDATE [Seleccion] SET (
-                fechaAplicacion,
-                nombrePuesto
-            ) VALUES (
-                @fechaAplicacion,
-                @nombrePuesto
-            ) WHERE idSeleccion = @idSeleccion;
+            UPDATE [Seleccion] SET 
+                fechaAplicacion = @fechaAplicacion,
+                nombrePuesto = @nombrePuesto
+            WHERE idSeleccion = @idSeleccion;
 	    ";
 
         //anular
@@ -354,7 +337,6 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@telefono", Empleado.telefono);
                 comm.Parameters.AddWithValue("@curriculum", Empleado.curriculum);
                 comm.Parameters.AddWithValue("@estadoLegal", Empleado.estadoLegal);
-                comm.Parameters.AddWithValue("@status", Empleado.status);
                 comm.Parameters.AddWithValue("@idEmpleado", Empleado.idEmpleado);
 
                 string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó el Empleado";
@@ -371,7 +353,6 @@ namespace Metodos
         {
             try
             {
-                Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryUpdateSelection, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@fechaAplicacion", Seleccion.fechaAplicacion);

@@ -67,8 +67,25 @@ namespace HumanResourcesSM.Windows
                     DespidoDG dg = new DespidoDG();
                     ContentFrame.Content = dg;
                     break;
+                case 4:
+                    DepartamentoDG dgD = new DepartamentoDG();
+                    ContentFrame.Content = dgD;
+                    break;
+                case 5:
+                    EmpleadoDG dgE = new EmpleadoDG();
+                    ContentFrame.Content = dgE;
+                    break;
             }
 
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (Menu.ActUsuario.idRol != 1)
+            {
+                GridDepartamentos.Visibility = Visibility.Collapsed;
+                GridEmpleados.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

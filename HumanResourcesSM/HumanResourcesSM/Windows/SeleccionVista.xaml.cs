@@ -125,7 +125,7 @@ namespace HumanResourcesSM.Windows
             DSeleccion Seleccion = new DSeleccion(DataFill.seleccion.idSeleccion,
                                                     DataFill.empleado.idEmpleado,
                                                     0,
-                                                    idSeleccionador,
+                                                    0,
                                                     fechaAplicacion,
                                                     0,
                                                     DateTime.Now,
@@ -183,6 +183,7 @@ namespace HumanResourcesSM.Windows
                 txtTelefono.SetText(Empleado.telefono);
                 txtDireccion.SetText(Empleado.direccion);
                 CbEstadoLegal.Text = Empleado.estadoLegal;
+                PlaceEstadoLegal.Text = "";
                 CbDepartamento.SelectedValue = Empleado.idDepartamento;
                 CbFechaApl.SelectedDate = Seleccion.fechaAplicacion;
                 txtNombrePuesto.SetText(Seleccion.nombrePuesto);

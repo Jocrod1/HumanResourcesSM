@@ -415,20 +415,6 @@ namespace HumanResourcesSM.Windows
             frm.ShowDialog();
         }
 
-        public void RegistrarContrato(DContrato contrato)
-        {
-            DContrato Data = new DContrato(0,
-                                           EmpleadoEntrevistado.idEmpleado,
-                                           DateTime.Now,
-                                           EmpleadoSelEntrevistado.nombrePuesto,
-                                           contrato.fechaCulminacion,
-                                           contrato.sueldo,
-                                           contrato.horasSemanales);
-
-            var resp = new MContrato().Insertar(Data);
-            MessageBox.Show(resp);
-        }
-
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             Hyperlink hl = (Hyperlink)sender;

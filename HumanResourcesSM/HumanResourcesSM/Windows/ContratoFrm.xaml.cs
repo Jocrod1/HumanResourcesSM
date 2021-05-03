@@ -99,11 +99,20 @@ namespace HumanResourcesSM.Windows
                                            Empleado.idEmpleado,
                                            DateTime.Now,
                                            Seleccion.nombrePuesto,
-                                           contrato.fechaCulminacion,
                                            contrato.sueldo,
                                            contrato.horasSemanales);
 
             var resp = new MContrato().Insertar(Data);
+            MessageBox.Show(resp);
+        }
+
+        public void ActualizarContrato(DContrato contrato)
+        {
+            DContrato Data = DataFill;
+            Data.sueldo = contrato.sueldo;
+            Data.horasSemanales = contrato.horasSemanales;
+
+            var resp = new MContrato().Editar(Data);
             MessageBox.Show(resp);
         }
 
@@ -123,7 +132,6 @@ namespace HumanResourcesSM.Windows
                                   0,
                                   DateTime.Now,
                                   "",
-                                  DateTime.Now,
                                   Sueldo,
                                   HorasSemanales);
         }
@@ -147,7 +155,7 @@ namespace HumanResourcesSM.Windows
             if (UForm == null)
                 return;
 
-            RegistrarContrato(UForm);
+            ActualizarContrato(UForm);
 
             this.DialogResult = true;
             this.Close();
