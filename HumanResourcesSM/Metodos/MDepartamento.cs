@@ -35,7 +35,7 @@ namespace Metodos
 
         private string queryListName = @"
             SELECT * FROM [Departamento] 
-            WHERE nombre LIKE @nombre + '%'
+            WHERE nombre LIKE @nombre + '%' AND idDepartamento <> 1
             ORDER BY nombre;
         ";
 

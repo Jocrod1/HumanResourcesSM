@@ -21,17 +21,15 @@ namespace HumanResourcesSM.Windows
     /// <summary>
     /// Interaction logic for DepartamentoDG.xaml
     /// </summary>
-    public partial class MetaVista : Window
+    public partial class MetaDG : Page
     {
         MMeta Metodos = new MMeta();
 
-        EvaluacionFrm Parentfrm;
+        SearchType searchType = SearchType.Departamento;
 
-        public MetaVista(EvaluacionFrm par)
+        public MetaDG()
         {
             InitializeComponent();
-
-            Parentfrm = par;
         }
 
         public void Refresh()
@@ -39,14 +37,14 @@ namespace HumanResourcesSM.Windows
             if (searchType == SearchType.Departamento)
             {
                 int id = CbDepartamento.SelectedIndex > -1 ? (int)CbDepartamento.SelectedValue : -1;
-                var items = Metodos.MostrarByDepartamento(id);
+                var items = Metodos.MostrarTodoByDepartamento(id, CbFechaInicio.SelectedDate, CbFechaFinal.SelectedDate);
 
                 dgDepartamento.ItemsSource = items;
             }
             else if(searchType == SearchType.Empleado)
             {
                 int id = CbEmpleado.SelectedIndex > -1 ? (int)CbEmpleado.SelectedValue : -1;
-                var items = Metodos.MostrarByEmpleado(id);
+                var items = Metodos.MostrarTodoByEmpleado(id, CbFechaInicio.SelectedDate, CbFechaFinal.SelectedDate);
 
                 dgEmpleado.ItemsSource = items;
             }
@@ -63,30 +61,71 @@ namespace HumanResourcesSM.Windows
             CbDepartamento.SelectedValuePath = "idDepartamento";
 
             RBDepartamento.IsChecked = true;
+            DateTime StartofWeek = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
+            CbFechaInicio.SelectedDate = StartofWeek;
+            CbFechaFinal.SelectedDate = StartofWeek.AddDays(6);
             Refresh();
         }
 
-        private void txtSeleccionar_Click(object sender, RoutedEventArgs e)
+        private void BtnAgregar_Click(object sender, RoutedEventArgs e)
+        {
+            MetaFrm frmMeta = new MetaFrm();
+            bool Resp = frmMeta.ShowDialog() ?? false;
+            Refresh();
+        }
+
+        private void txtVer_Click(object sender, RoutedEventArgs e)
         {
             int id = (int)((Button)sender).CommandParameter;
 
-            bool isEmpleado = searchType == SearchType.Empleado;
-            if (isEmpleado)
-            {
-                var resp = Metodos.EncontrarByEmpleado(id)[0];
-                Parentfrm.SeleccionarMeta(resp, isEmpleado);
-                
-            }
-            else
-            {
-                var resp = Metodos.EncontrarByDepartamento(id)[0];
-                Parentfrm.SeleccionarMeta(resp, isEmpleado);
-            }
+            DMeta Meta = EncontrarMeta(id);
 
-            this.Close();
+            if(Meta != null)
+            {
+                MetaType TipoMeta = searchType == SearchType.Departamento ? MetaType.Departamento : MetaType.Empleado;
+                MetaFrm frmMeta = new MetaFrm(TypeForm.Read, TipoMeta, Meta);
+                bool Resp = frmMeta.ShowDialog() ?? false;
+                Refresh();
+            }
+        }
+        private void BtnEditar_Click(object sender, RoutedEventArgs e)
+        {
+            int id = (int)((Button)sender).CommandParameter;
+
+            DMeta Meta = EncontrarMeta(id);
+
+            if (Meta != null)
+            {
+                MetaType TipoMeta = searchType == SearchType.Departamento ? MetaType.Departamento : MetaType.Empleado;
+                MetaFrm frmMeta = new MetaFrm(TypeForm.Update, TipoMeta, Meta);
+                bool Resp = frmMeta.ShowDialog() ?? false;
+                Refresh();
+            }
         }
 
-        SearchType searchType = SearchType.Departamento;
+        private void btnEliminar_Click(object sender, RoutedEventArgs e)
+        {
+            int id = (int)((Button)sender).CommandParameter;
+
+            var resp = Metodos.Eliminar(id);
+            MessageBox.Show(resp);
+            Refresh();
+        }
+
+        DMeta EncontrarMeta(int idMeta)
+        {
+            switch (searchType)
+            {
+                case SearchType.Departamento:
+                    return Metodos.EncontrarByDepartamento(idMeta)[0];
+                case SearchType.Empleado:
+                    return Metodos.EncontrarByEmpleado(idMeta)[0];
+                default:
+                    return null;
+            }
+        }
+
+
 
         private void RBEmpleado_Checked(object sender, RoutedEventArgs e)
         {
@@ -142,8 +181,45 @@ namespace HumanResourcesSM.Windows
 
         private void txtLimpiar_Click(object sender, RoutedEventArgs e)
         {
+            CbFechaInicio.SelectedDate = null;
+            CbFechaFinal.SelectedDate = null;
             CbDepartamento.SelectedIndex = -1;
-            Refresh();
+        }
+
+        private void CbFechaInicio_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CbFechaInicio.SelectedDate != null)
+            {
+                PlaceFechaInicio.Text = "";
+
+                CbFechaFinal.DisplayDateStart = CbFechaInicio.SelectedDate?.Date;
+                Refresh();
+
+            }
+            else
+            {
+                PlaceFechaInicio.Text = "Fecha Inicio";
+
+                CbFechaFinal.DisplayDateStart = null;
+            }
+        }
+
+        private void CbFechaFinal_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CbFechaFinal.SelectedDate != null)
+            {
+                PlaceFechaFinal.Text = "";
+
+                CbFechaInicio.DisplayDateEnd = CbFechaFinal.SelectedDate?.Date;
+                Refresh();
+
+            }
+            else
+            {
+                CbFechaInicio.Text = "Fecha Final";
+
+                CbFechaInicio.DisplayDateEnd = null;
+            }
         }
 
         enum SearchType
@@ -151,5 +227,7 @@ namespace HumanResourcesSM.Windows
             Empleado,
             Departamento
         }
+
+        
     }
 }

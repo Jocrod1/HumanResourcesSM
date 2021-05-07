@@ -22,33 +22,67 @@ namespace HumanResourcesSM.Windows
     /// <summary>
     /// Interaction logic for SeleccionFrm.xaml
     /// </summary>
-    public partial class MetaFrm : Page
+    public partial class MetaFrm : Window
     {
-        public MetaFrm()
+
+        void init()
         {
             InitializeComponent();
             txtValorMeta.txt.KeyDown += new KeyEventHandler(Validaciones.TextBoxValidatePrices);
         }
+        public MetaFrm()
+        {
+            init();
+            Type = TypeForm.Create;
+        }
+        public MetaFrm(TypeForm type, MetaType mtype, DMeta meta)
+        {
+            init();
+
+            Type = type;
+            MType = mtype;
+            DataFill = meta;
+
+        }
+
+        public TypeForm Type;
+        public MetaType MType;
+        public DMeta DataFill;
+
         public DMeta UForm;
+
         public MMeta Metodos = new MMeta();
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Create();
+            if (Type == TypeForm.Update)
+                Update();
+            else
+                Create();
         }
-
-        void Create()
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            fillData();
-            if (UForm == null)
-                return;
-            var resp = Metodos.Insertar(UForm);
-            MessageBox.Show(resp);
-            if (resp == "OK")
+            if(Type == TypeForm.Read)
             {
-                //LO QUE SE HARÁ
-                Limpiar();
+                txtTitulo.Text = "Ver";
+                fillForm(DataFill);
+                SetEnable(false);
+                btnEnviar.Visibility = Visibility.Collapsed;
             }
+            else if(Type == TypeForm.Update)
+            {
+                txtTitulo.Text = "Editar";
+                BgTitulo.Background = (Brush)new BrushConverter().ConvertFrom("#2A347B");
+                btnEnviar.Content = "Editar";
+                btnEnviar.Foreground = (Brush)new BrushConverter().ConvertFrom("#2A347B");
+                btnEnviar.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#2A347B");
+                fillForm(DataFill);
+            }
+            else if(Type == TypeForm.Create)
+            {
+                RBEmpleado.IsChecked = true;
+            }
+
         }
 
         void fillData()
@@ -62,8 +96,8 @@ namespace HumanResourcesSM.Windows
 
             int idSeleccion = (int)CbSeleccion.SelectedValue;
 
-            int idEmpleado = RBEmpleado.IsChecked ?? false ? idSeleccion : 1;
-            int idDepartamento = RBDepartamento.IsChecked ?? false ? idSeleccion : 1;
+            int idEmpleado = MType.Equals(MetaType.Empleado) ? idSeleccion : 1;
+            int idDepartamento = MType.Equals(MetaType.Departamento) ? idSeleccion : 1;
             int idTipoMetrica = (int)CbTipoMetrica.SelectedValue;
             double ValorMeta = double.Parse(txtValorMeta.txt.Text);
             DateTime FechaInicio = CbFechaInicio.SelectedDate ?? DateTime.Now;
@@ -81,29 +115,72 @@ namespace HumanResourcesSM.Windows
                               Menu.ActUsuario.idUsuario);
         }
 
-        void Limpiar()
-        {
-            UForm = null;
+       
 
-            CbSeleccion.SelectedIndex = -1;
-            CbTipoMetrica.SelectedIndex = -1;
-            txtValorMeta.SetText("");
-            CbFechaInicio.SelectedDate = null;
-            CbFechaFinal.SelectedDate = null;
+        void Create()
+        {
+            fillData();
+            if (UForm == null)
+                return;
+            var resp = Metodos.Insertar(UForm);
+            MessageBox.Show(resp);
+            if (resp == "OK")
+            {
+                this.DialogResult = true;
+                this.Close();
+            }
+        }
+        void Update()
+        {
+            fillData();
+            if (UForm == null)
+                return;
+            UForm.idMeta = DataFill.idMeta;
+            var resp = Metodos.Editar(UForm);
+            MessageBox.Show(resp);
+            if (resp == "OK")
+            {
+                this.DialogResult = true;
+                this.Close();
+            }
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        void SetEnable(bool Enable)
         {
+            RBDepartamento.IsEnabled = Enable;
+            RBEmpleado.IsEnabled = Enable;
+            CbSeleccion.IsEnabled = Enable;
+            CbTipoMetrica.IsEnabled = Enable;
+            txtValorMeta.IsEnabled = Enable;
+            CbFechaInicio.IsEnabled = Enable;
+            CbFechaFinal.IsEnabled = Enable;
+        }
 
-            RBEmpleado.IsChecked = true;
-
-            
-
-
+        void fillForm(DMeta Data)
+        {
+            if (Data != null)
+            {
+                if(MType == MetaType.Departamento)
+                {
+                    RBDepartamento.IsChecked = true;
+                    CbSeleccion.SelectedValue = Data.idDepartamento;
+                }
+                else if(MType == MetaType.Empleado)
+                {
+                    RBEmpleado.IsChecked = true;
+                    CbSeleccion.SelectedValue = Data.idEmpleado;
+                }
+                CbTipoMetrica.SelectedValue = Data.idTipoMetrica;
+                txtValorMeta.SetText(Data.valorMeta.ToString());
+                CbFechaInicio.SelectedDate = Data.fechaInicio;
+                CbFechaFinal.SelectedDate = Data.fechaFinal;
+            }
         }
 
         private void RBEmpleado_Checked(object sender, RoutedEventArgs e)
         {
+            MType = MetaType.Empleado;
+
             MSeleccion MSel = new MSeleccion();
             var res = MSel.MostrarEmpleado("");
 
@@ -122,6 +199,8 @@ namespace HumanResourcesSM.Windows
 
         private void RBDepartamento_Checked(object sender, RoutedEventArgs e)
         {
+            MType = MetaType.Departamento;
+
             var res = new MDepartamento().Mostrar("");
 
             CbSeleccion.ItemsSource = res;
@@ -132,53 +211,19 @@ namespace HumanResourcesSM.Windows
             PlaceSeleccion.Text = "Seleccionar Departamento";
         }
 
-        private void CbFechaInicio_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (CbFechaInicio.SelectedDate != null)
-            {
-                PlaceFechaInicio.Text = "";
-
-                CbFechaFinal.DisplayDateStart = CbFechaInicio.SelectedDate?.Date;
-            }
-            else
-            {
-                PlaceFechaInicio.Text = "Fecha de Inicio";
-
-                CbFechaFinal.DisplayDateStart = null;
-            }
-        }
-
-        private void CbFechaFinal_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (CbFechaFinal.SelectedDate != null)
-            {
-                PlaceFechaFinal.Text = "";
-
-                CbFechaInicio.DisplayDateEnd = CbFechaFinal.SelectedDate?.Date;
-            }
-            else
-            {
-                PlaceFechaFinal.Text = "Fecha Final";
-
-                CbFechaInicio.DisplayDateEnd = null;
-            }
-        }
-
         private void CbSeleccion_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (CbSeleccion.SelectedIndex > -1)
             {
                 PlaceSeleccion.Visibility = Visibility.Hidden;
 
-                
-
                 int id = 0;
-                if(RBEmpleado.IsChecked ?? false)
+                if (MType == MetaType.Empleado)
                 {
                     var Empleado = (DEmpleado)CbSeleccion.SelectedItem;
                     id = Empleado.idDepartamento;
                 }
-                else
+                else if(MType == MetaType.Departamento)
                 {
                     id = (int)CbSeleccion.SelectedValue;
                 }
@@ -190,7 +235,6 @@ namespace HumanResourcesSM.Windows
                 CbTipoMetrica.SelectedValuePath = "idTipoMetrica";
 
                 CbTipoMetrica.IsEnabled = true;
-
             }
             else
             {
@@ -198,20 +242,6 @@ namespace HumanResourcesSM.Windows
 
                 CbTipoMetrica.SelectedIndex = -1;
                 CbTipoMetrica.IsEnabled = false;
-
-
-            }
-        }
-
-        private void CbTipoMetrica_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (CbTipoMetrica.SelectedIndex > -1)
-            {
-                PlaceTipoMetrica.Text = "";
-            }
-            else
-            {
-                PlaceTipoMetrica.Text = "Tipo de Métrica";
             }
         }
 
@@ -261,7 +291,60 @@ namespace HumanResourcesSM.Windows
 
 
         #endregion
+
+        private void CbFechaInicio_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CbFechaInicio.SelectedDate != null)
+            {
+                PlaceFechaInicio.Text = "";
+
+                CbFechaFinal.DisplayDateStart = CbFechaInicio.SelectedDate?.Date;
+            }
+            else
+            {
+                PlaceFechaInicio.Text = "Fecha de Inicio";
+
+                CbFechaFinal.DisplayDateStart = null;
+            }
+        }
+
+        private void CbFechaFinal_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CbFechaFinal.SelectedDate != null)
+            {
+                PlaceFechaFinal.Text = "";
+
+                CbFechaInicio.DisplayDateEnd = CbFechaFinal.SelectedDate?.Date;
+            }
+            else
+            {
+                PlaceFechaFinal.Text = "Fecha Final";
+
+                CbFechaInicio.DisplayDateEnd = null;
+            }
+        }
+
         
-        
+
+        private void CbTipoMetrica_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CbTipoMetrica.SelectedIndex > -1)
+            {
+                PlaceTipoMetrica.Text = "";
+            }
+            else
+            {
+                PlaceTipoMetrica.Text = "Tipo de Métrica";
+            }
+        }
+
+       
+
+    }
+
+    public enum MetaType
+    {
+        Empleado,
+        Departamento
     }
 }

@@ -29,7 +29,7 @@ namespace HumanResourcesSM.Windows
         {
             InitializeComponent();
 
-            MetaFrm frm = new MetaFrm();
+            MetaDG frm = new MetaDG();
             ContentFrame.Content = frm;
         }
 
@@ -52,11 +52,11 @@ namespace HumanResourcesSM.Windows
             switch (index)
             {
                 case 0:
-                    MetaFrm frm = new MetaFrm();
+                    MetaDG frm = new MetaDG();
                     ContentFrame.Content = frm;
                     break;
                 case 1:
-                    EvaluacionFrm frm1 = new EvaluacionFrm();
+                    EvaluacionDG frm1 = new EvaluacionDG();
                     ContentFrame.Content = frm1;
                     break;
                 case 2:

@@ -78,6 +78,12 @@
     <Compile Include="Windows\EmpleadoFrm.xaml.cs">
       <DependentUpon>EmpleadoFrm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\EvaluacionDG.xaml.cs">
+      <DependentUpon>EvaluacionDG.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MetaDG.xaml.cs">
+      <DependentUpon>MetaDG.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PagoRealizadoVista.xaml.cs">
       <DependentUpon>PagoRealizadoVista.xaml</DependentUpon>
     </Compile>
@@ -198,6 +204,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\EmpleadoFrm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\EvaluacionDG.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\MetaDG.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

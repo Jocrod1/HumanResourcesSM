@@ -1,12 +1,12 @@
-﻿<Page x:Class="HumanResourcesSM.Windows.EvaluacionFrm"
+﻿<Window x:Class="HumanResourcesSM.Windows.EvaluacionFrm"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:HumanResourcesSM.Windows"
       mc:Ignorable="d" 
-      d:DesignHeight="520" d:DesignWidth="650"
-      Loaded="Page_Loaded"
+      Height="550" Width="650"
+      Loaded="Window_Loaded"
       Title="SeleccionFrm">
 
     <Grid Background="WhiteSmoke">
@@ -15,9 +15,16 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <Border BorderThickness="0 0 0 1" BorderBrush="#2A347B">
-            <TextBlock Text="Registrar Evaluación" FontWeight="Bold" FontSize="23" HorizontalAlignment="Center" Margin="0 10"/>
-        </Border>
+        <Grid Name="BgTitulo" Grid.Row="0" Background="#248232">
+            <TextBlock Name="txtTitulo"
+                       Text="Insertar" 
+                       Foreground="White"
+                       HorizontalAlignment="Left"
+                       FontWeight="Bold"
+                       FontSize="25"
+                       Margin="20 30 0 15"/>
+            <!--<Separator VerticalAlignment="Bottom" Foreground="Black" />-->
+        </Grid>
         <ScrollViewer VerticalScrollBarVisibility="Visible" CanContentScroll="False" Grid.Row="1">
             <StackPanel Margin="100 10" VerticalAlignment="Center">
                 <StackPanel>
@@ -56,8 +63,6 @@
                 <local:UserInputText FontSize="15" x:Name="txtobservacion" Placeholder="Observaciones" Margin="0 10" Height="100"/>
             </StackPanel>
         </ScrollViewer>
-        <Border Grid.Row="2" BorderBrush="#2A347B" BorderThickness="0 1 0 0">
-            <Button Content="Enviar" Click="Button_Click" Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Width="150" Margin="0 10"/>
-        </Border>
+        <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Content="Agregar" Margin="0 10" Click="Button_Click" HorizontalAlignment="Center"/>
     </Grid>
-</Page>
+</Window>

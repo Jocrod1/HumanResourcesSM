@@ -77,11 +77,7 @@ namespace HumanResourcesSM.Windows
             if (Resp != MessageBoxResult.Yes)
                 return;
             int id = (int)((Button)sender).CommandParameter;
-            DTipoTramite item = new DTipoTramite()
-            {
-                idTipoTramite = id
-            };
-            Metodos.Eliminar(item);
+            Metodos.Eliminar(id);
             Refresh(txtBuscar.Text);
         }
 

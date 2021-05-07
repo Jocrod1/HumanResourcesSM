@@ -56,11 +56,46 @@ namespace Datos
             set { _FechaEvaluacion = value; }
         }
 
+        private double _ValorMeta;
+        public double valorMeta
+        {
+            get { return _ValorMeta; }
+            set { _ValorMeta = value; }
+        }
+
         private string _Cedula;
         public string cedula
         {
             get { return _Cedula; }
             set { _Cedula = value; }
+        }
+        private string _Usuario;
+        public string usuario
+        {
+            get { return _Usuario; }
+            set { _Usuario = value; }
+        }
+
+
+        private string _Departamento;
+        public string departamento
+        {
+            get { return _Departamento; }
+            set { _Departamento = value; }
+        }
+
+        private string _Empleado;
+        public string empleado
+        {
+            get { return _Empleado; }
+            set { _Empleado = value; }
+        }
+
+        private string _NombreMetrica;
+        public string nombreMetrica
+        {
+            get { return _NombreMetrica; }
+            set { _NombreMetrica = value; }
         }
 
         public DEvaluacion()

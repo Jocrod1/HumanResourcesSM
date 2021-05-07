@@ -90,11 +90,7 @@ namespace HumanResourcesSM.Windows
             if (Resp != MessageBoxResult.Yes)
                 return;
             int id = (int)((Button)sender).CommandParameter;
-            DUsuario item = new DUsuario()
-            {
-                idUsuario = id
-            };
-            Metodos.Eliminar(item);
+            Metodos.Eliminar(id);
             Refresh(txtBuscar.Text);
         }
 

@@ -48,7 +48,7 @@ namespace Metodos
 	    ";
 
         private string queryDelete = @"
-            DELETE * FROM [Meta] 
+            DELETE FROM [Meta] 
             WHERE idMeta = @idMeta
 	    ";
 
@@ -81,8 +81,7 @@ namespace Metodos
             FROM [Meta] m 
                 INNER JOIN [Departamento] d ON m.idDepartamento = d.idDepartamento 
                 INNER JOIN [TipoMetrica] tp ON m.idTipoMetrica = tp.idTipoMetrica 
-            WHERE m.status = 1 @searcher
-        ";
+            WHERE m.status = 1 AND m.idDepartamento <> 1";
 
         private string queryListByEmployee = @"
             SELECT 
@@ -96,20 +95,46 @@ namespace Metodos
                 INNER JOIN [Empleado] e ON m.idEmpleado = e.idEmpleado 
                 INNER JOIN [Departamento] d ON e.idDepartamento = d.idDepartamento 
                 INNER JOIN [TipoMetrica] tm ON m.idTipoMetrica = tm.idTipoMetrica 
-            WHERE m.status = 1 @searcher;
-        ";
+            WHERE m.status = 1 AND m.idEmpleado <> 1";
 
-        private string queryListByEmployeeDetail = @"
+        private string queryListAllByDepartment = @"
+            SELECT 
+                m.idMeta, 
+                tp.nombre, 
+                d.nombre, 
+                m.valorMeta 
+            FROM [Meta] m 
+                INNER JOIN [Departamento] d ON m.idDepartamento = d.idDepartamento 
+                INNER JOIN [TipoMetrica] tp ON m.idTipoMetrica = tp.idTipoMetrica 
+            WHERE m.status <> 0 AND m.idDepartamento <> 1";
+
+        private string queryListAllByEmployee = @"
             SELECT 
                 m.idMeta, 
                 tm.nombre, 
                 m.valorMeta, 
-                e.idEmpleado,
+                e.idEmpleado, 
                 (e.nombre + ' ' + e.apellido) AS nombreEmpleado, 
-                d.nombre,
-                m.fechaInicio, 
-                m.fechaFinal, 
-                m.status 
+                d.nombre 
+            FROM [Meta] m 
+                INNER JOIN [Empleado] e ON m.idEmpleado = e.idEmpleado 
+                INNER JOIN [Departamento] d ON e.idDepartamento = d.idDepartamento 
+                INNER JOIN [TipoMetrica] tm ON m.idTipoMetrica = tm.idTipoMetrica 
+            WHERE m.status <> 0 AND m.idEmpleado <> 1";
+
+        private string queryListByEmployeeDetail = @"
+            SELECT 
+                m.idMeta,
+				m.idTipoMetrica,
+				m.valorMeta,
+				m.idDepartamento,
+				m.status,
+				m.fechaInicio,
+				m.fechaFinal,
+				m.idUsuario,
+                tm.nombre, 
+                (e.nombre + ' ' + e.apellido) AS nombreEmpleado, 
+                d.nombre
             FROM [Meta] m 
                 INNER JOIN [Empleado] e ON m.idEmpleado = e.idEmpleado 
                 INNER JOIN [Departamento] d ON m.idDepartamento = d.idDepartamento 
@@ -119,10 +144,16 @@ namespace Metodos
 
         private string queryListByDepartmentDetail = @"
             SELECT 
-                m.idMeta, 
+                m.idMeta,
+				m.idTipoMetrica,
+				m.valorMeta,
+				m.idDepartamento,
+				m.status,
+				m.fechaInicio,
+				m.fechaFinal,
+				m.idUsuario,
                 tp.nombre, 
-                d.nombre, 
-                m.valorMeta 
+                d.nombre
             FROM [Meta] m 
                 INNER JOIN [Departamento] d ON m.idDepartamento = d.idDepartamento 
                 INNER JOIN [TipoMetrica] tp ON m.idTipoMetrica = tp.idTipoMetrica 
@@ -178,14 +209,14 @@ namespace Metodos
         }
 
 
-        public string Eliminar(int IdMeta)
+        public string Eliminar(int idMeta)
         {
             try
             {
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryDelete, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@idMeta", IdMeta);
+                comm.Parameters.AddWithValue("@idMeta", idMeta);
 
                 return comm.ExecuteNonQuery() == 1 ? "OK" : "No se elimino el Registro de la meta del empleado";
             }
@@ -238,8 +269,7 @@ namespace Metodos
             {
                 Conexion.ConexionSql.Open();
 
-                using SqlCommand comm = new SqlCommand(queryListByDepartment, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@searcher", Searcher);
+                using SqlCommand comm = new SqlCommand(queryListByDepartment + Searcher, Conexion.ConexionSql);
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 while (reader.Read())
@@ -249,7 +279,7 @@ namespace Metodos
                         idMeta = reader.GetInt32(0),
                         nombreMetrica = reader.GetString(1),
                         departamento = reader.GetString(2),
-                        valorMeta = (double)reader.GetDecimal(3),
+                        valorMeta = reader.GetDouble(3),
                     });
                 }
             }
@@ -269,8 +299,7 @@ namespace Metodos
             {
                 Conexion.ConexionSql.Open();
 
-                using SqlCommand comm = new SqlCommand(queryListByEmployee, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@searcher", Searcher);
+                using SqlCommand comm = new SqlCommand(queryListByEmployee + Searcher, Conexion.ConexionSql);
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 while (reader.Read())
@@ -279,7 +308,85 @@ namespace Metodos
                     {
                         idMeta = reader.GetInt32(0),
                         nombreMetrica = reader.GetString(1),
-                        valorMeta = (double)reader.GetDecimal(2),
+                        valorMeta = reader.GetDouble(2),
+                        idEmpleado = reader.GetInt32(3),
+                        empleado = reader.GetString(4),
+                        departamento = reader.GetString(5)
+                    });
+                }
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+        }
+
+        public List<DMeta> MostrarTodoByDepartamento(int BuscarDepartamento, DateTime? FechaInicio = null, DateTime? FechaFinal = null)
+        {
+            List<DMeta> ListaGenerica = new List<DMeta>();
+            string Searcher = "";
+            if(BuscarDepartamento > 0)
+            {
+                Searcher += " AND m.idDepartamento = " + BuscarDepartamento;
+            }
+            if(FechaInicio != null && FechaFinal != null)
+            {
+                Searcher += " AND m.fechaInicio <= '" + FechaFinal?.ToString("s") + "' AND m.fechaFinal >= '" + FechaInicio?.ToString("s") + "'";
+            }
+
+            try
+            {
+                Console.WriteLine(queryListAllByDepartment + Searcher);
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryListAllByDepartment + Searcher, Conexion.ConexionSql);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListaGenerica.Add(new DMeta
+                    {
+                        idMeta = reader.GetInt32(0),
+                        nombreMetrica = reader.GetString(1),
+                        departamento = reader.GetString(2),
+                        valorMeta = reader.GetDouble(3),
+                    });
+                }
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+        }
+
+
+        public List<DMeta> MostrarTodoByEmpleado(int BuscarEmpleado, DateTime? FechaInicio = null, DateTime? FechaFinal = null)
+        {
+            List<DMeta> ListaGenerica = new List<DMeta>();
+            string Searcher = "";
+            if (BuscarEmpleado > 0)
+            {
+                Searcher += " AND m.idEmpleado = " + BuscarEmpleado;
+            }
+            if (FechaInicio != null && FechaFinal != null)
+            {
+                Searcher += " AND m.fechaInicio <= '" + FechaFinal?.ToString("s") + "' AND m.fechaFinal >= '" + FechaInicio?.ToString("s") + "'";
+            }
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryListAllByEmployee + Searcher, Conexion.ConexionSql);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListaGenerica.Add(new DMeta
+                    {
+                        idMeta = reader.GetInt32(0),
+                        nombreMetrica = reader.GetString(1),
+                        valorMeta = reader.GetDouble(2),
                         idEmpleado = reader.GetInt32(3),
                         empleado = reader.GetString(4),
                         departamento = reader.GetString(5)
@@ -310,13 +417,16 @@ namespace Metodos
                     ListaGenerica.Add(new DMeta
                     {
                         idMeta = reader.GetInt32(0),
-                        nombreMetrica = reader.GetString(1),
-                        valorMeta = (double)reader.GetDecimal(2),
-                        idEmpleado = reader.GetInt32(3),
-                        empleado = reader.GetString(4),
-                        departamento = reader.GetString(5),
-                        fechaInicio = reader.GetDateTime(6),
-                        fechaFinal = reader.GetDateTime(7)
+                        idTipoMetrica = reader.GetInt32(1),
+                        valorMeta = reader.GetDouble(2),
+                        idDepartamento = reader.GetInt32(3),
+                        status = reader.GetInt32(4),
+                        fechaInicio = reader.GetDateTime(5),
+                        fechaFinal = reader.GetDateTime(6),
+                        idUsuario = reader.GetInt32(7),
+                        nombreMetrica = reader.GetString(8),
+                        empleado = reader.GetString(9),
+                        departamento = reader.GetString(10)
                     });
                 }
             }
@@ -344,9 +454,15 @@ namespace Metodos
                     ListaGenerica.Add(new DMeta
                     {
                         idMeta = reader.GetInt32(0),
-                        nombreMetrica = reader.GetString(1),
-                        departamento = reader.GetString(2),
-                        valorMeta = (double)reader.GetDecimal(3),
+                        idTipoMetrica = reader.GetInt32(1),
+                        valorMeta = reader.GetDouble(2),
+                        idDepartamento = reader.GetInt32(3),
+                        status = reader.GetInt32(4),
+                        fechaInicio = reader.GetDateTime(5),
+                        fechaFinal = reader.GetDateTime(6),
+                        idUsuario = reader.GetInt32(7),
+                        nombreMetrica = reader.GetString(8),
+                        departamento = reader.GetString(9),
                     });
                 }
             }

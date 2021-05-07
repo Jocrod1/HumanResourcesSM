@@ -22,33 +22,64 @@ namespace HumanResourcesSM.Windows
     /// <summary>
     /// Interaction logic for SeleccionFrm.xaml
     /// </summary>
-    public partial class EvaluacionFrm : Page
+    public partial class EvaluacionFrm : Window
     {
-        public EvaluacionFrm()
+        void init()
         {
             InitializeComponent();
             txtValorEvaluado.txt.KeyDown += new KeyEventHandler(Validaciones.TextBoxValidatePrices);
         }
+        public EvaluacionFrm()
+        {
+            init();
+        }
+        public EvaluacionFrm(TypeForm type, MetaType mtype, DEvaluacion evaluacion)
+        {
+            init();
+
+            Type = type;
+            MType = mtype;
+            DataFill = evaluacion;
+        }
+
+        public TypeForm Type;
+        public MetaType MType;
+        public DEvaluacion DataFill;
+
         public DEvaluacion UForm;
+
         public MEvaluacion Metodos = new MEvaluacion();
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Create();
+            if (Type == TypeForm.Update)
+                Update();
+            else
+                Create();
         }
-
-        void Create()
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            fillData();
-            if (UForm == null)
-                return;
-            var resp = Metodos.Insertar(UForm);
-            MessageBox.Show(resp);
-            if (resp == "OK")
+            if (Type == TypeForm.Read)
             {
-                //LO QUE SE HARÁ
-                Limpiar();
+                txtTitulo.Text = "Ver";
+                fillForm(DataFill);
+                SetEnable(false);
+                btnEnviar.Visibility = Visibility.Collapsed;
             }
+            else if (Type == TypeForm.Update)
+            {
+                txtTitulo.Text = "Editar";
+                BgTitulo.Background = (Brush)new BrushConverter().ConvertFrom("#2A347B");
+                btnEnviar.Content = "Editar";
+                btnEnviar.Foreground = (Brush)new BrushConverter().ConvertFrom("#2A347B");
+                btnEnviar.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#2A347B");
+                fillForm(DataFill);
+            }
+            else if (Type == TypeForm.Create)
+            {
+                RBEmpleado.IsChecked = true;
+            }
+
         }
 
         void fillData()
@@ -73,22 +104,56 @@ namespace HumanResourcesSM.Windows
                                     DateTime.Now);
         }
 
-        void Limpiar()
+        void Create()
         {
-            UForm = null;
-
-            Meta = null;
-            MetaSelected = false;
-            BordMeta.Visibility = Visibility.Collapsed;
-            txtTipoMetrica.Visibility = Visibility.Collapsed;
-            txtValorEvaluado.SetText("");
-            txtobservacion.SetText("");
+            fillData();
+            if (UForm == null)
+                return;
+            var resp = Metodos.Insertar(UForm);
+            MessageBox.Show(resp);
+            if (resp == "OK")
+            {
+                this.DialogResult = true;
+                this.Close();
+            }
         }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        void Update()
         {
-           
-
+            fillData();
+            if (UForm == null)
+                return;
+            UForm.idEvaluacion = DataFill.idEvaluacion;
+            var resp = Metodos.Editar(UForm);
+            MessageBox.Show(resp);
+            if (resp == "OK")
+            {
+                this.DialogResult = true;
+                this.Close();
+            }
+        }
+        void SetEnable(bool Enable)
+        {
+            BtnSeleccionarMeta.IsEnabled = Enable;
+            txtValorEvaluado.IsEnabled = Enable;
+            txtobservacion.IsEnabled = Enable;
+        }
+        void fillForm(DEvaluacion Data)
+        {
+            if (Data != null)
+            {
+                DMeta Meta = new DMeta();
+                if(MType == MetaType.Departamento)
+                {
+                    Meta = new MMeta().EncontrarByDepartamento(Data.idMeta)[0];
+                }
+                else if(MType == MetaType.Empleado)
+                {
+                    Meta = new MMeta().EncontrarByEmpleado(Data.idMeta)[0];
+                }
+                SeleccionarMeta(Meta, MType == MetaType.Empleado);
+                txtValorEvaluado.SetText(Data.valorEvaluado.ToString());
+                txtobservacion.SetText(Data.observacion.ToString());
+            }
         }
 
         private void BtnSeleccionarMeta_Click(object sender, RoutedEventArgs e)
