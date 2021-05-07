@@ -111,14 +111,14 @@ namespace Metodos
         }
 
 
-        public string Eliminar(DUsuario Usuario)
+        public string Eliminar(int IdUsuario)
         {
             try
             {
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryDelete, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@idUsuario", Usuario.idUsuario);
+                comm.Parameters.AddWithValue("@idUsuario", IdUsuario);
 
                 return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Eliminó el Registro del Usuario";
             }

@@ -32,7 +32,7 @@ namespace Metodos
 
         private string queryUpdateGoal = @"
             UPDATE [Meta] SET
-                status = 2
+                status = @status
             WHERE idMeta = @idMeta;
         ";
 
@@ -53,6 +53,7 @@ namespace Metodos
             DELETE * FROM [Evaluacion] 
             WHERE idEvaluacion = @idEvaluacion;
 	    ";
+
 
         //mostrar
         private string queryList = @"
@@ -89,13 +90,13 @@ namespace Metodos
                 string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingreso el Registro de la evaluacion del empleado";
 
                 if (!respuesta.Equals("OK")) return respuesta;
-                return ActualizarMeta(Evaluacion.idMeta);
+                return ActualizarMeta(Evaluacion.idMeta, 1);
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
-        private string ActualizarMeta(int IdMeta)
+        private string ActualizarMeta(int IdMeta, int Status)
         {
             try
             {
@@ -103,9 +104,9 @@ namespace Metodos
 
                 using SqlCommand comm = new SqlCommand(queryUpdateGoal, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@idMeta", IdMeta);
+                comm.Parameters.AddWithValue("@status", Status);
 
                 return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó el Registro de la Meta";
-
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
@@ -134,16 +135,20 @@ namespace Metodos
         }
 
 
-        public string Eiminar(DEvaluacion Evaluacion)
+        public string Eiminar(int IdEvaluacion)
         {
+            string respuesta = "";
             try
             {
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryDelete, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@idEvaluacion", Evaluacion.idEvaluacion);
+                comm.Parameters.AddWithValue("@idEvaluacion", IdEvaluacion);
 
-                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se elimino el Registro de la evaluacion del empleado";
+                respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se elimino el Registro de la evaluacion del empleado";
+
+                if (!respuesta.Equals("OK")) return respuesta;
+                return ActualizarMeta(IdEvaluacion, 1);
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }

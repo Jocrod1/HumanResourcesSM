@@ -178,14 +178,14 @@ namespace Metodos
         }
 
 
-        public string Eliminar(DMeta Meta)
+        public string Eliminar(int IdMeta)
         {
             try
             {
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryDelete, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@idMeta", Meta.idMeta);
+                comm.Parameters.AddWithValue("@idMeta", IdMeta);
 
                 return comm.ExecuteNonQuery() == 1 ? "OK" : "No se elimino el Registro de la meta del empleado";
             }

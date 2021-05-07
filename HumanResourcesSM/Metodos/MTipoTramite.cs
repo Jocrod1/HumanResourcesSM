@@ -85,14 +85,14 @@ namespace Metodos
         }
 
 
-        public string Eliminar(DTipoTramite TipoTramite)
+        public string Eliminar(int IdTipoTramite)
         {
             try
             {
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryDelete, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@idTipoTramite", TipoTramite.idTipoTramite);
+                comm.Parameters.AddWithValue("@idTipoTramite", IdTipoTramite);
 
                 return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Eliminó el Registro del Tipo de Trámite";
             }
