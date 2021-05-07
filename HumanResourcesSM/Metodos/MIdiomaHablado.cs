@@ -32,7 +32,7 @@ namespace Metodos
 	    ";
 
         private string queryDelete = @"
-            DELETE * FROM [IdiomaHablado] 
+            DELETE FROM [IdiomaHablado] 
             WHERE idIdiomaHablado = @idIdiomaHablado
 	    ";
 

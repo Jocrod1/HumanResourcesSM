@@ -45,7 +45,7 @@ namespace Metodos
         ";
 
         private string queryDelete = @"
-            DELETE * FROM [Usuario] 
+            DELETE FROM [Usuario] 
             WHERE idUsuario = @idUsuario
         ";
 

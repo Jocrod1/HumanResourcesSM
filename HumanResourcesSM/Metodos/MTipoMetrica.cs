@@ -29,7 +29,7 @@ namespace Metodos
 	    ";
 
         private string queryDelete = @"
-            DELETE * FROM [TipoMetrica] 
+            DELETE FROM [TipoMetrica] 
             WHERE idTipoMetrica = @idTipoMetrica;
 	    ";
 

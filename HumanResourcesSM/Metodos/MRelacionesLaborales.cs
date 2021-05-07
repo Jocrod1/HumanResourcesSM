@@ -40,7 +40,7 @@ namespace Metodos
         ";
 
         private string queryDelete = @"
-            DELETE * FROM [RelacionesLaborales] 
+            DELETE FROM [RelacionesLaborales] 
             WHERE idRelacionesLaborales = @idRelacionesLaborales;
         ";
 
