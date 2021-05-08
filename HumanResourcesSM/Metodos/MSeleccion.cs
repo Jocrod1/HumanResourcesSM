@@ -143,7 +143,7 @@ namespace Metodos
                 s.fechaRevision 
             FROM [Empleado] e 
                 INNER JOIN [Seleccion] s ON e.idEmpleado = s.idEmpleado 
-            WHERE s.idEntrevistaodor = @idEntrevistador 
+            WHERE s.idEntrevistaodor = @idEntrevistador AND e.idEmpleado <> 1
             ORDER BY e.cedula;
         ";
 

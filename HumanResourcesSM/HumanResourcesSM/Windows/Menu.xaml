@@ -41,12 +41,12 @@
                             <Border BorderThickness="0 0 0 0" Grid.Column="2" BorderBrush="#C22723">
                                 <Button Uid="2"  Content="Administración" Background="{x:Null}" BorderBrush="{x:Null}" Height="50" Click="Button_Click"  Foreground="Black" Padding="5"/>
                             </Border>
-                            <Border BorderThickness="0 0 0 0" Grid.Column="3" BorderBrush="#C22723">
+                            <!--<Border BorderThickness="0 0 0 0" Grid.Column="3" BorderBrush="#C22723">
                                 <Button Uid="3"  Content="Consultas" Background="{x:Null}" BorderBrush="{x:Null}" Height="50" Click="Button_Click"  Foreground="Black" Padding="5"/>
-                            </Border>
-                            <Border BorderThickness="0 0 0 0" Grid.Column="4" BorderBrush="#C22723">
+                            </Border>-->
+                            <!--<Border BorderThickness="0 0 0 0" Grid.Column="4" BorderBrush="#C22723">
                                 <Button Uid="4"  Content="Reportes" Background="{x:Null}" BorderBrush="{x:Null}" Height="50" Click="Button_Click"  Foreground="Black" Padding="5"/>
-                            </Border>
+                            </Border>-->
                         </Grid>
                     </Grid>
                     <Grid Grid.Column="2" >

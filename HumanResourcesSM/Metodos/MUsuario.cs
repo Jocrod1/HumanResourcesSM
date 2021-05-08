@@ -29,19 +29,12 @@ namespace Metodos
 	    ";
 
         private string queryUpdate = @"
-            UPDATE [Usuario] SET (
-                idRol,
-                usuario,
-                contraseña,
-                confirmacion,
-                entrevistando
-            ) VALUES (
-                @idRol,
-                @usuario,
-                @contraseña,
-                @confirmacion,
-                @entrevistando
-            ) WHERE idUsuario = @idUsuario;
+            UPDATE [Usuario] SET 
+                idRol = @idRol,
+                usuario = @usuario,
+                contraseña = @contraseña,
+                confirmacion = @confirmacion
+            WHERE idUsuario = @idUsuario;
         ";
 
         private string queryDelete = @"
@@ -101,7 +94,6 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@usuario", Usuario.usuario);
                 comm.Parameters.AddWithValue("@contraseña", Usuario.contraseña);
                 comm.Parameters.AddWithValue("@confirmacion", Usuario.confirmacion);
-                comm.Parameters.AddWithValue("@entrevistando", Usuario.entrevistando);
                 comm.Parameters.AddWithValue("@idUsuario", Usuario.idUsuario);
 
                 return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó el Registro del Usuario";
@@ -212,7 +204,7 @@ namespace Metodos
                         usuario = reader.GetString(2),
                         contraseña = reader.GetString(3),
                         confirmacion = reader.GetString(4),
-                        entrevistando = reader.GetInt16(5)
+                        entrevistando = reader.GetInt32(5)
                     });
                 }
             }

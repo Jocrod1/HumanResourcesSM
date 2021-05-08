@@ -140,7 +140,13 @@ namespace HumanResourcesSM.Windows
                 txtUsuario.SetText(Data.usuario);
                 CbRol.SelectedValue = Data.idRol;
                 txtConfirmacion.SetText(Data.confirmacion);
-                grdContraseña.Visibility = Visibility.Collapsed;
+                if (Type == TypeForm.Read)
+                    grdContraseña.Visibility = Visibility.Collapsed;
+                else if(Type == TypeForm.Update)
+                {
+                    txtContraseña.Password = Data.contraseña;
+                    PlaceContraseña.Text = "";
+                }
             }
         }
         #region Validation
