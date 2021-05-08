@@ -192,6 +192,20 @@ namespace Datos
             set { _UltimoPagoFecha = value; }
         }
 
+        private int _NumeroContrataciones;
+        public int numeroContrataciones
+        {
+            get { return _NumeroContrataciones; }
+            set { _NumeroContrataciones = value; }
+        }
+
+        private string _UltimaContratacion;
+        public string ultimaContratacion
+        {
+            get { return _UltimaContratacion; }
+            set { _UltimaContratacion = value; }
+        }
+
         public DEmpleado()
         {
 

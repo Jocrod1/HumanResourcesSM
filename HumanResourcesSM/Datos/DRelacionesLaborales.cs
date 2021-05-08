@@ -42,6 +42,27 @@ namespace Datos
             set { _DocumentoUrl = value; }
         }
 
+        private string _NombreEmpleado;
+        public string nombreEmpleado
+        {
+            get { return _NombreEmpleado; }
+            set { _NombreEmpleado = value; }
+        }
+
+        private string _NombreTramite;
+        public string nombreTramite
+        {
+            get { return _NombreTramite; }
+            set { _NombreTramite = value; }
+        }
+
+        private string _CedulaEmpleado;
+        public string cedulaEmpleado
+        {
+            get { return _CedulaEmpleado; }
+            set { _CedulaEmpleado = value; }
+        }
+
         public DRelacionesLaborales()
         {
 

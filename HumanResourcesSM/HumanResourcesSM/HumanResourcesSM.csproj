@@ -366,7 +366,42 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptNumeroContrato.rdlc" />
+    <EmbeddedResource Include="Reports\rptRelacionesLaborales.rdlc" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\Datos.Conexion.datasource" />
+    <None Include="Properties\DataSources\Datos.DContrato.datasource" />
+    <None Include="Properties\DataSources\Datos.DDepartamento.datasource" />
+    <None Include="Properties\DataSources\Datos.DDetallePago.datasource" />
+    <None Include="Properties\DataSources\Datos.DDeuda.datasource" />
+    <None Include="Properties\DataSources\Datos.DEducacion.datasource" />
+    <None Include="Properties\DataSources\Datos.DEmpleado.datasource" />
+    <None Include="Properties\DataSources\Datos.DEvaluacion.datasource" />
+    <None Include="Properties\DataSources\Datos.DIdioma.datasource" />
+    <None Include="Properties\DataSources\Datos.DIdiomaHablado.datasource" />
+    <None Include="Properties\DataSources\Datos.DMeta.datasource" />
+    <None Include="Properties\DataSources\Datos.DPago.datasource" />
+    <None Include="Properties\DataSources\Datos.DPais.datasource" />
+    <None Include="Properties\DataSources\Datos.DRelacionesLaborales.datasource" />
+    <None Include="Properties\DataSources\Datos.DRol.datasource" />
+    <None Include="Properties\DataSources\Datos.DSeleccion.datasource" />
+    <None Include="Properties\DataSources\Datos.DTipoMetrica.datasource" />
+    <None Include="Properties\DataSources\Datos.DTipoTramite.datasource" />
+    <None Include="Properties\DataSources\Datos.DUsuario.datasource" />
+    <None Include="Properties\DataSources\Metodos.MContrato.datasource" />
+    <None Include="Properties\DataSources\Metodos.MDepartamento.datasource" />
+    <None Include="Properties\DataSources\Metodos.MDeuda.datasource" />
+    <None Include="Properties\DataSources\Metodos.MEducacion.datasource" />
+    <None Include="Properties\DataSources\Metodos.MEvaluacion.datasource" />
+    <None Include="Properties\DataSources\Metodos.MIdiomaHablado.datasource" />
+    <None Include="Properties\DataSources\Metodos.MMeta.datasource" />
+    <None Include="Properties\DataSources\Metodos.MPago.datasource" />
+    <None Include="Properties\DataSources\Metodos.MRelacionesLaborales.datasource" />
+    <None Include="Properties\DataSources\Metodos.MRol.datasource" />
+    <None Include="Properties\DataSources\Metodos.MSeleccion.datasource" />
+    <None Include="Properties\DataSources\Metodos.MTipoMetrica.datasource" />
+    <None Include="Properties\DataSources\Metodos.MTipoTramite.datasource" />
+    <None Include="Properties\DataSources\Metodos.MUsuario.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

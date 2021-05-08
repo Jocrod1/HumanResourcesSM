@@ -50,6 +50,29 @@ namespace Metodos
             SELECT * FROM [Contrato]
             WHERE idEmpleado = @idEmpleado;
         ";
+
+        private string queryReportNumberContract = @"
+            SELECT
+	            e.idEmpleado,
+	            e.cedula,
+	            CONCAT(e.nombre, ' ' , e.apellido) AS nombreEmpleado,
+	            ISNULL((
+		            SELECT COUNT(c.idEmpleado)
+		            FROM [Contrato] c
+			            INNER JOIN [Seleccion] s ON c.idEmpleado = s.idEmpleado
+		            WHERE e.idEmpleado = s.idSeleccionador
+			            AND c.fechaContratacion @primeraFecha AND @segundaFecha
+	            ),0) AS numeroContrataciones,
+	            ISNULL((
+		            SELECT TOP 1 c.fechaContratacion
+		            FROM [Contrato] c
+			            INNER JOIN [Seleccion] s ON c.idEmpleado = s.idEmpleado
+		            WHERE e.idEmpleado = s.idSeleccionador
+		            ORDER BY c.idContrato DESC
+	            ), null) AS ultimaContratacion
+            FROM [Empleado] e
+            ORDER BY CONCAT(e.nombre, ' ' , e.apellido), numeroContrataciones  DESC
+        ";
         #endregion
 
         public string AsignarEntrevistador(int IdSeleccion, int IdEntrevistador)
@@ -146,6 +169,38 @@ namespace Metodos
                         nombrePuesto = reader.GetString(3),
                         sueldo = (double)reader.GetDecimal(4),
                         horasSemanales = reader.GetInt32(5),
+                    });
+                }
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+        }
+
+
+        public List<DEmpleado> ReporteNumeroContrato(DateTime PrimeraFecha, DateTime SegundaFecha)
+        {
+            List<DEmpleado> ListaGenerica = new List<DEmpleado>();
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryReportNumberContract, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@primeraFecha", PrimeraFecha);
+                comm.Parameters.AddWithValue("@segundaFecha", SegundaFecha);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                if (reader.Read())
+                {
+                    ListaGenerica.Add(new DEmpleado
+                    {
+                        idEmpleado = reader.GetInt32(0),
+                        cedula = reader.GetString(1),
+                        nombre = reader.GetString(2),
+                        numeroContrataciones = reader.GetInt32(3),
+                        ultimaContratacion = reader.GetDateTime(4) = null ? "Sin Contrataciones" : reader.GetDateTime(4).ToString("MM-dd-yyyy")
                     });
                 }
             }

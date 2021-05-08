@@ -52,6 +52,17 @@ namespace Metodos
             SELECT * FROM [RelacionesLaborales] 
             WHERE idRelacionesLaborales = @idRelacionesLaborales;
         ";
+
+        private string queryReport = @"
+            SELECT
+	            e.cedula,
+	            CONCAT(e.nombre, ' ', e.apellido) AS nombreCompleto,
+	            tt.nombre,
+	            rl.fechaTramite
+            FROM [RelacionesLaborales] rl
+	            INNER JOIN [Empleado] e ON e.idEmpleado=rl.idEmpleado
+	            INNER JOIN [TipoTramite] tt ON tt.idTipoTramite=rl.idTipoTramite;
+        ";
         #endregion
 
         public string Insertar(DRelacionesLaborales RelacionesLaborales)
@@ -175,6 +186,34 @@ namespace Metodos
                         idTipoTramite = reader.GetInt32(2),
                         fechaTramite = reader.GetDateTime(3),
                         documentoUrl = reader.GetString(4)
+                    });
+                }
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+        }
+
+
+        public List<DRelacionesLaborales> MostrarReporte()
+        {
+            List<DRelacionesLaborales> ListaGenerica = new List<DRelacionesLaborales>();
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+                using SqlCommand comm = new SqlCommand(queryReport, Conexion.ConexionSql);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListaGenerica.Add(new DRelacionesLaborales
+                    {
+                        cedulaEmpleado = reader.GetString(0),
+                        nombreEmpleado = reader.GetString(1),
+                        nombreTramite = reader.GetString(2),
+                        fechaTramite = reader.GetDateTime(3),
                     });
                 }
             }
