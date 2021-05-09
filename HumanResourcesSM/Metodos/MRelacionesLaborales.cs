@@ -227,7 +227,7 @@ namespace Metodos
                         cedulaEmpleado = reader.GetString(0),
                         nombreEmpleado = reader.GetString(1),
                         nombreTramite = reader.GetString(2),
-                        fechaTramite = reader.GetDateTime(3),
+                        fechaTramite = reader.GetDateTime(3)
                     });
                 }
             }

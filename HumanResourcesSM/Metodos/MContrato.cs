@@ -64,6 +64,12 @@ namespace Metodos
 			            AND c.fechaContratacion @primeraFecha AND @segundaFecha
 	            ),0) AS numeroContrataciones,
 	            ISNULL((
+		            SELECT COUNT(s.idEmpleado)
+		            FROM [Seleccion] s
+		            WHERE e.idEmpleado = s.idSeleccionador
+			            AND c.fechaContratacion @primeraFecha AND @segundaFecha
+	            ),0) AS numeroSelecciones,
+	            ISNULL((
 		            SELECT TOP 1 c.fechaContratacion
 		            FROM [Contrato] c
 			            INNER JOIN [Seleccion] s ON c.idEmpleado = s.idEmpleado
@@ -200,7 +206,8 @@ namespace Metodos
                         cedula = reader.GetString(1),
                         nombre = reader.GetString(2),
                         numeroContrataciones = reader.GetInt32(3),
-                        ultimaContratacion = reader.GetDateTime(4) == null ? "Sin Contrataciones" : reader.GetDateTime(4).ToString("MM-dd-yyyy")
+                        numeroSelecciones = reader.GetInt32(4),
+                        ultimaContratacion = reader.GetDateTime(5) == null ? "Sin Contrataciones" : reader.GetDateTime(5).ToString("MM-dd-yyyy")
                     });
                 }
             }

@@ -89,7 +89,7 @@ namespace HumanResourcesSM.Windows
 
         private void btnEliminar_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult Resp = MessageBox.Show("¿Seguro que quieres eliminrar este item?", "Magicolor", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            MessageBoxResult Resp = MessageBox.Show("¿Seguro que quieres eliminrar este item?", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (Resp != MessageBoxResult.Yes)
                 return;
             int id = (int)((Button)sender).CommandParameter;
@@ -144,7 +144,14 @@ namespace HumanResourcesSM.Windows
 
         private void BtnReporte_Click(object sender, RoutedEventArgs e)
         {
+            if (dgOperaciones.Items.Count == 0)
+            {
+                MessageBox.Show("No se puede realizar un Reporte vacio!", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                return;
+            }
 
+            Reports.Reporte reporte = new Reports.Reporte();
+            reporte.ExportPDF(Metodos.MostrarReporte(), "RelacionesLaborales");
         }
     }
 }

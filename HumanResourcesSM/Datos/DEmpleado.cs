@@ -199,6 +199,13 @@ namespace Datos
             set { _NumeroContrataciones = value; }
         }
 
+        private int _NumeroSelecciones;
+        public int numeroSelecciones
+        {
+            get { return _NumeroSelecciones; }
+            set { _NumeroSelecciones = value; }
+        }
+
         private string _UltimaContratacion;
         public string ultimaContratacion
         {
