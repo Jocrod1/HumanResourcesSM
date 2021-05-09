@@ -44,12 +44,12 @@ namespace Metodos
 
         private string queryList = @"
             SELECT * FROM [Usuario] 
-            WHERE usuario LIKE @usuario + '%' 
+            WHERE usuario LIKE @usuario + '%' AND idUsuario <> 1 
             ORDER BY usuario";
 
         private string queryLogin = @"
             SELECT * FROM [Usuario] 
-            WHERE usuario = @usuario AND contraseña = @contraseña;
+            WHERE usuario = @usuario AND contraseña = @contraseña AND idUsuario <> 1
         ";
 
         private string queryListID = @"

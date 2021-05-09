@@ -50,8 +50,7 @@ namespace Metodos
 
         private string queryListID = @"
             SELECT * FROM [Educacion]
-            WHERE idEducacion LIKE @idEducacion + '%'
-            ORDER BY idEducacion;
+            WHERE idEducacion = @idEducacion
         ";
 
         #endregion
@@ -67,7 +66,10 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@nombreCarrera", Educacion.nombreCarrera);
                 comm.Parameters.AddWithValue("@nombreInstitucion", Educacion.nombreInstitucion);
                 comm.Parameters.AddWithValue("@fechaIngreso", Educacion.fechaIngreso);
-                comm.Parameters.AddWithValue("@fechaEgreso", Educacion.fechaEgreso);
+                if (Educacion.fechaEgreso != null)
+                    comm.Parameters.AddWithValue("@fechaEgreso", Educacion.fechaEgreso);
+                else
+                    comm.Parameters.AddWithValue("@fechaEgreso", DBNull.Value);
 
                 return comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingreso el Registro de la Educacion";
             }
@@ -87,7 +89,10 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@nombreCarrera", Educacion.nombreCarrera);
                 comm.Parameters.AddWithValue("@nombreInstitucion", Educacion.nombreInstitucion);
                 comm.Parameters.AddWithValue("@fechaIngreso", Educacion.fechaIngreso);
-                comm.Parameters.AddWithValue("@fechaEgreso", Educacion.fechaEgreso);
+                if (Educacion.fechaEgreso != null)
+                    comm.Parameters.AddWithValue("@fechaEgreso", Educacion.fechaEgreso);
+                else
+                    comm.Parameters.AddWithValue("@fechaEgreso", DBNull.Value);
                 comm.Parameters.AddWithValue("@idEducacion", Educacion.idEducacion);
 
                 return comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el Registro de la educacion";

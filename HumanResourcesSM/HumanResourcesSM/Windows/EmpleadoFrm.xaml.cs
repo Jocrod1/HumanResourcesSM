@@ -20,6 +20,7 @@ using System.Text.RegularExpressions;
 
 namespace HumanResourcesSM.Windows
 {
+
     /// <summary>
     /// Interaction logic for SeleccionarMenu.xaml
     /// </summary>
@@ -76,7 +77,11 @@ namespace HumanResourcesSM.Windows
 
             UrlCurriculo.NavigateUri = new Uri(Empleado.curriculum);
             txtDocumento.Text = Empleado.cedula;
-            txtFechaNac.Text = Empleado.fechaNacimiento.ToString();
+
+            int edad = (DateTime.Today.Year - Empleado.fechaNacimiento.Year);
+            if (Empleado.fechaNacimiento.Date > DateTime.Today.AddYears(-edad)) edad--;
+            txtFechaNac.Text = Empleado.fechaNacimiento.ToShortDateString() + " (" +  edad + " Años)";
+
             txtPaisNac.Text = Empleado.nacionalidad; // por cambiar, debe verse "España - ES"
             txtEstadoLegal.Text = Empleado.estadoLegal;
             txtEmail.Text = Empleado.email;
@@ -87,8 +92,8 @@ namespace HumanResourcesSM.Windows
 
             txtNombrePosicion.Text = Seleccion.nombrePuesto;
             txtDepartamento.Text = res.nombre;
-            txtFechaApl.Text = Seleccion.fechaAplicacion.ToString();
-            txtFechaRev.Text = Seleccion.fechaRevision.ToString();
+            txtFechaApl.Text = Seleccion.fechaAplicacion.ToShortDateString();
+            txtFechaRev.Text = Seleccion.fechaRevision.ToShortDateString();
 
             txtStatus.Text = Empleado.StatusString;
 

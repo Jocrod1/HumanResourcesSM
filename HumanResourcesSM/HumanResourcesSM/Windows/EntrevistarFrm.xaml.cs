@@ -42,7 +42,19 @@ namespace HumanResourcesSM.Windows
         {
             MSeleccion SelMetodo = new MSeleccion();
 
-            var Empleado = SelMetodo.EmpleadoEntrevista()[0];
+            var resp = SelMetodo.EmpleadoEntrevista();
+            
+            if(resp.Count < 1)
+            {
+                NotAvailablePanel.Visibility = Visibility.Visible;
+                return;
+            }
+            else
+            {
+                NotAvailablePanel.Visibility = Visibility.Collapsed;
+            }
+
+            var Empleado = resp[0];
 
             var DatosSeleccion = SelMetodo.EncontrarSeleccion(Empleado.idEmpleado)[0];
 
@@ -58,7 +70,11 @@ namespace HumanResourcesSM.Windows
 
             UrlCurriculo.NavigateUri = new Uri(Empleado.curriculum);
             txtDocumento.Text = Empleado.cedula;
-            txtFechaNac.Text = Empleado.fechaNacimiento.ToString();
+
+            int edad = (DateTime.Today.Year - Empleado.fechaNacimiento.Year);
+            if (Empleado.fechaNacimiento.Date > DateTime.Today.AddYears(-edad)) edad--;
+            txtFechaNac.Text = Empleado.fechaNacimiento.ToShortDateString() + " (" + edad + " Años)";
+
             txtPaisNac.Text = Empleado.nacionalidad; // por cambiar, debe verse "España - ES"
             txtEstadoLegal.Text = Empleado.estadoLegal;
             txtEmail.Text = Empleado.email;
@@ -69,7 +85,7 @@ namespace HumanResourcesSM.Windows
 
             txtNombrePosicion.Text = DatosSeleccion.nombrePuesto;
             txtDepartamento.Text = res.nombre;
-            txtFechaApl.Text = DatosSeleccion.fechaAplicacion.ToString();
+            txtFechaApl.Text = DatosSeleccion.fechaAplicacion.ToShortDateString();
 
 
             RefreshDGIdiomas();
@@ -95,6 +111,9 @@ namespace HumanResourcesSM.Windows
             IdiomaHabladoFrm Frm = new IdiomaHabladoFrm(EmpleadoEntrevistado);
 
             Frm.ShowDialog();
+
+            RefreshDGIdiomas();
+
         }
 
         private void BtnIdiDelete_Click(object sender, RoutedEventArgs e)
@@ -113,6 +132,9 @@ namespace HumanResourcesSM.Windows
             frm.Type = TypeForm.Update;
             frm.DataFill = resp;
             frm.ShowDialog();
+
+            RefreshDGIdiomas();
+
         }
 
         public void RefreshDGIdiomas()
@@ -412,7 +434,10 @@ namespace HumanResourcesSM.Windows
         private void BtnAccept_Click(object sender, RoutedEventArgs e)
         {
             ContratoFrm frm = new ContratoFrm(EmpleadoEntrevistado, EmpleadoSelEntrevistado);
-            frm.ShowDialog();
+            bool resp = frm.ShowDialog() ?? false;
+
+            if (resp)
+                FetchEmpleado();
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -421,6 +446,11 @@ namespace HumanResourcesSM.Windows
             string navigateUri = hl.NavigateUri.ToString();
             Process.Start(new ProcessStartInfo(navigateUri));
             e.Handled = true;
+        }
+
+        private void BtnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            FetchEmpleado();
         }
     }
 }

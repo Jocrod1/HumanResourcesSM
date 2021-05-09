@@ -93,7 +93,7 @@ namespace HumanResourcesSM.Windows
             }
         }
 
-        public void RegistrarContrato(DContrato contrato)
+        public string RegistrarContrato(DContrato contrato)
         {
             DContrato Data = new DContrato(0,
                                            Empleado.idEmpleado,
@@ -103,17 +103,19 @@ namespace HumanResourcesSM.Windows
                                            contrato.horasSemanales);
 
             var resp = new MContrato().Insertar(Data);
-            MessageBox.Show(resp);
+
+            return resp;
         }
 
-        public void ActualizarContrato(DContrato contrato)
+        public string ActualizarContrato(DContrato contrato)
         {
             DContrato Data = DataFill;
             Data.sueldo = contrato.sueldo;
             Data.horasSemanales = contrato.horasSemanales;
 
             var resp = new MContrato().Editar(Data);
-            MessageBox.Show(resp);
+
+            return resp;
         }
 
         void fillData()
@@ -142,11 +144,13 @@ namespace HumanResourcesSM.Windows
             if (UForm == null)
                 return;
 
-            RegistrarContrato(UForm);
+            string res = RegistrarContrato(UForm);
 
-            this.DialogResult = true;
+            if (!res.Equals("OK"))
+                MessageBox.Show(res);
+
+            this.DialogResult = res.Equals("OK");
             this.Close();
-
         }
 
         void Update()
@@ -155,9 +159,12 @@ namespace HumanResourcesSM.Windows
             if (UForm == null)
                 return;
 
-            ActualizarContrato(UForm);
+            string res = ActualizarContrato(UForm);
 
-            this.DialogResult = true;
+            if (!res.Equals("OK"))
+                MessageBox.Show(res);
+
+            this.DialogResult = res.Equals("OK");
             this.Close();
         }
 

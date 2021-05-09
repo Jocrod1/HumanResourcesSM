@@ -180,9 +180,22 @@ namespace Metodos
             WHERE em.nombre + ' ' + em.apellido LIKE @nombreCompleto + '%';
         ";
 
+
+        private string queryListToFireDG = @"
+            SELECT 
+                em.idEmpleado, 
+                (em.nombre + ' ' + em.apellido) AS nombreCompleto, 
+                em.cedula, 
+                p.pais, 
+                d.nombre 
+            FROM [Empleado] em 
+                INNER JOIN [Departamento] d ON em.idDepartamento = d.idDepartamento 
+                INNER JOIN [Paises] p ON em.nacionalidad = p.codigo 
+            WHERE em.nombre + ' ' + em.apellido LIKE @nombreCompleto + '%' and em.idEmpleado = 3
+        ";
         private string queryListEmployeeActive = @"
             SELECT * FROM [Empleado] 
-            WHERE status = 1;
+            WHERE status = 1 and idEmpleado <> 1
         ";
 
         //mostrar seleccion
@@ -240,8 +253,6 @@ namespace Metodos
         {
             try
             {
-                Conexion.ConexionSql.Open();
-
                 using SqlCommand comm = new SqlCommand(queryInsertSelection, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
                 comm.Parameters.AddWithValue("@idSeleccionador", Seleccion.idSeleccionador);
@@ -253,8 +264,12 @@ namespace Metodos
 
                 if (!respuesta.Equals("OK")) return respuesta;
 
-                if (!InsertarIdiomaHablado(IdEmpleado, Idioma).Equals("OK")) return InsertarIdiomaHablado(IdEmpleado, Idioma);
-                return InsertarEducacion(IdEmpleado, Educacion);
+                string Respidi = InsertarIdiomaHablado(IdEmpleado, Idioma);
+                if (!Respidi.Equals("OK")) return Respidi;
+
+                string RespEdu = InsertarEducacion(IdEmpleado, Educacion);
+                return RespEdu;
+
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
@@ -267,12 +282,11 @@ namespace Metodos
 
             try
             {
-                Conexion.ConexionSql.Open();
-
-                using SqlCommand comm = new SqlCommand(queryInsertLanguage, Conexion.ConexionSql);
-
                 foreach (DIdiomaHablado det in Idioma)
                 {
+                    using SqlCommand comm = new SqlCommand(queryInsertLanguage, Conexion.ConexionSql);
+
+
                     comm.Parameters.AddWithValue("@idIdioma", Idioma[i].idIdioma);
                     comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
                     comm.Parameters.AddWithValue("@nivel", Idioma[i].nivel);
@@ -297,10 +311,11 @@ namespace Metodos
             {
                 Conexion.ConexionSql.Open();
 
-                using SqlCommand comm = new SqlCommand(queryInsertEducation, Conexion.ConexionSql);
-
                 foreach (DEducacion det in Educacion)
                 {
+                    using SqlCommand comm = new SqlCommand(queryInsertEducation, Conexion.ConexionSql);
+
+
                     comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
                     comm.Parameters.AddWithValue("@nombreCarrera", Educacion[i].nombreCarrera);
                     comm.Parameters.AddWithValue("@nombreInstitucion", Educacion[i].nombreInstitucion);
@@ -364,39 +379,6 @@ namespace Metodos
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
-
-
-        public string AnularSeleccion(int IdSeleccion)
-        {
-            try
-            {
-                Conexion.ConexionSql.Open();
-
-                using SqlCommand comm = new SqlCommand(queryNullSelection, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@idSeleccion", IdSeleccion);
-
-                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Anuló la Selección";
-            }
-            catch (SqlException e) { return e.Message; }
-            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
-        }
-
-
-        public string AnularEmpleado(int IdEmpleado)
-        {
-            try
-            {
-                Conexion.ConexionSql.Open();
-
-                using SqlCommand comm = new SqlCommand(queryNullSelection, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
-
-                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Anuló el Empleado";
-            }
-            catch (SqlException e) { return e.Message; }
-            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
-        }
-
 
         public List<DEmpleado> Mostrar(int IdEntrevistador)
         {
@@ -503,6 +485,36 @@ namespace Metodos
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryListEmployeeDG, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@nombreCompleto", NombreCompleto);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListaGenerica.Add(new DEmpleado
+                    {
+                        idEmpleado = reader.GetInt32(0),
+                        nombre = reader.GetString(1),
+                        cedula = reader.GetString(2),
+                        nacionalidad = reader.GetString(3),
+                        nombreDepartamento = reader.GetString(4)
+                    });
+                }
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+        }
+
+        public List<DEmpleado> MostrarDespedirDG(string NombreCompleto)
+        {
+            List<DEmpleado> ListaGenerica = new List<DEmpleado>();
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryListToFireDG, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@nombreCompleto", NombreCompleto);
 
                 using SqlDataReader reader = comm.ExecuteReader();
@@ -662,6 +674,37 @@ namespace Metodos
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
 
             return ListaGenerica;
+        }
+
+        public string AnularSeleccion(int IdSeleccion)
+        {
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryNullSelection, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idSeleccion", IdSeleccion);
+
+                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Anuló la Selección";
+            }
+            catch (SqlException e) { return e.Message; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+        }
+
+
+        public string AnularEmpleado(int IdEmpleado)
+        {
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryNullSelection, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
+
+                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Anuló el Empleado";
+            }
+            catch (SqlException e) { return e.Message; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
 

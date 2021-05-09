@@ -33,7 +33,7 @@ namespace HumanResourcesSM.Windows
         public void Refresh(string search)
         {
 
-            var items = Metodos.MostrarEmpleadoDG(search);
+            var items = Metodos.MostrarDespedirDG(search);
 
 
             dgOperaciones.ItemsSource = items;

@@ -189,10 +189,13 @@ namespace HumanResourcesSM.Windows
             if(CbRol.SelectedIndex > -1)
             {
                 PlaceRol.Text = "";
+                var rol = CbRol.SelectedItem as DRol;
+                txtDescripción.Text = rol.descripcion;
             }
             else
             {
                 PlaceRol.Text = "Rol";
+                txtDescripción.Text = "";
             }
         }
 
