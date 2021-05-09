@@ -23,6 +23,16 @@ namespace HumanResourcesSM.Windows
     public partial class Menu : Window
     {
         public static DUsuario ActUsuario;
+
+        public void RefreshUsuario()
+        {
+            var res = new MUsuario().Encontrar(ActUsuario.idUsuario);
+
+            ActUsuario = res[0];
+
+            TxtUserName.Text = ActUsuario.usuario;
+        }
+
         public Menu(DUsuario User)
         {
             InitializeComponent();
@@ -94,7 +104,7 @@ namespace HumanResourcesSM.Windows
             LastIndex = -1;
             LastSelected = null;
 
-            AjustesMenu frm = new AjustesMenu();
+            AjustesMenu frm = new AjustesMenu(this);
             ContentFrame.Content = frm;
         }
 

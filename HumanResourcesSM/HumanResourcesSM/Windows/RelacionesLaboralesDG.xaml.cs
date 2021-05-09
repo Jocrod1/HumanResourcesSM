@@ -56,29 +56,8 @@ namespace HumanResourcesSM.Windows
 
             List<DRelacionesLaborales> items = Metodos.Mostrar(idEmpleado, idTipoTramite);
 
-            List<ModelRelLab> MRL = new List<ModelRelLab>();
 
-            MTipoTramite MEtR = new MTipoTramite();
-
-            var resp = MEtR.Mostrar("");
-
-            MSeleccion MSEL = new MSeleccion();
-
-            var Resp1 = MSEL.MostrarEmpleado("");
-
-            foreach(DRelacionesLaborales item in items)
-            {
-                DTipoTramite DTT = resp.Find((TipoT) => TipoT.idTipoTramite == item.idTipoTramite);
-
-                DEmpleado DEMP = Resp1.Find((Emp) => Emp.idEmpleado == item.idEmpleado);
-
-                MRL.Add(new ModelRelLab(item.idRelacionesLaborales,
-                                        DEMP.nombre + " " + DEMP.apellido, // TESTING
-                                        DTT.nombre));
-            }
-
-
-            dgOperaciones.ItemsSource = MRL;
+            dgOperaciones.ItemsSource = items;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -131,19 +110,6 @@ namespace HumanResourcesSM.Windows
             Refresh();
         }
 
-        public class ModelRelLab
-        {
-            public ModelRelLab(int idRelacionesLaborales, string nombreEmpleado, string tipoTramite)
-            {
-                this.idRelacionesLaborales = idRelacionesLaborales;
-                NombreEmpleado = nombreEmpleado;
-                TipoTramite = tipoTramite;
-            }
-
-            public int idRelacionesLaborales { get; set; }
-            public string NombreEmpleado { get; set; }
-            public string TipoTramite { get; set; }
-        }
 
         private void CbEmpleado_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -174,6 +140,11 @@ namespace HumanResourcesSM.Windows
         private void btnLimpiar_Click(object sender, RoutedEventArgs e)
         {
             CbEmpleado.SelectedIndex = CbTipoTramite.SelectedIndex = -1;
+        }
+
+        private void BtnReporte_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

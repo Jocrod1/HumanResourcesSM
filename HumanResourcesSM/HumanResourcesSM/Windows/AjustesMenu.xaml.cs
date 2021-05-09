@@ -13,6 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using Datos;
+using Metodos;
+
 namespace HumanResourcesSM.Windows
 {
     /// <summary>
@@ -20,12 +23,16 @@ namespace HumanResourcesSM.Windows
     /// </summary>
     public partial class AjustesMenu : Page
     {
-        public AjustesMenu()
+        Menu Parentfrm;
+
+        public AjustesMenu(Menu MenuFrm)
         {
             InitializeComponent();
 
-            SeleccionFrm frm = new SeleccionFrm();
+            RelacionesLaboralesDG frm = new RelacionesLaboralesDG();
             ContentFrame.Content = frm;
+
+            Parentfrm = MenuFrm;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -51,8 +58,7 @@ namespace HumanResourcesSM.Windows
                     ContentFrame.Content = frm0;
                     break;
                 case 1:
-                    SeleccionFrm frm = new SeleccionFrm();
-                    ContentFrame.Content = frm;
+                    ActualizarUsuario();
                     break;
                 case 2:
                     RelacionesLaboralesDG frm1 = new RelacionesLaboralesDG();
@@ -64,6 +70,19 @@ namespace HumanResourcesSM.Windows
                     break;
             }
 
+        }
+
+        void ActualizarUsuario()
+        {
+            int id = Menu.ActUsuario.idUsuario;
+            var resp = new MUsuario().Encontrar(id);
+
+            UsuarioFrm frm = new UsuarioFrm();
+            frm.Type = TypeForm.Update;
+            frm.DataFill = resp[0];
+            bool r = frm.ShowDialog() ?? false;
+
+            Parentfrm.RefreshUsuario();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)

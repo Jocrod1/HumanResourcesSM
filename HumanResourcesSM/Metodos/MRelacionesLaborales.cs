@@ -45,7 +45,18 @@ namespace Metodos
         ";
 
         private string queryList = @"
-            SELECT * FROM [RelacionesLaborales];
+            SELECT
+	            e.cedula,
+	            CONCAT(e.nombre, ' ', e.apellido) AS nombreCompleto,
+	            tt.nombre,
+	            rl.fechaTramite,
+				rl.idRelacionesLaborales,
+				rl.idEmpleado,
+				rl.idTipoTramite,
+				rl.documentoUrl
+            FROM [RelacionesLaborales] rl
+	            INNER JOIN [Empleado] e ON e.idEmpleado=rl.idEmpleado
+	            INNER JOIN [TipoTramite] tt ON tt.idTipoTramite=rl.idTipoTramite
         ";
 
         private string queryListID = @"
@@ -61,7 +72,7 @@ namespace Metodos
 	            rl.fechaTramite
             FROM [RelacionesLaborales] rl
 	            INNER JOIN [Empleado] e ON e.idEmpleado=rl.idEmpleado
-	            INNER JOIN [TipoTramite] tt ON tt.idTipoTramite=rl.idTipoTramite;
+	            INNER JOIN [TipoTramite] tt ON tt.idTipoTramite=rl.idTipoTramite
         ";
         #endregion
 
@@ -135,11 +146,14 @@ namespace Metodos
                 {
                     ListaGenerica.Add(new DRelacionesLaborales
                     {
-                        idRelacionesLaborales = reader.GetInt32(0),
-                        idEmpleado = reader.GetInt32(1),
-                        idTipoTramite = reader.GetInt32(2),
+                        cedulaEmpleado = reader.GetString(0),
+                        nombreEmpleado = reader.GetString(1),
+                        nombreTramite = reader.GetString(2),
                         fechaTramite = reader.GetDateTime(3),
-                        documentoUrl = reader.GetString(4)
+                        idRelacionesLaborales = reader.GetInt32(4),
+                        idEmpleado = reader.GetInt32(5),
+                        idTipoTramite = reader.GetInt32(6),
+                        documentoUrl = reader.GetString(7)
                     });
                 }
             }
