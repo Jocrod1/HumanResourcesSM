@@ -206,12 +206,8 @@ namespace Metodos
                         cedula = reader.GetString(1),
                         nombre = reader.GetString(2),
                         numeroContrataciones = reader.GetInt32(3),
-<<<<<<< Updated upstream
                         numeroSelecciones = reader.GetInt32(4),
                         ultimaContratacion = reader.GetDateTime(5) == null ? "Sin Contrataciones" : reader.GetDateTime(5).ToString("MM-dd-yyyy")
-=======
-                        ultimaContratacion = reader.GetDateTime(4) == null ? "Sin Contrataciones" : reader.GetDateTime(4).ToString("MM-dd-yyyy")
->>>>>>> Stashed changes
                     });
                 }
             }

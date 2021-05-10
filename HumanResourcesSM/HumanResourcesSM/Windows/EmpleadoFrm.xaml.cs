@@ -319,6 +319,8 @@ namespace HumanResourcesSM.Windows
             EducacionFrm Frm = new EducacionFrm(Empleado);
 
             Frm.ShowDialog();
+            RefreshDGEducacion();
+
         }
 
         private void BtnEduDelete_Click(object sender, RoutedEventArgs e)
@@ -337,6 +339,7 @@ namespace HumanResourcesSM.Windows
             frm.Type = TypeForm.Update;
             frm.DataFill = resp;
             frm.ShowDialog();
+            RefreshDGEducacion();
         }
 
         public void RefreshDGEducacion()

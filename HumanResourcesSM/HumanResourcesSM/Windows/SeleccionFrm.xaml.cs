@@ -89,6 +89,8 @@ namespace HumanResourcesSM.Windows
 
             txtURLCV.SetText("");
 
+            ScrollContent.ScrollToTop();
+
         }
 
         void fillData()

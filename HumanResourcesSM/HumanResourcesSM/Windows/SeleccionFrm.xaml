@@ -18,7 +18,7 @@
         <Border BorderThickness="0 0 0 1" BorderBrush="Black">
             <TextBlock Text="Seleccionar Empleado" FontWeight="Bold" FontSize="23" HorizontalAlignment="Center" Margin="0 10"/>
         </Border>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" CanContentScroll="False" Grid.Row="1">
+        <ScrollViewer Name="ScrollContent" VerticalScrollBarVisibility="Visible" CanContentScroll="False" Grid.Row="1">
             <StackPanel Margin="100 10">
                 <local:UserInputText FontSize="15" x:Name="txtDNI" Placeholder="DNI o Pasaporte" Margin="0 10"/>
                 <Grid Margin="0 10">
