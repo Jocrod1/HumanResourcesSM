@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace Metodos
 {
-    public class MSeleccion : DEmpleado
+    public class MSeleccion : DSeleccion
     {
         #region QUERIES
         //seleccion
@@ -180,7 +180,6 @@ namespace Metodos
             WHERE em.nombre + ' ' + em.apellido LIKE @nombreCompleto + '%';
         ";
 
-
         private string queryListToFireDG = @"
             SELECT 
                 em.idEmpleado, 
@@ -193,6 +192,7 @@ namespace Metodos
                 INNER JOIN [Paises] p ON em.nacionalidad = p.codigo 
             WHERE em.nombre + ' ' + em.apellido LIKE @nombreCompleto + '%' and em.idEmpleado = 3
         ";
+
         private string queryListEmployeeActive = @"
             SELECT * FROM [Empleado] 
             WHERE status = 1 and idEmpleado <> 1
@@ -217,6 +217,18 @@ namespace Metodos
                 fechaCulminacion = @fechaCulminacion
             WHERE idEmpleado = @idEmpleado;
 	    ";
+
+        //repetido
+        private string queryUpdateEmployeeSelection = @"
+            UPDATE [Empleado] SET
+                status = 1
+            WHERE idEmpleado = @idEmpleado;
+	    ";
+
+        private string queryIDCardRepeated = @"
+            SELECT status, idEmpleado FROM [Empleado] 
+            WHERE cedula = @cedula;
+        ";
         #endregion
 
 
@@ -242,14 +254,24 @@ namespace Metodos
 
                 string respuesta = !String.IsNullOrEmpty(idEmpleado.ToString()) ? "OK" : "No se Ingresó el Registro del Empleado";
 
-                if (!respuesta.Equals("OK")) return respuesta;
-                return InsertarSeleccion(idEmpleado, Seleccion, Idioma, Educacion);
+                if (!respuesta.Equals("OK")) 
+                    return respuesta;
+
+                respuesta = InsertarSeleccion(idEmpleado, Seleccion);
+                if (!respuesta.Equals("OK"))
+                    return respuesta;
+
+                respuesta = InsertarIdiomaHablado(idEmpleado, Idioma);
+                if (!respuesta.Equals("OK"))
+                    return respuesta;
+
+                return InsertarEducacion(idEmpleado, Educacion);
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
-        private string InsertarSeleccion(int IdEmpleado, DSeleccion Seleccion, List<DIdiomaHablado> Idioma, List<DEducacion> Educacion)
+        private string InsertarSeleccion(int IdEmpleado, DSeleccion Seleccion)
         {
             try
             {
@@ -260,16 +282,7 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@fechaRevision", DateTime.Now);
                 comm.Parameters.AddWithValue("@nombrePuesto", Seleccion.nombrePuesto);
 
-                string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Ingresó el Registro de la Selección";
-
-                if (!respuesta.Equals("OK")) return respuesta;
-
-                string Respidi = InsertarIdiomaHablado(IdEmpleado, Idioma);
-                if (!Respidi.Equals("OK")) return Respidi;
-
-                string RespEdu = InsertarEducacion(IdEmpleado, Educacion);
-                return RespEdu;
-
+                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Ingresó el Registro de la Selección";
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
@@ -285,8 +298,6 @@ namespace Metodos
                 foreach (DIdiomaHablado det in Idioma)
                 {
                     using SqlCommand comm = new SqlCommand(queryInsertLanguage, Conexion.ConexionSql);
-
-
                     comm.Parameters.AddWithValue("@idIdioma", Idioma[i].idIdioma);
                     comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
                     comm.Parameters.AddWithValue("@nivel", Idioma[i].nivel);
@@ -368,7 +379,6 @@ namespace Metodos
         {
             try
             {
-
                 using SqlCommand comm = new SqlCommand(queryUpdateSelection, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@fechaAplicacion", Seleccion.fechaAplicacion);
                 comm.Parameters.AddWithValue("@nombrePuesto", Seleccion.nombrePuesto);
@@ -379,6 +389,7 @@ namespace Metodos
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
+
 
         public List<DEmpleado> Mostrar(int IdEntrevistador)
         {
@@ -582,7 +593,8 @@ namespace Metodos
 
             try
             {
-                Conexion.ConexionSql.Open();
+                if(Conexion.ConexionSql.State == ConnectionState.Closed)
+                    Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryListSelection, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
@@ -721,6 +733,72 @@ namespace Metodos
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+        }
+
+
+        public string CedulaRepetida(string Cedula)
+        {
+            List<DSeleccion> ListaGenerica = new List<DSeleccion>();
+            string respuesta = "";
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryIDCardRepeated, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@cedula", Cedula);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                if (reader.Read())
+                {
+                    string estado = EstadoString(reader.GetInt32(0));
+                    int idEmpleado = reader.GetInt32(1);
+
+                    if (estado == "Seleccionado" || estado == "Contratado")
+                        MessageBox.Show("Este Documento ya existe y dicho Empleado está " + estado, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                    else
+                    {
+                        var resp = MessageBox.Show("El Empleado está Registrado como " + estado + Environment.NewLine + "¿Desea Agregar al Empleado a Selección?", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                        if (resp == MessageBoxResult.Yes)
+                        {
+                            ListaGenerica = EncontrarSeleccion(idEmpleado);
+                            status = 1;
+
+                            respuesta = InsertarSeleccion(idEmpleado, ListaGenerica[0]);
+                            if (respuesta.Equals("OK")) return respuesta;
+
+                            return ActivarEmpleado(idEmpleado);
+                        }
+                    }
+                }
+                return respuesta;
+            }
+            catch (SqlException e) { return e.Message; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+        }
+
+        private string EstadoString(int Estado)
+        {
+            if (Estado == 1)
+                return "Seleccionado";
+            else if (Estado == 3)
+                return "Contratado";
+            else if (Estado == 0)
+                return "Anulado";
+            else if (Estado == 4)
+                return "No Contratado";
+            else if (Estado == 5)
+                return "Despedido";
+
+            throw new Exception("Error en el Tipo de Estado");
+        }
+
+        private string ActivarEmpleado(int IdEmpleado)
+        {
+            using SqlCommand comm = new SqlCommand(queryUpdateEmployeeSelection, Conexion.ConexionSql);
+            comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
+
+            return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó el Estado del Trabajador";
         }
     }
 }
