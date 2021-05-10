@@ -31,8 +31,6 @@ namespace HumanResourcesSM.Windows
             InitializeComponent();
 
             idEmpleado = idempleado;
-
-            //Validar si hay contrato o no
         }
 
         int idEmpleado;
