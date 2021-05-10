@@ -181,25 +181,9 @@ namespace HumanResourcesSM.Windows
         {
             TextBox txt = (TextBox)sender;
 
-            DEmpleado res = new DEmpleado();
+            string res = Metodos.CedulaRepetida(txt.Text);
 
-            if(res != null)
-            {
-                if(res.StatusEstaenEmpresa)
-                {
-                    MessageBox.Show("El documento que ingresaste ya está en la empresa", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                else
-                {
-                    var resultado = MessageBox.Show("El documento que ingresaste es de un empleado que actualmente está [" + res.StatusString.ToUpper() + "] ¿Desea volverlo a seleccionar?" + Environment.NewLine + 
-                                                    "Nombre del Empleado: " + res.nombre + " " + res.apellido, 
-                                                    "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Information);
-                    if(resultado == MessageBoxResult.Yes)
-                    {
-                        Limpiar();
-                    }
-                }
-            }
+            if (res.Equals("OK")) Limpiar();
         }
 
         //***********************CRUD IDIOMAS*********************************

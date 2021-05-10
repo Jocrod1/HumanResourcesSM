@@ -170,6 +170,8 @@ namespace HumanResourcesSM.Windows
                     RBEmpleado.IsChecked = true;
                     CbSeleccion.SelectedValue = Data.idEmpleado;
                 }
+                RBDepartamento.IsEnabled = false;
+                RBEmpleado.IsEnabled = false;
                 CbTipoMetrica.SelectedValue = Data.idTipoMetrica;
                 txtValorMeta.SetText(Data.valorMeta.ToString());
                 CbFechaInicio.SelectedDate = Data.fechaInicio;

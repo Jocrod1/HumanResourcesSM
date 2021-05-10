@@ -275,7 +275,12 @@ namespace HumanResourcesSM.Windows
 
         private void BtnFire_Click(object sender, RoutedEventArgs e)
         {
+            var resp = new MSeleccion().Despido(idEmpleado);
 
+            if (resp.Equals("OK"))
+                this.Close();
+            else
+                MessageBox.Show(resp);
         }
     }
 }

@@ -47,13 +47,13 @@ namespace HumanResourcesSM.Windows
         {
             int idEmpleado = CbEmpleado.SelectedIndex > -1 ? (int)CbEmpleado.SelectedValue : -1;
 
-            int SearchStatus = 1;
+            int? SearchStatus = 1;
             if (RbNoPagado.IsChecked ?? false)
                 SearchStatus = 1;
             else if (RbPagado.IsChecked ?? false)
                 SearchStatus = 2;
             else if (RbAmbos.IsChecked ?? false)
-                SearchStatus = 0;
+                SearchStatus = null;
 
             
             var Resp = Metodos.MostrarDeudaEmpleado(idEmpleado, SearchStatus);

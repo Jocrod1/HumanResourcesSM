@@ -49,9 +49,7 @@ namespace Metodos
             FROM [deuda] d 
                 INNER JOIN [empleado] e ON d.idEmpleado = e.idEmpleado
                 INNER JOIN [departamento] de ON de.idDepartamento = e.idDepartamento
-            WHERE e.idEmpleado LIKE @idEmpleado AND d.status LIKE @status AND d.status != 0
-            ORDER BY d.idDeuda
-        ";
+            WHERE d.status != 0";
 
         //mostrar
         private string queryGetDebt = @"
@@ -112,14 +110,21 @@ namespace Metodos
         public List<DDeuda> MostrarDeudaEmpleado(int IdEmpleado, int? Status)
         {
             List<DDeuda> ListaGenerica = new List<DDeuda>();
+            string Searcher = "";
+            if (IdEmpleado > 0)
+            {
+                Searcher += " AND e.idEmpleado = " + IdEmpleado;
+            }
+            if (Status != null)
+            {
+                Searcher += " AND d.status = " + Status;
+            }
 
             try
             {
                 Conexion.ConexionSql.Open();
 
-                using SqlCommand comm = new SqlCommand(queryList, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
-                comm.Parameters.AddWithValue("@status", Status);
+                using SqlCommand comm = new SqlCommand(queryList + Searcher, Conexion.ConexionSql);
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 while (reader.Read())

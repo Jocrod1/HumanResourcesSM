@@ -99,6 +99,7 @@ namespace HumanResourcesSM.Windows
             DespidoVista Vista = new DespidoVista(id);
 
             Vista.ShowDialog();
+            Refresh(txtBuscar.Text);
         }
     }
 }

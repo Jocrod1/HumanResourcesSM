@@ -428,7 +428,10 @@ namespace HumanResourcesSM.Windows
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
+            var resp = new MContrato().NoContratado(EmpleadoEntrevistado.idEmpleado);
 
+            if (resp.Equals("OK"))
+                FetchEmpleado();
         }
 
         private void BtnAccept_Click(object sender, RoutedEventArgs e)

@@ -18,8 +18,8 @@ namespace Metodos
 	    ";
 
         private string queryNotHired = @"
-            UPDATE [Seleccion] SET
-                status = 2
+            UPDATE [Empleado] SET
+                status = 4
             WHERE idEmpleado = @idEmpleado;
 	    ";
 
@@ -135,7 +135,7 @@ namespace Metodos
                 if (!respuesta.Equals("OK"))
                     return respuesta;
 
-                return new MSeleccion().CambiarStatus(Contrato.idEmpleado, 3);
+                return new MSeleccion().Contratado(Contrato.idEmpleado);
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }

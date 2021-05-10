@@ -151,6 +151,7 @@ namespace HumanResourcesSM.Windows
                     Meta = new MMeta().EncontrarByEmpleado(Data.idMeta)[0];
                 }
                 SeleccionarMeta(Meta, MType == MetaType.Empleado);
+                BtnSeleccionarMeta.Visibility = Visibility.Collapsed;
                 txtValorEvaluado.SetText(Data.valorEvaluado.ToString());
                 txtobservacion.SetText(Data.observacion.ToString());
             }

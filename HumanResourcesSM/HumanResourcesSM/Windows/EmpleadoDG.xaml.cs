@@ -35,7 +35,6 @@ namespace HumanResourcesSM.Windows
 
             var items = Metodos.MostrarEmpleadoDG(search);
 
-
             dgOperaciones.ItemsSource = items;
         }
 
@@ -48,6 +47,10 @@ namespace HumanResourcesSM.Windows
 
         private void btnEliminar_Click(object sender, RoutedEventArgs e)
         {
+            int id = (int)((Button)sender).CommandParameter;
+
+            var resp = Metodos.AnularEmpleado(id);
+            Refresh(txtBuscar.Text);
 
         }
 

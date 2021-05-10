@@ -47,6 +47,8 @@ namespace HumanResourcesSM.Windows
 
         public MUsuario Metodos = new MUsuario();
 
+        public bool IsSelf = false;
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (Type == TypeForm.Update)
@@ -147,6 +149,8 @@ namespace HumanResourcesSM.Windows
                     txtContraseña.Password = Data.contraseña;
                     PlaceContraseña.Text = "";
                 }
+                if (IsSelf)
+                    CbRol.IsEnabled = false;
             }
         }
         #region Validation

@@ -116,17 +116,17 @@ namespace Metodos
 	    ";
 
         //anular
-        private string queryNullSelection = @"
-            UPDATE [Seleccion] SET
+        private string queryNullEmployee = @"
+            UPDATE [Empleado] SET
                 status = 0
             WHERE idEmpleado = @idEmpleado;
 	    ";
 
         //modificar status
-        private string queryChangeStatusEmployee = @"
-            UPDATE [Empleado] SET
+        private string queryChangeStatusSelection = @"
+            UPDATE [Seleccion] SET
                 status = @status
-            WHERE idEmpleado = @idEmpleado;
+            WHERE idSeleccion = @idSeleccion;
 	    ";
 
         //mostrar
@@ -151,7 +151,7 @@ namespace Metodos
         //mostrar empleado
         private string queryListEmployeeName = @"
             SELECT * FROM [Empleado] 
-            WHERE nombre + ' ' + apellido LIKE @nombreCompleto + '%';
+            WHERE nombre + ' ' + apellido LIKE @nombreCompleto + '%' AND idEmpleado <> 1 AND status = 3
         ";
 
         private string queryListEmployeID = @"
@@ -174,12 +174,13 @@ namespace Metodos
                 em.idEmpleado, 
                 (em.nombre + ' ' + em.apellido) AS nombreCompleto, 
                 em.cedula, 
-                p.pais, 
-                d.nombre 
+                em.nacionalidad, 
+                d.nombre,
+                em.status
             FROM [Empleado] em 
                 INNER JOIN [Departamento] d ON em.idDepartamento = d.idDepartamento 
                 INNER JOIN [Paises] p ON em.nacionalidad = p.codigo 
-            WHERE em.nombre + ' ' + em.apellido LIKE @nombreCompleto + '%';
+            WHERE em.nombre + ' ' + em.apellido LIKE @nombreCompleto + '%' and em.status <> 0
         ";
 
         private string queryListToFireDG = @"
@@ -216,10 +217,17 @@ namespace Metodos
         //despido
         private string queryUpdateEmployeeFire = @"
             UPDATE [Empleado] SET
-                status = 3,
+                status = 5,
                 fechaCulminacion = @fechaCulminacion
             WHERE idEmpleado = @idEmpleado;
 	    ";
+
+        private string queryUpdateEmployeeContract = @"
+            UPDATE [Empleado] SET
+                status = 3
+            WHERE idEmpleado = @idEmpleado;
+	    ";
+
 
         //repetido
         private string queryUpdateEmployeeSelection = @"
@@ -229,7 +237,7 @@ namespace Metodos
 	    ";
 
         private string queryIDCardRepeated = @"
-            SELECT status, idEmpleado FROM [Empleado] 
+            SELECT status, idEmpleado, (nombre + ' ' + apellido) as nombre FROM [Empleado] 
             WHERE cedula = @cedula;
         ";
         #endregion
@@ -278,6 +286,9 @@ namespace Metodos
         {
             try
             {
+                if (Conexion.ConexionSql.State == ConnectionState.Closed)
+                    Conexion.ConexionSql.Open();
+
                 using SqlCommand comm = new SqlCommand(queryInsertSelection, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
                 comm.Parameters.AddWithValue("@idSeleccionador", Seleccion.idSeleccionador);
@@ -510,7 +521,8 @@ namespace Metodos
                         nombre = reader.GetString(1),
                         cedula = reader.GetString(2),
                         nacionalidad = reader.GetString(3),
-                        nombreDepartamento = reader.GetString(4)
+                        nombreDepartamento = reader.GetString(4),
+                        status = reader.GetInt32(5)
                     });
                 }
             }
@@ -691,33 +703,13 @@ namespace Metodos
             return ListaGenerica;
         }
 
-        public string AnularSeleccion(int IdEmpleado)
-        {
-            try
-            {
-                Conexion.ConexionSql.Open();
-
-                using SqlCommand comm = new SqlCommand(queryNullSelection, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
-
-                string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Anuló la Selección";
-                if (!respuesta.Equals("OK"))
-                    return respuesta;
-
-                return CambiarStatus(IdEmpleado, 0);
-            }
-            catch (SqlException e) { return e.Message; }
-            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
-        }
-
-
         public string AnularEmpleado(int IdEmpleado)
         {
             try
             {
                 Conexion.ConexionSql.Open();
 
-                using SqlCommand comm = new SqlCommand(queryNullSelection, Conexion.ConexionSql);
+                using SqlCommand comm = new SqlCommand(queryNullEmployee, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
 
                 string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Anuló el Empleado";
@@ -739,6 +731,8 @@ namespace Metodos
 
                 using SqlCommand comm = new SqlCommand(queryUpdateEmployeeFire, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@fechaCulminacion", DateTime.Now);
+                comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
+
 
                 string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Realizó el Despido al Trabajador";
                 if (!respuesta.Equals("OK"))
@@ -750,14 +744,41 @@ namespace Metodos
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
+        public string Contratado(int IdEmpleado)
+        {
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryUpdateEmployeeContract, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
+
+                string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Realizó el Despido al Trabajador";
+                if (!respuesta.Equals("OK"))
+                    return respuesta;
+
+                return CambiarStatus(IdEmpleado, 3);
+            }
+            catch (SqlException e) { return e.Message; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+        }
+
 
         public string CambiarStatus(int IdEmpleado, int Status)
         {
-            using SqlCommand comm = new SqlCommand(queryChangeStatusEmployee, Conexion.ConexionSql);
-            comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
+            var resp = EncontrarSeleccion(IdEmpleado);
+
+            if (resp.Count < 1)
+                return "IdEmpleado no Encontrado";
+
+            if (Conexion.ConexionSql.State == ConnectionState.Closed)
+                Conexion.ConexionSql.Open();
+
+            using SqlCommand comm = new SqlCommand(queryChangeStatusSelection, Conexion.ConexionSql);
+            comm.Parameters.AddWithValue("@idSeleccion", resp[0].idSeleccion);
             comm.Parameters.AddWithValue("@status", Status);
 
-            return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó el Estatus";
+            return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó el Estatus de Seleccion";
         }
 
         public string CedulaRepetida(string Cedula)
@@ -766,6 +787,8 @@ namespace Metodos
             string respuesta = "";
             string estado = "";
             int idEmpleado = 0;
+
+            string nombreCompleto = "";
 
             try
             {
@@ -779,20 +802,24 @@ namespace Metodos
                 {
                     estado = EstadoString(reader.GetInt32(0));
                     idEmpleado = reader.GetInt32(1);
+                    nombreCompleto = reader.GetString(2);
                 }
+
+                Conexion.ConexionSql.Close();
 
                 if (estado == "Seleccionado" || estado == "Contratado")
                     MessageBox.Show("Este Documento ya existe y dicho Empleado está " + estado, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                 else
                 {
-                    var resp = MessageBox.Show("El Empleado está Registrado como " + estado + Environment.NewLine + "¿Desea Agregar al Empleado a Selección?", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                    var resp = MessageBox.Show("El Empleado está Registrado como " + estado + Environment.NewLine + "¿Desea Agregar al Empleado a Selección?" + Environment.NewLine +
+                                               "Nombre Empleado: " + nombreCompleto, "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Information);
                     if (resp == MessageBoxResult.Yes)
                     {
                         ListaGenerica = EncontrarSeleccion(idEmpleado);
                         status = 1;
 
                         respuesta = InsertarSeleccion(idEmpleado, ListaGenerica[0]);
-                        if (respuesta.Equals("OK")) return respuesta;
+                        if (!respuesta.Equals("OK")) return respuesta;
 
                         return ActivarEmpleado(idEmpleado);
                     }
@@ -821,6 +848,10 @@ namespace Metodos
 
         private string ActivarEmpleado(int IdEmpleado)
         {
+
+            if (Conexion.ConexionSql.State == ConnectionState.Closed)
+                Conexion.ConexionSql.Open();
+
             using SqlCommand comm = new SqlCommand(queryUpdateEmployeeSelection, Conexion.ConexionSql);
             comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
 

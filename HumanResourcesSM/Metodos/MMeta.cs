@@ -106,7 +106,7 @@ namespace Metodos
             FROM [Meta] m 
                 INNER JOIN [Departamento] d ON m.idDepartamento = d.idDepartamento 
                 INNER JOIN [TipoMetrica] tp ON m.idTipoMetrica = tp.idTipoMetrica 
-            WHERE m.status <> 0 AND m.idDepartamento <> 1";
+            WHERE m.status = 1 AND m.idDepartamento <> 1";
 
         private string queryListAllByEmployee = @"
             SELECT 
@@ -120,14 +120,15 @@ namespace Metodos
                 INNER JOIN [Empleado] e ON m.idEmpleado = e.idEmpleado 
                 INNER JOIN [Departamento] d ON e.idDepartamento = d.idDepartamento 
                 INNER JOIN [TipoMetrica] tm ON m.idTipoMetrica = tm.idTipoMetrica 
-            WHERE m.status <> 0 AND m.idEmpleado <> 1";
+            WHERE m.status = 1 AND m.idEmpleado <> 1";
 
         private string queryListByEmployeeDetail = @"
             SELECT 
                 m.idMeta,
 				m.idTipoMetrica,
 				m.valorMeta,
-				m.idDepartamento,
+				d.idDepartamento,
+				m.idEmpleado,
 				m.status,
 				m.fechaInicio,
 				m.fechaFinal,
@@ -137,7 +138,7 @@ namespace Metodos
                 d.nombre
             FROM [Meta] m 
                 INNER JOIN [Empleado] e ON m.idEmpleado = e.idEmpleado 
-                INNER JOIN [Departamento] d ON m.idDepartamento = d.idDepartamento 
+                INNER JOIN [Departamento] d ON e.idDepartamento = d.idDepartamento 
                 INNER JOIN [TipoMetrica] tm ON m.idTipoMetrica = tm.idTipoMetrica 
             WHERE m.idMeta = @idMeta;
         ";
@@ -336,7 +337,6 @@ namespace Metodos
 
             try
             {
-                Console.WriteLine(queryListAllByDepartment + Searcher);
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryListAllByDepartment + Searcher, Conexion.ConexionSql);
@@ -420,13 +420,14 @@ namespace Metodos
                         idTipoMetrica = reader.GetInt32(1),
                         valorMeta = reader.GetDouble(2),
                         idDepartamento = reader.GetInt32(3),
-                        status = reader.GetInt32(4),
-                        fechaInicio = reader.GetDateTime(5),
-                        fechaFinal = reader.GetDateTime(6),
-                        idUsuario = reader.GetInt32(7),
-                        nombreMetrica = reader.GetString(8),
-                        empleado = reader.GetString(9),
-                        departamento = reader.GetString(10)
+                        idEmpleado = reader.GetInt32(4),
+                        status = reader.GetInt32(5),
+                        fechaInicio = reader.GetDateTime(6),
+                        fechaFinal = reader.GetDateTime(7),
+                        idUsuario = reader.GetInt32(8),
+                        nombreMetrica = reader.GetString(9),
+                        empleado = reader.GetString(10),
+                        departamento = reader.GetString(11)
                     });
                 }
             }

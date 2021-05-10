@@ -97,7 +97,7 @@ namespace HumanResourcesSM.Windows
             }
 
             DPago pago = new DPago(0,
-                        Menu.ActUsuario.idUsuario,
+                        EmpleadoSeleccionado.idEmpleado,
                         DateTime.Now,
                         PagoData.banco,
                         PagoData.numeroReferencia,

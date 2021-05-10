@@ -228,6 +228,9 @@ namespace HumanResourcesSM.Windows
             Departamento
         }
 
-        
+        private void cbStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Refresh();
+        }
     }
 }

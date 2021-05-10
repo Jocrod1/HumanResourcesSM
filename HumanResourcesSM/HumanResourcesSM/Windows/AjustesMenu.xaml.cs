@@ -29,8 +29,8 @@ namespace HumanResourcesSM.Windows
         {
             InitializeComponent();
 
-            RelacionesLaboralesDG frm = new RelacionesLaboralesDG();
-            ContentFrame.Content = frm;
+            //RelacionesLaboralesDG frm = new RelacionesLaboralesDG();
+            //ContentFrame.Content = frm;
 
             Parentfrm = MenuFrm;
         }
@@ -40,6 +40,12 @@ namespace HumanResourcesSM.Windows
             Button thisbtn = (Button)e.Source;
 
             int index = int.Parse(thisbtn.Uid);
+
+            if(index == 1)
+            {
+                ActualizarUsuario();
+                return;
+            }
 
             var par = VisualTreeHelper.GetParent((Button)e.Source) as UIElement;
             Grid PGrid = (par as Grid);
@@ -58,11 +64,10 @@ namespace HumanResourcesSM.Windows
                     ContentFrame.Content = frm0;
                     break;
                 case 1:
-                    ActualizarUsuario();
                     break;
                 case 2:
-                    RelacionesLaboralesDG frm1 = new RelacionesLaboralesDG();
-                    ContentFrame.Content = frm1;
+                    //RelacionesLaboralesDG frm1 = new RelacionesLaboralesDG();
+                    //ContentFrame.Content = frm1;
                     break;
                 case 3:
                     break;
@@ -80,6 +85,7 @@ namespace HumanResourcesSM.Windows
             UsuarioFrm frm = new UsuarioFrm();
             frm.Type = TypeForm.Update;
             frm.DataFill = resp[0];
+            frm.IsSelf = true;
             bool r = frm.ShowDialog() ?? false;
 
             Parentfrm.RefreshUsuario();
