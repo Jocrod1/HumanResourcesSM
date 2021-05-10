@@ -119,7 +119,7 @@ namespace Metodos
         private string queryNullSelection = @"
             UPDATE [Seleccion] SET
                 status = 0
-            WHERE idSeleccion = @idSeleccion;
+            WHERE idEmpleado = @idEmpleado;
 	    ";
 
         //modificar status
@@ -691,16 +691,20 @@ namespace Metodos
             return ListaGenerica;
         }
 
-        public string AnularSeleccion(int IdSeleccion)
+        public string AnularSeleccion(int IdEmpleado)
         {
             try
             {
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryNullSelection, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@idSeleccion", IdSeleccion);
+                comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
 
-                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Anuló la Selección";
+                string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Anuló la Selección";
+                if (!respuesta.Equals("OK"))
+                    return respuesta;
+
+                return CambiarStatus(IdEmpleado, 0);
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
