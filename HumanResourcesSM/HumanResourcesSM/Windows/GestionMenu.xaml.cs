@@ -81,11 +81,17 @@ namespace HumanResourcesSM.Windows
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            if (Menu.ActUsuario.idRol != 1)
+            if (Menu.ActUsuario.idRol != 1 && Menu.ActUsuario.idRol != 2)
             {
                 GridDepartamentos.Visibility = Visibility.Collapsed;
                 GridEmpleados.Visibility = Visibility.Collapsed;
+                GridAsignacion.Visibility = Visibility.Collapsed;
+                if (Menu.ActUsuario.entrevistando != 1)
+                {
+                    GridContratacion.Visibility = Visibility.Collapsed;
+                }
             }
+            
         }
     }
 }

@@ -42,6 +42,17 @@ namespace HumanResourcesSM.Windows
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             TxtUserName.Text = ActUsuario.usuario;
+
+            if(ActUsuario.idRol == 3)
+            {
+                btnAdministracionMenu.Visibility = Visibility.Collapsed;
+                btnGestionMenu.Visibility = Visibility.Collapsed;
+            }
+            else if(ActUsuario.idRol == 4)
+            {
+                btnAdministracionMenu.Visibility = Visibility.Collapsed;
+                btnActividadMenu.Visibility = Visibility.Collapsed;
+            }
         }
 
         public Border LastSelected;

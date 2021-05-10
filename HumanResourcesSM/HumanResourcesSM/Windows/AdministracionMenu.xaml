@@ -10,10 +10,10 @@
 
     <Grid Background="WhiteSmoke">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="1" Background="#2A347B" MaxWidth="130">
+        <Grid Grid.Column="0" Background="#2A347B" MaxWidth="130">
             <StackPanel VerticalAlignment="Center">
                 <Grid>
                     <Button Content="Nómina" Uid="0" Background="{x:Null}" BorderBrush="{x:Null}" Click="Button_Click"/>
@@ -36,7 +36,7 @@
                 </Grid>
             </StackPanel>
         </Grid>
-        <Frame Grid.Column="0" x:Name="ContentFrame" NavigationUIVisibility="Hidden" Background="Gray">
+        <Frame Grid.Column="1" x:Name="ContentFrame" NavigationUIVisibility="Hidden" Background="Gray">
         </Frame>
     </Grid>
 </Page>

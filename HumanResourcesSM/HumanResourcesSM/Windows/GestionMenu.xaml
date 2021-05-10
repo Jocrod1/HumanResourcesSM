@@ -26,10 +26,10 @@
                     <Button Content="Selección" Uid="0" Background="{x:Null}" BorderBrush="{x:Null}" Click="Button_Click"/>
                     <Border x:Name="SelectedBord"  Background="Black" Opacity=".3"/>
                 </Grid>
-                <Grid>
+                <Grid Name="GridAsignacion">
                     <Button Content="Asignación" Uid="1" Background="{x:Null}" BorderBrush="{x:Null}" Click="Button_Click"/>
                 </Grid>
-                <Grid>
+                <Grid Name="GridContratacion">
                     <Button Content="Contratación" Uid="2" Background="{x:Null}" BorderBrush="{x:Null}" Click="Button_Click"/>
                 </Grid>
                 <Grid>

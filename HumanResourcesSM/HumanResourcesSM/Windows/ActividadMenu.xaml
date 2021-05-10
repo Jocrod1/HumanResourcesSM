@@ -10,10 +10,10 @@
 
     <Grid Background="WhiteSmoke">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <Grid Background="#C22723">
+        <Grid Background="#2A347B" Grid.Column="1">
             <StackPanel VerticalAlignment="Center">
                 <Grid>
                     <Button Content="Metas" Uid="0" Background="{x:Null}" BorderBrush="{x:Null}" Click="Button_Click"/>
@@ -32,7 +32,7 @@
                 </Grid>-->
             </StackPanel>
         </Grid>
-        <Frame Grid.Column="1" x:Name="ContentFrame" NavigationUIVisibility="Hidden" Background="Gray">
+        <Frame Grid.Column="0" x:Name="ContentFrame" NavigationUIVisibility="Hidden" Background="Gray">
         </Frame>
     </Grid>
 </Page>
