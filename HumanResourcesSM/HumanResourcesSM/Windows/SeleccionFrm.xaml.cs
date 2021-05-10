@@ -27,6 +27,8 @@ namespace HumanResourcesSM.Windows
         public SeleccionFrm()
         {
             InitializeComponent();
+
+            txtDNI.txt.LostFocus += new RoutedEventHandler(txtDNI_LostFocus);
         }
 
         public TypeForm Type = TypeForm.Create;
@@ -52,8 +54,41 @@ namespace HumanResourcesSM.Windows
             MessageBox.Show(resp);
             if(resp == "OK")
             {
-                //LO QUE SE HARÁ
+                Limpiar();
             }
+        }
+
+        void Limpiar()
+        {
+            IdiomaHablado.Clear();
+            ModelHI.Clear();
+            RefreshDGIdiomas();
+
+            ListaEducacion.Clear();
+            RefreshDGEducacion();
+
+            txtDNI.SetText("");
+            txtNombre.SetText("");
+            txtApellido.SetText("");
+
+            CbPaisNac.SelectedIndex = -1;
+            CbFechaNac.SelectedDate = null;
+
+            txtEmail.SetText("");
+            txtTelefono.SetText("");
+            txtDireccion.SetText("");
+
+            CbEstadoLegal.Text = "";
+            PlaceEstadoLegal.Visibility = Visibility.Visible;
+
+            CbDepartamento.SelectedIndex = -1;
+
+            txtNombrePuesto.SetText("");
+
+            CbFechaApl.SelectedDate = null;
+
+            txtURLCV.SetText("");
+
         }
 
         void fillData()
@@ -138,6 +173,31 @@ namespace HumanResourcesSM.Windows
 
             RefreshDGIdiomas();
             RefreshDGEducacion();
+        }
+
+        private void txtDNI_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox txt = (TextBox)sender;
+
+            DEmpleado res = new DEmpleado();
+
+            if(res != null)
+            {
+                if(res.StatusEstaenEmpresa)
+                {
+                    MessageBox.Show("El documento que ingresaste ya está en la empresa", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    var resultado = MessageBox.Show("El documento que ingresaste es de un empleado que actualmente está [" + res.StatusString.ToUpper() + "] ¿Desea volverlo a seleccionar?" + Environment.NewLine + 
+                                                    "Nombre del Empleado: " + res.nombre + " " + res.apellido, 
+                                                    "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                    if(resultado == MessageBoxResult.Yes)
+                    {
+                        Limpiar();
+                    }
+                }
+            }
         }
 
         //***********************CRUD IDIOMAS*********************************
@@ -632,7 +692,6 @@ namespace HumanResourcesSM.Windows
 
 
         #endregion
-
     }
 
     public class ModelIdiomaHablado

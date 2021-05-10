@@ -127,6 +127,14 @@ namespace Datos
             }
         }
 
+        public bool StatusEstaenEmpresa
+        {
+            get
+            {
+                return _Status >= 1 && _Status <= 3;
+            }
+        }
+
         private DateTime _FechaAplicacion;
         public DateTime fechaAplicacion
         {

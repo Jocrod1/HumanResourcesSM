@@ -190,7 +190,7 @@ namespace Metodos
             FROM [Empleado] em 
                 INNER JOIN [Departamento] d ON em.idDepartamento = d.idDepartamento 
                 INNER JOIN [Paises] p ON em.nacionalidad = p.codigo 
-            WHERE em.nombre + ' ' + em.apellido LIKE @nombreCompleto + '%' and em.idEmpleado = 3
+            WHERE em.nombre + ' ' + em.apellido LIKE @nombreCompleto + '%' and em.status = 3
         ";
 
         private string queryListEmployeeActive = @"
