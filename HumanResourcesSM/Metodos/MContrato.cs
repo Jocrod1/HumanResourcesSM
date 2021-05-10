@@ -14,13 +14,13 @@ namespace Metodos
         private string queryUpdateSelection = @"
             UPDATE [Seleccion] SET
                 idEntrevistador = @idEntrevistador
-            WHERE idSeleccion = @idSeleccion;
+            WHERE idEmpleado = @idEmpleado;
 	    ";
 
         private string queryNotHired = @"
             UPDATE [Seleccion] SET
                 status = 2
-            WHERE idSeleccion = @idSeleccion;
+            WHERE idEmpleado = @idEmpleado;
 	    ";
 
         private string queryInsert = @"
@@ -81,7 +81,7 @@ namespace Metodos
         ";
         #endregion
 
-        public string AsignarEntrevistador(int IdSeleccion, int IdEntrevistador)
+        public string AsignarEntrevistador(int IdEmpleado, int IdEntrevistador)
         {
             try
             {
@@ -89,7 +89,7 @@ namespace Metodos
 
                 using SqlCommand comm = new SqlCommand(queryUpdateSelection, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@idEntrevistador", IdEntrevistador);
-                comm.Parameters.AddWithValue("@idSeleccion", IdSeleccion);
+                comm.Parameters.AddWithValue("@idSeleccion", IdEmpleado);
 
                 return comm.ExecuteNonQuery() == 1 ? "OK" : "No se asigno al entrevistador";
             }
@@ -98,16 +98,20 @@ namespace Metodos
         }
 
 
-        public string NoContratado(int IdSeleccion)
+        public string NoContratado(int IdEmpleado)
         {
             try
             {
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryNotHired, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@idSeleccion", IdSeleccion);
+                comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
 
-                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se asigno cancelo la contratacion del empleado";
+                string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se asigno cancelo la contratacion del empleado";
+                if (!respuesta.Equals("OK"))
+                    return respuesta;
+
+                return new MSeleccion().CambiarStatus(IdEmpleado, 4);
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
@@ -127,7 +131,11 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@sueldo", Contrato.sueldo);
                 comm.Parameters.AddWithValue("@horasSemanales", Contrato.horasSemanales);
 
-                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingreso el Registro de la educacion";
+                string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingreso el Registro del Contrato";
+                if (!respuesta.Equals("OK"))
+                    return respuesta;
+
+                return new MSeleccion().CambiarStatus(Contrato.idEmpleado, 3);
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }

@@ -122,9 +122,10 @@ namespace Metodos
             WHERE idSeleccion = @idSeleccion;
 	    ";
 
-        private string queryNullEmployee = @"
+        //modificar status
+        private string queryChangeStatusEmployee = @"
             UPDATE [Empleado] SET
-                status = 0
+                status = @status
             WHERE idEmpleado = @idEmpleado;
 	    ";
 
@@ -154,8 +155,9 @@ namespace Metodos
         ";
 
         private string queryListEmployeID = @"
-            SELECT * FROM [Empleado] 
-            WHERE idEmpleado = @idEmpleado;
+            SELECT TOP 1 * FROM [Empleado] 
+            WHERE idEmpleado = @idEmpleado
+            ORDER BY idEmpleado DESC;
         ";
 
         private string queryListEmployeeDepartment = @"
@@ -200,8 +202,9 @@ namespace Metodos
 
         //mostrar seleccion
         private string queryListSelection = @"
-            SELECT * FROM [Seleccion] 
-            WHERE idEmpleado = @idEmpleado;
+            SELECT TOP 1 * FROM [Seleccion] 
+            WHERE idEmpleado = @idEmpleado
+            ORDER BY idSeleccion DESC;
         ";
 
         //mostrar paises
@@ -713,7 +716,11 @@ namespace Metodos
                 using SqlCommand comm = new SqlCommand(queryNullSelection, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
 
-                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Anuló el Empleado";
+                string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Anuló el Empleado";
+                if (!respuesta.Equals("OK"))
+                    return respuesta;
+
+                return CambiarStatus(IdEmpleado, 0);
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
@@ -729,17 +736,32 @@ namespace Metodos
                 using SqlCommand comm = new SqlCommand(queryUpdateEmployeeFire, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@fechaCulminacion", DateTime.Now);
 
-                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Realizó el Despido al Trabajador";
+                string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Realizó el Despido al Trabajador";
+                if (!respuesta.Equals("OK"))
+                    return respuesta;
+
+                return CambiarStatus(IdEmpleado, 5);
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
 
+        public string CambiarStatus(int IdEmpleado, int Status)
+        {
+            using SqlCommand comm = new SqlCommand(queryChangeStatusEmployee, Conexion.ConexionSql);
+            comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
+            comm.Parameters.AddWithValue("@status", Status);
+
+            return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó el Estatus";
+        }
+
         public string CedulaRepetida(string Cedula)
         {
             List<DSeleccion> ListaGenerica = new List<DSeleccion>();
             string respuesta = "";
+            string estado = "";
+            int idEmpleado = 0;
 
             try
             {
@@ -751,24 +773,24 @@ namespace Metodos
                 using SqlDataReader reader = comm.ExecuteReader();
                 if (reader.Read())
                 {
-                    string estado = EstadoString(reader.GetInt32(0));
-                    int idEmpleado = reader.GetInt32(1);
+                    estado = EstadoString(reader.GetInt32(0));
+                    idEmpleado = reader.GetInt32(1);
+                }
 
-                    if (estado == "Seleccionado" || estado == "Contratado")
-                        MessageBox.Show("Este Documento ya existe y dicho Empleado está " + estado, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                    else
+                if (estado == "Seleccionado" || estado == "Contratado")
+                    MessageBox.Show("Este Documento ya existe y dicho Empleado está " + estado, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                else
+                {
+                    var resp = MessageBox.Show("El Empleado está Registrado como " + estado + Environment.NewLine + "¿Desea Agregar al Empleado a Selección?", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                    if (resp == MessageBoxResult.Yes)
                     {
-                        var resp = MessageBox.Show("El Empleado está Registrado como " + estado + Environment.NewLine + "¿Desea Agregar al Empleado a Selección?", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Information);
-                        if (resp == MessageBoxResult.Yes)
-                        {
-                            ListaGenerica = EncontrarSeleccion(idEmpleado);
-                            status = 1;
+                        ListaGenerica = EncontrarSeleccion(idEmpleado);
+                        status = 1;
 
-                            respuesta = InsertarSeleccion(idEmpleado, ListaGenerica[0]);
-                            if (respuesta.Equals("OK")) return respuesta;
+                        respuesta = InsertarSeleccion(idEmpleado, ListaGenerica[0]);
+                        if (respuesta.Equals("OK")) return respuesta;
 
-                            return ActivarEmpleado(idEmpleado);
-                        }
+                        return ActivarEmpleado(idEmpleado);
                     }
                 }
                 return respuesta;
