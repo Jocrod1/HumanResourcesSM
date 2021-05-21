@@ -2,39 +2,39 @@
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <Body>
     <ReportItems>
-      <Tablix Name="Tablix1">
+      <Tablix Name="Tablix2">
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>3.36614cm</Width>
+              <Width>8.25818cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>9.21913cm</Width>
+              <Width>3.4525cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>4.61921cm</Width>
+              <Width>2.78964cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.91043cm</Width>
+              <Width>5.56917cm</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.81167cm</Height>
+              <Height>0.77639cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox1">
+                    <Textbox Name="Textbox5">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Documento</Value>
+                              <Value>Concepto Deuda</Value>
                               <Style>
                                 <FontFamily>Arial Narrow</FontFamily>
-                                <FontSize>13pt</FontSize>
+                                <FontSize>12pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -43,7 +43,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox1</rd:DefaultName>
+                      <rd:DefaultName>Textbox5</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>Red</Color>
@@ -60,17 +60,17 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox7">
+                    <Textbox Name="Textbox9">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Nombre Completo del Empleado</Value>
+                              <Value>Monto Total</Value>
                               <Style>
                                 <FontFamily>Arial Narrow</FontFamily>
-                                <FontSize>13pt</FontSize>
+                                <FontSize>12pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -79,7 +79,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox7</rd:DefaultName>
+                      <rd:DefaultName>Textbox9</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>Red</Color>
@@ -103,10 +103,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Nombre del Trámite</Value>
+                              <Value>Monto Pagado</Value>
                               <Style>
                                 <FontFamily>Arial Narrow</FontFamily>
-                                <FontSize>13pt</FontSize>
+                                <FontSize>12pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -132,17 +132,17 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox13">
+                    <Textbox Name="Textbox17">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Fecha</Value>
+                              <Value>Tipo de Deuda</Value>
                               <Style>
                                 <FontFamily>Arial Narrow</FontFamily>
-                                <FontSize>13pt</FontSize>
+                                <FontSize>12pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -151,7 +151,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox13</rd:DefaultName>
+                      <rd:DefaultName>Textbox17</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>Red</Color>
@@ -169,25 +169,25 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.86458cm</Height>
+              <Height>0.67938cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="cedulaEmpleado">
+                    <Textbox Name="concepto1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!cedulaEmpleado.Value</Value>
+                              <Value>=Fields!concepto.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>cedulaEmpleado</rd:DefaultName>
+                      <rd:DefaultName>concepto1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -207,21 +207,23 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="nombreEmpleado">
+                    <Textbox Name="monto">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!nombreEmpleado.Value</Value>
+                              <Value>=Fields!monto.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>nombreEmpleado</rd:DefaultName>
+                      <rd:DefaultName>monto</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -241,21 +243,23 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="nombreTramite">
+                    <Textbox Name="pagado">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!nombreTramite.Value</Value>
+                              <Value>=Fields!pagado.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>nombreTramite</rd:DefaultName>
+                      <rd:DefaultName>pagado</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -275,21 +279,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="fechaTramite">
+                    <Textbox Name="tipoDeudaString">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Format(Fields!fechaTramite.Value,"dd-MMM-yyyy")</Value>
+                              <Value>=Fields!tipoDeudaString.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>fechaTramite</rd:DefaultName>
+                      <rd:DefaultName>tipoDeudaString</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -325,15 +329,15 @@
               <KeepWithGroup>After</KeepWithGroup>
             </TablixMember>
             <TablixMember>
-              <Group Name="Detalles" />
+              <Group Name="Detalles1" />
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
-        <DataSetName>RelacionesLaboralesDS</DataSetName>
-        <Top>0.28153cm</Top>
-        <Left>0.65828cm</Left>
-        <Height>1.67625cm</Height>
-        <Width>20.11491cm</Width>
+        <DataSetName>DeudaActivaDS</DataSetName>
+        <Top>0.56375cm</Top>
+        <Left>0.7037cm</Left>
+        <Height>1.45576cm</Height>
+        <Width>20.06949cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -341,7 +345,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>2.6016cm</Height>
+    <Height>2.70744cm</Height>
     <Style />
   </Body>
   <Width>21.6cm</Width>
@@ -600,43 +604,6 @@
             <PaddingBottom>2pt</PaddingBottom>
           </Style>
         </Textbox>
-        <Textbox Name="Textbox9">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>LISTADO DE RELACIONES LABORALES</Value>
-                  <Style>
-                    <FontSize>12pt</FontSize>
-                    <FontWeight>Normal</FontWeight>
-                    <Color>Blue</Color>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style>
-                <TextAlign>Right</TextAlign>
-              </Style>
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>Textbox2</rd:DefaultName>
-          <Top>2.72362cm</Top>
-          <Left>12.41267cm</Left>
-          <Height>0.90751cm</Height>
-          <Width>8.36052cm</Width>
-          <ZIndex>11</ZIndex>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-            <VerticalAlign>Middle</VerticalAlign>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
-          </Style>
-        </Textbox>
         <Textbox Name="Textbox10">
           <CanGrow>true</CanGrow>
           <KeepTogether>true</KeepTogether>
@@ -660,11 +627,81 @@
           <Left>15.61412cm</Left>
           <Height>0.52104cm</Height>
           <Width>5.15907cm</Width>
+          <ZIndex>11</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="idPago">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>="EMPLEADO° " &amp; Sum(Fields!nombreCompleto.Value, "DeudaActivaDS")</Value>
+                  <Style>
+                    <FontSize>12pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Left</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>idPago</rd:DefaultName>
+          <Top>1.7851cm</Top>
+          <Left>11.7512cm</Left>
+          <Height>0.89353cm</Height>
+          <Width>9.02199cm</Width>
           <ZIndex>12</ZIndex>
           <Style>
             <Border>
               <Style>None</Style>
             </Border>
+            <VerticalAlign>Middle</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="idPago2">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>="DOCUMENTO° " &amp; Sum(Fields!cedula.Value, "DeudaActivaDS")</Value>
+                  <Style>
+                    <FontSize>12pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Left</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>idPago</rd:DefaultName>
+          <Top>2.94926cm</Top>
+          <Left>11.7512cm</Left>
+          <Height>0.89353cm</Height>
+          <Width>9.02199cm</Width>
+          <ZIndex>13</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <VerticalAlign>Middle</VerticalAlign>
             <PaddingLeft>2pt</PaddingLeft>
             <PaddingRight>2pt</PaddingRight>
             <PaddingTop>2pt</PaddingTop>
@@ -743,49 +780,65 @@
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="RelacionesLaboralesDS">
+    <DataSet Name="DeudaActivaDS">
       <Query>
         <DataSourceName>Datos</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
-        <Field Name="cedulaEmpleado">
-          <DataField>cedulaEmpleado</DataField>
+        <Field Name="cedula">
+          <DataField>cedula</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="documentoUrl">
-          <DataField>documentoUrl</DataField>
+        <Field Name="concepto">
+          <DataField>concepto</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="fechaTramite">
-          <DataField>fechaTramite</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
+        <Field Name="departamento">
+          <DataField>departamento</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="idDeuda">
+          <DataField>idDeuda</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="idEmpleado">
           <DataField>idEmpleado</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="idRelacionesLaborales">
-          <DataField>idRelacionesLaborales</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
+        <Field Name="monto">
+          <DataField>monto</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
         </Field>
-        <Field Name="idTipoTramite">
-          <DataField>idTipoTramite</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="nombreEmpleado">
-          <DataField>nombreEmpleado</DataField>
+        <Field Name="nombreCompleto">
+          <DataField>nombreCompleto</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="nombreTramite">
-          <DataField>nombreTramite</DataField>
+        <Field Name="pagado">
+          <DataField>pagado</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="status">
+          <DataField>status</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="statusString">
+          <DataField>statusString</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="tipoDeuda">
+          <DataField>tipoDeuda</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="tipoDeudaString">
+          <DataField>tipoDeudaString</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>Datos</rd:DataSetName>
-        <rd:TableName>DRelacionesLaborales</rd:TableName>
-        <rd:ObjectDataSourceType>Datos.DRelacionesLaborales, Datos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+        <rd:TableName>DDeuda</rd:TableName>
+        <rd:ObjectDataSourceType>Datos.DDeuda, Datos, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>

@@ -387,7 +387,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptDeudaActiva.rdlc" />
+    <EmbeddedResource Include="Reports\rptRendimiento.rdlc" />
+    <EmbeddedResource Include="Reports\rptSeleccionadosporEmpleado.rdlc" />
+    <EmbeddedResource Include="Reports\rptPago.rdlc" />
     <EmbeddedResource Include="Reports\rptNumeroContratos.rdlc" />
+    <EmbeddedResource Include="Reports\rptEntrevistadosPorEmpleado.rdlc" />
     <EmbeddedResource Include="Reports\rptRelacionesLaborales.rdlc" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Datos.Conexion.datasource" />

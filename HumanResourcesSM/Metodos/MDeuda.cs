@@ -59,6 +59,21 @@ namespace Metodos
             WHERE d.idDeuda = @idDeuda 
         ";
 
+
+        private string queryActivePerEmployee = @"
+            SELECT 
+				d.idDeuda,
+				d.concepto,
+				d.monto,
+				d.pagado,
+				d.tipoDeuda,
+				e.cedula,
+				CONCAT(e.apellido, ' ', e.nombre) AS nombreEmpleado
+            FROM [Deuda] d
+				INNER JOIN [Empleado] e ON e.idEmpleado=d.idEmpleado
+			WHERE d.idEmpleado = @idEmpleado AND d.status=1;
+        ";
+
         #endregion
 
         public string Insertar(List<DDeuda> Detalle)
@@ -179,6 +194,53 @@ namespace Metodos
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
 
             return ListaGenerica;
+        }
+
+
+
+        public List<DDeuda> DeudasPorEmpleado(int IdEmpleado)
+        {
+            List<DDeuda> ListaGenerica = new List<DDeuda>();
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryGetDebt, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListaGenerica.Add(new DDeuda
+                    {
+                        idDeuda = reader.GetInt32(0),
+                        concepto = reader.GetString(1),
+                        monto = (double)reader.GetDecimal(2),
+                        pagado = (double)reader.GetDecimal(3),
+                        tipoDeudaString = TipoDeudaString(reader.GetInt32(4)),
+                        cedula = reader.GetString(5),
+                        nombreCompleto = reader.GetString(6)
+                    });
+                }
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+        }
+
+        private string TipoDeudaString(int tipoDeuda)
+        {
+            if (tipoDeuda == 0)
+            {
+                return "Bonificación";
+            }
+            else if (tipoDeuda == 1)
+            {
+                return "Deducción";
+            }
+            else return "ERROR";
         }
     }
 }

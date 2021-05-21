@@ -42,6 +42,13 @@ namespace Datos
             set { _SubTotal = value; }
         }
 
+        private string _NombreDeuda;
+        public string nombreDeuda
+        {
+            get { return _NombreDeuda; }
+            set { _NombreDeuda = value; }
+        }
+
         public DDetallePago()
         {
 

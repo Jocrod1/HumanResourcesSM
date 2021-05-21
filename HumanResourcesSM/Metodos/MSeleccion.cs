@@ -240,6 +240,52 @@ namespace Metodos
             SELECT status, idEmpleado, (nombre + ' ' + apellido) as nombre FROM [Empleado] 
             WHERE cedula = @cedula;
         ";
+
+
+        //reportes
+        private string queryListInterviewPerUser = @"
+            SELECT 
+				e.cedula,
+                e.nombre,
+				e.status,
+				s.fechaRevision,
+				x.nombre,
+				x.apellido,
+				x.cedula
+            FROM [Seleccion] s
+				INNER JOIN [Empleado] e ON e.idEmpleado=s.idEmpleado
+				INNER JOIN (
+					SELECT
+						e.idEmpleado,
+						e.nombre,
+						e.apellido,
+						e.cedula
+					FROM [Empleado] e
+				) x ON x.idEmpleado = s.idEntrevistador
+			WHERE s.idEntrevistador = @idEntrevistador;
+        ";
+
+        private string queryListSelectionPerUser = @"
+            SELECT 
+				e.cedula,
+                e.nombre,
+				e.status,
+				s.fechaRevision,
+				x.nombre,
+				x.apellido,
+				x.cedula
+            FROM [Seleccion] s
+				INNER JOIN [Empleado] e ON e.idEmpleado=s.idEmpleado
+				INNER JOIN (
+					SELECT
+						e.idEmpleado,
+						e.nombre,
+						e.apellido,
+						e.cedula
+					FROM [Empleado] e
+				) x ON x.idEmpleado = s.idSeleccionador
+			WHERE s.idSeleccionador = @idSeleccionador;
+        ";
         #endregion
 
 
@@ -856,6 +902,73 @@ namespace Metodos
             comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
 
             return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó el Estado del Trabajador";
+        }
+
+
+
+        public List<DEmpleado> EntrevistadosPorUsuario(string IdEntrevistador)
+        {
+            List<DEmpleado> ListaGenerica = new List<DEmpleado>();
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryListInterviewPerUser, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idEntrevistador", IdEntrevistador);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListaGenerica.Add(new DEmpleado
+                    {
+                        cedulaEntrevistado = reader.GetString(0),
+                        nombreEntrevistado = reader.GetString(1),
+                        statusString = EstadoString(reader.GetInt32(2)),
+                        fechaRevision = reader.GetDateTime(3),
+                        nombre = reader.GetString(4),
+                        apellido = reader.GetString(5),
+                        cedula = reader.GetString(6)
+                    });
+                }
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+        }
+
+
+        public List<DEmpleado> SeleccionadosPorUsuario(string IdSeleccionador)
+        {
+            List<DEmpleado> ListaGenerica = new List<DEmpleado>();
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryListSelectionPerUser, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idSeleccionador", IdSeleccionador);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListaGenerica.Add(new DEmpleado
+                    {
+                        cedulaEntrevistado = reader.GetString(0),
+                        nombreEntrevistado = reader.GetString(1),
+                        statusString = EstadoString(reader.GetInt32(2)),
+                        fechaRevision = reader.GetDateTime(3),
+                        nombre = reader.GetString(4),
+                        apellido = reader.GetString(5),
+                        cedula = reader.GetString(6)
+                    });
+                }
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
         }
     }
 }

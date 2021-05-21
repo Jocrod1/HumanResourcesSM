@@ -105,6 +105,13 @@ namespace Datos
             set { _Status = value; }
         }
 
+        private string _StatusString;
+        public string statusString
+        {
+            get { return _StatusString; }
+            set { _StatusString = value; }
+        }
+
         public string StatusString
         {
             get
@@ -219,6 +226,20 @@ namespace Datos
         {
             get { return _UltimaContratacion; }
             set { _UltimaContratacion = value; }
+        }
+
+        private string _CedulaEntrevistado;
+        public string cedulaEntrevistado
+        {
+            get { return _CedulaEntrevistado; }
+            set { _CedulaEntrevistado = value; }
+        }
+
+        private string _NombreEntrevistado;
+        public string nombreEntrevistado
+        {
+            get { return _NombreEntrevistado; }
+            set { _NombreEntrevistado = value; }
         }
 
         public DEmpleado()

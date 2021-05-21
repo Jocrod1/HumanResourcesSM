@@ -49,7 +49,14 @@ namespace Datos
             set { _TipoDeuda = value; }
         }
 
+        private string _TipoDeudaString;
         public string tipoDeudaString
+        {
+            get { return _TipoDeudaString; }
+            set { _TipoDeudaString = value; }
+        }
+
+        /*public string tipoDeudaString
         {
             get
             {
@@ -63,7 +70,7 @@ namespace Datos
                 }
                 else return "ERROR";
             }
-        }
+        }*/
 
 
         private int _Status;

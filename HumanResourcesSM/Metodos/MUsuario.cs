@@ -150,6 +150,7 @@ namespace Metodos
             return ListaGenerica;
         }
 
+
         public List<DUsuario> Login(string Usuario, string Contraseña)
         {
             List<DUsuario> ListaGenerica = new List<DUsuario>();
@@ -230,5 +231,6 @@ namespace Metodos
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
+
     }
 }

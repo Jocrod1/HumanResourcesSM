@@ -28,8 +28,8 @@ namespace Datos
             set { _IdMeta = value; }
         }
 
-        private double _ValorEvaluado;
-        public double valorEvaluado
+        private int _ValorEvaluado;
+        public int valorEvaluado
         {
             get { return _ValorEvaluado; }
             set { _ValorEvaluado = value; }
@@ -98,13 +98,41 @@ namespace Datos
             set { _NombreMetrica = value; }
         }
 
+        private string _EmpleadoCedula;
+        public string empleadoCedula
+        {
+            get { return _EmpleadoCedula; }
+            set { _EmpleadoCedula = value; }
+        }
+
+        private DateTime _PeriodoInicial;
+        public DateTime periodoInicial
+        {
+            get { return _PeriodoInicial; }
+            set { _PeriodoInicial = value; }
+        }
+
+        private DateTime _PeriodoFinal;
+        public DateTime periodoFinal
+        {
+            get { return _PeriodoFinal; }
+            set { _PeriodoFinal = value; }
+        }
+
+        private string _TipoMetrica;
+        public string tipoMetrica
+        {
+            get { return _TipoMetrica; }
+            set { _TipoMetrica = value; }
+        }
+
         public DEvaluacion()
         {
 
         }
 
 
-        public DEvaluacion(int IdEvaluacion, int IdUsuario, int IdMeta, double ValorEvaluado, string Observacion, int Status, DateTime FechaEvaluacion)
+        public DEvaluacion(int IdEvaluacion, int IdUsuario, int IdMeta, int ValorEvaluado, string Observacion, int Status, DateTime FechaEvaluacion)
         {
             this.idEvaluacion = IdEvaluacion;
             this.idUsuario = IdUsuario;

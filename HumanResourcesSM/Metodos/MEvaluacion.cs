@@ -106,6 +106,24 @@ namespace Metodos
                 INNER JOIN [TipoMetrica] tm ON m.idTipoMetrica = tm.idTipoMetrica 
             WHERE m.status <> 0 AND m.idEmpleado <> 1";
 
+        private string queryEfficiency = @"
+            SELECT 
+				e.cedula,
+                e.nombre,
+				d.nombre,
+				p.periodoInicio,
+				p.periodoFinal,
+				tm.nombre,
+				m.valorMeta,
+				ev.valorEvaluado,
+				ev.observacion
+            FROM [Empleado] e
+				INNER JOIN [Departamento] d ON d.idDepartamento=e.idDepartamento
+				INNER JOIN [Pago] p ON p.idEmpleado=e.idEmpleado
+				INNER JOIN [TipoMetrica] tm ON tm.idDepartamento=d.idDepartamento
+				INNER JOIN [Meta] m ON m.idEmpleado=e.idEmpleado
+				INNER JOIN [Evaluacion] ev ON ev.idMeta=m.idMeta
+        ";
         #endregion
 
         public string Insertar(DEvaluacion Evaluacion)
@@ -218,6 +236,7 @@ namespace Metodos
             return ListaGenerica;
         }
 
+
         public List<DEvaluacion> Encontrar(int idEvaluacion)
         {
             List<DEvaluacion> ListaGenerica = new List<DEvaluacion>();
@@ -250,6 +269,7 @@ namespace Metodos
 
             return ListaGenerica;
         }
+
 
         public List<DEvaluacion> MostrarTodoByDepartamento(int BuscarDepartamento, DateTime? FechaInicio = null, DateTime? FechaFinal = null)
         {
@@ -325,6 +345,41 @@ namespace Metodos
                         departamento = reader.GetString(6)
                     });
                 }
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+        }
+
+
+        public List<DEvaluacion> Rendimiento()
+        {
+            List<DEvaluacion> ListaGenerica = new List<DEvaluacion>();
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryEfficiency, Conexion.ConexionSql);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListaGenerica.Add(new DEvaluacion
+                    {
+                        empleadoCedula = reader.GetString(0),
+                        empleado = reader.GetString(1),
+                        departamento = reader.GetString(2),
+                        periodoInicial = reader.GetDateTime(3),
+                        periodoFinal = reader.GetDateTime(4),
+                        tipoMetrica = reader.GetString(5),
+                        valorMeta = reader.GetInt32(6),
+                        valorEvaluado = reader.GetInt32(7),
+                        observacion = reader.GetString(8)
+                    });
+                }
+
             }
             catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }

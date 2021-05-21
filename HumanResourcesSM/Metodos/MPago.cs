@@ -90,6 +90,22 @@ namespace Metodos
             ORDER BY p.numeroReferencia;
         ";
 
+        private string queryListDetailPay = @"
+            SELECT 
+				dp.idDetallePago,
+				dp.concepto,
+				dp.subtotalItem,
+				ISNULL((
+					SELECT
+						d.concepto
+					FROM [Deuda] d
+						INNER JOIN  [DetallePago] dp ON dp.idDeuda=d.idDeuda
+				), 'No es Deuda') AS deuda
+            FROM [DetallePago] dp
+				INNER JOIN [Pago] p ON p.idPago=dp.idPago
+			WHERE p.idPago=@idPago;
+        ";
+
         private string queryListEmployee = @"
             SELECT 
                 e.idEmpleado,
@@ -287,6 +303,37 @@ namespace Metodos
         }
 
 
+        public List<DDetallePago> MostrarDetalle(int IdPago)
+        {
+            List<DDetallePago> ListaGenerica = new List<DDetallePago>();
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryListDetailPay, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idPago", IdPago);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListaGenerica.Add(new DDetallePago
+                    {
+                        idDetallePago = reader.GetInt32(0),
+                        concepto = reader.GetString(1),
+                        subTotal = (double)reader.GetDecimal(2),
+                        nombreDeuda = reader.GetString(3)
+                    });
+                }
+
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+
+        }
+
         public List<DEmpleado> MostrarEmpleado(string Nombre)
         {
             List<DEmpleado> ListaGenerica = new List<DEmpleado>();
@@ -372,6 +419,8 @@ namespace Metodos
 
             return ListaGenerica;
         }
+
+
 
     }
 }
