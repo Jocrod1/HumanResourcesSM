@@ -37,17 +37,22 @@ namespace HumanResourcesSM.Windows
             List<ModeloUsuario> NoEntrevistadores = new List<ModeloUsuario>();
             List<ModeloUsuario> Entrevistadores = new List<ModeloUsuario>();
 
-            foreach(DUsuario item in usuarios)
+            MRol MEtR = new MRol();
+
+            var resp = MEtR.Mostrar();
+
+            foreach (DUsuario item in usuarios)
             {
-                string rol = item.idRol == 1 ? "Administrador" : "Normal";
+
+                DRol DAR = resp.Find((Rol) => Rol.idRol == item.idRol);
 
                 if(item.entrevistando == 0)
                 {
-                    NoEntrevistadores.Add(new ModeloUsuario(item.idUsuario, item.usuario, rol));
+                    NoEntrevistadores.Add(new ModeloUsuario(item.idUsuario, item.usuario, DAR.nombre));
                 }
                 else
                 {
-                    Entrevistadores.Add(new ModeloUsuario(item.idUsuario, item.usuario, rol));
+                    Entrevistadores.Add(new ModeloUsuario(item.idUsuario, item.usuario, DAR.nombre));
                 }
             }
 

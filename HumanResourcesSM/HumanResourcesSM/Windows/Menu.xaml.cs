@@ -28,9 +28,12 @@ namespace HumanResourcesSM.Windows
         {
             var res = new MUsuario().Encontrar(ActUsuario.idUsuario);
 
+            var Roles = new MRol().Mostrar();
+
             ActUsuario = res[0];
 
             TxtUserName.Text = ActUsuario.usuario;
+            txtRol.Text = Roles.Find(x => x.idRol == ActUsuario.idRol).nombre;
         }
 
         public Menu(DUsuario User)
@@ -41,8 +44,7 @@ namespace HumanResourcesSM.Windows
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            TxtUserName.Text = ActUsuario.usuario;
-
+            RefreshUsuario();
             if(ActUsuario.idRol == 3)
             {
                 btnAdministracionMenu.Visibility = Visibility.Collapsed;

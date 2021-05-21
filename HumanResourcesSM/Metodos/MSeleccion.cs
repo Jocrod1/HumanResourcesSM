@@ -353,6 +353,9 @@ namespace Metodos
             int i = 0;
             string respuesta = "";
 
+            if (Conexion.ConexionSql.State == ConnectionState.Closed)
+                Conexion.ConexionSql.Open();
+
             try
             {
                 foreach (DIdiomaHablado det in Idioma)
@@ -794,7 +797,8 @@ namespace Metodos
         {
             try
             {
-                Conexion.ConexionSql.Open();
+                if (Conexion.ConexionSql.State == ConnectionState.Closed)
+                    Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryUpdateEmployeeContract, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
@@ -855,7 +859,7 @@ namespace Metodos
 
                 if (estado == "Seleccionado" || estado == "Contratado")
                     MessageBox.Show("Este Documento ya existe y dicho Empleado está " + estado, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                else
+                else if(estado != "")
                 {
                     var resp = MessageBox.Show("El Empleado está Registrado como " + estado + Environment.NewLine + "¿Desea Agregar al Empleado a Selección?" + Environment.NewLine +
                                                "Nombre Empleado: " + nombreCompleto, "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Information);

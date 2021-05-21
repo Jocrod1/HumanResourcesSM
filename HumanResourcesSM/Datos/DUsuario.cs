@@ -49,6 +49,13 @@ namespace Datos
             set { _Entrevistando = value; }
         }
 
+        private string _Rol;
+        public string rol
+        {
+            get { return _Rol; }
+            set { _Rol = value; }
+        }
+
 
         public DUsuario()
         {

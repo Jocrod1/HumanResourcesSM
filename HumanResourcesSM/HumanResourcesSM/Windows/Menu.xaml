@@ -55,15 +55,13 @@
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="110"/>
-                                <ColumnDefinition Width="auto"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Name="TxtUserName" Text="Administrador" FontSize="13" FontWeight="Bold" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"
-                                       HorizontalAlignment="Center" Margin="10 0"/>
-                            <Border Name="UserBorder" Grid.Column="1" Width="40" Height="40" CornerRadius="20" BorderThickness="2" BorderBrush="#C22723"/>
-                        </Grid>
+                        <Border BorderThickness="2" BorderBrush="#C22723">
+                            <StackPanel VerticalAlignment="Center" Margin="20 0">
+                                <TextBlock Name="TxtUserName" Text="Jocrod" FontSize="15" FontWeight="Bold" TextTrimming="CharacterEllipsis"/>
+                                <Separator Margin="0 -7"/>
+                                <TextBlock Name="txtRol" Text="Administrador" FontSize="11"/>
+                            </StackPanel>
+                        </Border>
                         <Grid Grid.Column="1" Margin="6 0" VerticalAlignment="Center">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
