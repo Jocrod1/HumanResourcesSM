@@ -222,7 +222,7 @@ namespace Metodos
                         idEvaluacion = reader.GetInt32(0),
                         idMeta = reader.GetInt32(1),
                         cedula = reader.GetString(2),
-                        valorEvaluado = reader.GetDouble(3),
+                        valorEvaluado = reader.GetFloat(3),
                         observacion = reader.GetString(4),
                         fechaEvaluacion = reader.GetDateTime(5),
                         status = reader.GetInt32(6)
@@ -256,7 +256,7 @@ namespace Metodos
                         idEvaluacion = reader.GetInt32(0),
                         idUsuario = reader.GetInt32(1),
                         idMeta = reader.GetInt32(2),
-                        valorEvaluado = reader.GetDouble(3),
+                        valorEvaluado = reader.GetFloat(3),
                         observacion = reader.GetString(4),
                         status = reader.GetInt32(5),
                         fechaEvaluacion = reader.GetDateTime(6)
@@ -301,7 +301,7 @@ namespace Metodos
                         nombreMetrica = reader.GetString(2),
                         departamento = reader.GetString(3),
                         valorMeta = reader.GetDouble(4),
-                        valorEvaluado = reader.GetDouble(5)
+                        valorEvaluado = reader.GetFloat(5)
                     });
                 }
             }
@@ -340,7 +340,7 @@ namespace Metodos
                         idMeta = reader.GetInt32(1),
                         nombreMetrica = reader.GetString(2),
                         valorMeta = reader.GetDouble(3),
-                        valorEvaluado = reader.GetDouble(4),
+                        valorEvaluado = reader.GetFloat(4),
                         empleado = reader.GetString(5),
                         departamento = reader.GetString(6)
                     });

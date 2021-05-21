@@ -91,7 +91,7 @@ namespace HumanResourcesSM.Windows
             }
 
             int idMeta = Meta.idMeta;
-            double ValorEvaluado = double.Parse(txtValorEvaluado.txt.Text);
+            float ValorEvaluado = float.Parse(txtValorEvaluado.txt.Text);
             string observaciones = txtobservacion.txt.Text;
 
 

@@ -28,8 +28,8 @@ namespace Datos
             set { _IdMeta = value; }
         }
 
-        private int _ValorEvaluado;
-        public int valorEvaluado
+        private float _ValorEvaluado;
+        public float valorEvaluado
         {
             get { return _ValorEvaluado; }
             set { _ValorEvaluado = value; }
@@ -132,7 +132,7 @@ namespace Datos
         }
 
 
-        public DEvaluacion(int IdEvaluacion, int IdUsuario, int IdMeta, int ValorEvaluado, string Observacion, int Status, DateTime FechaEvaluacion)
+        public DEvaluacion(int IdEvaluacion, int IdUsuario, int IdMeta, float ValorEvaluado, string Observacion, int Status, DateTime FechaEvaluacion)
         {
             this.idEvaluacion = IdEvaluacion;
             this.idUsuario = IdUsuario;
