@@ -253,7 +253,7 @@
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Center</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -682,7 +682,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>=Fields!cedula.Value &amp; " " &amp; Fields!apellido.Value &amp; " " &amp; Fields!nombre.Value</Value>
+                  <Value>=Fields!nombre.Value</Value>
                   <Style>
                     <FontFamily>Arial Narrow</FontFamily>
                     <FontSize>12pt</FontSize>
@@ -703,11 +703,8 @@
           <Style>
             <Border>
               <Color>LightGrey</Color>
-              <Style>Solid</Style>
-            </Border>
-            <TopBorder>
               <Style>None</Style>
-            </TopBorder>
+            </Border>
             <VerticalAlign>Middle</VerticalAlign>
             <PaddingLeft>2pt</PaddingLeft>
             <PaddingRight>2pt</PaddingRight>

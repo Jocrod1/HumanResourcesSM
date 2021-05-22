@@ -100,7 +100,7 @@ namespace HumanResourcesSM.Windows
             if(dialog.ShowDialog() ?? false)
             {
                 Reports.Reporte reporte = new Reports.Reporte();
-                reporte.ExportPDF(Metodos.EntrevistadosPorUsuario(dialog.UsuarioSeleccionado.idUsuario), "EntrevistadosPorEmpleado");
+                reporte.ExportPDF(Metodos.EntrevistadosPorUsuario((dialog.UsuarioSeleccionado.idUsuario-1)), "EntrevistadosPorEmpleado");
             }
 
              

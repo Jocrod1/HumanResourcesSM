@@ -12,6 +12,7 @@ using System.Windows;
 using Microsoft.Reporting.WinForms;
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics;
 
 namespace HumanResourcesSM.Reports
 {
@@ -45,7 +46,7 @@ namespace HumanResourcesSM.Reports
                 if (fileName != SetReportName(ReportName, DetailName))
                 {
                     File.WriteAllBytes(fileName, bytes);
-                    System.Diagnostics.Process.Start(fileName);
+                    Process.Start(fileName);
                 }
                 else
                     System.Windows.MessageBox.Show("Operación Cancelada", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -59,7 +60,9 @@ namespace HumanResourcesSM.Reports
         {
             try
             {
-                string deviceInfo = ""; //tamaño de la pagina, default
+                string deviceInfo = @"<DeviceInfo>
+                                    <EmbedFonts>None</EmbedFonts>
+                                    </DeviceInfo>"; //tamaño de la pagina, default
                 string[] streamIds;
                 Warning[] warnings;
 
@@ -69,7 +72,7 @@ namespace HumanResourcesSM.Reports
 
                 ReportViewer viewer = new ReportViewer();
                 viewer.ProcessingMode = ProcessingMode.Local;
-                viewer.LocalReport.ReportPath = @"Reports\rpt" + ReportName + ".rdlc";
+                viewer.LocalReport.ReportPath = @"..\..\Reports\rpt" + ReportName + ".rdlc";
                 viewer.LocalReport.DataSources.Add(new ReportDataSource((ReportName + "DS"), MethodReport));
                 viewer.LocalReport.DataSources.Add(new ReportDataSource((SecondReportName + "DS"), SecondMethodReport));
 
@@ -80,7 +83,7 @@ namespace HumanResourcesSM.Reports
                 if (fileName != SetReportName(ReportName, DetailName))
                 {
                     File.WriteAllBytes(fileName, bytes);
-                    System.Diagnostics.Process.Start(fileName);
+                    Process.Start(fileName);
                 }
                 else
                     System.Windows.MessageBox.Show("Operación Cancelada", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);

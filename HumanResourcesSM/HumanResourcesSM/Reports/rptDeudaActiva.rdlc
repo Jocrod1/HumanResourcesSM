@@ -336,7 +336,7 @@
         <DataSetName>DeudaActivaDS</DataSetName>
         <Top>0.56375cm</Top>
         <Left>0.7037cm</Left>
-        <Height>1.45576cm</Height>
+        <Height>1.45577cm</Height>
         <Width>20.06949cm</Width>
         <Style>
           <Border>
@@ -645,7 +645,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>="EMPLEADO° " &amp; Sum(Fields!nombreCompleto.Value, "DeudaActivaDS")</Value>
+                  <Value>="EMPLEADO° " &amp; First(Fields!nombreCompleto.Value, "DeudaActivaDS")</Value>
                   <Style>
                     <FontSize>12pt</FontSize>
                   </Style>
@@ -658,9 +658,9 @@
           </Paragraphs>
           <rd:DefaultName>idPago</rd:DefaultName>
           <Top>1.7851cm</Top>
-          <Left>11.7512cm</Left>
+          <Left>13.04766cm</Left>
           <Height>0.89353cm</Height>
-          <Width>9.02199cm</Width>
+          <Width>7.72553cm</Width>
           <ZIndex>12</ZIndex>
           <Style>
             <Border>
@@ -680,7 +680,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>="DOCUMENTO° " &amp; Sum(Fields!cedula.Value, "DeudaActivaDS")</Value>
+                  <Value>="DOCUMENTO° " &amp; First(Fields!cedula.Value, "DeudaActivaDS")</Value>
                   <Style>
                     <FontSize>12pt</FontSize>
                   </Style>
@@ -693,9 +693,9 @@
           </Paragraphs>
           <rd:DefaultName>idPago</rd:DefaultName>
           <Top>2.94926cm</Top>
-          <Left>11.7512cm</Left>
+          <Left>13.04766cm</Left>
           <Height>0.89353cm</Height>
-          <Width>9.02199cm</Width>
+          <Width>7.72553cm</Width>
           <ZIndex>13</ZIndex>
           <Style>
             <Border>

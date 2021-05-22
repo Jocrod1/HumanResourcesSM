@@ -86,7 +86,7 @@ namespace Metodos
                 p.estado 
             FROM [Pago] p 
                 INNER JOIN [Empleado] e ON p.idEmpleado=e.idEmpleado 
-            WHERE p.numeroReferencia = @numeroReferencia
+            WHERE p.idPago = @idPago
             ORDER BY p.numeroReferencia;
         ";
 
@@ -184,13 +184,13 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@periodoInicio", Pago.periodoInicio);
                 comm.Parameters.AddWithValue("@periodoFinal", Pago.periodoFinal);
                 comm.Parameters.AddWithValue("@montoTotal", Pago.montoTotal);
-                int idPago = (int)comm.ExecuteScalar();
+                Pago.idPago = (int)comm.ExecuteScalar();
 
                 string respuesta = !String.IsNullOrEmpty(idPago.ToString()) ? "OK" : "No se Ingresó el Registro del Pago";
 
                 if (!respuesta.Equals("OK")) return "No se ingreso el Registro del pago";
 
-                return InsertarDetallePago(idPago, DetallePago);
+                return InsertarDetallePago(Pago.idPago, DetallePago);
             }
             catch (SqlException e) { return e.Message; }
             catch (Exception ex) { return ex.Message; }
@@ -265,7 +265,7 @@ namespace Metodos
         }
 
 
-        public List<DPago> Mostrar(string NumeroReferencia)
+        public List<DPago> Mostrar(int IdPago)
         {
             List<DPago> ListaGenerica = new List<DPago>();
 
@@ -274,7 +274,7 @@ namespace Metodos
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryListPay, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@numeroReferencia", NumeroReferencia);
+                comm.Parameters.AddWithValue("@idPago", IdPago);
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 while (reader.Read())
@@ -289,7 +289,7 @@ namespace Metodos
                         banco = reader.GetString(5),
                         periodoInicio = reader.GetDateTime(6),
                         periodoFinal = reader.GetDateTime(7),
-                        montoTotal = reader.GetDouble(8),
+                        montoTotal = (double)reader.GetDecimal(8),
                         estado = reader.GetInt32(9)
                     });
                 }

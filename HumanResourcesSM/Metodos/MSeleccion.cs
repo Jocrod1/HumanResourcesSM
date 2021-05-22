@@ -249,20 +249,11 @@ namespace Metodos
                 e.nombre,
 				e.status,
 				s.fechaRevision,
-				x.nombre,
-				x.apellido,
-				x.cedula
+				u.usuario
             FROM [Seleccion] s
 				INNER JOIN [Empleado] e ON e.idEmpleado=s.idEmpleado
-				INNER JOIN (
-					SELECT
-						e.idEmpleado,
-						e.nombre,
-						e.apellido,
-						e.cedula
-					FROM [Empleado] e
-				) x ON x.idEmpleado = s.idEntrevistador
-			WHERE s.idEntrevistador = @idEntrevistador;
+                INNER JOIN [Usuario] u ON u.idUsuario=s.idEntrevistador
+			WHERE u.idUsuario = @idUsuario;
         ";
 
         private string queryListSelectionPerUser = @"
@@ -271,20 +262,11 @@ namespace Metodos
                 e.nombre,
 				e.status,
 				s.fechaRevision,
-				x.nombre,
-				x.apellido,
-				x.cedula
+				u.usuario
             FROM [Seleccion] s
 				INNER JOIN [Empleado] e ON e.idEmpleado=s.idEmpleado
-				INNER JOIN (
-					SELECT
-						e.idEmpleado,
-						e.nombre,
-						e.apellido,
-						e.cedula
-					FROM [Empleado] e
-				) x ON x.idEmpleado = s.idSeleccionador
-			WHERE s.idSeleccionador = @idSeleccionador;
+                INNER JOIN [Usuario] u ON u.idUsuario=s.idSeleccionador
+			WHERE u.idUsuario = @idUsuario;
         ";
         #endregion
 
@@ -919,7 +901,7 @@ namespace Metodos
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryListInterviewPerUser, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@idEntrevistador", IdEntrevistador);
+                comm.Parameters.AddWithValue("@idUsuario", IdEntrevistador);
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 while (reader.Read())
@@ -930,9 +912,7 @@ namespace Metodos
                         nombreEntrevistado = reader.GetString(1),
                         statusString = EstadoString(reader.GetInt32(2)),
                         fechaRevision = reader.GetDateTime(3),
-                        nombre = reader.GetString(4),
-                        apellido = reader.GetString(5),
-                        cedula = reader.GetString(6)
+                        nombre = reader.GetString(4)
                     });
                 }
             }
@@ -952,7 +932,7 @@ namespace Metodos
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryListSelectionPerUser, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@idSeleccionador", IdSeleccionador);
+                comm.Parameters.AddWithValue("@idUsuario", IdSeleccionador);
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 while (reader.Read())
@@ -963,9 +943,7 @@ namespace Metodos
                         nombreEntrevistado = reader.GetString(1),
                         statusString = EstadoString(reader.GetInt32(2)),
                         fechaRevision = reader.GetDateTime(3),
-                        nombre = reader.GetString(4),
-                        apellido = reader.GetString(5),
-                        cedula = reader.GetString(6)
+                        nombre = reader.GetString(4)
                     });
                 }
             }

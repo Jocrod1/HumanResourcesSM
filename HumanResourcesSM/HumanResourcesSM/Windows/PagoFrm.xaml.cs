@@ -139,9 +139,21 @@ namespace HumanResourcesSM.Windows
 
             var resp = new MPago().Insertar(pago, detallepagos);
 
-            MessageBox.Show(resp);
-
-            limpiar();
+            if (resp.Equals("OK"))
+            {
+                var msgResp = MessageBox.Show("¡Pago Procesado!" + Environment.NewLine + "¿Desea Guardar el Comprobante de Pago?", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                if (msgResp == MessageBoxResult.Yes)
+                {
+                    Reports.Reporte reporte = new Reports.Reporte();
+                    reporte.ExportPDFTwoArguments(new MPago().MostrarDetalle(pago.idPago), "Pago", new MPago().Mostrar(pago.idPago), "PagoGeneral", true, pago.idPago.ToString());
+                }
+                limpiar();
+            }
+            else
+            {
+                MessageBox.Show(resp);
+                limpiar();
+            }
         }
 
         int HorasTrabajadas = 0;

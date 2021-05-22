@@ -253,7 +253,7 @@
                             </TextRun>
                           </TextRuns>
                           <Style>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Center</TextAlign>
                           </Style>
                         </Paragraph>
                       </Paragraphs>
@@ -273,7 +273,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -683,7 +682,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>=Fields!cedula.Value &amp; " " &amp; Fields!apellido.Value &amp; " " &amp; Fields!nombre.Value</Value>
+                  <Value>=Fields!nombre.Value</Value>
                   <Style>
                     <FontFamily>Arial Narrow</FontFamily>
                     <FontSize>12pt</FontSize>
