@@ -118,5 +118,22 @@ namespace HumanResourcesSM.Windows
         {
             Refresh();
         }
+
+        private void BtnReporte_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgOperaciones.Items.Count == 0)
+            {
+                MessageBox.Show("No se puede realizar un Reporte vacio!", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                return;
+            }
+            if(CbEmpleado.SelectedIndex < 0)
+            {
+                MessageBox.Show("Se debe seleccionar un empleado!", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                return;
+            }
+
+            Reports.Reporte reporte = new Reports.Reporte();
+            reporte.ExportPDF(Metodos.DeudasPorEmpleado((int)CbEmpleado.SelectedValue), "DeudaActiva");
+        }
     }
 }

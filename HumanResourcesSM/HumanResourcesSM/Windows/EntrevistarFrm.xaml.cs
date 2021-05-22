@@ -56,7 +56,20 @@ namespace HumanResourcesSM.Windows
 
             var Empleado = resp[0];
 
-            var DatosSeleccion = SelMetodo.EncontrarSeleccion(Empleado.idEmpleado)[0];
+            var Resp2 = SelMetodo.EncontrarSeleccion(Empleado.idEmpleado);
+
+
+            if (Resp2.Count < 1)
+            {
+                NotAvailablePanel.Visibility = Visibility.Visible;
+                return;
+            }
+            else
+            {
+                NotAvailablePanel.Visibility = Visibility.Collapsed;
+            }
+
+            var DatosSeleccion = Resp2[0];
 
             EmpleadoEntrevistado = Empleado;
             EmpleadoSelEntrevistado = DatosSeleccion;

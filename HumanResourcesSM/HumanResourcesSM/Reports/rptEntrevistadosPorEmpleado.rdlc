@@ -173,21 +173,21 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox12">
+                    <Textbox Name="cedulaEntrevistado">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!cedulaEntrevistado.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox12</rd:DefaultName>
+                      <rd:DefaultName>cedulaEntrevistado</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -214,7 +214,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!nombreEntrevistado.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -241,14 +241,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="StatusString">
+                    <Textbox Name="statusString">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!statusString.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -257,7 +257,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>StatusString</rd:DefaultName>
+                      <rd:DefaultName>statusString</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -801,6 +801,10 @@
           <DataField>cedula</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="cedulaEntrevistado">
+          <DataField>cedulaEntrevistado</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="curriculum">
           <DataField>curriculum</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -853,6 +857,10 @@
           <DataField>nombreDepartamento</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="nombreEntrevistado">
+          <DataField>nombreEntrevistado</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="nombrePuesto">
           <DataField>nombrePuesto</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -872,6 +880,14 @@
         <Field Name="status">
           <DataField>status</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="StatusEstaenEmpresa">
+          <DataField>StatusEstaenEmpresa</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="statusString">
+          <DataField>statusString</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="StatusString">
           <DataField>StatusString</DataField>

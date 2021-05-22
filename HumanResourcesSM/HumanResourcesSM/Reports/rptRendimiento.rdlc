@@ -368,14 +368,14 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox7">
+                    <Textbox Name="cedula">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!cedula.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -384,7 +384,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox7</rd:DefaultName>
+                      <rd:DefaultName>cedula</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -404,21 +404,21 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox15">
+                    <Textbox Name="empleado">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!empleado.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox15</rd:DefaultName>
+                      <rd:DefaultName>empleado</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -474,14 +474,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox24">
+                    <Textbox Name="periodoInicial">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!periodoInicial.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -490,7 +490,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox24</rd:DefaultName>
+                      <rd:DefaultName>periodoInicial</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -510,14 +510,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox26">
+                    <Textbox Name="periodoFinal">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!periodoFinal.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -526,7 +526,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox26</rd:DefaultName>
+                      <rd:DefaultName>periodoFinal</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -717,7 +717,7 @@
         <Top>0.52848cm</Top>
         <Left>0.7037cm</Left>
         <Height>1.67625cm</Height>
-        <Width>28.45678cm</Width>
+        <Width>28.45679cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1145,6 +1145,10 @@
           <DataField>empleado</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="empleadoCedula">
+          <DataField>empleadoCedula</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="fechaEvaluacion">
           <DataField>fechaEvaluacion</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
@@ -1169,9 +1173,21 @@
           <DataField>observacion</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="periodoFinal">
+          <DataField>periodoFinal</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="periodoInicial">
+          <DataField>periodoInicial</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
         <Field Name="status">
           <DataField>status</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="tipoMetrica">
+          <DataField>tipoMetrica</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="usuario">
           <DataField>usuario</DataField>
@@ -1179,7 +1195,7 @@
         </Field>
         <Field Name="valorEvaluado">
           <DataField>valorEvaluado</DataField>
-          <rd:TypeName>System.Double</rd:TypeName>
+          <rd:TypeName>System.Single</rd:TypeName>
         </Field>
         <Field Name="valorMeta">
           <DataField>valorMeta</DataField>

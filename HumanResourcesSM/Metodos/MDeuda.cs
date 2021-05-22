@@ -206,7 +206,7 @@ namespace Metodos
             {
                 Conexion.ConexionSql.Open();
 
-                using SqlCommand comm = new SqlCommand(queryGetDebt, Conexion.ConexionSql);
+                using SqlCommand comm = new SqlCommand(queryActivePerEmployee, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
 
                 using SqlDataReader reader = comm.ExecuteReader();

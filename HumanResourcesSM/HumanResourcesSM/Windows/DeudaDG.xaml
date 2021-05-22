@@ -34,6 +34,7 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <!--<Grid>
                 <Grid.ColumnDefinitions>
@@ -59,7 +60,10 @@
                 <RadioButton Name="RbAmbos" Padding="0" Margin="5 0 0 0" Checked="RbSearch">
                     <TextBlock Text="Ambos" VerticalAlignment="Center" FontWeight="Bold"/>
                 </RadioButton>
+                
             </StackPanel>
+            <Button Grid.Column="4" Name="BtnReporte" HorizontalAlignment="Right" Content="Guardar Listado" Click="BtnReporte_Click" Padding="5"  Background="#248232" BorderBrush="#248232"/>
+
         </Grid>
         <DataGrid x:Name="dgOperaciones" 
                   Grid.Row="2"

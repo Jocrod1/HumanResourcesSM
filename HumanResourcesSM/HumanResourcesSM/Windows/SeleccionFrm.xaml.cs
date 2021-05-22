@@ -29,6 +29,8 @@ namespace HumanResourcesSM.Windows
             InitializeComponent();
 
             txtDNI.txt.LostFocus += new RoutedEventHandler(txtDNI_LostFocus);
+
+            CbFechaNac.DisplayDateEnd = DateTime.Today.AddYears(-18);
         }
 
         public TypeForm Type = TypeForm.Create;
