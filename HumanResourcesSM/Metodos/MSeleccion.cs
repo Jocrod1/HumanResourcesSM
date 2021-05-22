@@ -910,7 +910,7 @@ namespace Metodos
 
 
 
-        public List<DEmpleado> EntrevistadosPorUsuario(string IdEntrevistador)
+        public List<DEmpleado> EntrevistadosPorUsuario(int IdEntrevistador)
         {
             List<DEmpleado> ListaGenerica = new List<DEmpleado>();
 

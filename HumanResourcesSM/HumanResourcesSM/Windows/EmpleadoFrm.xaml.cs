@@ -60,10 +60,27 @@ namespace HumanResourcesSM.Windows
             if (contrato.Count > 0)
             {
                 Contrato = contrato[0];
+                TimeSpan yearsOld = (Empleado.fechaCulminacion ?? DateTime.Now) - contrato[0].fechaContratacion;
+                int years = (int)(yearsOld.TotalDays / 365.25);
+                int months = (int)(((yearsOld.TotalDays / 365.25) - years) * 12);
+
+                string antiguedad = "";
+
+                if(years > 0)
+                {
+                    antiguedad = years + " años y " + (months > 0 ? months + " meses" : "");
+                }
+                else
+                {
+                    antiguedad = months + " meses";
+                }
+
+                txtAntiguedad.Text = antiguedad;
             }
             else
             {
                 BtnEditContract.Visibility = Visibility.Collapsed;
+                GridAntiguedad.Visibility = Visibility.Collapsed;
             }
 
             txtNombre.Text = Empleado.nombre;

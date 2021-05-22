@@ -147,6 +147,9 @@
     <Compile Include="Windows\DeudaFrm.xaml.cs">
       <DependentUpon>DeudaFrm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\SeleccionarUsuario.xaml.cs">
+      <DependentUpon>SeleccionarUsuario.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\TipoMetricaFrm.xaml.cs">
       <DependentUpon>TipoMetricaFrm.xaml</DependentUpon>
     </Compile>
@@ -291,6 +294,10 @@
     <Page Include="Windows\DeudaFrm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\SeleccionarUsuario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\TipoMetricaFrm.xaml">
       <Generator>MSBuild:Compile</Generator>

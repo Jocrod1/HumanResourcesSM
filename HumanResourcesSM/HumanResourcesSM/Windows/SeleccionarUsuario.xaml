@@ -1,0 +1,23 @@
+﻿<Window x:Class="HumanResourcesSM.Windows.SeleccionarUsuario"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HumanResourcesSM.Windows"
+        mc:Ignorable="d"
+        Title="SeleccionarUsuario" Height="200" Width="400">
+    <Grid Background="WhiteSmoke">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="1"  Margin="50 10">
+            <Grid Margin="0 10">
+                <TextBlock x:Name="PlaceUsuario" Text="Usuario" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
+                <ComboBox Name="CbUsuario" FontSize="15" SelectionChanged="CbUsuario_SelectionChanged"/>
+            </Grid>
+        </StackPanel>
+        <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Content="Seleccionar" Margin="0 10" Click="btnEnviar_Click" HorizontalAlignment="Center"/>
+    </Grid>
+</Window>

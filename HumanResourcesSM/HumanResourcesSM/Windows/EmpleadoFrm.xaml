@@ -36,6 +36,10 @@
                     <TextBlock Text="Status" FontWeight="Bold" FontSize="15"/>
                     <TextBlock x:Name="txtStatus" Text="Contratado" FontSize="15" Margin="7 0 0 0"/>
                 </StackPanel>
+                <StackPanel Name="GridAntiguedad" VerticalAlignment="Top" Margin="10 5">
+                    <TextBlock Text="Antiguedad" FontWeight="Bold" FontSize="15"/>
+                    <TextBlock x:Name="txtAntiguedad" Text="10 años y 12 meses" FontSize="15" Margin="7 0 0 0"/>
+                </StackPanel>
             </StackPanel>
             <Grid>
                 <Grid.ColumnDefinitions>
