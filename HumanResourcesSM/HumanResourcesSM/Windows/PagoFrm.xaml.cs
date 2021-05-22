@@ -38,6 +38,17 @@ namespace HumanResourcesSM.Windows
                 }
             );
         }
+        private void BtnReporte_Click(object sender, RoutedEventArgs e)
+        {
+            //if (dgOperaciones.Items.Count == 0)
+            //{
+            //    MessageBox.Show("No se puede realizar un Reporte vacio!", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            //    return;
+            //}
+
+            //Reports.Reporte reporte = new Reports.Reporte();
+            //reporte.ExportPDF(Metodos.MostrarReporte(), "RelacionesLaborales");
+        }
 
         void limpiar()
         {
