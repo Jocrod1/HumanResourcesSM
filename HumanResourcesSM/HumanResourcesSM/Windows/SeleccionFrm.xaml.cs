@@ -31,6 +31,8 @@ namespace HumanResourcesSM.Windows
             txtDNI.txt.LostFocus += new RoutedEventHandler(txtDNI_LostFocus);
 
             CbFechaNac.DisplayDateEnd = DateTime.Today.AddYears(-18);
+
+            txtTelefono.KeyDown += new KeyEventHandler(Validaciones.TextBox_KeyDown);
         }
 
         public TypeForm Type = TypeForm.Create;

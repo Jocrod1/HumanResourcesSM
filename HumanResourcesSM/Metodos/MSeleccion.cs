@@ -943,7 +943,7 @@ namespace Metodos
         }
 
 
-        public List<DEmpleado> SeleccionadosPorUsuario(string IdSeleccionador)
+        public List<DEmpleado> SeleccionadosPorUsuario(int IdSeleccionador)
         {
             List<DEmpleado> ListaGenerica = new List<DEmpleado>();
 

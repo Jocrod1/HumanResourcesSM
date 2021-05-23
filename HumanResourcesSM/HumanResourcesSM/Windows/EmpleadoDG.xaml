@@ -34,6 +34,9 @@
         </Grid>
         <Grid Grid.Row="1" Margin="15 0">
             <Button Grid.Column="4" Name="BtnReporte" HorizontalAlignment="Right" Content="Gestión de Entrevistas" Click="BtnReporte_Click" Padding="5"  Background="#248232" BorderBrush="#248232"/>
+            <Button Grid.Column="4" Name="BtnContratos" HorizontalAlignment="Left" Content="Listado de Contratos" Click="BtnContratos_Click" Padding="5"  Background="#248232" BorderBrush="#248232"/>
+            <Button Grid.Column="4" Name="BtnSeleccion" HorizontalAlignment="Center" Content="Listado de Selecciones" Click="BtnSeleccion_Click" Padding="5"  Background="#248232" BorderBrush="#248232"/>
+
         </Grid>
         <DataGrid x:Name="dgOperaciones" 
                   Grid.Row="2"

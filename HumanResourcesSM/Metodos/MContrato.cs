@@ -52,32 +52,30 @@ namespace Metodos
         ";
 
         private string queryReportNumberContract = @"
-            SELECT
-	            e.idEmpleado,
-	            e.cedula,
-	            CONCAT(e.nombre, ' ' , e.apellido) AS nombreEmpleado,
+           SELECT
+	            u.idUsuario,
+	            r.nombre,
+				u.usuario,
 	            ISNULL((
-		            SELECT COUNT(c.idEmpleado)
-		            FROM [Contrato] c
-			            INNER JOIN [Seleccion] s ON c.idEmpleado = s.idEmpleado
-		            WHERE e.idEmpleado = s.idSeleccionador
-			            AND c.fechaContratacion @primeraFecha AND @segundaFecha
+		            SELECT COUNT(s.idSeleccion)
+		            FROM [Seleccion] s
+					INNER JOIN [Empleado] e on e.idEmpleado = s.idEmpleado Inner Join [Contrato] c on c.idEmpleado = e.idEmpleado
+		            WHERE u.idUsuario = s.idSeleccionador and s.status = 3
 	            ),0) AS numeroContrataciones,
 	            ISNULL((
-		            SELECT COUNT(s.idEmpleado)
+		            SELECT COUNT(s.idSeleccion)
 		            FROM [Seleccion] s
-		            WHERE e.idEmpleado = s.idSeleccionador
-			            AND c.fechaContratacion @primeraFecha AND @segundaFecha
+		            WHERE u.idUsuario = s.idSeleccionador
 	            ),0) AS numeroSelecciones,
 	            ISNULL((
-		            SELECT TOP 1 c.fechaContratacion
-		            FROM [Contrato] c
-			            INNER JOIN [Seleccion] s ON c.idEmpleado = s.idEmpleado
-		            WHERE e.idEmpleado = s.idSeleccionador
-		            ORDER BY c.idContrato DESC
+		            SELECT TOP 1 s.fechaRevision
+		            FROM [Seleccion] s
+		            WHERE u.idUsuario = s.idSeleccionador
+		            ORDER BY s.idSeleccion DESC
 	            ), null) AS ultimaContratacion
-            FROM [Empleado] e
-            ORDER BY CONCAT(e.nombre, ' ' , e.apellido), numeroContrataciones  DESC
+            FROM [Usuario] u
+				INNER JOIN [Rol] r on r.idRol = u.idRol
+            WHERE u.idUsuario <> 1
         ";
         #endregion
 
@@ -202,12 +200,16 @@ namespace Metodos
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryReportNumberContract, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@primeraFecha", PrimeraFecha);
-                comm.Parameters.AddWithValue("@segundaFecha", SegundaFecha);
+                //comm.Parameters.AddWithValue("@primeraFecha", PrimeraFecha);
+                //comm.Parameters.AddWithValue("@segundaFecha", SegundaFecha);
 
                 using SqlDataReader reader = comm.ExecuteReader();
-                if (reader.Read())
+                while (reader.Read())
                 {
+                    var numeroContrataciones = reader.GetInt32(3);
+                    var numeroSelecciones = reader.GetInt32(4);
+                    if (numeroContrataciones == 0 && numeroSelecciones == 0)
+                        continue;
                     ListaGenerica.Add(new DEmpleado
                     {
                         idEmpleado = reader.GetInt32(0),
@@ -215,7 +217,7 @@ namespace Metodos
                         nombre = reader.GetString(2),
                         numeroContrataciones = reader.GetInt32(3),
                         numeroSelecciones = reader.GetInt32(4),
-                        ultimaContratacion = reader.GetDateTime(5) == null ? "Sin Contrataciones" : reader.GetDateTime(5).ToString("MM-dd-yyyy")
+                        ultimaContratacion = reader.IsDBNull(5) ? "Sin Contrataciones" : reader.GetDateTime(5).ToShortDateString()
                     });
                 }
             }

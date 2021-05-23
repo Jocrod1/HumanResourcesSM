@@ -136,16 +136,17 @@ namespace HumanResourcesSM.Windows
                                      item.Pagando * multiplier)
                 );
             }
-
-            var resp = new MPago().Insertar(pago, detallepagos);
+            var met = new MPago();
+            var resp = met.Insertar(pago, detallepagos);
 
             if (resp.Equals("OK"))
             {
                 var msgResp = MessageBox.Show("¡Pago Procesado!" + Environment.NewLine + "¿Desea Guardar el Comprobante de Pago?", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Information);
                 if (msgResp == MessageBoxResult.Yes)
                 {
+                    var ultimopago = met.MostrarUltimo()[0];
                     Reports.Reporte reporte = new Reports.Reporte();
-                    reporte.ExportPDFTwoArguments(new MPago().MostrarDetalle(pago.idPago), "Pago", new MPago().Mostrar(pago.idPago), "PagoGeneral", true, pago.idPago.ToString());
+                    reporte.ExportPDFTwoArguments(new MPago().MostrarDetalle(ultimopago.idPago), "Pago", new MPago().Mostrar(ultimopago.idPago), "PagoGeneral", true, ultimopago.idPago.ToString());
                 }
                 limpiar();
             }

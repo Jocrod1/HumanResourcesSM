@@ -100,11 +100,33 @@ namespace HumanResourcesSM.Windows
             if(dialog.ShowDialog() ?? false)
             {
                 Reports.Reporte reporte = new Reports.Reporte();
-                reporte.ExportPDF(Metodos.EntrevistadosPorUsuario((dialog.UsuarioSeleccionado.idUsuario-1)), "EntrevistadosPorEmpleado");
+                reporte.ExportPDF(Metodos.EntrevistadosPorUsuario((dialog.UsuarioSeleccionado.idUsuario)), "EntrevistadosPorEmpleado");
             }
 
              
             
+        }
+
+        private void BtnContratos_Click(object sender, RoutedEventArgs e)
+        {
+            Reports.Reporte reporte = new Reports.Reporte();
+            reporte.ExportPDF(new MContrato().ReporteNumeroContrato(DateTime.Now.AddMonths(-1), DateTime.Now), "NumeroContratos");
+        }
+
+        private void BtnSeleccion_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgOperaciones.Items.Count == 0)
+            {
+                MessageBox.Show("No se puede realizar un Reporte vacio!", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                return;
+            }
+
+            SeleccionarUsuario dialog = new SeleccionarUsuario();
+            if (dialog.ShowDialog() ?? false)
+            {
+                Reports.Reporte reporte = new Reports.Reporte();
+                reporte.ExportPDF(Metodos.SeleccionadosPorUsuario((dialog.UsuarioSeleccionado.idUsuario)), "SeleccionadosPorEmpleado");
+            }
         }
     }
 }

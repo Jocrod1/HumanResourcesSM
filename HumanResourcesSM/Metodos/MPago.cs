@@ -71,6 +71,13 @@ namespace Metodos
             WHERE idPago = @idPago;
 	    ";
 
+        //mostrar Ultimo
+        private string queryLast = @"
+           SELECT TOP 1 
+                *
+            FROM [Pago] p ORDER BY idPago DESC
+        ";
+
         //mostrar
         private string queryListPay = @"
            SELECT 
@@ -294,6 +301,33 @@ namespace Metodos
                     });
                 }
                 
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+
+        }
+
+        public List<DPago> MostrarUltimo()
+        {
+            List<DPago> ListaGenerica = new List<DPago>();
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryLast, Conexion.ConexionSql);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListaGenerica.Add(new DPago
+                    {
+                        idPago = reader.GetInt32(0)
+                    });
+                }
+
             }
             catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
