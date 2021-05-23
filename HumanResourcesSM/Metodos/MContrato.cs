@@ -98,7 +98,7 @@ namespace Metodos
         }
 
 
-        public string NoContratado(int IdEmpleado)
+        public string NoContratado(int IdEmpleado, int idEntrevistador)
         {
             try
             {
@@ -111,14 +111,14 @@ namespace Metodos
                 if (!respuesta.Equals("OK"))
                     return respuesta;
 
-                return new MSeleccion().CambiarStatus(IdEmpleado, 4);
+                return new MSeleccion().CambiarStatus(IdEmpleado, 4, idEntrevistador);
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
 
-        public string Insertar(DContrato Contrato)
+        public string Insertar(DContrato Contrato, int idEntrevistador)
         {
             try
             {
@@ -135,7 +135,7 @@ namespace Metodos
                 if (!respuesta.Equals("OK"))
                     return respuesta;
 
-                return new MSeleccion().Contratado(Contrato.idEmpleado);
+                return new MSeleccion().Contratado(Contrato.idEmpleado, idEntrevistador);
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }

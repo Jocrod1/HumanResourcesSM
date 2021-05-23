@@ -47,6 +47,8 @@
                     <TextBlock x:Name="PlaceEmpleado" Text="Seleccionar Empleado" FontSize="13" Margin="1 4 0 0" Foreground="Gray"/>
                     <ComboBox Name="CbEmpleado" FontSize="13" SelectionChanged="CbEmpleado_SelectionChanged" IsEnabled="False"/>
                 </Grid>
+                <Button Grid.Column="4" Name="BtnReporte" HorizontalAlignment="Right" Content="Guardar Listado" Click="BtnReporte_Click" Padding="5"  Background="#248232" BorderBrush="#248232"/>
+
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="30 0">
                 <Grid Width="120" VerticalAlignment="Center" Margin="0 0 5 0">

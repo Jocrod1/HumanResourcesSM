@@ -214,6 +214,12 @@ namespace HumanResourcesSM.Windows
             Departamento
         }
 
-        
+        private void BtnReporte_Click(object sender, RoutedEventArgs e)
+        {
+
+            Reports.Reporte reporte = new Reports.Reporte();
+            reporte.ExportPDF(Metodos.Rendimiento(), "Rendimiento");
+        }
+
     }
 }

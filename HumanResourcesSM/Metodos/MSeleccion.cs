@@ -775,7 +775,7 @@ namespace Metodos
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
-        public string Contratado(int IdEmpleado)
+        public string Contratado(int IdEmpleado, int idEntrevistador)
         {
             try
             {
@@ -789,14 +789,14 @@ namespace Metodos
                 if (!respuesta.Equals("OK"))
                     return respuesta;
 
-                return CambiarStatus(IdEmpleado, 3);
+                return CambiarStatus(IdEmpleado, 3, idEntrevistador);
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
 
-        public string CambiarStatus(int IdEmpleado, int Status)
+        public string CambiarStatus(int IdEmpleado, int Status, int idEntrevistador = 0)
         {
             var resp = EncontrarSeleccion(IdEmpleado);
 
@@ -806,9 +806,29 @@ namespace Metodos
             if (Conexion.ConexionSql.State == ConnectionState.Closed)
                 Conexion.ConexionSql.Open();
 
-            using SqlCommand comm = new SqlCommand(queryChangeStatusSelection, Conexion.ConexionSql);
+            string queryChangeStatusWhithEntrevistador = "";
+
+            if ((Status == 3 || Status == 4) & idEntrevistador > 0)
+            {
+                queryChangeStatusWhithEntrevistador = @"
+                    UPDATE [Seleccion] SET
+                        status = @status,
+                        idEntrevistador = @idEntrevistador
+                    WHERE idSeleccion = @idSeleccion;
+	            ";
+            }
+            else
+            {
+                queryChangeStatusWhithEntrevistador = queryChangeStatusSelection;
+            }
+
+
+            using SqlCommand comm = new SqlCommand(queryChangeStatusWhithEntrevistador, Conexion.ConexionSql);
             comm.Parameters.AddWithValue("@idSeleccion", resp[0].idSeleccion);
             comm.Parameters.AddWithValue("@status", Status);
+            if((Status == 3 || Status == 4) & idEntrevistador > 0)
+                comm.Parameters.AddWithValue("@idEntrevistador", idEntrevistador);
+
 
             return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó el Estatus de Seleccion";
         }

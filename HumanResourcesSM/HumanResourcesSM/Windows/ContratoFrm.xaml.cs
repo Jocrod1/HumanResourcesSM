@@ -102,7 +102,7 @@ namespace HumanResourcesSM.Windows
                                            contrato.sueldo,
                                            contrato.horasSemanales);
 
-            var resp = new MContrato().Insertar(Data);
+            var resp = new MContrato().Insertar(Data, Menu.ActUsuario.idUsuario);
 
             return resp;
         }

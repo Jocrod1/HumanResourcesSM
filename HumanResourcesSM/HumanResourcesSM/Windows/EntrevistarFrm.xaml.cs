@@ -441,10 +441,12 @@ namespace HumanResourcesSM.Windows
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
-            var resp = new MContrato().NoContratado(EmpleadoEntrevistado.idEmpleado);
+            var resp = new MContrato().NoContratado(EmpleadoEntrevistado.idEmpleado, Menu.ActUsuario.idUsuario);
 
             if (resp.Equals("OK"))
                 FetchEmpleado();
+            else
+                MessageBox.Show(resp);
         }
 
         private void BtnAccept_Click(object sender, RoutedEventArgs e)

@@ -301,7 +301,7 @@ namespace Metodos
                         nombreMetrica = reader.GetString(2),
                         departamento = reader.GetString(3),
                         valorMeta = reader.GetDouble(4),
-                        valorEvaluado = reader.GetFloat(5)
+                        valorEvaluado = reader.GetDouble(5)
                     });
                 }
             }
@@ -339,7 +339,7 @@ namespace Metodos
                         idEvaluacion = reader.GetInt32(0),
                         idMeta = reader.GetInt32(1),
                         nombreMetrica = reader.GetString(2),
-                        valorMeta = reader.GetDouble(3),
+                        valorMeta = reader.GetFloat(3),
                         valorEvaluado = reader.GetFloat(4),
                         empleado = reader.GetString(5),
                         departamento = reader.GetString(6)

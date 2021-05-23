@@ -28,8 +28,8 @@ namespace Datos
             set { _IdMeta = value; }
         }
 
-        private float _ValorEvaluado;
-        public float valorEvaluado
+        private double _ValorEvaluado;
+        public double valorEvaluado
         {
             get { return _ValorEvaluado; }
             set { _ValorEvaluado = value; }
