@@ -106,7 +106,7 @@ namespace Metodos
 					SELECT
 						d.concepto
 					FROM [Deuda] d
-						INNER JOIN  [DetallePago] dp ON dp.idDeuda=d.idDeuda
+					WHERE dp.idDeuda=d.idDeuda
 				), 'No es Deuda') AS deuda
             FROM [DetallePago] dp
 				INNER JOIN [Pago] p ON p.idPago=dp.idPago

@@ -35,13 +35,6 @@ namespace Datos
             set { _Contraseña = value; }
         }
 
-        private string _Confirmacion;
-        public string confirmacion
-        {
-            get { return _Confirmacion; }
-            set { _Confirmacion = value; }
-        }
-
         private int _Entrevistando;
         public int entrevistando
         {
@@ -62,13 +55,12 @@ namespace Datos
 
         }
 
-        public DUsuario(int IdUsuario, int IdRol, string Usuario, string Contraseña, string Confirmacion, int Entrevistando)
+        public DUsuario(int IdUsuario, int IdRol, string Usuario, string Contraseña, int Entrevistando)
         {
             this.idUsuario = IdUsuario;
             this.idRol = IdRol;
             this.usuario = Usuario;
             this.contraseña = Contraseña;
-            this.confirmacion = Confirmacion;
             this.entrevistando = Entrevistando;
         }
     }

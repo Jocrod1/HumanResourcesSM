@@ -94,8 +94,8 @@ namespace HumanResourcesSM.Windows
             UForm = new DUsuario(0, 
                                  idRol,
                                  usuario,
-                                 password,
-                                 confirmacion, 0);
+                                 password, 
+                                 0);
         }
 
         void Create()
@@ -103,7 +103,7 @@ namespace HumanResourcesSM.Windows
             fillData();
             if (UForm == null)
                 return;
-            string response = Metodos.Insertar(UForm);
+            string response = Metodos.Insertar(UForm, null); //COLOCAR LOS CAMPOS DE PREGUNTAS
             MessageBox.Show(response);
             if (response == "OK")
             {
@@ -119,7 +119,7 @@ namespace HumanResourcesSM.Windows
             if (UForm == null)
                 return;
             UForm.idUsuario = DataFill.idUsuario;
-            string response = Metodos.Editar(UForm);
+            string response = Metodos.Editar(UForm, null); //COLOCAR LOS CAMPOS DE PREGUNTAS
             MessageBox.Show(response);
             if (response == "OK")
             {
@@ -141,7 +141,6 @@ namespace HumanResourcesSM.Windows
             {
                 txtUsuario.SetText(Data.usuario);
                 CbRol.SelectedValue = Data.idRol;
-                txtConfirmacion.SetText(Data.confirmacion);
                 if (Type == TypeForm.Read)
                     grdContraseña.Visibility = Visibility.Collapsed;
                 else if(Type == TypeForm.Update)

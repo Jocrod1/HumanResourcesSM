@@ -94,13 +94,12 @@ namespace Metodos
                 idRol,
                 usuario,
                 contraseña,
-                confirmacion,
                 entrevistando
-            ) VALUES (
+            ) OUTPUT Inserted.idUsuario 
+            VALUES (
                 @idRol,
                 @usuario,
                 @contraseña,
-                @confirmacion,
                 0
             );
 	    ";
@@ -109,8 +108,7 @@ namespace Metodos
             UPDATE [Usuario] SET 
                 idRol = @idRol,
                 usuario = @usuario,
-                contraseña = @contraseña,
-                confirmacion = @confirmacion
+                contraseña = @contraseña
             WHERE idUsuario = @idUsuario;
         ";
 
@@ -139,9 +137,26 @@ namespace Metodos
                 entrevistando = @entrevistando
             WHERE idUsuario = @idUsuario;
         ";
+
+        private string queryInsertSecurity = @"
+            INSERT INTO [seguridad] (
+                idUsuario,
+                pregunta,
+                respuesta
+            ) VALUES (
+                @idUsuario,
+                @pregunta,
+                @respuesta
+            );
+        ";
+
+        private string queryDeleteSecurity = @"
+            DELETE FROM [seguridad]
+            WHERE idUsuario = @idUsuario
+	    ";
         #endregion
 
-        public string Insertar(DUsuario Usuario)
+        public string Insertar(DUsuario Usuario, List<DSeguridad> Seguridad)
         {
             try
             {
@@ -151,16 +166,20 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@idRol", Usuario.idRol);
                 comm.Parameters.AddWithValue("@usuario", Usuario.usuario);
                 comm.Parameters.AddWithValue("@contraseña", Usuario.contraseña);
-                comm.Parameters.AddWithValue("@confirmacion", Usuario.confirmacion);
+                Usuario.idUsuario = (int)comm.ExecuteScalar();
 
-                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Ingresó el Registro del Usuario";
+                string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Ingresó el Registro del Usuario";
+                if (respuesta.Equals("OK"))
+                    respuesta = InsertarSeguridad(Seguridad, Usuario.idUsuario);
+
+                return respuesta;
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
 
-        public string Editar(DUsuario Usuario)
+        public string Editar(DUsuario Usuario, List<DSeguridad> Seguridad)
         {
             try
             {
@@ -170,13 +189,50 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@idRol", Usuario.idRol);
                 comm.Parameters.AddWithValue("@usuario", Usuario.usuario);
                 comm.Parameters.AddWithValue("@contraseña", Usuario.contraseña);
-                comm.Parameters.AddWithValue("@confirmacion", Usuario.confirmacion);
                 comm.Parameters.AddWithValue("@idUsuario", Usuario.idUsuario);
 
-                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó el Registro del Usuario";
+                string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó el Registro del Usuario";
+                if (respuesta.Equals("OK"))
+                    respuesta = BorrarSeguridad(Usuario, Seguridad);
+
+                return respuesta;
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+        }
+
+        private string InsertarSeguridad(List<DSeguridad> Detalle, int IdUsuario)
+        {
+            int i = 0;
+            string respuesta = "";
+
+            foreach (DSeguridad det in Detalle)
+            {
+                using SqlCommand comm = new SqlCommand(queryInsertSecurity, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idUsuario", IdUsuario);
+                comm.Parameters.AddWithValue("@pregunta", Detalle[i].pregunta);
+                comm.Parameters.AddWithValue("@respuesta", Detalle[i].respuesta);
+
+                respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Ingresó el Registro de la Seguridad";
+                if (!respuesta.Equals("OK")) break;
+
+                i++;
+            }
+
+            return respuesta;
+        }
+
+        private string BorrarSeguridad(DUsuario Usuario, List<DSeguridad> Seguridad)
+        {
+            using SqlCommand comm = new SqlCommand(queryDeleteSecurity, Conexion.ConexionSql);
+            comm.Parameters.AddWithValue("@idUsuario", Usuario.idUsuario);
+
+            string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "OK";
+
+            if (respuesta.Equals("OK"))
+                InsertarSeguridad(Seguridad, Usuario.idUsuario);
+
+            return respuesta;
         }
 
 
@@ -216,8 +272,7 @@ namespace Metodos
                         idRol = reader.GetInt32(1),
                         usuario = reader.GetString(2),
                         contraseña = reader.GetString(3),
-                        confirmacion = reader.GetString(4),
-                        entrevistando = reader.GetInt32(5)
+                        entrevistando = reader.GetInt32(4)
                     });
                 }
             }
@@ -250,8 +305,7 @@ namespace Metodos
                         idRol = reader.GetInt32(1),
                         usuario = reader.GetString(2),
                         contraseña = reader.GetString(3),
-                        confirmacion = reader.GetString(4),
-                        entrevistando = reader.GetInt32(5)
+                        entrevistando = reader.GetInt32(4)
                     });
                 }
             }
@@ -282,8 +336,7 @@ namespace Metodos
                         idRol = reader.GetInt32(1),
                         usuario = reader.GetString(2),
                         contraseña = reader.GetString(3),
-                        confirmacion = reader.GetString(4),
-                        entrevistando = reader.GetInt32(5)
+                        entrevistando = reader.GetInt32(4)
                     });
                 }
             }
