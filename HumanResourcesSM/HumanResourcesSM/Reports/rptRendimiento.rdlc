@@ -546,14 +546,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="nombreMetrica">
+                    <Textbox Name="tipoMetrica">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!nombreMetrica.Value</Value>
+                              <Value>=Fields!tipoMetrica.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -562,7 +562,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>nombreMetrica</rd:DefaultName>
+                      <rd:DefaultName>tipoMetrica</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -713,7 +713,7 @@
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
-        <DataSetName>RedimientoDS</DataSetName>
+        <DataSetName>RendimientoDS</DataSetName>
         <Top>0.52848cm</Top>
         <Left>0.7037cm</Left>
         <Height>1.67625cm</Height>
@@ -1127,7 +1127,7 @@
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="RedimientoDS">
+    <DataSet Name="RendimientoDS">
       <Query>
         <DataSourceName>Datos</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
@@ -1195,7 +1195,7 @@
         </Field>
         <Field Name="valorEvaluado">
           <DataField>valorEvaluado</DataField>
-          <rd:TypeName>System.Single</rd:TypeName>
+          <rd:TypeName>System.Double</rd:TypeName>
         </Field>
         <Field Name="valorMeta">
           <DataField>valorMeta</DataField>

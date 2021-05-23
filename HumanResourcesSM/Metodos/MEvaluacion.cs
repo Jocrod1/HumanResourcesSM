@@ -368,7 +368,7 @@ namespace Metodos
                 {
                     ListaGenerica.Add(new DEvaluacion
                     {
-                        empleadoCedula = reader.GetString(0),
+                        cedula = reader.GetString(0),
                         empleado = reader.GetString(1),
                         departamento = reader.GetString(2),
                         periodoInicial = reader.GetDateTime(3),
