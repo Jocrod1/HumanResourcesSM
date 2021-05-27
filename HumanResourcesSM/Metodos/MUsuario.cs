@@ -475,7 +475,7 @@ namespace Metodos
                     MessageBox.Show("Se tiene que seleccionar una ruta!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
                 else
                 {
-                    string cmd = "BACKUP DATABASE [" + database + "] TO DISK='" + Path + "\\" + "dbMagicolor" + "-" + DateTime.Now.ToString("yyyy-MM-dd") + ".bak'";
+                    string cmd = "BACKUP DATABASE [" + database + "] TO DISK='" + Path + "\\" + "dbSwissNet" + "-" + DateTime.Now.ToString("yyyy-MM-dd") + ".bak'";
 
                     using (SqlCommand command = new SqlCommand(cmd, Conexion.ConexionSql))
                     {
