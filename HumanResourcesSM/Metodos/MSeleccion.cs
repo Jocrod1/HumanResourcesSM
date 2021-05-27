@@ -180,7 +180,7 @@ namespace Metodos
             FROM [Empleado] em 
                 INNER JOIN [Departamento] d ON em.idDepartamento = d.idDepartamento 
                 INNER JOIN [Paises] p ON em.nacionalidad = p.codigo 
-            WHERE em.nombre + ' ' + em.apellido LIKE @nombreCompleto + '%' and em.status <> 0
+            WHERE em.nombre + ' ' + em.apellido LIKE @nombreCompleto + '%' and em.status <> 0 and em.status <> 4 and em.status <> 5
         ";
 
         private string queryListToFireDG = @"
@@ -246,7 +246,7 @@ namespace Metodos
         private string queryListInterviewPerUser = @"
             SELECT 
 				e.cedula,
-                e.nombre,
+                (e.nombre + ' ' + e.apellido) as nombreCompleto,
 				e.status,
 				s.fechaRevision,
 				u.usuario
@@ -259,9 +259,9 @@ namespace Metodos
         private string queryListSelectionPerUser = @"
             SELECT 
 				e.cedula,
-                e.nombre,
+                (e.nombre + ' ' + e.apellido) as nombreCompleto,
 				e.status,
-				s.fechaRevision,
+				s.fechaAplicacion,
 				u.usuario
             FROM [Seleccion] s
 				INNER JOIN [Empleado] e ON e.idEmpleado=s.idEmpleado
@@ -962,7 +962,7 @@ namespace Metodos
                         cedulaEntrevistado = reader.GetString(0),
                         nombreEntrevistado = reader.GetString(1),
                         statusString = EstadoString(reader.GetInt32(2)),
-                        fechaRevision = reader.GetDateTime(3),
+                        fechaAplicacion = reader.GetDateTime(3),
                         nombre = reader.GetString(4)
                     });
                 }

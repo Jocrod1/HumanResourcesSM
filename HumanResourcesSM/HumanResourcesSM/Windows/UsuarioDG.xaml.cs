@@ -71,10 +71,12 @@ namespace HumanResourcesSM.Windows
         {
             int id = (int)((Button)sender).CommandParameter;
             var response = Metodos.Encontrar(id);
+            var responseSecurity = Metodos.EncontrarSeguridad(id);
 
             UsuarioFrm frm = new UsuarioFrm();
             frm.Type = TypeForm.Update;
             frm.DataFill = response[0];
+            frm.ListaSeguridad = responseSecurity;
             bool Resp = frm.ShowDialog() ?? false;
             Refresh(txtBuscar.Text);
         }
@@ -116,10 +118,13 @@ namespace HumanResourcesSM.Windows
         {
             int id = (int)((Button)sender).CommandParameter;
             var response = Metodos.Encontrar(id);
+            var responseSecurity = Metodos.EncontrarSeguridad(id);
+
 
             UsuarioFrm frmTrab = new UsuarioFrm();
             frmTrab.Type = TypeForm.Read;
             frmTrab.DataFill = response[0];
+            frmTrab.ListaSeguridad = responseSecurity;
             bool Resp = frmTrab.ShowDialog() ?? false;
             Refresh(txtBuscar.Text);
         }

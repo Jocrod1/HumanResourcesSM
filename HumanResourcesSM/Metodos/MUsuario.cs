@@ -122,9 +122,24 @@ namespace Metodos
             WHERE usuario LIKE @usuario + '%' AND idUsuario <> 1 
             ORDER BY usuario";
 
+        private string queryListSecurity = @"
+            SELECT * FROM [seguridad] 
+            WHERE idUsuario = @idUsuario;
+        ";
+
         private string queryLogin = @"
             SELECT * FROM [Usuario] 
             WHERE usuario = @usuario AND contraseña = @contraseña AND idUsuario <> 1
+        ";
+
+        private string queryFormSecurity = @"
+            SELECT 
+	            u.usuario,
+	            s.pregunta,
+	            s.respuesta
+            FROM [seguridad] s
+	            INNER JOIN [Usuario] u ON u.idUsuario = s.idUsuario
+            WHERE u.usuario = @usuario;
         ";
 
         private string queryListID = @"
@@ -137,6 +152,11 @@ namespace Metodos
                 entrevistando = @entrevistando
             WHERE idUsuario = @idUsuario;
         ";
+        string queryUpdatePassword = @"
+             UPDATE [Usuario] SET
+                contraseña = @contraseña
+            WHERE usuario = @usuario;
+	    ";
 
         private string queryInsertSecurity = @"
             INSERT INTO [seguridad] (
@@ -165,12 +185,18 @@ namespace Metodos
                 using SqlCommand comm = new SqlCommand(queryInsert, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@idRol", Usuario.idRol);
                 comm.Parameters.AddWithValue("@usuario", Usuario.usuario);
-                comm.Parameters.AddWithValue("@contraseña", Usuario.contraseña);
+                comm.Parameters.AddWithValue("@contraseña", Encripter.Encrypt(Usuario.contraseña));
                 Usuario.idUsuario = (int)comm.ExecuteScalar();
 
-                string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Ingresó el Registro del Usuario";
-                if (respuesta.Equals("OK"))
+
+                string respuesta = "";
+
+                if (Usuario.idUsuario > 0)
                     respuesta = InsertarSeguridad(Seguridad, Usuario.idUsuario);
+                else
+                {
+                    respuesta = "ERROR";
+                }
 
                 return respuesta;
             }
@@ -188,12 +214,30 @@ namespace Metodos
                 using SqlCommand comm = new SqlCommand(queryUpdate, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@idRol", Usuario.idRol);
                 comm.Parameters.AddWithValue("@usuario", Usuario.usuario);
-                comm.Parameters.AddWithValue("@contraseña", Usuario.contraseña);
+                comm.Parameters.AddWithValue("@contraseña", Encripter.Encrypt(Usuario.contraseña));
                 comm.Parameters.AddWithValue("@idUsuario", Usuario.idUsuario);
 
                 string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó el Registro del Usuario";
                 if (respuesta.Equals("OK"))
                     respuesta = BorrarSeguridad(Usuario, Seguridad);
+
+                return respuesta;
+            }
+            catch (SqlException e) { return e.Message; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+        }
+
+        public string EditarContraseña(string Usuario, string Contraseña)
+        {
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryUpdatePassword, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@usuario", Usuario);
+                comm.Parameters.AddWithValue("@contraseña", Encripter.Encrypt(Contraseña));
+
+                string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó el Registro del Usuario";
 
                 return respuesta;
             }
@@ -210,8 +254,8 @@ namespace Metodos
             {
                 using SqlCommand comm = new SqlCommand(queryInsertSecurity, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@idUsuario", IdUsuario);
-                comm.Parameters.AddWithValue("@pregunta", Detalle[i].pregunta);
-                comm.Parameters.AddWithValue("@respuesta", Detalle[i].respuesta);
+                comm.Parameters.AddWithValue("@pregunta", Encripter.Encrypt(Detalle[i].pregunta));
+                comm.Parameters.AddWithValue("@respuesta", Encripter.Encrypt(Detalle[i].respuesta));
 
                 respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Ingresó el Registro de la Seguridad";
                 if (!respuesta.Equals("OK")) break;
@@ -271,9 +315,37 @@ namespace Metodos
                         idUsuario = reader.GetInt32(0),
                         idRol = reader.GetInt32(1),
                         usuario = reader.GetString(2),
-                        contraseña = reader.GetString(3),
+                        contraseña = Encripter.Decrypt(reader.GetString(3)),
                         entrevistando = reader.GetInt32(4)
                     });
+                }
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+        }
+
+        public List<DSeguridad> EncontrarSeguridad(int idUsuario)
+        {
+            List<DSeguridad> ListaGenerica = new List<DSeguridad>();
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryListSecurity, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idUsuario", idUsuario);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListaGenerica.Add(new DSeguridad
+                        (
+                            reader.GetInt32(1),
+                            Encripter.Decrypt(reader.GetString(2)),
+                            Encripter.Decrypt(reader.GetString(3))
+                        ));
                 }
             }
             catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
@@ -294,7 +366,7 @@ namespace Metodos
 
                 using SqlCommand comm = new SqlCommand(queryLogin, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@usuario", Usuario);
-                comm.Parameters.AddWithValue("@contraseña", Contraseña);
+                comm.Parameters.AddWithValue("@contraseña", Encripter.Encrypt(Contraseña));
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 if (reader.Read())
@@ -304,8 +376,36 @@ namespace Metodos
                         idUsuario = reader.GetInt32(0),
                         idRol = reader.GetInt32(1),
                         usuario = reader.GetString(2),
-                        contraseña = reader.GetString(3),
+                        contraseña = Encripter.Decrypt(reader.GetString(3)),
                         entrevistando = reader.GetInt32(4)
+                    });
+                }
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+        }
+
+        public List<DSeguridad> Seguridad(string user)
+        {
+            List<DSeguridad> ListaGenerica = new List<DSeguridad>();
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryFormSecurity, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@usuario", user);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListaGenerica.Add(new DSeguridad
+                    {
+                        usuario = reader.GetString(0),
+                        pregunta = Encripter.Decrypt(reader.GetString(1)),
+                        respuesta = Encripter.Decrypt(reader.GetString(2))
                     });
                 }
             }
@@ -335,7 +435,7 @@ namespace Metodos
                         idUsuario = reader.GetInt32(0),
                         idRol = reader.GetInt32(1),
                         usuario = reader.GetString(2),
-                        contraseña = reader.GetString(3),
+                        contraseña = Encripter.Decrypt(reader.GetString(3)),
                         entrevistando = reader.GetInt32(4)
                     });
                 }
@@ -360,6 +460,67 @@ namespace Metodos
                 return comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el Registro del usuario";
             }
             catch (SqlException e) { return e.Message; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+        }
+
+
+        public static void Backup(string Path)
+        {
+            try
+            {
+                Conexion.ConexionSql.Open();
+                string database = Conexion.ConexionSql.Database.ToString();
+
+                if (Path == string.Empty)
+                    MessageBox.Show("Se tiene que seleccionar una ruta!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                else
+                {
+                    string cmd = "BACKUP DATABASE [" + database + "] TO DISK='" + Path + "\\" + "dbMagicolor" + "-" + DateTime.Now.ToString("yyyy-MM-dd") + ".bak'";
+
+                    using (SqlCommand command = new SqlCommand(cmd, Conexion.ConexionSql))
+                    {
+                        command.ExecuteNonQuery();
+                        MessageBox.Show("Backup almacenado de manera satisfactoria!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+        }
+
+        public static void Restore(string Path)
+        {
+            try
+            {
+                Conexion.ConexionSql.Open();
+                string database = Conexion.ConexionSql.Database.ToString();
+
+                if (Path == string.Empty)
+                    MessageBox.Show("ERROR! Necesita seleccionar un respaldo!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                else
+                {
+                    string sqlStmt2 = string.Format("ALTER DATABASE [" + database + "] SET SINGLE_USER WITH ROLLBACK IMMEDIATE");
+                    SqlCommand bu2 = new SqlCommand(sqlStmt2, Conexion.ConexionSql);
+                    bu2.ExecuteNonQuery();
+
+                    string sqlStmt3 = "USE MASTER RESTORE DATABASE [" + database + "] FROM DISK='" + Path + "'WITH REPLACE;";
+                    SqlCommand bu3 = new SqlCommand(sqlStmt3, Conexion.ConexionSql);
+                    bu3.ExecuteNonQuery();
+
+                    string sqlStmt4 = string.Format("ALTER DATABASE [" + database + "] SET MULTI_USER");
+                    SqlCommand bu4 = new SqlCommand(sqlStmt4, Conexion.ConexionSql);
+                    bu4.ExecuteNonQuery();
+
+                    MessageBox.Show("Base de Datos Restaurada Correctamente", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 

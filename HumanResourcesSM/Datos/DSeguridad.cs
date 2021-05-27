@@ -35,6 +35,13 @@ namespace Datos
             set { _Respuesta = value; }
         }
 
+        private string _Usuario;
+        public string usuario
+        {
+            get { return _Usuario; }
+            set { _Usuario = value; }
+        }
+
         public DSeguridad()
         {
 

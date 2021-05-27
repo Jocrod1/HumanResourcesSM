@@ -119,6 +119,20 @@ namespace Datos
             set { _PeriodoFinal = value; }
         }
 
+        private string _PeriodoString;
+        public string periodoString
+        {
+            get { return _PeriodoString; }
+            set { _PeriodoString = value; }
+        }
+
+        private double _Rendimiento;
+        public double rendimiento
+        {
+            get { return _Rendimiento; }
+            set { _Rendimiento = value; }
+        }
+
         private string _TipoMetrica;
         public string tipoMetrica
         {

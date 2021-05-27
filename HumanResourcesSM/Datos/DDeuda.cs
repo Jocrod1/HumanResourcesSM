@@ -56,7 +56,7 @@ namespace Datos
             set { _TipoDeudaString = value; }
         }
 
-        /*public string tipoDeudaString
+        public string tipoDeudaStringz
         {
             get
             {
@@ -70,7 +70,7 @@ namespace Datos
                 }
                 else return "ERROR";
             }
-        }*/
+        }
 
 
         private int _Status;

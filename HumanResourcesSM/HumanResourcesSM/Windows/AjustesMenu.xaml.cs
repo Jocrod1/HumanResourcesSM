@@ -66,8 +66,8 @@ namespace HumanResourcesSM.Windows
                 case 1:
                     break;
                 case 2:
-                    //RelacionesLaboralesDG frm1 = new RelacionesLaboralesDG();
-                    //ContentFrame.Content = frm1;
+                    ServiciosFrm frm1 = new ServiciosFrm();
+                    ContentFrame.Content = frm1;
                     break;
                 case 3:
                     break;
@@ -80,11 +80,15 @@ namespace HumanResourcesSM.Windows
         void ActualizarUsuario()
         {
             int id = Menu.ActUsuario.idUsuario;
-            var resp = new MUsuario().Encontrar(id);
+            var Metodos = new MUsuario();
+            var resp = Metodos.Encontrar(id);
+            var responseSecurity = Metodos.EncontrarSeguridad(id);
+
 
             UsuarioFrm frm = new UsuarioFrm();
             frm.Type = TypeForm.Update;
             frm.DataFill = resp[0];
+            frm.ListaSeguridad = responseSecurity;
             frm.IsSelf = true;
             bool r = frm.ShowDialog() ?? false;
 
@@ -93,9 +97,10 @@ namespace HumanResourcesSM.Windows
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            if(Menu.ActUsuario.idRol != 1)
+            if(Menu.ActUsuario.idRol != 1 && Menu.ActUsuario.idRol != 2)
             {
                 BtnUsuarios.Visibility = Visibility.Collapsed;
+                BtnServicios.Visibility = Visibility.Collapsed;
             }
         }
     }

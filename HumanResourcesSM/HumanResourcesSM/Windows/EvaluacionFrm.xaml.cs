@@ -110,9 +110,9 @@ namespace HumanResourcesSM.Windows
             if (UForm == null)
                 return;
             var resp = Metodos.Insertar(UForm);
-            MessageBox.Show(resp);
             if (resp == "OK")
             {
+                MessageBox.Show("Registro completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.DialogResult = true;
                 this.Close();
             }
@@ -124,9 +124,9 @@ namespace HumanResourcesSM.Windows
                 return;
             UForm.idEvaluacion = DataFill.idEvaluacion;
             var resp = Metodos.Editar(UForm);
-            MessageBox.Show(resp);
             if (resp == "OK")
             {
+                MessageBox.Show("Edición completada!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.DialogResult = true;
                 this.Close();
             }

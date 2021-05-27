@@ -22,12 +22,15 @@
                 <Grid>
                     <Button Content="Editar Perfil" Uid="1" Background="{x:Null}" BorderBrush="{x:Null}" Click="Button_Click"/>
                 </Grid>
-                <Grid>
+                <Grid x:Name="BtnServicios">
                     <Button Content="Servicios" Uid="2" Background="{x:Null}" BorderBrush="{x:Null}" Click="Button_Click"/>
-                    <Border x:Name="SelectedBord"  Background="Black" Opacity=".3"/>
                 </Grid>
                 <Grid>
                     <Button Content="Ayuda" Uid="3" Background="{x:Null}" BorderBrush="{x:Null}" Click="Button_Click"/>
+                </Grid>
+                <Grid Visibility="Collapsed">
+                    <Border x:Name="SelectedBord"  Background="Black" Opacity=".3"/>
+
                 </Grid>
             </StackPanel>
         </Grid>

@@ -9,7 +9,7 @@
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid Name="BgTitulo" Grid.Row="0" Background="#248232">
@@ -22,31 +22,38 @@
                        Margin="20 30 0 15"/>
             <!--<Separator VerticalAlignment="Bottom" Foreground="Black" />-->
         </Grid>
-        <StackPanel Grid.Row="1"  Margin="50 10">
-            <local:UserInputText x:Name="txtUsuario" VerticalAlignment="Center" Placeholder="Usuario" Margin="0 10" FontSize="15"/>
-            <StackPanel Margin="0 5">
-                <Grid>
-                    <TextBlock x:Name="PlaceRol" Text="Rol" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
-                    <ComboBox Name="CbRol" FontSize="15" SelectionChanged="CbRol_SelectionChanged"/>
+        <ScrollViewer Grid.Row="1" >
+            <StackPanel Grid.Row="1"  Margin="50 10">
+                <local:UserInputText x:Name="txtUsuario" VerticalAlignment="Center" Placeholder="Usuario" Margin="0 10" FontSize="15"/>
+                <StackPanel Margin="0 5">
+                    <Grid>
+                        <TextBlock x:Name="PlaceRol" Text="Rol" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
+                        <ComboBox Name="CbRol" FontSize="15" SelectionChanged="CbRol_SelectionChanged"/>
+                    </Grid>
+                    <Grid Margin="5 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Descripción: " FontWeight="Bold" TextWrapping="Wrap"/>
+                        <TextBlock Grid.Column="1" Name="txtDescripción" Text="" FontWeight="Bold" TextWrapping="Wrap" />
+                    </Grid>
+                </StackPanel>
+                <Grid x:Name="grdContraseña" Margin="0 10">
+                    <TextBlock x:Name="PlaceContraseña" Text="Contraseña" Margin="1 4 0 0" FontSize="15" Foreground="Gray"/>
+                    <PasswordBox Name="txtContraseña" FontSize="15" GotFocus="txtContraseña_GotFocus" LostFocus="txtContraseña_LostFocus"/>
                 </Grid>
-                <Grid Margin="5 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Descripción: " FontWeight="Bold" TextWrapping="Wrap"/>
-                    <TextBlock Grid.Column="1" Name="txtDescripción" Text="" FontWeight="Bold" TextWrapping="Wrap" />
-                </Grid>
-            </StackPanel>
-            <Grid x:Name="grdContraseña" Margin="0 10">
-                <TextBlock x:Name="PlaceContraseña" Text="Contraseña" Margin="1 4 0 0" FontSize="15" Foreground="Gray"/>
-                <PasswordBox Name="txtContraseña" FontSize="15" GotFocus="txtContraseña_GotFocus" LostFocus="txtContraseña_LostFocus"/>
-            </Grid>
-            <local:UserInputText x:Name="txtConfirmacion" VerticalAlignment="Center" Placeholder="Codigo Confirmación" Margin="0 10" FontSize="15"/>
-            <!--<local:TextInput x:Name="txtContraseña" Placeholder="Contraseña" Margin="0 10" FontSize="15"/>-->
+                <local:UserInputText x:Name="txtPregunta1" VerticalAlignment="Center" Placeholder="Pregunta de seguridad #1" Margin="0 10" FontSize="15"/>
+                <local:UserInputText x:Name="txtRespuesta1" VerticalAlignment="Center" Placeholder="Respuesta de seguridad #1" Margin="0 10" FontSize="15"/>
+                <local:UserInputText x:Name="txtPregunta2" VerticalAlignment="Center" Placeholder="Pregunta de seguridad #2" Margin="0 10" FontSize="15"/>
+                <local:UserInputText x:Name="txtRespuesta2" VerticalAlignment="Center" Placeholder="Respuesta de seguridad #2" Margin="0 10" FontSize="15"/>
+                <local:UserInputText x:Name="txtPregunta3" VerticalAlignment="Center" Placeholder="Pregunta de seguridad #3" Margin="0 10" FontSize="15"/>
+                <local:UserInputText x:Name="txtRespuesta3" VerticalAlignment="Center" Placeholder="Respuesta de seguridad #3" Margin="0 10" FontSize="15"/>
+                <!--<local:TextInput x:Name="txtContraseña" Placeholder="Contraseña" Margin="0 10" FontSize="15"/>-->
 
-            
-        </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
         <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Content="Agregar" Margin="0 10" Click="Button_Click" HorizontalAlignment="Center"/>
     </Grid>
 </Window>

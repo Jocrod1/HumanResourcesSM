@@ -106,23 +106,37 @@ namespace Metodos
                 INNER JOIN [TipoMetrica] tm ON m.idTipoMetrica = tm.idTipoMetrica 
             WHERE m.status <> 0 AND m.idEmpleado <> 1";
 
-        private string queryEfficiency = @"
+        private string queryEfficiencybyEmployee = @"
             SELECT 
-				e.cedula,
                 e.nombre,
 				d.nombre,
-				p.periodoInicio,
-				p.periodoFinal,
+				m.fechaInicio,
+				m.fechaFinal,
 				tm.nombre,
 				m.valorMeta,
 				ev.valorEvaluado,
+				((ev.valorEvaluado/m.valorMeta)*100) as Rendimiento,
 				ev.observacion
-            FROM [Empleado] e
+            FROM [Evaluacion] ev
+				INNER JOIN [Meta] m on m.idMeta = ev.idMeta
+				INNER JOIN [Empleado] e ON e.idEmpleado = m.idEmpleado
 				INNER JOIN [Departamento] d ON d.idDepartamento=e.idDepartamento
-				INNER JOIN [Pago] p ON p.idEmpleado=e.idEmpleado
+				INNER JOIN [TipoMetrica] tm ON tm.idDepartamento=e.idDepartamento
+        ";
+        private string queryEfficiencybyDepartment = @"
+            SELECT 
+				d.nombre,
+				m.fechaInicio,
+				m.fechaFinal,
+				tm.nombre,
+				m.valorMeta,
+				ev.valorEvaluado,
+				((ev.valorEvaluado/m.valorMeta)*100) as Rendimiento,
+				ev.observacion
+            FROM [Evaluacion] ev
+				INNER JOIN [Meta] m on m.idMeta = ev.idMeta
+				INNER JOIN [Departamento] d ON d.idDepartamento=m.idDepartamento
 				INNER JOIN [TipoMetrica] tm ON tm.idDepartamento=d.idDepartamento
-				INNER JOIN [Meta] m ON m.idEmpleado=e.idEmpleado
-				INNER JOIN [Evaluacion] ev ON ev.idMeta=m.idMeta
         ";
         #endregion
 
@@ -222,7 +236,7 @@ namespace Metodos
                         idEvaluacion = reader.GetInt32(0),
                         idMeta = reader.GetInt32(1),
                         cedula = reader.GetString(2),
-                        valorEvaluado = reader.GetFloat(3),
+                        valorEvaluado = reader.GetDouble(3),
                         observacion = reader.GetString(4),
                         fechaEvaluacion = reader.GetDateTime(5),
                         status = reader.GetInt32(6)
@@ -256,7 +270,7 @@ namespace Metodos
                         idEvaluacion = reader.GetInt32(0),
                         idUsuario = reader.GetInt32(1),
                         idMeta = reader.GetInt32(2),
-                        valorEvaluado = reader.GetFloat(3),
+                        valorEvaluado = reader.GetDouble(3),
                         observacion = reader.GetString(4),
                         status = reader.GetInt32(5),
                         fechaEvaluacion = reader.GetDateTime(6)
@@ -339,8 +353,8 @@ namespace Metodos
                         idEvaluacion = reader.GetInt32(0),
                         idMeta = reader.GetInt32(1),
                         nombreMetrica = reader.GetString(2),
-                        valorMeta = reader.GetFloat(3),
-                        valorEvaluado = reader.GetFloat(4),
+                        valorMeta = reader.GetDouble(3),
+                        valorEvaluado = reader.GetDouble(4),
                         empleado = reader.GetString(5),
                         departamento = reader.GetString(6)
                     });
@@ -353,7 +367,7 @@ namespace Metodos
         }
 
 
-        public List<DEvaluacion> Rendimiento()
+        public List<DEvaluacion> RendimientobyEmpleado()
         {
             List<DEvaluacion> ListaGenerica = new List<DEvaluacion>();
 
@@ -361,22 +375,61 @@ namespace Metodos
             {
                 Conexion.ConexionSql.Open();
 
-                using SqlCommand comm = new SqlCommand(queryEfficiency, Conexion.ConexionSql);
+                using SqlCommand comm = new SqlCommand(queryEfficiencybyEmployee, Conexion.ConexionSql);
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 while (reader.Read())
                 {
+                    DateTime FechaInicio = reader.GetDateTime(2);
+                    DateTime FechaFinal = reader.GetDateTime(3);
                     ListaGenerica.Add(new DEvaluacion
                     {
-                        cedula = reader.GetString(0),
-                        empleado = reader.GetString(1),
-                        departamento = reader.GetString(2),
-                        periodoInicial = reader.GetDateTime(3),
-                        periodoFinal = reader.GetDateTime(4),
-                        tipoMetrica = reader.GetString(5),
-                        valorMeta = reader.GetInt32(6),
-                        valorEvaluado = reader.GetInt32(7),
+                        empleado = reader.GetString(0),
+                        departamento = reader.GetString(1),
+                        periodoInicial = reader.GetDateTime(2),
+                        periodoFinal = reader.GetDateTime(3),
+                        tipoMetrica = reader.GetString(4),
+                        valorMeta = reader.GetDouble(5),
+                        valorEvaluado = reader.GetDouble(6),
+                        rendimiento = Math.Truncate(reader.GetDouble(7) * 100) / 100,
+                        periodoString = FechaInicio.ToShortDateString() + " - " + FechaFinal.ToShortDateString(),
                         observacion = reader.GetString(8)
+                    });
+                }
+
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+        }
+
+        public List<DEvaluacion> RendimientobyDepartamento()
+        {
+            List<DEvaluacion> ListaGenerica = new List<DEvaluacion>();
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryEfficiencybyDepartment, Conexion.ConexionSql);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    DateTime FechaInicio = reader.GetDateTime(1);
+                    DateTime FechaFinal = reader.GetDateTime(2);
+                    ListaGenerica.Add(new DEvaluacion
+                    {
+                        departamento = reader.GetString(0),
+                        periodoInicial = reader.GetDateTime(1),
+                        periodoFinal = reader.GetDateTime(2),
+                        tipoMetrica = reader.GetString(3),
+                        valorMeta = reader.GetDouble(4),
+                        valorEvaluado = reader.GetDouble(5),
+                        rendimiento = Math.Truncate(reader.GetDouble(6) * 100) / 100,
+                        periodoString = FechaInicio.ToShortDateString() + " - " + FechaFinal.ToShortDateString(),
+                        observacion = reader.GetString(7)
                     });
                 }
 

@@ -146,7 +146,9 @@ namespace HumanResourcesSM.Windows
                 {
                     var ultimopago = met.MostrarUltimo()[0];
                     Reports.Reporte reporte = new Reports.Reporte();
-                    reporte.ExportPDFTwoArguments(new MPago().MostrarDetalle(ultimopago.idPago), "Pago", new MPago().Mostrar(ultimopago.idPago), "PagoGeneral", true, ultimopago.idPago.ToString());
+                    var pagol = met.Mostrar(ultimopago.idPago);
+                    var detalle = met.MostrarDetalle(ultimopago.idPago);
+                    reporte.ExportPDFTwoArguments(detalle, "Pago", pagol, "PagoGeneral", true, ultimopago.idPago.ToString());
                 }
                 limpiar();
             }

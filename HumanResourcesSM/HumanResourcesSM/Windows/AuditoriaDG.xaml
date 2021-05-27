@@ -1,0 +1,100 @@
+﻿<Window x:Class="HumanResourcesSM.Windows.AuditoriaDG"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HumanResourcesSM.Windows"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        Title="AuditoriaDG" Height="450" Width="800">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="70 10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" Margin="10 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" Margin="0 0 10 0" >
+                    <TextBlock x:Name="PlaceFechaInicio" Text="Fecha Inicio" FontSize="13" VerticalAlignment="Center" Foreground="Gray"/>
+                    <DatePicker x:Name="dpFechaInicio" FontSize="13" Focusable="False" SelectedDateChanged="dpFechaInicio_SelectedDateChanged"/>
+                </Grid>
+                <Grid Grid.Column="1" Margin="10 0 0 0" >
+                    <TextBlock x:Name="PlaceFechaFinal" Text="Fecha Final" FontSize="13" VerticalAlignment="Center" Foreground="Gray"/>
+                    <DatePicker x:Name="dpFechaFinal" FontSize="13" Focusable="False" SelectedDateChanged="dpFechaFinal_SelectedDateChanged"/>
+                </Grid>
+            </Grid>
+            <Grid Grid.Column="1" Margin="0 0 10 0" Width="160">
+                <TextBlock x:Name="PlaceAcciones" Text="Acciones del Sistema" HorizontalAlignment="Center" FontSize="15" VerticalAlignment="Center" Foreground="Gray"/>
+                <ComboBox x:Name="CbAcciones" FontSize="15" SelectionChanged="CbAcciones_SelectionChanged"/>
+            </Grid>
+            <Grid Grid.Column="2" Margin="0 10" Width="200">
+                <TextBlock x:Name="PlaceUsuario" Text="Usuario" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
+                <ComboBox Name="CbUsuario" FontSize="15" SelectionChanged="CbUsuario_SelectionChanged"/>
+            </Grid>
+        </Grid>
+
+        <DataGrid x:Name="dgOperaciones" 
+                  Grid.Row="1"
+                  AutoGenerateColumns="false" 
+                  IsReadOnly="true" 
+                  ColumnWidth="*" 
+                  Margin="30 0"
+                  BorderThickness="0 1 0 1"
+                  BorderBrush="LightGray"
+                  Background="WhiteSmoke">
+            <DataGrid.Resources>
+                <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" Value="#f0f0f0" />
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="*" Header="Fecha" Binding="{Binding fechaString}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="*" Header="Accion" Binding="{Binding accion}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="*" Header="Descripción" Binding="{Binding descripcion}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="*" Header="Usuario" Binding="{Binding usuario}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="*" Header="Rol" Binding="{Binding rolString}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

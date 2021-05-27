@@ -278,7 +278,10 @@ namespace HumanResourcesSM.Windows
             var resp = new MSeleccion().Despido(idEmpleado);
 
             if (resp.Equals("OK"))
+            {
+                MessageBox.Show("Despido completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.Close();
+            }
             else
                 MessageBox.Show(resp);
         }

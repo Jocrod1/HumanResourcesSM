@@ -27,7 +27,11 @@
                     </Grid>
                 </StackPanel>
                 <Button x:Name="BtnLogin" Content="Iniciar Sesión" Margin="0 10" Click="BtnLogin_Click" Background="#2A347B" BorderBrush="#2A347B"/>
-                <TextBlock Text="¿Ha olvidado la contraseña?" Foreground="Gray" HorizontalAlignment="Center"/>
+                <TextBlock HorizontalAlignment="Center">
+                    <Hyperlink TextDecorations="None" Foreground="Gray" Click="Hyperlink_Click">
+                        ¿Ha olvidado la contraseña?
+                    </Hyperlink>
+                </TextBlock>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
                 <TextBlock Text="Derechos Reservados Swissnet Inc. | Sevilla" VerticalAlignment="Center" Foreground="Gray" Margin="0 10"/>

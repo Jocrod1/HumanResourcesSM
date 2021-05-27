@@ -1,0 +1,35 @@
+﻿<Page x:Class="HumanResourcesSM.Windows.ServiciosFrm"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:HumanResourcesSM.Windows"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800" Loaded="Window_Loaded"
+      Title="DepartamentoDG" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+
+    <Grid Background="WhiteSmoke">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Background="#595959" Margin="0 0 0 10">
+            <TextBlock Text="Servicios" Foreground="White" FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" Margin="10 10" VerticalAlignment="Center"/>
+        </Grid>
+        <StackPanel Grid.Row="1">
+            <TextBlock Text="Restauración y Respaldo de Base de datos" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" Width="300" TextWrapping="Wrap" TextAlignment="Center"/>
+            <Grid Width="400">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" x:Name="BtnRestauracion" Content="Restauración" HorizontalAlignment="Center" Margin="0 10" Click="BtnRestauracion_Click" Background="#248232" BorderBrush="#248232"/>
+                <Button Grid.Column="1" x:Name="BtnRespaldo" Content="Respaldo" HorizontalAlignment="Center" Margin="0 10" Click="BtnRespaldo_Click" Background="#248232" BorderBrush="#248232"/>
+            </Grid>
+            <TextBlock Text="Auditoría" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" Width="300" TextWrapping="Wrap" TextAlignment="Center" Margin="10 20"/>
+            <Grid Width="400">
+                <Button Grid.Column="0" x:Name="BtnAuditoria" Content="Auditoria" HorizontalAlignment="Center" Margin="0 10" Click="BtnAuditoria_Click" Background="#595959" BorderBrush="#595959"/>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Page>

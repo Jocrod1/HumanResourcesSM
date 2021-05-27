@@ -111,7 +111,7 @@
                 <StackPanel>
                     <TextBlock>
                         <Hyperlink Name="UrlCurriculo" NavigateUri="www.google.com" RequestNavigate="Hyperlink_RequestNavigate" FontWeight="Bold" FontSize="17" Foreground="#2A347B" TextDecorations="Underline">
-                            URL del Currilulo
+                            URL del Currículo
                         </Hyperlink>
                     </TextBlock>
                     <StackPanel VerticalAlignment="Top" Margin="5 5">

@@ -114,9 +114,9 @@ namespace HumanResourcesSM.Windows
             if (UForm == null)
                 return;
             string response = Metodos.Insertar(UForm);
-            MessageBox.Show(response);
             if (response == "OK")
             {
+                MessageBox.Show("Registro completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.DialogResult = true;
                 this.Close();
             }

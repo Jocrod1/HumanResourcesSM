@@ -107,7 +107,7 @@ namespace Metodos
 						d.concepto
 					FROM [Deuda] d
 					WHERE dp.idDeuda=d.idDeuda
-				), 'No es Deuda') AS deuda
+				), '') AS deuda
             FROM [DetallePago] dp
 				INNER JOIN [Pago] p ON p.idPago=dp.idPago
 			WHERE p.idPago=@idPago;
@@ -122,17 +122,20 @@ namespace Metodos
 				ISNULL((
 					SELECT TOP 1
 						montoTotal
-					FROM [Pago]
+					FROM [Pago] p
+					where p.idEmpleado = e.idEmpleado
 					ORDER BY idPago DESC), 0) AS ultimoPago,
 				ISNULL((
 					SELECT TOP 1
 						periodoInicio
-					FROM [Pago]
+					FROM [Pago] p
+					where p.idEmpleado = e.idEmpleado
 					ORDER BY idPago DESC), null) AS ultimoPeriodoInicio,
 				ISNULL((
 					SELECT TOP 1
 						periodoFinal
-					FROM [Pago]
+					FROM [Pago] p
+					where p.idEmpleado = e.idEmpleado
 					ORDER BY idPago DESC), null) AS ultimoPeriodoFinal,
 				e.status
             FROM [Empleado] e
@@ -386,7 +389,13 @@ namespace Metodos
                     if (reader.IsDBNull(5) || reader.IsDBNull(6))
                         periodoPago = "N/A";
                     else
-                        periodoPago = reader.GetDateTime(5) + " - " + reader.GetDateTime(6);
+                    {
+                        DateTime FechaInicio = reader.GetDateTime(5);
+                        DateTime FechaFinal = reader.GetDateTime(6);
+                        if (DateTime.Now <= FechaFinal)
+                            continue;
+                        periodoPago = FechaInicio + " - " + FechaFinal;
+                    }
 
                     ListaGenerica.Add(new DEmpleado
                     {

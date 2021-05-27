@@ -93,6 +93,12 @@
     <Compile Include="Windows\AjustesMenu.xaml.cs">
       <DependentUpon>AjustesMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\AuditoriaDG.xaml.cs">
+      <DependentUpon>AuditoriaDG.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\CambiarContraseña.xaml.cs">
+      <DependentUpon>CambiarContraseña.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\EmpleadoDG.xaml.cs">
       <DependentUpon>EmpleadoDG.xaml</DependentUpon>
     </Compile>
@@ -147,6 +153,9 @@
     <Compile Include="Windows\DeudaFrm.xaml.cs">
       <DependentUpon>DeudaFrm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\PreguntasSeguridad.xaml.cs">
+      <DependentUpon>PreguntasSeguridad.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\SeleccionarUsuario.xaml.cs">
       <DependentUpon>SeleccionarUsuario.xaml</DependentUpon>
     </Compile>
@@ -176,6 +185,9 @@
     </Compile>
     <Compile Include="Windows\SeleccionVista.xaml.cs">
       <DependentUpon>SeleccionVista.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ServiciosFrm.xaml.cs">
+      <DependentUpon>ServiciosFrm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\UsuarioDG.xaml.cs">
       <DependentUpon>UsuarioDG.xaml</DependentUpon>
@@ -222,6 +234,14 @@
     <Page Include="Windows\AjustesMenu.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\AuditoriaDG.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\CambiarContraseña.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\EmpleadoDG.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -295,6 +315,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Windows\PreguntasSeguridad.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\SeleccionarUsuario.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -332,6 +356,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\SeleccionVista.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\ServiciosFrm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -395,7 +423,8 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\rptDeudaActiva.rdlc" />
-    <EmbeddedResource Include="Reports\rptRendimiento.rdlc" />
+    <EmbeddedResource Include="Reports\rptRendimientobyDepartamento.rdlc" />
+    <EmbeddedResource Include="Reports\rptRendimientobyEmpleado.rdlc" />
     <EmbeddedResource Include="Reports\rptSeleccionadosporEmpleado.rdlc" />
     <EmbeddedResource Include="Reports\rptPago.rdlc" />
     <EmbeddedResource Include="Reports\rptNumeroContratos.rdlc" />

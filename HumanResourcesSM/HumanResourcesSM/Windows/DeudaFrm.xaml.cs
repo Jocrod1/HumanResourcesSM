@@ -101,9 +101,9 @@ namespace HumanResourcesSM.Windows
             List<DDeuda> deudas = new List<DDeuda>();
             deudas.Add(UForm);
             string response = Metodos.Insertar(deudas);
-            MessageBox.Show(response);
             if (response == "OK")
             {
+                MessageBox.Show("Registro completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.DialogResult = true;
                 this.Close();
             }
@@ -123,8 +123,8 @@ namespace HumanResourcesSM.Windows
             {
                 CbEmpleado.SelectedValue = Data.idEmpleado;
                 txtMonto.SetText(Data.monto.ToString());
-                txtPagado.Text = Data.pagado.ToString();
-                txtRestante.Text = (Data.monto - Data.pagado).ToString();
+                txtPagado.Text = "Pagado: " + Data.pagado.ToString() + "€";
+                txtRestante.Text = "Restante: " + (Data.monto - Data.pagado).ToString() + "€";
                 CbTipoDeuda.SelectedIndex = Data.tipoDeuda;
                 txtConcepto.SetText(Data.concepto);
             }

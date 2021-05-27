@@ -42,6 +42,9 @@ namespace HumanResourcesSM.Windows
 
         public TypeForm Type;
         public DUsuario DataFill;
+        public List<DSeguridad> ListaSeguridad = new List<DSeguridad>();
+
+
 
         public DUsuario UForm;
 
@@ -61,7 +64,7 @@ namespace HumanResourcesSM.Windows
             if (Type == TypeForm.Read)
             {
                 txtTitulo.Text = "Ver";
-                fillForm(DataFill);
+                fillForm(DataFill, ListaSeguridad);
                 SetEnable(false);
                 btnEnviar.Visibility = Visibility.Collapsed;
             }
@@ -72,7 +75,7 @@ namespace HumanResourcesSM.Windows
                 btnEnviar.Content = "Editar";
                 btnEnviar.Foreground = (Brush)new BrushConverter().ConvertFrom("#2A347B");
                 btnEnviar.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#2A347B");
-                fillForm(DataFill);
+                fillForm(DataFill, ListaSeguridad);
             }
         }
 
@@ -89,21 +92,43 @@ namespace HumanResourcesSM.Windows
             int idRol = (int)CbRol.SelectedValue;
             string usuario = txtUsuario.txt.Text;
             string password = txtContraseña.Password;
-            string confirmacion = txtConfirmacion.txt.Text;
 
             UForm = new DUsuario(0, 
                                  idRol,
                                  usuario,
                                  password, 
                                  0);
+            AgregarSeguridad();
+        }
+
+        public void AgregarSeguridad()
+        {
+            ListaSeguridad.Clear();
+
+            DSeguridad DS = new DSeguridad();
+            DSeguridad DS2 = new DSeguridad();
+            DSeguridad DS3 = new DSeguridad();
+
+            DS.pregunta = txtPregunta1.txt.Text;
+            DS.respuesta = txtRespuesta1.txt.Text;
+            ListaSeguridad.Add(DS);
+
+            DS2.pregunta = txtPregunta2.txt.Text;
+            DS2.respuesta = txtRespuesta2.txt.Text;
+            ListaSeguridad.Add(DS2);
+
+            DS3.pregunta = txtPregunta3.txt.Text;
+            DS3.respuesta = txtRespuesta3.txt.Text;
+            ListaSeguridad.Add(DS3);
+
         }
 
         void Create()
         {
             fillData();
-            if (UForm == null)
+            if (UForm == null && ListaSeguridad.Count > 0)
                 return;
-            string response = Metodos.Insertar(UForm, null); //COLOCAR LOS CAMPOS DE PREGUNTAS
+            string response = Metodos.Insertar(UForm, ListaSeguridad); //COLOCAR LOS CAMPOS DE PREGUNTAS
             MessageBox.Show(response);
             if (response == "OK")
             {
@@ -116,10 +141,10 @@ namespace HumanResourcesSM.Windows
         void Update()
         {
             fillData();
-            if (UForm == null)
+            if (UForm == null && ListaSeguridad.Count > 0)
                 return;
             UForm.idUsuario = DataFill.idUsuario;
-            string response = Metodos.Editar(UForm, null); //COLOCAR LOS CAMPOS DE PREGUNTAS
+            string response = Metodos.Editar(UForm, ListaSeguridad); //COLOCAR LOS CAMPOS DE PREGUNTAS
             MessageBox.Show(response);
             if (response == "OK")
             {
@@ -133,9 +158,14 @@ namespace HumanResourcesSM.Windows
             txtUsuario.IsEnabled = Enable;
             CbRol.IsEnabled = Enable;
             txtContraseña.IsEnabled = Enable;
-            txtConfirmacion.IsEnabled = Enable;
+            txtPregunta1.IsEnabled = Enable;
+            txtRespuesta1.IsEnabled = Enable;
+            txtPregunta2.IsEnabled = Enable;
+            txtRespuesta2.IsEnabled = Enable;
+            txtPregunta3.IsEnabled = Enable;
+            txtRespuesta3.IsEnabled = Enable;
         }
-        void fillForm(DUsuario Data)
+        void fillForm(DUsuario Data, List<DSeguridad> DataSeguridad)
         {
             if (Data != null)
             {
@@ -150,6 +180,15 @@ namespace HumanResourcesSM.Windows
                 }
                 if (IsSelf)
                     CbRol.IsEnabled = false;
+
+                txtPregunta1.SetText(DataSeguridad[0].pregunta);
+                txtRespuesta1.SetText(DataSeguridad[0].respuesta);
+
+                txtPregunta2.SetText(DataSeguridad[1].pregunta);
+                txtRespuesta2.SetText(DataSeguridad[1].respuesta);
+
+                txtPregunta3.SetText(DataSeguridad[2].pregunta);
+                txtRespuesta3.SetText(DataSeguridad[2].respuesta);
             }
         }
         #region Validation
@@ -176,12 +215,44 @@ namespace HumanResourcesSM.Windows
                 return true;
             }
 
-            if (txtConfirmacion.txt.Text == "")
+            if (txtPregunta1.txt.Text == "")
             {
-                MessageBox.Show("Debes llenar el campo Codigo de Confirmación!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtConfirmacion.txt.Focus();
+                MessageBox.Show("Debes llenar la pregunta #1!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtPregunta1.txt.Focus();
                 return true;
             }
+            if (txtRespuesta1.txt.Text == "")
+            {
+                MessageBox.Show("Debes llenar la respuesta #1!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtRespuesta1.txt.Focus();
+                return true;
+            }
+
+            if (txtPregunta2.txt.Text == "")
+            {
+                MessageBox.Show("Debes llenar la pregunta #2!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtPregunta2.txt.Focus();
+                return true;
+            }
+            if (txtRespuesta2.txt.Text == "")
+            {
+                MessageBox.Show("Debes llenar la respuesta #2!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtRespuesta2.txt.Focus();
+                return true;
+            }
+            if (txtPregunta3.txt.Text == "")
+            {
+                MessageBox.Show("Debes llenar la pregunta #3!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtPregunta3.txt.Focus();
+                return true;
+            }
+            if (txtRespuesta3.txt.Text == "")
+            {
+                MessageBox.Show("Debes llenar la respuesta #3!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtRespuesta3.txt.Focus();
+                return true;
+            }
+
 
             return false;
         }

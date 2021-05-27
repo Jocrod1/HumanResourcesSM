@@ -55,9 +55,9 @@ namespace HumanResourcesSM.Windows
                                                 UForm.seleccion,
                                                 UForm.Idiomas,
                                                 UForm.Educacion);
-            MessageBox.Show(resp);
             if(resp == "OK")
             {
+                MessageBox.Show("Registro completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
                 Limpiar();
             }
         }
@@ -673,6 +673,12 @@ namespace HumanResourcesSM.Windows
             if (txtURLCV.txt.Text == "")
             {
                 MessageBox.Show("Debes llenar el campo de URL del Currículo!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtURLCV.txt.Focus();
+                return true;
+            }
+            if (!Validaciones.IsValidEmail(txtEmail.txt.Text))
+            {
+                MessageBox.Show("Este email no es valido!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                 txtURLCV.txt.Focus();
                 return true;
             }

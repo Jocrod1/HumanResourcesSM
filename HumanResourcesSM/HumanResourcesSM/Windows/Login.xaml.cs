@@ -91,5 +91,32 @@ namespace HumanResourcesSM.Windows
         {
             this.Close();
         }
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            if(txtUsuario.txt.Text == "")
+            {
+                MessageBox.Show("Debe proporcionar un Nombre de Usuario en el login", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                txtUsuario.txt.Focus();
+            }
+            else
+            {
+                MUsuario Metodo = new MUsuario();
+
+                var res = Metodo.Seguridad(txtUsuario.txt.Text);
+
+                if(res.Count > 0)
+                {
+                    PreguntasSeguridad frmPreguntas = new PreguntasSeguridad(this);
+                    frmPreguntas.DataFill = res;
+                    bool Resp = frmPreguntas.ShowDialog() ?? false;
+                }
+                else
+                {
+                    MessageBox.Show("El usuario que ha escrito en el login no existe", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                }
+            }
+        }
     }
 }

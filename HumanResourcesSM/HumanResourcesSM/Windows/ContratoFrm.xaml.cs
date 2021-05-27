@@ -36,6 +36,9 @@ namespace HumanResourcesSM.Windows
             Empleado = empleado;
             Seleccion = seleccion;
 
+            txtFechaContratación.Text = "Fecha de Contratación: " + DateTime.Now.ToShortDateString();
+            var resp = new MDepartamento().Encontrar(empleado.idDepartamento)[0].nombre;
+            txtDepartamento.Text = "Departamento Asignado: " + resp;
         }
 
         public ContratoFrm(DContrato contrato)
@@ -48,6 +51,9 @@ namespace HumanResourcesSM.Windows
             Type = TypeForm.Update;
 
             DataFill = contrato;
+
+            txtFechaContratación.Text = "Fecha de Contratación: " + contrato.fechaContratacion.ToShortDateString();
+            txtDepartamento.Visibility = Visibility.Collapsed;
         }
 
 
@@ -146,7 +152,9 @@ namespace HumanResourcesSM.Windows
 
             string res = RegistrarContrato(UForm);
 
-            if (!res.Equals("OK"))
+            if (res.Equals("OK"))
+                MessageBox.Show("Registro completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+            else
                 MessageBox.Show(res);
 
             this.DialogResult = res.Equals("OK");
@@ -161,7 +169,9 @@ namespace HumanResourcesSM.Windows
 
             string res = ActualizarContrato(UForm);
 
-            if (!res.Equals("OK"))
+            if (res.Equals("OK"))
+                MessageBox.Show("Edicion completada!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+            else
                 MessageBox.Show(res);
 
             this.DialogResult = res.Equals("OK");
