@@ -45,7 +45,13 @@ namespace HumanResourcesSM.Windows
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 string path = dlg.FileName;
-                MUsuario.Restore(path);
+                var resp = MUsuario.Restore(path);
+
+                if (resp.Equals("OK"))
+                    MAuditoria.Insertar(new DAuditoria(
+                                        Menu.ActUsuario.idUsuario,
+                                        DAuditoria.Restore,
+                                        "Se ha realizado una restauración de la base de datos"));
             }
         }
 
@@ -55,7 +61,13 @@ namespace HumanResourcesSM.Windows
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 string path = dlg.SelectedPath;
-                MUsuario.Backup(path);
+                var resp = MUsuario.Backup(path);
+
+                if(resp.Equals("OK"))
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Backup,
+                                    "Se ha realizado un respaldo de la base de datos"));
             }
         }
 

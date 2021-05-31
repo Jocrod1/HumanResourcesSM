@@ -98,13 +98,31 @@ namespace HumanResourcesSM.Windows
         {
             idiomaHablado.idEmpleado = Empleado.idEmpleado;
             var resp = methodIH.Insertar(idiomaHablado);
+            if (resp == "OK")
+            {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Registrar,
+                                    "Se ha registrado un Idioma Hablado del empleado Nº" + Empleado.idEmpleado));
 
+                MessageBox.Show("Registro completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         public void EditIdioma(DIdiomaHablado idiomaHablado)
         {
             idiomaHablado.idEmpleado = Empleado.idEmpleado;
             var resp = methodIH.Editar(idiomaHablado);
+
+            if (resp == "OK")
+            {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Editar,
+                                    "Se ha Editado un Idioma Hablado del empleado Nº" + Empleado.idEmpleado));
+
+                MessageBox.Show("Edición completada!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
 
         }
 

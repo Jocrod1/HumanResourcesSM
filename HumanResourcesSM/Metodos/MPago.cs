@@ -463,6 +463,43 @@ namespace Metodos
             return ListaGenerica;
         }
 
+        public List<DPago> MostrarByEmpleado(int IdPago)
+        {
+            List<DPago> ListaGenerica = new List<DPago>();
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryListPay, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idPago", IdPago);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListaGenerica.Add(new DPago
+                    {
+                        idPago = reader.GetInt32(0),
+                        fechaPago = reader.GetDateTime(1),
+                        cedula = reader.GetString(2),
+                        nombre = reader.GetString(3),
+                        numeroReferencia = reader.GetString(4),
+                        banco = reader.GetString(5),
+                        periodoInicio = reader.GetDateTime(6),
+                        periodoFinal = reader.GetDateTime(7),
+                        montoTotal = (double)reader.GetDecimal(8),
+                        estado = reader.GetInt32(9)
+                    });
+                }
+
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+
+        }
+
 
 
     }

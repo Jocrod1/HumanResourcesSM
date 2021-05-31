@@ -60,23 +60,22 @@ namespace Metodos
 		            SELECT COUNT(s.idSeleccion)
 		            FROM [Seleccion] s
 					INNER JOIN [Empleado] e on e.idEmpleado = s.idEmpleado Inner Join [Contrato] c on c.idEmpleado = e.idEmpleado
-		            WHERE u.idUsuario = s.idSeleccionador and s.status = 3
+		            WHERE u.idUsuario = s.idSeleccionador and s.status = 3 and s.fechaRevision >= @fechaInicio and s.fechaRevision <= @fechaFinal
 	            ),0) AS numeroContrataciones,
 	            ISNULL((
 		            SELECT COUNT(s.idSeleccion)
 		            FROM [Seleccion] s
-		            WHERE u.idUsuario = s.idSeleccionador
+		            WHERE u.idUsuario = s.idSeleccionador and s.fechaAplicacion >= @fechaInicio and s.fechaAplicacion <= @fechaFinal
 	            ),0) AS numeroSelecciones,
 	            ISNULL((
 		            SELECT TOP 1 s.fechaRevision
 		            FROM [Seleccion] s
-		            WHERE u.idUsuario = s.idSeleccionador
+		            WHERE u.idUsuario = s.idSeleccionador and s.fechaRevision >= @fechaInicio and s.fechaRevision <= @fechaFinal
 		            ORDER BY s.idSeleccion DESC
 	            ), null) AS ultimaContratacion
             FROM [Usuario] u
 				INNER JOIN [Rol] r on r.idRol = u.idRol
-            WHERE u.idUsuario <> 1
-        ";
+            WHERE u.idUsuario <> 1";
         #endregion
 
         public string AsignarEntrevistador(int IdEmpleado, int IdEntrevistador)
@@ -191,7 +190,7 @@ namespace Metodos
         }
 
 
-        public List<DEmpleado> ReporteNumeroContrato(DateTime PrimeraFecha, DateTime SegundaFecha)
+        public List<DEmpleado> ReporteNumeroContrato(DateTime FechaInicio, DateTime FechaFinal)
         {
             List<DEmpleado> ListaGenerica = new List<DEmpleado>();
 
@@ -200,8 +199,8 @@ namespace Metodos
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryReportNumberContract, Conexion.ConexionSql);
-                //comm.Parameters.AddWithValue("@primeraFecha", PrimeraFecha);
-                //comm.Parameters.AddWithValue("@segundaFecha", SegundaFecha);
+                comm.Parameters.AddWithValue("@fechaInicio", FechaInicio.ToString("s"));
+                comm.Parameters.AddWithValue("@fechaFinal", FechaFinal.ToString("s"));
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 while (reader.Read())

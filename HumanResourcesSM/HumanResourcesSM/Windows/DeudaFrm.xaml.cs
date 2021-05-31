@@ -103,6 +103,11 @@ namespace HumanResourcesSM.Windows
             string response = Metodos.Insertar(deudas);
             if (response == "OK")
             {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Registrar,
+                                    "Se ha registrado una " + UForm.tipoDeudaStringz + " " + UForm.concepto));
+
                 MessageBox.Show("Registro completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.DialogResult = true;
                 this.Close();

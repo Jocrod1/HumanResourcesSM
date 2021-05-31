@@ -253,8 +253,7 @@ namespace Metodos
             FROM [Seleccion] s
 				INNER JOIN [Empleado] e ON e.idEmpleado=s.idEmpleado
                 INNER JOIN [Usuario] u ON u.idUsuario=s.idEntrevistador
-			WHERE u.idUsuario = @idUsuario;
-        ";
+			WHERE u.idUsuario = @idUsuario and s.fechaRevision >= @fechaInicio and s.fechaRevision <= @fechaFinal";
 
         private string queryListSelectionPerUser = @"
             SELECT 
@@ -266,8 +265,7 @@ namespace Metodos
             FROM [Seleccion] s
 				INNER JOIN [Empleado] e ON e.idEmpleado=s.idEmpleado
                 INNER JOIN [Usuario] u ON u.idUsuario=s.idSeleccionador
-			WHERE u.idUsuario = @idUsuario;
-        ";
+			WHERE u.idUsuario = @idUsuario and s.fechaAplicacion >= @fechaInicio and s.fechaAplicacion <= @fechaFinal";
         #endregion
 
 
@@ -912,7 +910,7 @@ namespace Metodos
 
 
 
-        public List<DEmpleado> EntrevistadosPorUsuario(int IdEntrevistador)
+        public List<DEmpleado> EntrevistadosPorUsuario(int IdEntrevistador, DateTime FechaInicio, DateTime FechaFinal)
         {
             List<DEmpleado> ListaGenerica = new List<DEmpleado>();
 
@@ -922,6 +920,8 @@ namespace Metodos
 
                 using SqlCommand comm = new SqlCommand(queryListInterviewPerUser, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@idUsuario", IdEntrevistador);
+                comm.Parameters.AddWithValue("@fechaInicio", FechaInicio.ToString("s"));
+                comm.Parameters.AddWithValue("@fechaFinal", FechaFinal.ToString("s"));
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 while (reader.Read())
@@ -943,7 +943,7 @@ namespace Metodos
         }
 
 
-        public List<DEmpleado> SeleccionadosPorUsuario(int IdSeleccionador)
+        public List<DEmpleado> SeleccionadosPorUsuario(int IdSeleccionador, DateTime FechaInicio, DateTime FechaFinal)
         {
             List<DEmpleado> ListaGenerica = new List<DEmpleado>();
 
@@ -953,6 +953,8 @@ namespace Metodos
 
                 using SqlCommand comm = new SqlCommand(queryListSelectionPerUser, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@idUsuario", IdSeleccionador);
+                comm.Parameters.AddWithValue("@fechaInicio", FechaInicio.ToString("s"));
+                comm.Parameters.AddWithValue("@fechaFinal", FechaFinal.ToString("s"));
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 while (reader.Read())

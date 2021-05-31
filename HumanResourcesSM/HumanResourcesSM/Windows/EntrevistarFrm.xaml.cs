@@ -444,7 +444,16 @@ namespace HumanResourcesSM.Windows
             var resp = new MContrato().NoContratado(EmpleadoEntrevistado.idEmpleado, Menu.ActUsuario.idUsuario);
 
             if (resp.Equals("OK"))
+            {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Registrar,
+                                    "Se ha registrado no contratado el empleado Nº" + EmpleadoEntrevistado.idEmpleado));
+
+                MessageBox.Show("Accion Completada!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+
                 FetchEmpleado();
+            }
             else
                 MessageBox.Show(resp);
         }

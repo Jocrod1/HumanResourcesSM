@@ -125,6 +125,11 @@ namespace HumanResourcesSM.Windows
             var resp = Metodos.Insertar(UForm);
             if (resp == "OK")
             {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Registrar,
+                                    "Se ha registrado una Meta para el empleado Nº" + UForm.idEmpleado));
+
                 MessageBox.Show("Registro completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.DialogResult = true;
                 this.Close();
@@ -139,6 +144,11 @@ namespace HumanResourcesSM.Windows
             var resp = Metodos.Editar(UForm);
             if (resp == "OK")
             {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Editar,
+                                    "Se ha Editado la Meta Nº" + UForm.idMeta));
+
                 MessageBox.Show("Edición completada!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.DialogResult = true;
                 this.Close();

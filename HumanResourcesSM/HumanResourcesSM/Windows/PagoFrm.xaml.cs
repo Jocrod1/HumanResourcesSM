@@ -141,6 +141,11 @@ namespace HumanResourcesSM.Windows
 
             if (resp.Equals("OK"))
             {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Registrar,
+                                    "Se ha registrado un Pago para el empleado Nº" + pago.idEmpleado));
+
                 var msgResp = MessageBox.Show("¡Pago Procesado!" + Environment.NewLine + "¿Desea Guardar el Comprobante de Pago?", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Information);
                 if (msgResp == MessageBoxResult.Yes)
                 {

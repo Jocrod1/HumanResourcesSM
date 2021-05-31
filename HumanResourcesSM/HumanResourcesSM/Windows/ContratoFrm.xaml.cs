@@ -110,6 +110,12 @@ namespace HumanResourcesSM.Windows
 
             var resp = new MContrato().Insertar(Data, Menu.ActUsuario.idUsuario);
 
+            if (resp.Equals("OK"))
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario, 
+                                    DAuditoria.Registrar, 
+                                    "Se ha registrado el contrato del empleado Nº" + Empleado.idEmpleado));
+
             return resp;
         }
 
@@ -120,6 +126,12 @@ namespace HumanResourcesSM.Windows
             Data.horasSemanales = contrato.horasSemanales;
 
             var resp = new MContrato().Editar(Data);
+
+            if (resp.Equals("OK"))
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Editar,
+                                    "Se ha Editado el contrato del empleado Nº" + Empleado.idEmpleado));
 
             return resp;
         }

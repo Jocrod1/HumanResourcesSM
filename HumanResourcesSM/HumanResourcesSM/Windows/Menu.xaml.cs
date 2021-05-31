@@ -24,6 +24,9 @@ namespace HumanResourcesSM.Windows
     {
         public static DUsuario ActUsuario;
 
+        public bool logout = false;
+
+
         public void RefreshUsuario()
         {
             var res = new MUsuario().Encontrar(ActUsuario.idUsuario);
@@ -123,11 +126,39 @@ namespace HumanResourcesSM.Windows
 
         private void BtnLogOut_Click(object sender, RoutedEventArgs e)
         {
-            Login login = new Login();
-            login.Show();
-            this.Close();
+            var resp = MessageBox.Show("¿Desea Cerrar Sesión?", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Information);
+            if(resp == MessageBoxResult.Yes)
+            {
+                MAuditoria.Insertar(new DAuditoria(
+                                                ActUsuario.idUsuario,
+                                                MAuditoria.CerrarSesion,
+                                                "Ha Cerrado la Sesión"));
+                logout = true;
+
+
+                Login login = new Login();
+                login.Show();
+                this.Close();
+            }
+            
         }
 
-        
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!logout)
+            {
+                var resp = MessageBox.Show("¿Desea Cerrar la Aplicación?", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                if (resp == MessageBoxResult.Yes)
+                {
+                    MAuditoria.Insertar(new DAuditoria(
+                                                    ActUsuario.idUsuario,
+                                                    MAuditoria.CerrarSesion,
+                                                    "Ha Cerrado la Sesión"));
+
+                    Environment.Exit(0);
+                }
+                e.Cancel = true; 
+            }
+        }
     }
 }

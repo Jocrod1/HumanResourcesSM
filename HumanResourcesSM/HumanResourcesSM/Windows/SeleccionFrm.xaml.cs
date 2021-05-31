@@ -57,6 +57,11 @@ namespace HumanResourcesSM.Windows
                                                 UForm.Educacion);
             if(resp == "OK")
             {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Registrar,
+                                    "Se ha registrado una seleccion al empleado " + UForm.empleado.nombre + " " + UForm.empleado.apellido));
+
                 MessageBox.Show("Registro completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
                 Limpiar();
             }

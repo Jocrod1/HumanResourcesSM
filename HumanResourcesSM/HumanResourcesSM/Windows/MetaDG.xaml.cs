@@ -105,10 +105,18 @@ namespace HumanResourcesSM.Windows
 
         private void btnEliminar_Click(object sender, RoutedEventArgs e)
         {
-            int id = (int)((Button)sender).CommandParameter;
+            MessageBoxResult Resp = MessageBox.Show("¿Seguro que quieres eliminar este item?", "Magicolor", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (Resp != MessageBoxResult.Yes)
+                return;
 
+            int id = (int)((Button)sender).CommandParameter;
             var resp = Metodos.Eliminar(id);
-            MessageBox.Show(resp);
+
+            if (resp.Equals("OK"))
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Eliminar,
+                                    "Se ha Eliminado la Meta Nº" + id));
             Refresh();
         }
 

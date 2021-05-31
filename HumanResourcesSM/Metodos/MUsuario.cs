@@ -464,7 +464,7 @@ namespace Metodos
         }
 
 
-        public static void Backup(string Path)
+        public static string Backup(string Path)
         {
             try
             {
@@ -487,11 +487,14 @@ namespace Metodos
             catch (SqlException e)
             {
                 MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                return "ERROR";
             }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return "OK";
         }
 
-        public static void Restore(string Path)
+        public static string Restore(string Path)
         {
             try
             {
@@ -520,8 +523,11 @@ namespace Metodos
             catch (SqlException e)
             {
                 MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                return "ERROR";
             }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return "OK";
         }
 
     }

@@ -16,6 +16,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid Background="#2A347B" Margin="0 0 0 10">
+            <Button Margin="20 0" Name="BtnReporte" HorizontalAlignment="Right" Content="Guardar Listado" Click="BtnReporte_Click" Padding="5"  Background="#248232" BorderBrush="#248232"/>
             <TextBlock Text="Beneficios y Deducciones" Foreground="White" FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" Margin="10 10" VerticalAlignment="Center"/>
             <!--<Border Grid.Column="1" Background="White" Height="30" CornerRadius="15"  Margin="20 0" VerticalAlignment="Center">
                 <Grid>
@@ -36,6 +37,10 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
             <!--<Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
@@ -48,6 +53,13 @@
             <Grid Grid.Column="0" HorizontalAlignment="Left" Margin="20 0">
                 <TextBlock x:Name="PlaceEmpleado" Text="Empleado" FontSize="15" VerticalAlignment="Center" Foreground="Gray"/>
                 <ComboBox Name="CbEmpleado" FontSize="15" Width="200" SelectionChanged="CbEmpleado_SelectionChanged"/>
+            </Grid>
+            <Grid Grid.Column="4" Grid.Row="0"  Margin="10 10">
+                <TextBlock x:Name="PlaceTipoDeuda" Text="Tipo Deuda" FontSize="15" VerticalAlignment="Center" Foreground="Gray"/>
+                <ComboBox Name="CbTipoDeuda" FontSize="15"  SelectionChanged="CbTipoDeuda_SelectionChanged">
+                    <ComboBoxItem>Beneficios</ComboBoxItem>
+                    <ComboBoxItem>Deducciones</ComboBoxItem>
+                </ComboBox>
             </Grid>
             <Button Grid.Column="2" Name="btnLimpiar" Content="Limpiar" Click="btnLimpiar_Click" Padding="5"/>
             <StackPanel Grid.Column="3" Margin="10 0" Orientation="Horizontal" VerticalAlignment="Center">
@@ -62,7 +74,6 @@
                 </RadioButton>
                 
             </StackPanel>
-            <Button Grid.Column="4" Name="BtnReporte" HorizontalAlignment="Right" Content="Guardar Listado" Click="BtnReporte_Click" Padding="5"  Background="#248232" BorderBrush="#248232"/>
 
         </Grid>
         <DataGrid x:Name="dgOperaciones" 

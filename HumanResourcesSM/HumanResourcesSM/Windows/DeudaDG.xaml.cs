@@ -56,7 +56,7 @@ namespace HumanResourcesSM.Windows
                 SearchStatus = null;
 
             
-            var Resp = Metodos.MostrarDeudaEmpleado(idEmpleado, SearchStatus);
+            var Resp = Metodos.MostrarDeudaEmpleado(idEmpleado, SearchStatus, CbTipoDeuda.SelectedIndex);
 
             dgOperaciones.ItemsSource = Resp;
         }
@@ -74,6 +74,7 @@ namespace HumanResourcesSM.Windows
             bool Resp = frmTrab.ShowDialog() ?? false;
             Refresh();
         }
+
         private void btnEliminar_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult Resp = MessageBox.Show("¿Seguro que quieres eliminar este item?", "Magicolor", MessageBoxButton.YesNo, MessageBoxImage.Warning);
@@ -81,9 +82,22 @@ namespace HumanResourcesSM.Windows
                 return;
             int id = (int)((Button)sender).CommandParameter;
             //var response = Metodos.Encontrar(id)[0];
-            Metodos.Anular(id);
+            var resp = Metodos.Anular(id);
+
+            if (resp.Equals("OK"))
+            {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Eliminar,
+                                    "Se ha eliminado la dedua Nº" + id));
+
+                MessageBox.Show("Eliminar completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else MessageBox.Show(resp);
+
             Refresh();
         }
+
         private void txtVer_Click(object sender, RoutedEventArgs e)
         {
             int id = (int)((Button)sender).CommandParameter;
@@ -98,7 +112,6 @@ namespace HumanResourcesSM.Windows
 
         private void CbEmpleado_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Refresh();
             if (CbEmpleado.SelectedIndex > -1)
             {
                 PlaceEmpleado.Text = "";
@@ -107,6 +120,7 @@ namespace HumanResourcesSM.Windows
             {
                 PlaceEmpleado.Text = "Empleado";
             }
+            Refresh();
         }
 
         private void btnLimpiar_Click(object sender, RoutedEventArgs e)
@@ -126,14 +140,39 @@ namespace HumanResourcesSM.Windows
                 MessageBox.Show("No se puede realizar un Reporte vacio!", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                 return;
             }
-            if(CbEmpleado.SelectedIndex < 0)
+
+            if (CbEmpleado.SelectedIndex < 0)
             {
                 MessageBox.Show("Se debe seleccionar un empleado!", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                 return;
             }
 
+            int idEmpleado = CbEmpleado.SelectedIndex > -1 ? (int)CbEmpleado.SelectedValue : -1;
+
+            int? SearchStatus = 1;
+            if (RbNoPagado.IsChecked ?? false)
+                SearchStatus = 1;
+            else if (RbPagado.IsChecked ?? false)
+                SearchStatus = 2;
+            else if (RbAmbos.IsChecked ?? false)
+                SearchStatus = null;
+
+
             Reports.Reporte reporte = new Reports.Reporte();
-            reporte.ExportPDF(Metodos.DeudasPorEmpleado((int)CbEmpleado.SelectedValue), "DeudaActiva");
+            reporte.ExportPDF(Metodos.DeudasPorEmpleado(idEmpleado, SearchStatus, CbTipoDeuda.SelectedIndex), "DeudaActiva");
+        }
+
+        private void CbTipoDeuda_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CbTipoDeuda.SelectedIndex > -1)
+            {
+                PlaceTipoDeuda.Text = "";
+            }
+            else
+            {
+                PlaceTipoDeuda.Text = "Tipo Deuda";
+            }
+            Refresh();
         }
     }
 }

@@ -105,11 +105,25 @@ namespace HumanResourcesSM.Windows
 
         private void btnEliminar_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult Resp = MessageBox.Show("¿Seguro que quieres eliminar este item?", "Magicolor", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (Resp != MessageBoxResult.Yes)
+                return;
             int id = (int)((Button)sender).CommandParameter;
             DEvaluacion Evaluacion = Metodos.Encontrar(id)[0];
 
             var resp = Metodos.Eliminar(id, Evaluacion.idMeta);
-            MessageBox.Show(resp);
+
+            if (resp.Equals("OK"))
+            {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Eliminar,
+                                    "Se ha Eliminado la Evaluación Nº" + id));
+
+                MessageBox.Show("Eliminar completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else MessageBox.Show(resp);
+
             Refresh();
         }
 

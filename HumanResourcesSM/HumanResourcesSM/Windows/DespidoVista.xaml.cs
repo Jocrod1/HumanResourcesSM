@@ -279,6 +279,11 @@ namespace HumanResourcesSM.Windows
 
             if (resp.Equals("OK"))
             {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Eliminar,
+                                    "Se ha Despedido al empleado Nº" + idEmpleado));
+
                 MessageBox.Show("Despido completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.Close();
             }

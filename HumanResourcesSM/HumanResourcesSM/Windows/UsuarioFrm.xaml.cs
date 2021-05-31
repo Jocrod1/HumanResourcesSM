@@ -132,6 +132,11 @@ namespace HumanResourcesSM.Windows
             MessageBox.Show(response);
             if (response == "OK")
             {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Registrar,
+                                    "Se ha registrado un Usuario " + UForm.usuario));
+
                 this.DialogResult = true;
                 this.Close();
             }
@@ -148,6 +153,11 @@ namespace HumanResourcesSM.Windows
             MessageBox.Show(response);
             if (response == "OK")
             {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Editar,
+                                    "Se ha Editado el Usuario Nº" + UForm.idUsuario));
+
                 this.DialogResult = true;
                 this.Close();
             }

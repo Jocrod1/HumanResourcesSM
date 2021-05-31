@@ -71,8 +71,7 @@ namespace Metodos
 				CONCAT(e.apellido, ' ', e.nombre) AS nombreEmpleado
             FROM [Deuda] d
 				INNER JOIN [Empleado] e ON e.idEmpleado=d.idEmpleado
-			WHERE d.idEmpleado = @idEmpleado AND d.status=1;
-        ";
+			WHERE d.status != 0";
 
         #endregion
 
@@ -122,7 +121,7 @@ namespace Metodos
         }
 
 
-        public List<DDeuda> MostrarDeudaEmpleado(int IdEmpleado, int? Status)
+        public List<DDeuda> MostrarDeudaEmpleado(int IdEmpleado, int? Status, int? TipoDeuda = -1)
         {
             List<DDeuda> ListaGenerica = new List<DDeuda>();
             string Searcher = "";
@@ -133,6 +132,10 @@ namespace Metodos
             if (Status != null)
             {
                 Searcher += " AND d.status = " + Status;
+            }
+            if(TipoDeuda > -1)
+            {
+                Searcher += " AND d.tipoDeuda = " + TipoDeuda;
             }
 
             try
@@ -198,7 +201,7 @@ namespace Metodos
 
 
 
-        public List<DDeuda> DeudasPorEmpleado(int IdEmpleado)
+        public List<DDeuda> DeudasPorEmpleado(int IdEmpleado, int? Status, int? TipoDeuda)
         {
             List<DDeuda> ListaGenerica = new List<DDeuda>();
 
@@ -206,8 +209,21 @@ namespace Metodos
             {
                 Conexion.ConexionSql.Open();
 
-                using SqlCommand comm = new SqlCommand(queryActivePerEmployee, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
+                string Searcher = "";
+                if (IdEmpleado > 0)
+                {
+                    Searcher += " AND e.idEmpleado = " + IdEmpleado;
+                }
+                if (Status != null)
+                {
+                    Searcher += " AND d.status = " + Status;
+                }
+                if (TipoDeuda > -1)
+                {
+                    Searcher += " AND d.tipoDeuda = " + TipoDeuda;
+                }
+
+                using SqlCommand comm = new SqlCommand(queryActivePerEmployee + Searcher, Conexion.ConexionSql);
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 while (reader.Read())

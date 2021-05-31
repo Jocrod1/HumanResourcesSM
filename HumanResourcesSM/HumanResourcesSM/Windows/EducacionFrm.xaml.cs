@@ -88,15 +88,30 @@ namespace HumanResourcesSM.Windows
         {
             Edu.idEmpleado = Empleado.idEmpleado;
             var resp = methodEdu.Insertar(Edu);
-            MessageBox.Show(resp);
+            if (resp == "OK")
+            {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Registrar,
+                                    "Se ha registrado un Educación del empleado Nº" + Empleado.idEmpleado));
+
+                MessageBox.Show("Registro completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         public void EditEducacion(DEducacion Edu)
         {
             Edu.idEmpleado = Empleado.idEmpleado;
             var resp = methodEdu.Editar(Edu);
-            MessageBox.Show(resp);
+            if (resp == "OK")
+            {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Editar,
+                                    "Se ha Editado Educación del empleado Nº" + Empleado.idEmpleado));
 
+                MessageBox.Show("Edición completada!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
 
         }
 

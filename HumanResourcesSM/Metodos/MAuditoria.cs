@@ -11,21 +11,7 @@ namespace Metodos
     public class MAuditoria : DAuditoria
     {
         #region QUERIES
-        private string queryInsert = @"
-            INSERT INTO [auditoria] (
-                idAuditoria,
-                idUsuario,
-                accion,
-                descripcion,
-                fecha
-            ) VALUES (
-                @idAuditoria,
-                @idUsuario,
-                @accion,
-                @descripcion,
-                @fecha
-            );
-	    ";
+        
 
         private string queryList = @"
             SELECT
@@ -51,11 +37,28 @@ namespace Metodos
         #endregion
 
 
-        public string Insertar(DAuditoria Auditoria)
+        public static string Insertar(DAuditoria Auditoria)
         {
+            string queryInsert = @"
+            INSERT INTO [auditoria] (
+                idUsuario,
+                accion,
+                descripcion,
+                fecha
+            ) VALUES (
+                @idUsuario,
+                @accion,
+                @descripcion,
+                @fecha
+            );
+	        ";
+
             try
             {
-                Conexion.ConexionSql.Open();
+                if (Conexion.ConexionSql.State == ConnectionState.Closed)
+                    Conexion.ConexionSql.Open();
+
+
 
                 using SqlCommand comm = new SqlCommand(queryInsert, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@idUsuario", Auditoria.idTrabajador);
@@ -78,7 +81,7 @@ namespace Metodos
 
             if (FechaInicio != null && FechaFinal != null)
             {
-                searcher += " AND a.fecha >= '" + FechaInicio?.ToString("s") + "' AND a.fecha <= '" + FechaFinal?.ToString("s") + "'";
+                searcher += " AND a.fecha >= '" + FechaInicio?.ToString("s") + "' AND a.fecha <= '" + FechaFinal?.AddDays(1).ToString("s") + "'";
             }
 
             searcher += "ORDER BY a.idAuditoria DESC;";

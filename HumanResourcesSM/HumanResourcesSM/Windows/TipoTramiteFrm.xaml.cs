@@ -91,6 +91,12 @@ namespace HumanResourcesSM.Windows
             MessageBox.Show(response);
             if (response == "OK")
             {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Registrar,
+                                    "Se ha registrado un Tipo Tramite " + UForm.nombre));
+
+
                 this.DialogResult = true;
                 this.Close();
             }
@@ -107,6 +113,11 @@ namespace HumanResourcesSM.Windows
             MessageBox.Show(response);
             if (response == "OK")
             {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Editar,
+                                    "Se ha Editado el Tipo Tramite Nº" + UForm.idTipoTramite));
+
                 this.DialogResult = true;
                 this.Close();
             }

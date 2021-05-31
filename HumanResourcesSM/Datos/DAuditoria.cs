@@ -66,10 +66,15 @@ namespace Datos
 
         public const string
             Ingresar = "Ingresar",
-            Editar = "Editar",
             Registrar = "Registrar",
+            Editar = "Editar",
+            Eliminar = "Eliminar",
+            Anular = "Anular",
             Generar = "Generar",
-            Salir = "Salir";
+            Backup = "Respaldo",
+            Restore = "Restaurar",
+            IniciarSesion = "Iniciar Sesión",
+            CerrarSesion = "Cerrar Sesión";
             
 
 

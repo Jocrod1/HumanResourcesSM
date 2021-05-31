@@ -116,6 +116,11 @@ namespace HumanResourcesSM.Windows
             string response = Metodos.Insertar(UForm);
             if (response == "OK")
             {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Registrar,
+                                    "Se ha registrado una Relación Laboral al empleado Nº" + UForm.idEmpleado));
+
                 MessageBox.Show("Registro completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.DialogResult = true;
                 this.Close();

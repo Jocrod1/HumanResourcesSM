@@ -89,13 +89,25 @@ namespace HumanResourcesSM.Windows
 
         private void btnEliminar_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult Resp = MessageBox.Show("¿Seguro que quieres eliminrar este item?", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            MessageBoxResult Resp = MessageBox.Show("¿Seguro que quieres eliminar este item?", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (Resp != MessageBoxResult.Yes)
                 return;
             int id = (int)((Button)sender).CommandParameter;
             var response = Metodos.Encontrar(id);
             DRelacionesLaborales item = response[0];
-            Metodos.Eliminar(item);
+            var resp = Metodos.Eliminar(item);
+
+            if (resp.Equals("OK"))
+            {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Eliminar,
+                                    "Se ha Eliminado la Evaluación Nº" + id));
+
+                MessageBox.Show("Eliminar completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else MessageBox.Show(resp);
+
             Refresh();
         }
         private void txtVer_Click(object sender, RoutedEventArgs e)

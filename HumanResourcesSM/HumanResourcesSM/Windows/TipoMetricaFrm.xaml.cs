@@ -99,6 +99,11 @@ namespace HumanResourcesSM.Windows
             MessageBox.Show(response);
             if (response == "OK")
             {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Registrar,
+                                    "Se ha registrado un Tipo Metrica para el departamento Nº" + UForm.idDepartamento));
+
                 this.DialogResult = true;
                 this.Close();
             }
@@ -115,6 +120,11 @@ namespace HumanResourcesSM.Windows
             MessageBox.Show(response);
             if (response == "OK")
             {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Editar,
+                                    "Se ha Editado el Tipo Metrica Nº" + UForm.idTipoMetrica));
+
                 this.DialogResult = true;
                 this.Close();
             }

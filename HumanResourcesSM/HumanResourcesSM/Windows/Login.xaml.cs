@@ -46,6 +46,11 @@ namespace HumanResourcesSM.Windows
 
             if (response.Count > 0)
             {
+                MAuditoria.Insertar(new DAuditoria(
+                                                response[0].idUsuario,
+                                                MAuditoria.IniciarSesion,
+                                                "Ha Iniciado Sesión"));
+
                 //MessageBox.Show("CodigoConfirmacion: " + response[0].confirmacion + "| ID: " + response[0].idUsuario);
                 Menu Frm = new Menu(response[0]);
                 Frm.Closing += new System.ComponentModel.CancelEventHandler(Window_Closing);

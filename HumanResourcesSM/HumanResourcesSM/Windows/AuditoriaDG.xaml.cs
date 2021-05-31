@@ -60,6 +60,11 @@ namespace HumanResourcesSM.Windows
             CbAcciones.ItemsSource = resAcciones;
             CbAcciones.DisplayMemberPath = "accion";
             CbAcciones.SelectedValuePath = "accion";
+
+            DateTime StartofWeek = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
+            dpFechaInicio.SelectedDate = StartofWeek;
+            dpFechaFinal.SelectedDate = StartofWeek.AddDays(6);
+
             Refresh();
         }
 

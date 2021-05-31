@@ -1,0 +1,28 @@
+﻿<Window x:Class="HumanResourcesSM.Windows.SeleccionarPago"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HumanResourcesSM.Windows"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        Title="SeleccionarUsuario" Height="220" Width="400">
+    <Grid Background="WhiteSmoke">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="1"  Margin="50 10">
+            <Grid Margin="0 10" Name="GridEmpleado">
+                <TextBlock x:Name="PlaceEmpleado" Text="Empleado" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
+                <ComboBox Name="CbEmpleado" FontSize="15" SelectionChanged="CbEmpleado_SelectionChanged"/>
+            </Grid>
+            <Grid Margin="0 10" Name="GridPago" IsEnabled="False">
+                <TextBlock x:Name="PlacePago" Text="Pago" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
+                <ComboBox Name="CbPago" FontSize="15" SelectionChanged="CbPago_SelectionChanged"/>
+            </Grid>
+        </StackPanel>
+        <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Content="Seleccionar" Margin="0 10" Click="btnEnviar_Click" HorizontalAlignment="Center"/>
+    </Grid>
+</Window>

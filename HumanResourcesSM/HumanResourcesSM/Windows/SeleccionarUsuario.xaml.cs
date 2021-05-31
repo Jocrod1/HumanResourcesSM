@@ -22,20 +22,29 @@ namespace HumanResourcesSM.Windows
     /// </summary>
     public partial class SeleccionarUsuario : Window
     {
-        public SeleccionarUsuario()
+
+        public SeleccionarUsuario(bool isDateOnly)
         {
             InitializeComponent();
-            var res = new MUsuario().Mostrar("");
+            if (isDateOnly)
+            {
+                GridUsuario.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                var res = new MUsuario().Mostrar("");
 
-            CbUsuario.ItemsSource = res;
-            CbUsuario.DisplayMemberPath = "usuario";
-            CbUsuario.SelectedValuePath = "idUsuario";
+                CbUsuario.ItemsSource = res;
+                CbUsuario.DisplayMemberPath = "usuario";
+                CbUsuario.SelectedValuePath = "idUsuario";
 
+                btnEnviar.Visibility = Visibility.Collapsed;
+            }
 
-            btnEnviar.Visibility = Visibility.Collapsed;
         }
 
         public DUsuario UsuarioSeleccionado;
+        public DateTime? FechaInicioSel, FechaFinalSel;
 
         private void CbUsuario_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -57,6 +66,50 @@ namespace HumanResourcesSM.Windows
         {
             this.DialogResult = true;
             this.Close();
+        }
+
+        private void CbFechaInicio_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CbFechaInicio.SelectedDate != null)
+            {
+                PlaceFechaInicio.Text = "";
+
+                CbFechaFinal.DisplayDateStart = CbFechaInicio.SelectedDate?.Date;
+            }
+            else
+            {
+                PlaceFechaInicio.Text = "Fecha de Inicio";
+
+                CbFechaFinal.DisplayDateStart = null;
+            }
+            FechaInicioSel = CbFechaInicio.SelectedDate;
+        }
+
+        private void CbFechaFinal_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CbFechaFinal.SelectedDate != null)
+            {
+                PlaceFechaFinal.Text = "";
+
+                CbFechaInicio.DisplayDateEnd = CbFechaFinal.SelectedDate?.Date;
+            }
+            else
+            {
+                PlaceFechaFinal.Text = "Fecha Final";
+
+                CbFechaInicio.DisplayDateEnd = null;
+            }
+            FechaFinalSel = CbFechaFinal.SelectedDate;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            DateTime now = DateTime.Now;
+            var startdate = new DateTime(now.Year, now.Month, 1);
+            var enddate = startdate.AddMonths(1).AddDays(-1);
+
+            CbFechaInicio.SelectedDate = startdate;
+            CbFechaFinal.SelectedDate = enddate;
         }
     }
 }

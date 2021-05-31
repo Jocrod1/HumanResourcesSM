@@ -235,6 +235,14 @@ namespace HumanResourcesSM.Windows
             MessageBox.Show(response);
             if (response == "OK")
             {
+
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Registrar,
+                                    "Se ha registrado el departamento " + UForm.nombre));
+
+
+                MessageBox.Show("Registro completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.DialogResult = true;
                 this.Close();
             }
@@ -251,6 +259,13 @@ namespace HumanResourcesSM.Windows
             MessageBox.Show(response);
             if (response == "OK")
             {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Editar,
+                                    "Se ha Editado el departamento " + UForm.nombre));
+
+
+                MessageBox.Show("Edición completada!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.DialogResult = true;
                 this.Close();
             }

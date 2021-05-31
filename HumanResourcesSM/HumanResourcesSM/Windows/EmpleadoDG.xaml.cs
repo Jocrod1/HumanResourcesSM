@@ -50,6 +50,11 @@ namespace HumanResourcesSM.Windows
             int id = (int)((Button)sender).CommandParameter;
 
             var resp = Metodos.AnularEmpleado(id);
+            if (resp.Equals("OK"))
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Anular,
+                                    "Se ha Anulado el Empleado Nº" + id));
             Refresh(txtBuscar.Text);
 
         }
@@ -96,11 +101,18 @@ namespace HumanResourcesSM.Windows
                 return;
             }
 
-            SeleccionarUsuario dialog = new SeleccionarUsuario();
+            SeleccionarUsuario dialog = new SeleccionarUsuario(false);
             if(dialog.ShowDialog() ?? false)
             {
+                DateTime now = DateTime.Now;
+                var startdate = new DateTime(now.Year, now.Month, 1);
+                var enddate = startdate.AddMonths(1).AddDays(-1);
+
                 Reports.Reporte reporte = new Reports.Reporte();
-                reporte.ExportPDF(Metodos.EntrevistadosPorUsuario((dialog.UsuarioSeleccionado.idUsuario)), "EntrevistadosPorEmpleado");
+                reporte.ExportPDF(Metodos.EntrevistadosPorUsuario(dialog.UsuarioSeleccionado.idUsuario, 
+                                                                    dialog.FechaInicioSel ?? startdate, 
+                                                                    dialog.FechaFinalSel ?? enddate), 
+                                  "EntrevistadosPorEmpleado");
             }
 
              
@@ -109,8 +121,18 @@ namespace HumanResourcesSM.Windows
 
         private void BtnContratos_Click(object sender, RoutedEventArgs e)
         {
-            Reports.Reporte reporte = new Reports.Reporte();
-            reporte.ExportPDF(new MContrato().ReporteNumeroContrato(DateTime.Now.AddMonths(-1), DateTime.Now), "NumeroContratos");
+            SeleccionarUsuario dialog = new SeleccionarUsuario(true);
+            if (dialog.ShowDialog() ?? false)
+            {
+                DateTime now = DateTime.Now;
+                var startdate = new DateTime(now.Year, now.Month, 1);
+                var enddate = startdate.AddMonths(1).AddDays(-1);
+
+                Reports.Reporte reporte = new Reports.Reporte();
+                reporte.ExportPDF(new MContrato().ReporteNumeroContrato(dialog.FechaInicioSel ?? startdate, 
+                                                                        dialog.FechaFinalSel ?? enddate), 
+                                  "NumeroContratos");
+            }
         }
 
         private void BtnSeleccion_Click(object sender, RoutedEventArgs e)
@@ -121,11 +143,18 @@ namespace HumanResourcesSM.Windows
                 return;
             }
 
-            SeleccionarUsuario dialog = new SeleccionarUsuario();
+            SeleccionarUsuario dialog = new SeleccionarUsuario(false);
             if (dialog.ShowDialog() ?? false)
             {
+                DateTime now = DateTime.Now;
+                var startdate = new DateTime(now.Year, now.Month, 1);
+                var enddate = startdate.AddMonths(1).AddDays(-1);
+
                 Reports.Reporte reporte = new Reports.Reporte();
-                reporte.ExportPDF(Metodos.SeleccionadosPorUsuario((dialog.UsuarioSeleccionado.idUsuario)), "SeleccionadosPorEmpleado");
+                reporte.ExportPDF(Metodos.SeleccionadosPorUsuario(dialog.UsuarioSeleccionado.idUsuario, 
+                                                                  dialog.FechaInicioSel ?? startdate, 
+                                                                  dialog.FechaFinalSel ?? enddate), 
+                                  "SeleccionadosPorEmpleado");
             }
         }
     }
