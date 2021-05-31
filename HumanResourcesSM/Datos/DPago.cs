@@ -63,6 +63,14 @@ namespace Datos
             set { _PeriodoFinal = value; }
         }
 
+        public string PeriodoString
+        {
+            get
+            {
+                return _PeriodoInicio.ToShortDateString() + " - " + _PeriodoFinal.ToShortDateString();
+            }
+        }
+
         private double _MontoTotal;
         public double montoTotal
         {

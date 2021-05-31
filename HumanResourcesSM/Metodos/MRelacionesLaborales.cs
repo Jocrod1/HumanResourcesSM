@@ -57,7 +57,7 @@ namespace Metodos
             FROM [RelacionesLaborales] rl
 	            INNER JOIN [Empleado] e ON e.idEmpleado=rl.idEmpleado
 	            INNER JOIN [TipoTramite] tt ON tt.idTipoTramite=rl.idTipoTramite
-        ";
+            WHERE e.status <> 0 and rl.idEmpleado <> 1";
 
         private string queryListID = @"
             SELECT * FROM [RelacionesLaborales] 
@@ -73,7 +73,7 @@ namespace Metodos
             FROM [RelacionesLaborales] rl
 	            INNER JOIN [Empleado] e ON e.idEmpleado=rl.idEmpleado
 	            INNER JOIN [TipoTramite] tt ON tt.idTipoTramite=rl.idTipoTramite
-        ";
+            WHERE e.status <> 0 and rl.idEmpleado <> 1";
         #endregion
 
         public string Insertar(DRelacionesLaborales RelacionesLaborales)
@@ -133,13 +133,23 @@ namespace Metodos
         public List<DRelacionesLaborales> Mostrar(int IdEmpleado, int IdTramite)
         {
             List<DRelacionesLaborales> ListaGenerica = new List<DRelacionesLaborales>();
-            string queryEmpleadoTramite = MostrarEmpleadoTramiteQuery(IdEmpleado, IdTramite);
+            string searcher = "";
+            if(idEmpleado > 0)
+            {
+                searcher += " AND rl.idEmpleado = " + idEmpleado;
+            }
+            if(IdTramite > 0)
+            {
+                searcher += " AND rl.idTipoTramite = " + idTipoTramite;
+            }
+            searcher += " ORDER BY rl.idRelacionesLaborales DESC";
+
 
             try
             {
                 Conexion.ConexionSql.Open();
 
-                using SqlCommand comm = new SqlCommand((queryList + queryEmpleadoTramite), Conexion.ConexionSql);
+                using SqlCommand comm = new SqlCommand((queryList + searcher), Conexion.ConexionSql);
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 while (reader.Read())
@@ -161,21 +171,6 @@ namespace Metodos
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
 
             return ListaGenerica;
-        }
-
-        private string MostrarEmpleadoTramiteQuery(int IdEmpleado, int IdTramite)
-        {
-            if (IdEmpleado == -1 && IdTramite == -1) return "";
-
-            string query = "WHERE ";
-            if (IdEmpleado > -1 && IdTramite > -1)
-                query += "idEmpleado= " + IdEmpleado + " AND idTipoTramite= " + IdTramite;
-            else if (IdEmpleado > -1)
-                query += "idEmpleado= " + IdEmpleado;
-            else if (IdTramite > -1)
-                query += " idTipoTramite= " + IdTramite;
-
-            return query;
         }
 
 
@@ -210,14 +205,26 @@ namespace Metodos
         }
 
 
-        public List<DRelacionesLaborales> MostrarReporte()
+        public List<DRelacionesLaborales> MostrarReporte(int IdEmpleado, int IdTramite)
         {
             List<DRelacionesLaborales> ListaGenerica = new List<DRelacionesLaborales>();
 
             try
             {
                 Conexion.ConexionSql.Open();
-                using SqlCommand comm = new SqlCommand(queryReport, Conexion.ConexionSql);
+
+                string searcher = "";
+                if (idEmpleado > 0)
+                {
+                    searcher += " AND rl.idEmpleado = " + idEmpleado;
+                }
+                if (IdTramite > 0)
+                {
+                    searcher += " AND rl.idTipoTramite = " + idTipoTramite;
+                }
+                searcher += " ORDER BY rl.idRelacionesLaborales DESC";
+
+                using SqlCommand comm = new SqlCommand(queryReport + searcher, Conexion.ConexionSql);
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 while (reader.Read())

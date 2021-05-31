@@ -162,8 +162,11 @@ namespace HumanResourcesSM.Windows
                 return;
             }
 
+            int idEmpleado = CbEmpleado.SelectedIndex > -1 ? (int)CbEmpleado.SelectedValue : CbEmpleado.SelectedIndex;
+            int idTipoTramite = CbTipoTramite.SelectedIndex > -1 ? (int)CbTipoTramite.SelectedValue : CbTipoTramite.SelectedIndex;
+
             Reports.Reporte reporte = new Reports.Reporte();
-            reporte.ExportPDF(Metodos.MostrarReporte(), "RelacionesLaborales");
+            reporte.ExportPDF(Metodos.MostrarReporte(idEmpleado, idTipoTramite), "RelacionesLaborales");
         }
     }
 }

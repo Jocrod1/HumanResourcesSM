@@ -51,15 +51,28 @@ namespace HumanResourcesSM.Windows
             this.Close();
         }
 
+        MPago Metodo = new MPago();
+
         private void CbEmpleado_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (CbEmpleado.SelectedIndex > -1)
             {
                 PlaceEmpleado.Text = "";
+
+                var resp = Metodo.MostrarByEmpleado((int)CbEmpleado.SelectedValue);
+
+                CbPago.ItemsSource = resp;
+                CbPago.DisplayMemberPath = "PeriodoString";
+                CbPago.SelectedValuePath = "idPago";
+
+                GridPago.IsEnabled = true;
+
             }
             else
             {
                 PlaceEmpleado.Text = "Empleado";
+                CbPago.SelectedIndex = -1;
+                CbPago.IsEnabled = false;
             }
         }
 

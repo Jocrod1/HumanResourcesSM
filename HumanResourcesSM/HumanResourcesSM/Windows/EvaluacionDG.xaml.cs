@@ -184,6 +184,7 @@ namespace HumanResourcesSM.Windows
             CbFechaInicio.SelectedDate = null;
             CbFechaFinal.SelectedDate = null;
             CbDepartamento.SelectedIndex = -1;
+            Refresh();
         }
 
         private void CbFechaInicio_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
@@ -216,7 +217,7 @@ namespace HumanResourcesSM.Windows
             }
             else
             {
-                CbFechaInicio.Text = "Fecha Final";
+                PlaceFechaFinal.Text = "Fecha Final";
 
                 CbFechaInicio.DisplayDateEnd = null;
             }
@@ -232,13 +233,27 @@ namespace HumanResourcesSM.Windows
         {
             if (searchType == SearchType.Departamento)
             {
+                if (dgDepartamento.Items.Count == 0)
+                {
+                    MessageBox.Show("No se puede realizar un Reporte vacio!", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                    return;
+                }
+
+                int id = CbDepartamento.SelectedIndex > -1 ? (int)CbDepartamento.SelectedValue : -1;
                 Reports.Reporte reporte = new Reports.Reporte();
-                reporte.ExportPDF(Metodos.RendimientobyDepartamento(), "RendimientobyDepartamento");
+                reporte.ExportPDF(Metodos.RendimientobyDepartamento(id, CbFechaInicio.SelectedDate, CbFechaFinal.SelectedDate), "RendimientobyDepartamento");
             }
             else if(searchType == SearchType.Empleado)
             {
+                if (dgEmpleado.Items.Count == 0)
+                {
+                    MessageBox.Show("No se puede realizar un Reporte vacio!", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                    return;
+                }
+
+                int id = CbEmpleado.SelectedIndex > -1 ? (int)CbEmpleado.SelectedValue : -1;
                 Reports.Reporte reporte = new Reports.Reporte();
-                reporte.ExportPDF(Metodos.RendimientobyEmpleado(), "RendimientobyEmpleado");
+                reporte.ExportPDF(Metodos.RendimientobyEmpleado(id, CbFechaInicio.SelectedDate, CbFechaFinal.SelectedDate), "RendimientobyEmpleado");
             }
         }
 

@@ -97,6 +97,17 @@ namespace Metodos
             ORDER BY p.numeroReferencia;
         ";
 
+        //mostrar
+        private string queryListByEmployee = @"
+           SELECT 
+                p.idPago,
+				p.periodoInicio,
+				p.periodoFinal
+            FROM [Pago] p 
+            WHERE p.idEmpleado = @idEmpleado
+            ORDER BY p.idPago DESC;
+        ";
+
         private string queryListDetailPay = @"
             SELECT 
 				dp.idDetallePago,
@@ -463,7 +474,7 @@ namespace Metodos
             return ListaGenerica;
         }
 
-        public List<DPago> MostrarByEmpleado(int IdPago)
+        public List<DPago> MostrarByEmpleado(int IdEmpleado)
         {
             List<DPago> ListaGenerica = new List<DPago>();
 
@@ -471,8 +482,8 @@ namespace Metodos
             {
                 Conexion.ConexionSql.Open();
 
-                using SqlCommand comm = new SqlCommand(queryListPay, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@idPago", IdPago);
+                using SqlCommand comm = new SqlCommand(queryListByEmployee, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 while (reader.Read())
@@ -480,15 +491,8 @@ namespace Metodos
                     ListaGenerica.Add(new DPago
                     {
                         idPago = reader.GetInt32(0),
-                        fechaPago = reader.GetDateTime(1),
-                        cedula = reader.GetString(2),
-                        nombre = reader.GetString(3),
-                        numeroReferencia = reader.GetString(4),
-                        banco = reader.GetString(5),
-                        periodoInicio = reader.GetDateTime(6),
-                        periodoFinal = reader.GetDateTime(7),
-                        montoTotal = (double)reader.GetDecimal(8),
-                        estado = reader.GetInt32(9)
+                        periodoInicio = reader.GetDateTime(1),
+                        periodoFinal = reader.GetDateTime(2),
                     });
                 }
 

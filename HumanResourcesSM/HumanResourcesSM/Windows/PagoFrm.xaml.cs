@@ -23,6 +23,8 @@ namespace HumanResourcesSM.Windows
     /// </summary>
     public partial class PagoFrm : Page
     {
+        MPago met = new MPago();
+
         public PagoFrm()
         {
             InitializeComponent();
@@ -40,14 +42,20 @@ namespace HumanResourcesSM.Windows
         }
         private void BtnReporte_Click(object sender, RoutedEventArgs e)
         {
-            //if (dgOperaciones.Items.Count == 0)
-            //{
-            //    MessageBox.Show("No se puede realizar un Reporte vacio!", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            //    return;
-            //}
 
-            //Reports.Reporte reporte = new Reports.Reporte();
-            //reporte.ExportPDF(Metodos.MostrarReporte(), "RelacionesLaborales");
+            SeleccionarPago dialog = new SeleccionarPago();
+            if(dialog.ShowDialog() ?? false)
+            {
+                var id = dialog.PagoSeleccionado.idPago;
+
+                var PagoSeleccionado = dialog.PagoSeleccionado;
+                Reports.Reporte reporte = new Reports.Reporte();
+                var pagol = met.Mostrar(PagoSeleccionado.idPago);
+                var detalle = met.MostrarDetalle(PagoSeleccionado.idPago);
+                reporte.ExportPDFTwoArguments(detalle, "Pago", pagol, "PagoGeneral", true, PagoSeleccionado.idPago.ToString());
+            }
+
+            
         }
 
         void limpiar()
@@ -136,7 +144,7 @@ namespace HumanResourcesSM.Windows
                                      item.Pagando * multiplier)
                 );
             }
-            var met = new MPago();
+            
             var resp = met.Insertar(pago, detallepagos);
 
             if (resp.Equals("OK"))

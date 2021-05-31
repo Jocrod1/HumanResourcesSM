@@ -133,6 +133,23 @@ namespace Datos
             set { _Rendimiento = value; }
         }
 
+        public string rendimientoString
+        {
+            get
+            {
+                double Rend = (_ValorEvaluado / _ValorMeta) * 100;
+                double trunc = Math.Truncate(Rend * 100) / 100;
+                return trunc.ToString() + "%";
+            }
+        }
+
+        private double _RendimientoAcumulado;
+        public double rendimientoAcumulado
+        {
+            get { return _RendimientoAcumulado; }
+            set { _RendimientoAcumulado = value; }
+        }
+
         private string _TipoMetrica;
         public string tipoMetrica
         {

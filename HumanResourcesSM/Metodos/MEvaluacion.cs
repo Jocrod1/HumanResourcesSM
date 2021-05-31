@@ -122,7 +122,7 @@ namespace Metodos
 				INNER JOIN [Empleado] e ON e.idEmpleado = m.idEmpleado
 				INNER JOIN [Departamento] d ON d.idDepartamento=e.idDepartamento
 				INNER JOIN [TipoMetrica] tm ON tm.idDepartamento=e.idDepartamento
-        ";
+            WHERE m.status <> 0 AND m.idEmpleado <> 1";
         private string queryEfficiencybyDepartment = @"
             SELECT 
 				d.nombre,
@@ -137,7 +137,7 @@ namespace Metodos
 				INNER JOIN [Meta] m on m.idMeta = ev.idMeta
 				INNER JOIN [Departamento] d ON d.idDepartamento=m.idDepartamento
 				INNER JOIN [TipoMetrica] tm ON tm.idDepartamento=d.idDepartamento
-        ";
+            WHERE m.status <> 0 AND m.idDepartamento <> 1";
         #endregion
 
         public string Insertar(DEvaluacion Evaluacion)
@@ -298,6 +298,8 @@ namespace Metodos
                 Searcher += " AND e.fechaEvaluacion <= '" + FechaFinal?.ToString("s") + "' AND e.fechaEvaluacion >= '" + FechaInicio?.ToString("s") + "'";
             }
 
+            Searcher += " ORDER BY e.idEvaluacion DESC";
+
             try
             {
                 Console.WriteLine(queryListAllByDepartment + Searcher);
@@ -339,6 +341,9 @@ namespace Metodos
                 Searcher += " AND ev.fechaEvaluacion <= '" + FechaFinal?.ToString("s") + "' AND ev.fechaEvaluacion >= '" + FechaInicio?.ToString("s") + "'";
             }
 
+            Searcher += " ORDER BY ev.idEvaluacion DESC";
+
+
             try
             {
                 Conexion.ConexionSql.Open();
@@ -367,19 +372,37 @@ namespace Metodos
         }
 
 
-        public List<DEvaluacion> RendimientobyEmpleado()
+        public List<DEvaluacion> RendimientobyEmpleado(int BuscarEmpleado = -1, DateTime? FechaInicioev = null, DateTime? FechaFinalev = null)
         {
             List<DEvaluacion> ListaGenerica = new List<DEvaluacion>();
 
             try
             {
                 Conexion.ConexionSql.Open();
+                string Searcher = "";
+                if (BuscarEmpleado > 0)
+                {
+                    Searcher += " AND m.idEmpleado = " + BuscarEmpleado;
+                }
+                if (FechaInicioev != null && FechaFinalev != null)
+                {
+                    Searcher += " AND ev.fechaEvaluacion <= '" + FechaFinalev?.ToString("s") + "' AND ev.fechaEvaluacion >= '" + FechaInicioev?.ToString("s") + "'";
+                }
 
-                using SqlCommand comm = new SqlCommand(queryEfficiencybyEmployee, Conexion.ConexionSql);
+
+                using SqlCommand comm = new SqlCommand(queryEfficiencybyEmployee + Searcher, Conexion.ConexionSql);
 
                 using SqlDataReader reader = comm.ExecuteReader();
+
+                int i = 0;
+                double SumRend = 0;
                 while (reader.Read())
                 {
+                    i++;
+                    var rend = Math.Truncate(reader.GetDouble(7) * 100) / 100;
+                    SumRend += rend;
+                    var RendAc = Math.Truncate((SumRend / i) * 100) / 100;
+
                     DateTime FechaInicio = reader.GetDateTime(2);
                     DateTime FechaFinal = reader.GetDateTime(3);
                     ListaGenerica.Add(new DEvaluacion
@@ -391,10 +414,13 @@ namespace Metodos
                         tipoMetrica = reader.GetString(4),
                         valorMeta = reader.GetDouble(5),
                         valorEvaluado = reader.GetDouble(6),
-                        rendimiento = Math.Truncate(reader.GetDouble(7) * 100) / 100,
+                        rendimiento = rend,
+                        rendimientoAcumulado = RendAc,
                         periodoString = FechaInicio.ToShortDateString() + " - " + FechaFinal.ToShortDateString(),
                         observacion = reader.GetString(8)
                     });
+                    ListaGenerica.Reverse();
+
                 }
 
             }
@@ -404,21 +430,40 @@ namespace Metodos
             return ListaGenerica;
         }
 
-        public List<DEvaluacion> RendimientobyDepartamento()
+        public List<DEvaluacion> RendimientobyDepartamento(int BuscarEmpleado = -1, DateTime? FechaInicioev = null, DateTime? FechaFinalev = null)
         {
             List<DEvaluacion> ListaGenerica = new List<DEvaluacion>();
 
             try
             {
                 Conexion.ConexionSql.Open();
+                string Searcher = "";
+                if (BuscarEmpleado > 0)
+                {
+                    Searcher += " AND m.idEmpleado = " + BuscarEmpleado;
+                }
+                if (FechaInicioev != null && FechaFinalev != null)
+                {
+                    Searcher += " AND ev.fechaEvaluacion <= '" + FechaFinalev?.ToString("s") + "' AND ev.fechaEvaluacion >= '" + FechaInicioev?.ToString("s") + "'";
+                }
 
-                using SqlCommand comm = new SqlCommand(queryEfficiencybyDepartment, Conexion.ConexionSql);
+
+                using SqlCommand comm = new SqlCommand(queryEfficiencybyDepartment + Searcher, Conexion.ConexionSql);
 
                 using SqlDataReader reader = comm.ExecuteReader();
+
+                int i = 0;
+                double SumRend = 0;
                 while (reader.Read())
                 {
+                    i++;
+                    var rend = Math.Truncate(reader.GetDouble(6) * 100) / 100;
+                    SumRend += rend;
+                    var RendAc = SumRend / i;
+
                     DateTime FechaInicio = reader.GetDateTime(1);
                     DateTime FechaFinal = reader.GetDateTime(2);
+
                     ListaGenerica.Add(new DEvaluacion
                     {
                         departamento = reader.GetString(0),
@@ -427,11 +472,13 @@ namespace Metodos
                         tipoMetrica = reader.GetString(3),
                         valorMeta = reader.GetDouble(4),
                         valorEvaluado = reader.GetDouble(5),
-                        rendimiento = Math.Truncate(reader.GetDouble(6) * 100) / 100,
+                        rendimiento = rend,
+                        rendimientoAcumulado = RendAc,
                         periodoString = FechaInicio.ToShortDateString() + " - " + FechaFinal.ToShortDateString(),
                         observacion = reader.GetString(7)
                     });
                 }
+                ListaGenerica.Reverse();
 
             }
             catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
