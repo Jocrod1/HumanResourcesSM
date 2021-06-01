@@ -14,10 +14,12 @@ namespace Metodos
         private string queryInsert = @"
             INSERT INTO [Departamento] (
                 nombre,
-                descripcion
+                descripcion,
+                estado
             ) VALUES (
                 @nombre,
-                @descripcion
+                @descripcion,
+                1
             );
 	    ";
 
@@ -29,19 +31,20 @@ namespace Metodos
 	    ";
 
         private string queryDelete = @"
-            DELETE FROM [Departamento] 
+            UPDATE [Departamento] SET
+                estado = 0
             WHERE idDepartamento = @idDepartamento;
 	    ";
 
         private string queryListName = @"
             SELECT * FROM [Departamento] 
-            WHERE nombre LIKE @nombre + '%' AND idDepartamento <> 1
+            WHERE nombre LIKE @nombre + '%' AND idDepartamento <> 1 AND estado <> 0
             ORDER BY nombre;
         ";
 
         private string queryListID = @"
             SELECT * FROM [Departamento] 
-            WHERE idDepartamento = @idDepartamento;
+            WHERE idDepartamento = @idDepartamento AND estado <> 0;
         ";
         #endregion
 

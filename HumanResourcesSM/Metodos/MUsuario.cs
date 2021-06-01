@@ -94,13 +94,15 @@ namespace Metodos
                 idRol,
                 usuario,
                 contraseña,
-                entrevistando
+                entrevistando,
+                estado
             ) OUTPUT Inserted.idUsuario 
             VALUES (
                 @idRol,
                 @usuario,
                 @contraseña,
-                0
+                0,
+                1
             );
 	    ";
 
@@ -113,23 +115,31 @@ namespace Metodos
         ";
 
         private string queryDelete = @"
-            DELETE FROM [Usuario] 
-            WHERE idUsuario = @idUsuario
+            UPDATE [Usuario] SET 
+                estado = 0
+            WHERE idUsuario = @idUsuario;
+        ";
+
+        private string queryActivate = @"
+            UPDATE [Usuario] SET 
+                estado = 1
+            WHERE usuario = @Usuario;
         ";
 
         private string queryList = @"
             SELECT * FROM [Usuario] 
-            WHERE usuario LIKE @usuario + '%' AND idUsuario <> 1 
-            ORDER BY usuario";
+            WHERE usuario LIKE @usuario + '%' AND idUsuario <> 1 AND estado <> 0
+            ORDER BY usuario;
+        ";
 
         private string queryListSecurity = @"
-            SELECT * FROM [seguridad] 
-            WHERE idUsuario = @idUsuario;
+            SELECT * FROM [Seguridad] 
+            WHERE idUsuario = @idUsuario AND estado <> 0;
         ";
 
         private string queryLogin = @"
             SELECT * FROM [Usuario] 
-            WHERE usuario = @usuario AND contraseña = @contraseña AND idUsuario <> 1
+            WHERE usuario = @usuario AND contraseña = @contraseña AND idUsuario <> 1 AND estado <> 0
         ";
 
         private string queryFormSecurity = @"
@@ -139,27 +149,27 @@ namespace Metodos
 	            s.respuesta
             FROM [seguridad] s
 	            INNER JOIN [Usuario] u ON u.idUsuario = s.idUsuario
-            WHERE u.usuario = @usuario;
+            WHERE u.usuario = @usuario AND estado <> 0;
         ";
 
         private string queryListID = @"
             SELECT * FROM [Usuario] 
-            WHERE idUsuario = @idUsuario
+            WHERE idUsuario = @idUsuario AND estado <> 0
         ";
 
         private string queryInterview = @"
             UPDATE [Usuario] SET
                 entrevistando = @entrevistando
-            WHERE idUsuario = @idUsuario;
+            WHERE idUsuario = @idUsuario AND estado <> 0;
         ";
         string queryUpdatePassword = @"
              UPDATE [Usuario] SET
                 contraseña = @contraseña
-            WHERE usuario = @usuario;
+            WHERE usuario = @usuario AND estado <> 0;
 	    ";
 
         private string queryInsertSecurity = @"
-            INSERT INTO [seguridad] (
+            INSERT INTO [Seguridad] (
                 idUsuario,
                 pregunta,
                 respuesta
@@ -171,9 +181,20 @@ namespace Metodos
         ";
 
         private string queryDeleteSecurity = @"
-            DELETE FROM [seguridad]
+            DELETE FROM [Seguridad]
             WHERE idUsuario = @idUsuario
 	    ";
+
+
+        private string queryUserRepeated = @"
+            SELECT idUsuario FROM [Usuario] 
+            WHERE usuario = @usuario AND estado <> 0;
+        ";
+
+        private string queryUserNullRepeated = @"
+            SELECT idUsuario FROM [Usuario] 
+            WHERE usuario = @usuario AND estado = 0;
+        ";
         #endregion
 
         public string Insertar(DUsuario Usuario, List<DSeguridad> Seguridad)
@@ -277,22 +298,6 @@ namespace Metodos
                 InsertarSeguridad(Seguridad, Usuario.idUsuario);
 
             return respuesta;
-        }
-
-
-        public string Eliminar(int IdUsuario)
-        {
-            try
-            {
-                Conexion.ConexionSql.Open();
-
-                using SqlCommand comm = new SqlCommand(queryDelete, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@idUsuario", IdUsuario);
-
-                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Eliminó el Registro del Usuario";
-            }
-            catch (SqlException e) { return e.Message; }
-            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
 
@@ -529,6 +534,77 @@ namespace Metodos
 
             return "OK";
         }
+
+        public string Desactivar(int IdUsuario)
+        {
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryDelete, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idUsuario", IdUsuario);
+
+                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Desactivó el Usuario";
+            }
+            catch (SqlException e) { return e.Message; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+        }
+
+        public string Activar(string Usuario)
+        {
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryDelete, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@usuario", Usuario);
+
+                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Reactivó el Usuario";
+            }
+            catch (SqlException e) { return e.Message; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+        }
+
+        public bool UsuarioRepetido(string Usuario)
+        {
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryUserRepeated, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@usuario", Usuario);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                if (reader.Read())
+                    return true;
+
+                return false;
+            }
+            catch (SqlException e) { return false; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+        }
+
+
+        public bool UsuarioAnuladoRepetido(string Usuario)
+        {
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryUserNullRepeated, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@usuario", Usuario);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                if (reader.Read())
+                    return true;
+
+                return false;
+            }
+            catch (SqlException e) { return false; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+        }
+
+
 
     }
 }

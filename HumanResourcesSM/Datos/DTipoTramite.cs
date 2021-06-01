@@ -21,6 +21,13 @@ namespace Datos
             set { _Nombre = value; }
         }
 
+        private string _Descripcion;
+        public string descripcion
+        {
+            get { return _Descripcion; }
+            set { _Descripcion = value; }
+        }
+
         private string _StatusCambio;
         public string statusCambio
         {
@@ -34,10 +41,11 @@ namespace Datos
 
         }
 
-        public DTipoTramite(int IdTipoTramite, string Nombre, string StatusCambio)
+        public DTipoTramite(int IdTipoTramite, string Nombre, string Descripcion, string StatusCambio)
         {
             this.idTipoTramite = IdTipoTramite;
             this.nombre = Nombre;
+            this.descripcion = Descripcion;
             this.statusCambio = StatusCambio;
         }
     }

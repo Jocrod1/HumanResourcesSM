@@ -242,12 +242,26 @@ namespace Datos
             set { _NombreEntrevistado = value; }
         }
 
+        private string _RazonSeleccion;
+        public string razonSeleccion
+        {
+            get { return _RazonSeleccion; }
+            set { _RazonSeleccion = value; }
+        }
+
+        private string _RazonDespido;
+        public string razonDespido
+        {
+            get { return _RazonDespido; }
+            set { _RazonDespido = value; }
+        }
+
         public DEmpleado()
         {
 
         }
 
-        public DEmpleado(int IdEmpleado, int IdDepartamento, string Nombre, string Apellido, string Cedula, DateTime FechaNacimiento, string Nacionalidad, string Direccion, string Email, string Telefono, string Curriculum, string EstadoLegal, int Status)
+        public DEmpleado(int IdEmpleado, int IdDepartamento, string Nombre, string Apellido, string Cedula, DateTime FechaNacimiento, string Nacionalidad, string Direccion, string Email, string Telefono, string Curriculum, string EstadoLegal, string RazonDespido, int Status)
         {
             this.idEmpleado = IdEmpleado;
             this.idDepartamento = IdDepartamento;
@@ -261,6 +275,7 @@ namespace Datos
             this.telefono = Telefono;
             this.curriculum = Curriculum;
             this.estadoLegal = EstadoLegal;
+            this.razonDespido = RazonDespido;
             this.status = Status;
         }
     }

@@ -25,6 +25,7 @@ namespace Metodos
                 telefono,
                 curriculoUrl,
                 estadoLegal,
+                razonDespido,
                 status
             ) OUTPUT Inserted.idEmpleado
             VALUES (
@@ -39,6 +40,7 @@ namespace Metodos
                 @telefono,
                 @curriculum,
                 @estadoLegal,
+                @razonDespido,
                 1
             );
         ";
@@ -51,7 +53,8 @@ namespace Metodos
                 fechaAplicacion,
                 status,
                 fechaRevision,
-                nombrePuesto
+                nombrePuesto,
+                razon
             ) VALUES (
                 @idEmpleado,
                 @idSeleccionador,
@@ -59,7 +62,8 @@ namespace Metodos
                 @fechaAplicacion,
                 1,
                 @fechaRevision,
-                @nombrePuesto
+                @nombrePuesto,
+                @razon
             );
         ";
 
@@ -104,14 +108,16 @@ namespace Metodos
                 email = @email,
                 telefono = @telefono,
                 curriculoUrl = @curriculum,
-                estadoLegal = @estadoLegal
+                estadoLegal = @estadoLegal,
+                razonDespido = @razonDespido
             WHERE idEmpleado = @idEmpleado;
         ";
 
         private string queryUpdateSelection = @"
             UPDATE [Seleccion] SET 
                 fechaAplicacion = @fechaAplicacion,
-                nombrePuesto = @nombrePuesto
+                nombrePuesto = @nombrePuesto,
+                razon = @razon
             WHERE idSeleccion = @idSeleccion;
 	    ";
 
@@ -139,9 +145,11 @@ namespace Metodos
                 e.telefono, 
                 e.curriculum, 
                 e.estadoLegal, 
+                e.razonDespido,
                 s.nombrePuesto, 
                 s.fechaAplicacion, 
-                s.fechaRevision 
+                s.fechaRevision,
+                s.razon
             FROM [Empleado] e 
                 INNER JOIN [Seleccion] s ON e.idEmpleado = s.idEmpleado 
             WHERE s.idEntrevistaodor = @idEntrevistador AND e.idEmpleado <> 1
@@ -154,11 +162,13 @@ namespace Metodos
             WHERE nombre + ' ' + apellido LIKE @nombreCompleto + '%' AND idEmpleado <> 1 AND status = 3
         ";
 
+
         private string queryListEmployeID = @"
             SELECT TOP 1 * FROM [Empleado] 
             WHERE idEmpleado = @idEmpleado
             ORDER BY idEmpleado DESC;
         ";
+
 
         private string queryListEmployeeDepartment = @"
             SELECT 
@@ -168,6 +178,7 @@ namespace Metodos
             FROM [Empleado] 
             WHERE idDepartamento = @idDepartamento;
         ";
+
 
         private string queryListEmployeeDG = @"
             SELECT 
@@ -183,6 +194,7 @@ namespace Metodos
             WHERE em.nombre + ' ' + em.apellido LIKE @nombreCompleto + '%' and em.status <> 0 and em.status <> 4 and em.status <> 5
         ";
 
+
         private string queryListToFireDG = @"
             SELECT 
                 em.idEmpleado, 
@@ -195,6 +207,7 @@ namespace Metodos
                 INNER JOIN [Paises] p ON em.nacionalidad = p.codigo 
             WHERE em.nombre + ' ' + em.apellido LIKE @nombreCompleto + '%' and em.status = 3
         ";
+
 
         private string queryListEmployeeActive = @"
             SELECT * FROM [Empleado] 
@@ -287,6 +300,7 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@telefono", Empleado.telefono);
                 comm.Parameters.AddWithValue("@curriculum", Empleado.curriculum);
                 comm.Parameters.AddWithValue("@estadoLegal", Empleado.estadoLegal);
+                comm.Parameters.AddWithValue("@razonDespido", Empleado.razonDespido);
                 int idEmpleado = (int)comm.ExecuteScalar();
 
                 string respuesta = !String.IsNullOrEmpty(idEmpleado.ToString()) ? "OK" : "No se Ingresó el Registro del Empleado";
@@ -321,6 +335,7 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@fechaAplicacion", Seleccion.fechaAplicacion);
                 comm.Parameters.AddWithValue("@fechaRevision", DateTime.Now);
                 comm.Parameters.AddWithValue("@nombrePuesto", Seleccion.nombrePuesto);
+                comm.Parameters.AddWithValue("@razon", Seleccion.razon);
 
                 return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Ingresó el Registro de la Selección";
             }
@@ -407,6 +422,7 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@curriculum", Empleado.curriculum);
                 comm.Parameters.AddWithValue("@estadoLegal", Empleado.estadoLegal);
                 comm.Parameters.AddWithValue("@idEmpleado", Empleado.idEmpleado);
+                comm.Parameters.AddWithValue("@razonDespido", Empleado.razonDespido);
 
                 string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó el Empleado";
 
@@ -426,6 +442,7 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@fechaAplicacion", Seleccion.fechaAplicacion);
                 comm.Parameters.AddWithValue("@nombrePuesto", Seleccion.nombrePuesto);
                 comm.Parameters.AddWithValue("@idSeleccion", Seleccion.idSeleccion);
+                comm.Parameters.AddWithValue("@razon", Seleccion.razon);
 
                 return comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el Registro de la Selección";
             }
@@ -457,9 +474,11 @@ namespace Metodos
                         telefono = reader.GetString(4),
                         curriculum = reader.GetString(5),
                         estadoLegal = reader.GetString(6),
-                        nombrePuesto = reader.GetString(7),
-                        fechaAplicacion = reader.GetDateTime(8),
-                        fechaRevision = reader.GetDateTime(9)
+                        razonDespido = reader.GetString(7),
+                        nombrePuesto = reader.GetString(8),
+                        fechaAplicacion = reader.GetDateTime(9),
+                        fechaRevision = reader.GetDateTime(10),
+                        razonSeleccion = reader.GetString(11)
                     });
                 }
             }
@@ -519,7 +538,7 @@ namespace Metodos
                     {
                         idEmpleado = reader.GetInt32(0),
                         idDepartamento = reader.GetInt32(1),
-                        nombre = reader.GetString(2),
+                        nombre = reader.GetString(2)
                     });
                 }
             }
@@ -655,7 +674,8 @@ namespace Metodos
                         fechaAplicacion = reader.GetDateTime(4),
                         status = reader.GetInt32(5),
                         fechaRevision = reader.GetDateTime(6),
-                        nombrePuesto = reader.GetString(7)
+                        nombrePuesto = reader.GetString(7),
+                        razon = reader.GetString(8)
                     });
                 }
             }
@@ -695,7 +715,8 @@ namespace Metodos
                         curriculum = reader.GetString(10),
                         estadoLegal = reader.GetString(11),
                         fechaCulminacion = !reader.IsDBNull(12) ? reader.GetDateTime(12) : null,
-                        status = reader.GetInt32(13)
+                        razonDespido = reader.GetString(13),
+                        status = reader.GetInt32(14)
                     });
                 }
             }

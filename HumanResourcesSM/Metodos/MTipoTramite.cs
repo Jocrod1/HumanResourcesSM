@@ -14,39 +14,45 @@ namespace Metodos
         private string queryInsert = @"
             INSERT INTO [TipoTramite] (
                 nombre,
-                statusCambio
+                statusCambio,
+                descripcion,
+                estado
             ) VALUES (
                 @nombre,
-                @statusCambio
+                @statusCambio,
+                @descripcion,
+                1
             );
 	    ";
 
         private string queryUpdate = @"
             UPDATE [TipoTramite] SET
                 nombre = @nombre,
-                statusCambio = @statusCambio
+                statusCambio = @statusCambio,
+                descripcion = @descripcion
             WHERE idTipoTramite = @idTipoTramite;
         ";
 
         private string queryDelete = @"
-            DELETE FROM [TipoTramite] 
+            UPDATE [TipoTramite] SET
+                estado = 0
             WHERE idTipoTramite = @idTipoTramite;
         ";
 
         private string queryListName = @"
             SELECT * FROM [TipoTramite] 
-            WHERE nombre LIKE @nombre + '%' 
+            WHERE nombre LIKE @nombre + '%' AND estado <> 0
             ORDER BY nombre;
         ";
 
         private string queryListStatus = @"
             SELECT * 
-            FROM [TipoTramite] 
+            FROM [TipoTramite] AND estado <> 0
         ";
 
         private string queryListID = @"
             SELECT * FROM [TipoTramite] 
-            WHERE idTipoTramite = @idTipoTramite;
+            WHERE idTipoTramite = @idTipoTramite AND estado <> 0;
         ";
         #endregion
 
@@ -58,6 +64,7 @@ namespace Metodos
 
                 using SqlCommand comm = new SqlCommand(queryInsert, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@nombre", TipoTramite.nombre);
+                comm.Parameters.AddWithValue("@descripcion", TipoTramite.descripcion);
                 comm.Parameters.AddWithValue("@statusCambio", TipoTramite.statusCambio);
 
                 return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Ingresó el Registro del Tipo de Tramite";
@@ -76,6 +83,7 @@ namespace Metodos
                 using SqlCommand comm = new SqlCommand(queryUpdate, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@nombre", TipoTramite.nombre);
                 comm.Parameters.AddWithValue("@statusCambio", TipoTramite.statusCambio);
+                comm.Parameters.AddWithValue("@descripcion", TipoTramite.descripcion);
                 comm.Parameters.AddWithValue("@idTipoTramite", TipoTramite.idTipoTramite);
 
                 return comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el Registro del tipo de tramite";
@@ -119,7 +127,8 @@ namespace Metodos
                     {
                         idTipoTramite = reader.GetInt32(0),
                         nombre = reader.GetString(1),
-                        statusCambio = reader.GetString(2)
+                        statusCambio = reader.GetString(2),
+                        descripcion = reader.GetString(3)
                     });
                 }
             }
@@ -147,7 +156,8 @@ namespace Metodos
                     {
                         idTipoTramite = reader.GetInt32(0),
                         nombre = reader.GetString(1),
-                        statusCambio = reader.GetString(2)
+                        statusCambio = reader.GetString(2),
+                        descripcion = reader.GetString(3)
                     });
                 }
             }
@@ -176,7 +186,8 @@ namespace Metodos
                     {
                         idTipoTramite = reader.GetInt32(0),
                         nombre = reader.GetString(1),
-                        statusCambio = reader.GetString(2)
+                        statusCambio = reader.GetString(2),
+                        descripcion = reader.GetString(3)
                     });
                 }
             }

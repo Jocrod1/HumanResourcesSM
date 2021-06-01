@@ -14,10 +14,12 @@ namespace Metodos
         private string queryInsert = @"
             INSERT INTO [TipoMetrica] (
                 nombre,
-                idDepartamento
+                idDepartamento,
+                estado
             ) VALUES (
                 @nombre,
-                @idDepartamento
+                @idDepartamento,
+                1
             );
 	    ";
 
@@ -29,7 +31,8 @@ namespace Metodos
 	    ";
 
         private string queryDelete = @"
-            DELETE FROM [TipoMetrica] 
+            UPDATE [TipoMetrica] SET 
+                estado = 0
             WHERE idTipoMetrica = @idTipoMetrica;
 	    ";
 
@@ -45,7 +48,7 @@ namespace Metodos
 
         private string queryListID = @"
             SELECT * FROM [TipoMetrica] 
-            WHERE idTipoMetrica = @idTipoMetrica;
+            WHERE idTipoMetrica = @idTipoMetrica AND estado <> 0;
         ";
         #endregion
 
@@ -103,14 +106,14 @@ namespace Metodos
         public List<DTipoMetrica> Mostrar(int Buscar)
         {
             List<DTipoMetrica> ListaGenerica = new List<DTipoMetrica>();
-            string buscarByDepartamento = (Buscar) > -1 ? (" WHERE tp.idDepartamento = " + Buscar) : "";
+            string buscarByDepartamento = (Buscar) > -1 ? 
+                (" WHERE estado <> 0 AND tp.idDepartamento = " + Buscar) : "WHERE estado <> 0";
 
             try
             {
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryList + buscarByDepartamento, Conexion.ConexionSql);
-                //comm.Parameters.AddWithValue("@searcher", buscarByDepartamento);
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 while (reader.Read())
