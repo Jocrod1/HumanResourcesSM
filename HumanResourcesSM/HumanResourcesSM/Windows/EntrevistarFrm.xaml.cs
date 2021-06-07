@@ -441,21 +441,12 @@ namespace HumanResourcesSM.Windows
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
-            var resp = new MContrato().NoContratado(EmpleadoEntrevistado.idEmpleado, Menu.ActUsuario.idUsuario);
+            ContratoFrm frm = new ContratoFrm(EmpleadoEntrevistado, EmpleadoSelEntrevistado, false);
+            bool resp = frm.ShowDialog() ?? false;
 
-            if (resp.Equals("OK"))
-            {
-                MAuditoria.Insertar(new DAuditoria(
-                                    Menu.ActUsuario.idUsuario,
-                                    DAuditoria.Registrar,
-                                    "Se ha registrado no contratado el empleado Nº" + EmpleadoEntrevistado.idEmpleado));
-
-                MessageBox.Show("Accion Completada!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
-
+            if (resp)
                 FetchEmpleado();
-            }
-            else
-                MessageBox.Show(resp);
+            
         }
 
         private void BtnAccept_Click(object sender, RoutedEventArgs e)

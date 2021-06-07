@@ -25,7 +25,6 @@ namespace Metodos
                 telefono,
                 curriculoUrl,
                 estadoLegal,
-                razonDespido,
                 status
             ) OUTPUT Inserted.idEmpleado
             VALUES (
@@ -40,7 +39,6 @@ namespace Metodos
                 @telefono,
                 @curriculum,
                 @estadoLegal,
-                @razonDespido,
                 1
             );
         ";
@@ -54,7 +52,6 @@ namespace Metodos
                 status,
                 fechaRevision,
                 nombrePuesto,
-                razon
             ) VALUES (
                 @idEmpleado,
                 @idSeleccionador,
@@ -63,7 +60,6 @@ namespace Metodos
                 1,
                 @fechaRevision,
                 @nombrePuesto,
-                @razon
             );
         ";
 
@@ -109,15 +105,13 @@ namespace Metodos
                 telefono = @telefono,
                 curriculoUrl = @curriculum,
                 estadoLegal = @estadoLegal,
-                razonDespido = @razonDespido
             WHERE idEmpleado = @idEmpleado;
         ";
 
         private string queryUpdateSelection = @"
             UPDATE [Seleccion] SET 
                 fechaAplicacion = @fechaAplicacion,
-                nombrePuesto = @nombrePuesto,
-                razon = @razon
+                nombrePuesto = @nombrePuesto
             WHERE idSeleccion = @idSeleccion;
 	    ";
 
@@ -231,7 +225,8 @@ namespace Metodos
         private string queryUpdateEmployeeFire = @"
             UPDATE [Empleado] SET
                 status = 5,
-                fechaCulminacion = @fechaCulminacion
+                fechaCulminacion = @fechaCulminacion,
+                razonDespido = @razonDespido
             WHERE idEmpleado = @idEmpleado;
 	    ";
 
@@ -300,7 +295,6 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@telefono", Empleado.telefono);
                 comm.Parameters.AddWithValue("@curriculum", Empleado.curriculum);
                 comm.Parameters.AddWithValue("@estadoLegal", Empleado.estadoLegal);
-                comm.Parameters.AddWithValue("@razonDespido", Empleado.razonDespido);
                 int idEmpleado = (int)comm.ExecuteScalar();
 
                 string respuesta = !String.IsNullOrEmpty(idEmpleado.ToString()) ? "OK" : "No se Ingresó el Registro del Empleado";
@@ -335,7 +329,6 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@fechaAplicacion", Seleccion.fechaAplicacion);
                 comm.Parameters.AddWithValue("@fechaRevision", DateTime.Now);
                 comm.Parameters.AddWithValue("@nombrePuesto", Seleccion.nombrePuesto);
-                comm.Parameters.AddWithValue("@razon", Seleccion.razon);
 
                 return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Ingresó el Registro de la Selección";
             }
@@ -422,7 +415,6 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@curriculum", Empleado.curriculum);
                 comm.Parameters.AddWithValue("@estadoLegal", Empleado.estadoLegal);
                 comm.Parameters.AddWithValue("@idEmpleado", Empleado.idEmpleado);
-                comm.Parameters.AddWithValue("@razonDespido", Empleado.razonDespido);
 
                 string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó el Empleado";
 
@@ -773,7 +765,7 @@ namespace Metodos
         }
 
 
-        public string Despido(int IdEmpleado)
+        public string Despido(int IdEmpleado, string Razon)
         {
             try
             {
@@ -782,6 +774,7 @@ namespace Metodos
                 using SqlCommand comm = new SqlCommand(queryUpdateEmployeeFire, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@fechaCulminacion", DateTime.Now);
                 comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
+                comm.Parameters.AddWithValue("@razonDespido", Razon);
 
 
                 string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Realizó el Despido al Trabajador";
@@ -794,7 +787,7 @@ namespace Metodos
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
-        public string Contratado(int IdEmpleado, int idEntrevistador)
+        public string Contratado(int IdEmpleado, int idEntrevistador, string Razon)
         {
             try
             {
@@ -808,14 +801,14 @@ namespace Metodos
                 if (!respuesta.Equals("OK"))
                     return respuesta;
 
-                return CambiarStatus(IdEmpleado, 3, idEntrevistador);
+                return CambiarStatus(IdEmpleado, 3, idEntrevistador, Razon);
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
 
-        public string CambiarStatus(int IdEmpleado, int Status, int idEntrevistador = 0)
+        public string CambiarStatus(int IdEmpleado, int Status, int idEntrevistador = 0, string Razon = "")
         {
             var resp = EncontrarSeleccion(IdEmpleado);
 
@@ -832,7 +825,8 @@ namespace Metodos
                 queryChangeStatusWhithEntrevistador = @"
                     UPDATE [Seleccion] SET
                         status = @status,
-                        idEntrevistador = @idEntrevistador
+                        idEntrevistador = @idEntrevistador,
+                        razon = @razon
                     WHERE idSeleccion = @idSeleccion;
 	            ";
             }
@@ -845,8 +839,11 @@ namespace Metodos
             using SqlCommand comm = new SqlCommand(queryChangeStatusWhithEntrevistador, Conexion.ConexionSql);
             comm.Parameters.AddWithValue("@idSeleccion", resp[0].idSeleccion);
             comm.Parameters.AddWithValue("@status", Status);
-            if((Status == 3 || Status == 4) & idEntrevistador > 0)
+            if ((Status == 3 || Status == 4) && idEntrevistador > 0)
+            {
                 comm.Parameters.AddWithValue("@idEntrevistador", idEntrevistador);
+                comm.Parameters.AddWithValue("@razon", Razon);
+            }
 
 
             return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó el Estatus de Seleccion";

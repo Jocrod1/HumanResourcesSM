@@ -78,8 +78,9 @@ namespace HumanResourcesSM.Windows
 
             string nombre = txtNombre.txt.Text;
             string StatusCambio = txtStatusCambio.txt.Text;
+            string descripcion = txtDescripcion.txt.Text;
 
-            UForm = new DTipoTramite(0, nombre, StatusCambio);
+            UForm = new DTipoTramite(0, nombre, StatusCambio, descripcion);
         }
 
         void Create()
@@ -134,6 +135,7 @@ namespace HumanResourcesSM.Windows
             {
                 txtNombre.SetText(Data.nombre);
                 txtStatusCambio.SetText(Data.statusCambio);
+                txtStatusCambio.SetText(Data.descripcion);
             }
         }
         #region Validation
@@ -149,6 +151,12 @@ namespace HumanResourcesSM.Windows
             if (txtStatusCambio.txt.Text == "")
             {
                 MessageBox.Show("Debes llenar el campo Estatus!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtStatusCambio.txt.Focus();
+                return true;
+            }
+            if (txtDescripcion.txt.Text == "")
+            {
+                MessageBox.Show("Debes llenar el campo Descripción!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
                 txtStatusCambio.txt.Focus();
                 return true;
             }

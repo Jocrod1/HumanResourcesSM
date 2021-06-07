@@ -26,7 +26,7 @@ namespace HumanResourcesSM.Windows
     public partial class ContratoFrm : Window
     {
 
-        public ContratoFrm(DEmpleado empleado, DSeleccion seleccion)
+        public ContratoFrm(DEmpleado empleado, DSeleccion seleccion, bool isContracted = true)
         {
             InitializeComponent();
 
@@ -36,9 +36,37 @@ namespace HumanResourcesSM.Windows
             Empleado = empleado;
             Seleccion = seleccion;
 
-            txtFechaContratación.Text = "Fecha de Contratación: " + DateTime.Now.ToShortDateString();
-            var resp = new MDepartamento().Encontrar(empleado.idDepartamento)[0].nombre;
-            txtDepartamento.Text = "Departamento Asignado: " + resp;
+            
+            Contracted = isContracted;
+            if (!Contracted)
+            {
+                StackContrato.Visibility = Visibility.Collapsed;
+                txtFechaContratación.Visibility = Visibility.Collapsed;
+                txtTitulo.Text = "No Contratado";
+                BgTitulo.Background = (Brush)new BrushConverter().ConvertFrom("#C22723");
+                btnEnviar.Content = "Enviar";
+                btnEnviar.Foreground = (Brush)new BrushConverter().ConvertFrom("#C22723");
+                btnEnviar.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#C22723");
+            }
+            else
+            {
+                txtFechaContratación.Text = "Fecha de Contratación: " + DateTime.Now.ToShortDateString();
+                var resp = new MDepartamento().Encontrar(empleado.idDepartamento)[0].nombre;
+                txtDepartamento.Text = "Departamento Asignado: " + resp;
+            }
+        }
+
+        public ContratoFrm(DEmpleado empleado)
+        {
+            Empleado = empleado;
+            Fired = true;
+            StackContrato.Visibility = Visibility.Collapsed;
+            txtFechaContratación.Visibility = Visibility.Collapsed;
+            txtTitulo.Text = "Despido";
+            BgTitulo.Background = (Brush)new BrushConverter().ConvertFrom("#C22723");
+            btnEnviar.Content = "Enviar";
+            btnEnviar.Foreground = (Brush)new BrushConverter().ConvertFrom("#C22723");
+            btnEnviar.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#C22723");
         }
 
         public ContratoFrm(DContrato contrato)
@@ -66,10 +94,24 @@ namespace HumanResourcesSM.Windows
 
         public DEmpleado Empleado;
         public DSeleccion Seleccion;
+        public bool Contracted = true;
+        public bool Fired = false;
 
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (!Contracted)
+            {
+                NoContratado();
+                return;
+            }
+            if (Fired)
+            {
+                Despedido();
+                return;
+            }
+
+
             if(Type == TypeForm.Update)
             {
                 Update();
@@ -99,6 +141,42 @@ namespace HumanResourcesSM.Windows
             }
         }
 
+
+        public void NoContratado()
+        {
+            var resp = new MContrato().NoContratado(Empleado.idEmpleado, Menu.ActUsuario.idUsuario, txtRazon.txt.Text);
+
+            if (resp.Equals("OK"))
+            {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Registrar,
+                                    "Se ha registrado no contratado el empleado Nº" + Empleado.idEmpleado));
+
+                MessageBox.Show("Accion Completada!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.DialogResult = true;
+                this.Close();
+            }
+            else
+                MessageBox.Show(resp);
+        }
+        public void Despedido()
+        {
+            var resp = new MSeleccion().Despido(Empleado.idEmpleado, txtRazon.txt.Text);
+
+            if (resp.Equals("OK"))
+            {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Eliminar,
+                                    "Se ha Despedido al empleado Nº" + Empleado.idEmpleado));
+
+                MessageBox.Show("Despido completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.Close();
+            }
+            else
+                MessageBox.Show(resp);
+        }
         public string RegistrarContrato(DContrato contrato)
         {
             DContrato Data = new DContrato(0,
@@ -108,7 +186,7 @@ namespace HumanResourcesSM.Windows
                                            contrato.sueldo,
                                            contrato.horasSemanales);
 
-            var resp = new MContrato().Insertar(Data, Menu.ActUsuario.idUsuario);
+            var resp = new MContrato().Insertar(Data, Menu.ActUsuario.idUsuario, txtRazon.txt.Text);
 
             if (resp.Equals("OK"))
                 MAuditoria.Insertar(new DAuditoria(

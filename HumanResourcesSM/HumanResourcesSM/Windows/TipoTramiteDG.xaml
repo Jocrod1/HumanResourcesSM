@@ -55,10 +55,12 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="*" Header="Estatus" Binding="{Binding statusCambio}">
+                <DataGridTextColumn Width="*" Header="Descripción" Binding="{Binding descripcion}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
                             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                            <Setter Property="MaxHeight" Value="70"/>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>

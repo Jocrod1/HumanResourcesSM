@@ -92,7 +92,7 @@ namespace HumanResourcesSM.Windows
             if (Resp != MessageBoxResult.Yes)
                 return;
             int id = (int)((Button)sender).CommandParameter;
-            var resp = Metodos.Eliminar(id);
+            var resp = Metodos.Desactivar(id);
 
             if (resp.Equals("OK"))
             {

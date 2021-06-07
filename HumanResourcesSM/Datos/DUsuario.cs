@@ -49,6 +49,13 @@ namespace Datos
             set { _Rol = value; }
         }
 
+        private int _Estado;
+        public int estado
+        {
+            get { return _Estado; }
+            set { _Estado = value; }
+        }
+
 
         public DUsuario()
         {

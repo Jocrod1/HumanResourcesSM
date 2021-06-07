@@ -110,7 +110,8 @@ namespace Metodos
             UPDATE [Usuario] SET 
                 idRol = @idRol,
                 usuario = @usuario,
-                contraseña = @contraseña
+                contraseña = @contraseña,
+                estado = 1
             WHERE idUsuario = @idUsuario;
         ";
 
@@ -123,7 +124,7 @@ namespace Metodos
         private string queryActivate = @"
             UPDATE [Usuario] SET 
                 estado = 1
-            WHERE usuario = @Usuario;
+            WHERE idUsuario = @idUsuario;
         ";
 
         private string queryList = @"
@@ -134,7 +135,7 @@ namespace Metodos
 
         private string queryListSecurity = @"
             SELECT * FROM [Seguridad] 
-            WHERE idUsuario = @idUsuario AND estado <> 0;
+            WHERE idUsuario = @idUsuario;
         ";
 
         private string queryLogin = @"
@@ -187,8 +188,8 @@ namespace Metodos
 
 
         private string queryUserRepeated = @"
-            SELECT idUsuario FROM [Usuario] 
-            WHERE usuario = @usuario AND estado <> 0;
+            SELECT * FROM [Usuario] 
+            WHERE usuario = @usuario;
         ";
 
         private string queryUserNullRepeated = @"
@@ -238,7 +239,9 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@contraseña", Encripter.Encrypt(Usuario.contraseña));
                 comm.Parameters.AddWithValue("@idUsuario", Usuario.idUsuario);
 
-                string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó el Registro del Usuario";
+                var rs = comm.ExecuteNonQuery();
+
+                string respuesta = rs == 1 ? "OK" : "No se Actualizó el Registro del Usuario";
                 if (respuesta.Equals("OK"))
                     respuesta = BorrarSeguridad(Usuario, Seguridad);
 
@@ -550,19 +553,50 @@ namespace Metodos
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
-        public string Activar(string Usuario)
+        public string Activar(int IdUsuario)
         {
             try
             {
                 Conexion.ConexionSql.Open();
 
-                using SqlCommand comm = new SqlCommand(queryDelete, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@usuario", Usuario);
+                using SqlCommand comm = new SqlCommand(queryActivate, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idUsuario", IdUsuario);
 
                 return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Reactivó el Usuario";
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+        }
+
+        public List<DUsuario> EncontrarByUsuario(string Usuario)
+        {
+            List<DUsuario> ListaGenerica = new List<DUsuario>();
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryUserRepeated, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@usuario", Usuario);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                if (reader.Read())
+                {
+                    ListaGenerica.Add(new DUsuario
+                    {
+                        idUsuario = reader.GetInt32(0),
+                        idRol = reader.GetInt32(1),
+                        usuario = reader.GetString(2),
+                        contraseña = Encripter.Decrypt(reader.GetString(3)),
+                        entrevistando = reader.GetInt32(4),
+                        estado = reader.GetInt32(5)
+                    });
+                }
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
         }
 
         public bool UsuarioRepetido(string Usuario)

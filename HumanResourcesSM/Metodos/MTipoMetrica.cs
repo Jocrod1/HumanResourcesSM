@@ -44,6 +44,7 @@ namespace Metodos
                 d.nombre 
             FROM [TipoMetrica] tp 
                 INNER JOIN [Departamento] d ON tp.idDepartamento = d.idDepartamento
+            WHERE tp.estado <> 0
         ";
 
         private string queryListID = @"
@@ -107,7 +108,7 @@ namespace Metodos
         {
             List<DTipoMetrica> ListaGenerica = new List<DTipoMetrica>();
             string buscarByDepartamento = (Buscar) > -1 ? 
-                (" WHERE estado <> 0 AND tp.idDepartamento = " + Buscar) : "WHERE estado <> 0";
+                (" AND tp.idDepartamento = " + Buscar) : "";
 
             try
             {

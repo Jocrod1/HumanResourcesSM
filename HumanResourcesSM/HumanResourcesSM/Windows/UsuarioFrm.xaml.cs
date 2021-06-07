@@ -129,14 +129,13 @@ namespace HumanResourcesSM.Windows
             if (UForm == null && ListaSeguridad.Count > 0)
                 return;
             string response = Metodos.Insertar(UForm, ListaSeguridad); //COLOCAR LOS CAMPOS DE PREGUNTAS
-            MessageBox.Show(response);
             if (response == "OK")
             {
                 MAuditoria.Insertar(new DAuditoria(
                                     Menu.ActUsuario.idUsuario,
                                     DAuditoria.Registrar,
                                     "Se ha registrado un Usuario " + UForm.usuario));
-
+                MessageBox.Show("Registro completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.DialogResult = true;
                 this.Close();
             }
@@ -150,14 +149,13 @@ namespace HumanResourcesSM.Windows
                 return;
             UForm.idUsuario = DataFill.idUsuario;
             string response = Metodos.Editar(UForm, ListaSeguridad); //COLOCAR LOS CAMPOS DE PREGUNTAS
-            MessageBox.Show(response);
             if (response == "OK")
             {
                 MAuditoria.Insertar(new DAuditoria(
                                     Menu.ActUsuario.idUsuario,
                                     DAuditoria.Editar,
                                     "Se ha Editado el Usuario Nº" + UForm.idUsuario));
-
+                MessageBox.Show("Edición completada!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.DialogResult = true;
                 this.Close();
             }
@@ -261,6 +259,61 @@ namespace HumanResourcesSM.Windows
                 MessageBox.Show("Debes llenar la respuesta #3!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
                 txtRespuesta3.txt.Focus();
                 return true;
+            }
+            var UserCheck = Metodos.EncontrarByUsuario(txtUsuario.txt.Text);
+            if (UserCheck.Count > 0)
+            {
+                var user = UserCheck[0];
+                if (user.estado == 1)
+                {
+                    MessageBox.Show("El usuario ingresado ya está registrado!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                    txtUsuario.txt.Focus();
+                    return true;
+                }
+                else if(Type == TypeForm.Update)
+                {
+                    if(txtUsuario.txt.Text != DataFill.usuario)
+                    {
+                        MessageBox.Show("El usuario ingresado ya está registrado!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                        txtUsuario.txt.Focus();
+                        return true;
+                    }
+                }
+                else if (Type == TypeForm.Create && user.estado == 0)
+                {
+                    var resp = MessageBox.Show("El usuario ingresado ya está registrado pero está anulado. ¿Desea Reactivarlo?!", "Magicolor", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                    if (resp == MessageBoxResult.Yes)
+                    {
+                        int idRol = (int)CbRol.SelectedValue;
+                        string usuario = txtUsuario.txt.Text;
+                        string password = txtContraseña.Password;
+
+                        UForm = new DUsuario(user.idUsuario,
+                                             idRol,
+                                             usuario,
+                                             password,
+                                             0);
+                        AgregarSeguridad();
+
+                        string response = Metodos.Editar(UForm, ListaSeguridad);
+                        if (response == "OK")
+                        {
+                            MAuditoria.Insertar(new DAuditoria(
+                                                Menu.ActUsuario.idUsuario,
+                                                DAuditoria.Editar,
+                                                "Se ha Reactivado el Usuario Nº" + UForm.idUsuario));
+                            MessageBox.Show("Reactivación completada!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                            this.DialogResult = true;
+                            this.Close();
+                            return true;
+                        }
+                        else
+                        {
+                            MessageBox.Show(response, "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+
+                    }
+                }
             }
 
 

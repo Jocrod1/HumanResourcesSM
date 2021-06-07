@@ -76,7 +76,7 @@ namespace Datos
 
         }
 
-        public DSeleccion(int IdSeleccion, int IdEmpleado, int IdEntrevistador, int IdSeleccionador, DateTime FechaAplicacion, int Status, DateTime FechaRevision, string NombrePuesto, string Razon)
+        public DSeleccion(int IdSeleccion, int IdEmpleado, int IdEntrevistador, int IdSeleccionador, DateTime FechaAplicacion, int Status, DateTime FechaRevision, string NombrePuesto)
         {
             this.idSeleccion = IdSeleccion;
             this.idEmpleado = IdEmpleado;
@@ -86,7 +86,6 @@ namespace Datos
             this.status = Status;
             this.fechaRevision = FechaRevision;
             this.nombrePuesto = NombrePuesto;
-            this.razon = Razon;
         }
 
     }

@@ -47,7 +47,7 @@ namespace Metodos
 
         private string queryListStatus = @"
             SELECT * 
-            FROM [TipoTramite] AND estado <> 0
+            FROM [TipoTramite] where estado <> 0
         ";
 
         private string queryListID = @"

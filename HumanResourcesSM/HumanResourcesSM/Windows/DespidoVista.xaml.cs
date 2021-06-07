@@ -275,20 +275,12 @@ namespace HumanResourcesSM.Windows
 
         private void BtnFire_Click(object sender, RoutedEventArgs e)
         {
-            var resp = new MSeleccion().Despido(idEmpleado);
+            ContratoFrm frm = new ContratoFrm(EmpleadoEntrevistado, EmpleadoSelEntrevistado, false);
+            bool resp = frm.ShowDialog() ?? false;
 
-            if (resp.Equals("OK"))
-            {
-                MAuditoria.Insertar(new DAuditoria(
-                                    Menu.ActUsuario.idUsuario,
-                                    DAuditoria.Eliminar,
-                                    "Se ha Despedido al empleado Nº" + idEmpleado));
-
-                MessageBox.Show("Despido completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+            if (resp)
                 this.Close();
-            }
-            else
-                MessageBox.Show(resp);
+            
         }
     }
 }
