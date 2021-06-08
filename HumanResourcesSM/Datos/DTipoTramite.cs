@@ -41,7 +41,7 @@ namespace Datos
 
         }
 
-        public DTipoTramite(int IdTipoTramite, string Nombre, string Descripcion, string StatusCambio)
+        public DTipoTramite(int IdTipoTramite, string Nombre, string StatusCambio, string Descripcion)
         {
             this.idTipoTramite = IdTipoTramite;
             this.nombre = Nombre;

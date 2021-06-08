@@ -51,7 +51,7 @@ namespace Metodos
                 fechaAplicacion,
                 status,
                 fechaRevision,
-                nombrePuesto,
+                nombrePuesto
             ) VALUES (
                 @idEmpleado,
                 @idSeleccionador,
@@ -59,7 +59,7 @@ namespace Metodos
                 @fechaAplicacion,
                 1,
                 @fechaRevision,
-                @nombrePuesto,
+                @nombrePuesto
             );
         ";
 
@@ -104,7 +104,7 @@ namespace Metodos
                 email = @email,
                 telefono = @telefono,
                 curriculoUrl = @curriculum,
-                estadoLegal = @estadoLegal,
+                estadoLegal = @estadoLegal
             WHERE idEmpleado = @idEmpleado;
         ";
 
@@ -267,7 +267,7 @@ namespace Metodos
             SELECT 
 				e.cedula,
                 (e.nombre + ' ' + e.apellido) as nombreCompleto,
-				e.status,
+				e.status,s
 				s.fechaAplicacion,
 				u.usuario
             FROM [Seleccion] s
@@ -667,7 +667,7 @@ namespace Metodos
                         status = reader.GetInt32(5),
                         fechaRevision = reader.GetDateTime(6),
                         nombrePuesto = reader.GetString(7),
-                        razon = reader.GetString(8)
+                        razon = !reader.IsDBNull(8) ? reader.GetString(8) : ""
                     });
                 }
             }
@@ -707,8 +707,8 @@ namespace Metodos
                         curriculum = reader.GetString(10),
                         estadoLegal = reader.GetString(11),
                         fechaCulminacion = !reader.IsDBNull(12) ? reader.GetDateTime(12) : null,
-                        razonDespido = reader.GetString(13),
-                        status = reader.GetInt32(14)
+                        status = reader.GetInt32(13),
+                        razonDespido = !reader.IsDBNull(14) ? reader.GetString(14) : ""
                     });
                 }
             }
