@@ -20,7 +20,6 @@
                        FontWeight="Bold"
                        FontSize="25"
                        Margin="20 30 0 15"/>
-            <!--<Separator VerticalAlignment="Bottom" Foreground="Black" />-->
         </Grid>
         <TextBlock Grid.Row="1" x:Name="txtFechaContratación" Text="Fecha de Contratación: 17-01-2021" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10 0"/>
         <StackPanel Grid.Row="1"  Margin="50 10">

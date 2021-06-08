@@ -15,17 +15,19 @@ namespace Metodos
             INSERT INTO [Deuda] (
                 idEmpleado,
                 monto,
-                pagado,
                 concepto,
                 tipoDeuda,
-                status
+                status,
+                repetitivo,
+                tipoPago
             ) VALUES (
                 @idEmpleado,
                 @monto,
-                @pagado,
                 @concepto,
                 @tipoDeuda,
-                1
+                1,
+                @repetitivo,
+                @tipoPago
             );
 	    ";
 
@@ -41,22 +43,23 @@ namespace Metodos
                 e.cedula, 
                 (e.apellido + ' ' + e.nombre) as nombreCompleto, 
                 de.nombre, 
-                d.monto, 
-                d.pagado,
+                d.monto,
                 d.concepto,
                 d.tipoDeuda, 
-                d.status 
-            FROM [deuda] d 
-                INNER JOIN [empleado] e ON d.idEmpleado = e.idEmpleado
-                INNER JOIN [departamento] de ON de.idDepartamento = e.idDepartamento
+                d.status,
+                d.repetitivo,
+                d.tipoPago
+            FROM [Deuda] d 
+                INNER JOIN [Empleado] e ON d.idEmpleado = e.idEmpleado
+                INNER JOIN [Departamento] de ON de.idDepartamento = e.idDepartamento
             WHERE d.status != 0";
 
         //mostrar
         private string queryGetDebt = @"
             SELECT 
                 *
-            FROM [deuda] d 
-            WHERE d.idDeuda = @idDeuda 
+            FROM [Deuda] 
+            WHERE idDeuda = @idDeuda 
         ";
 
 
@@ -65,10 +68,11 @@ namespace Metodos
 				d.idDeuda,
 				d.concepto,
 				d.monto,
-				d.pagado,
 				d.tipoDeuda,
 				e.cedula,
-				CONCAT(e.apellido, ' ', e.nombre) AS nombreEmpleado
+				CONCAT(e.apellido, ' ', e.nombre) AS nombreEmpleado,
+                d.repetitivo,
+                d.tipoPago
             FROM [Deuda] d
 				INNER JOIN [Empleado] e ON e.idEmpleado=d.idEmpleado
 			WHERE d.status != 0";
@@ -89,9 +93,10 @@ namespace Metodos
                     using SqlCommand comm = new SqlCommand(queryInsert, Conexion.ConexionSql);
                     comm.Parameters.AddWithValue("@idEmpleado", Detalle[i].idEmpleado);
                     comm.Parameters.AddWithValue("@monto", Detalle[i].monto);
-                    comm.Parameters.AddWithValue("@pagado", Detalle[i].pagado);
                     comm.Parameters.AddWithValue("@concepto", Detalle[i].concepto);
                     comm.Parameters.AddWithValue("@tipoDeuda", Detalle[i].tipoDeuda);
+                    comm.Parameters.AddWithValue("@repetitivo", Detalle[i].repetitivo);
+                    comm.Parameters.AddWithValue("@tipoPago", Detalle[i].tipoPago);
 
                     respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Ingresaron las Deudas del Empleado";
                     if (!respuesta.Equals("OK")) break;
@@ -154,10 +159,11 @@ namespace Metodos
                         nombreCompleto = reader.GetString(2),
                         departamento = reader.GetString(3),
                         monto = (double)reader.GetDecimal(4),
-                        pagado = (double)reader.GetDecimal(5),
-                        concepto = reader.GetString(6),
-                        tipoDeuda = reader.GetInt32(7),
-                        status = reader.GetInt32(8)
+                        concepto = reader.GetString(5),
+                        tipoDeuda = reader.GetInt32(6),
+                        status = reader.GetInt32(7),
+                        repetitivo = reader.GetInt32(8),
+                        tipoPago = reader.GetInt32(9)
                     });
                 }
             }
@@ -186,10 +192,11 @@ namespace Metodos
                         idDeuda = reader.GetInt32(0),
                         idEmpleado = reader.GetInt32(1),
                         monto = (double)reader.GetDecimal(2),
-                        pagado = (double)reader.GetDecimal(3),
-                        concepto = reader.GetString(4),
-                        tipoDeuda = reader.GetInt32(5),
-                        status = reader.GetInt32(6)
+                        concepto = reader.GetString(3),
+                        tipoDeuda = reader.GetInt32(4),
+                        status = reader.GetInt32(5),
+                        repetitivo = reader.GetInt32(6),
+                        tipoPago = reader.GetInt32(7)
                     });
                 }
             }
@@ -233,10 +240,11 @@ namespace Metodos
                         idDeuda = reader.GetInt32(0),
                         concepto = reader.GetString(1),
                         monto = (double)reader.GetDecimal(2),
-                        pagado = (double)reader.GetDecimal(3),
-                        tipoDeudaString = TipoDeudaString(reader.GetInt32(4)),
-                        cedula = reader.GetString(5),
-                        nombreCompleto = reader.GetString(6)
+                        tipoDeudaString = TipoDeudaString(reader.GetInt32(3)),
+                        cedula = reader.GetString(4),
+                        nombreCompleto = reader.GetString(5),
+                        repetitivo = reader.GetInt32(6),
+                        tipoPagoString = TipoDeudaString(reader.GetInt32(7))
                     });
                 }
             }
@@ -255,6 +263,19 @@ namespace Metodos
             else if (tipoDeuda == 1)
             {
                 return "Deducción";
+            }
+            else return "ERROR";
+        }
+
+        private string TipoPagoString(int tipoPago)
+        {
+            if (tipoPago == 1)
+            {
+                return "Directo";
+            }
+            else if (tipoPago == 2)
+            {
+                return "Porcentual";
             }
             else return "ERROR";
         }

@@ -273,7 +273,7 @@ namespace HumanResourcesSM.Windows
             foreach (DDeuda bonificacion in Bonificaciones)
             {
                 StackBonificaciones.Children.Add(ConstruirDeuda(bonificacion));
-                modelo.Add(new ModeloDetallePago(bonificacion, (bonificacion.monto - bonificacion.pagado), true));
+                modelo.Add(new ModeloDetallePago(bonificacion, bonificacion.monto, true));
             }
         }
 
@@ -284,7 +284,7 @@ namespace HumanResourcesSM.Windows
             foreach (DDeuda deduccion in Deducciones)
             {
                 StackDeducciones.Children.Add(ConstruirDeuda(deduccion));
-                modelo.Add(new ModeloDetallePago(deduccion, (deduccion.monto - deduccion.pagado), true));
+                modelo.Add(new ModeloDetallePago(deduccion, deduccion.monto, true));
             }
         }
 
@@ -328,7 +328,7 @@ namespace HumanResourcesSM.Windows
             {   
                 PanelInput.IsEnabled = false;
                 MoneyText.Foreground = Brushes.Gray;
-                modelo[index].Pagando = (modelo[index].deuda.monto - modelo[index].deuda.pagado);
+                modelo[index].Pagando = (modelo[index].deuda.monto);
             }
             else
             {
@@ -361,7 +361,7 @@ namespace HumanResourcesSM.Windows
                 if(CantidadEspecifica < 0 || CantidadEspecifica > modelo[index].deuda.monto)
                 {
                     //error
-                    CantidadEspecifica = modelo[index].deuda.monto - modelo[index].deuda.pagado;
+                    CantidadEspecifica = modelo[index].deuda.monto;
                 }
             }
             txt.Text = CantidadEspecifica.ToString("0.00");
@@ -493,7 +493,6 @@ namespace HumanResourcesSM.Windows
             GridMontoPagado.Children.Add(
                 new TextBlock()
                 {
-                    Text = Deuda.pagado.ToString("0.00") + " €",
                     FontSize = FontSizeMontos,
                     FontWeight = FontWeights.Bold,
                     HorizontalAlignment = HorizontalAlignment.Right
@@ -513,7 +512,6 @@ namespace HumanResourcesSM.Windows
             GridMontoRestante.Children.Add(
                 new TextBlock()
                 {
-                    Text = (Deuda.monto - Deuda.pagado).ToString("0.00") + " €",
                     FontSize = FontSizeMontos,
                     FontWeight = FontWeights.Bold,
                     HorizontalAlignment = HorizontalAlignment.Right
@@ -564,7 +562,6 @@ namespace HumanResourcesSM.Windows
             TextBox textPrecio = new TextBox()
             {
                 FontSize = 12,
-                Text = (Deuda.monto - Deuda.pagado).ToString("0.00"),
                 Width = 60,
                 Padding = new Thickness(0),
                 VerticalAlignment = VerticalAlignment.Center,

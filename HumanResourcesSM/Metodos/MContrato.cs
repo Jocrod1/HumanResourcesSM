@@ -29,13 +29,17 @@ namespace Metodos
                 fechaContratacion,
                 nombrePuesto,
                 sueldo,
-                horasSemanales
+                horasSemanales,
+                montoPrestacion,
+                montoLiquidacion
             ) VALUES (
                 @idEmpleado,
                 @fechaContratacion,
                 @nombrePuesto,
                 @sueldo,
-                @horasSemanales
+                @horasSemanales,
+                @montoPrestacion,
+                @montoLiquidacion
             );
 	    ";
 
@@ -77,6 +81,7 @@ namespace Metodos
 				INNER JOIN [Rol] r on r.idRol = u.idRol
             WHERE u.idUsuario <> 1";
         #endregion
+
 
         public string AsignarEntrevistador(int IdEmpleado, int IdEntrevistador)
         {
@@ -127,6 +132,8 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@nombrePuesto", Contrato.nombrePuesto);
                 comm.Parameters.AddWithValue("@sueldo", Contrato.sueldo);
                 comm.Parameters.AddWithValue("@horasSemanales", Contrato.horasSemanales);
+                comm.Parameters.AddWithValue("@montoPrestacion", Contrato.montoPrestacion);
+                comm.Parameters.AddWithValue("@montoLiquidacion", Contrato.montoLiquidacion);
 
                 string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingreso el Registro del Contrato";
                 if (!respuesta.Equals("OK"))
@@ -180,6 +187,9 @@ namespace Metodos
                         nombrePuesto = reader.GetString(3),
                         sueldo = (double)reader.GetDecimal(4),
                         horasSemanales = reader.GetInt32(5),
+                        montoPrestacion = reader.GetDouble(6),
+                        montoLiquidacion = reader.GetDouble(7),
+                        fechaCulminacion = reader.GetDateTime(8)
                     });
                 }
             }

@@ -20,9 +20,7 @@ using Metodos;
 
 namespace HumanResourcesSM.Windows
 {
-    /// <summary>
-    /// Interaction logic for DepartamentoFrm.xaml
-    /// </summary>
+
     public partial class ContratoFrm : Window
     {
 
@@ -184,7 +182,9 @@ namespace HumanResourcesSM.Windows
                                            DateTime.Now,
                                            Seleccion.nombrePuesto,
                                            contrato.sueldo,
-                                           contrato.horasSemanales);
+                                           contrato.horasSemanales,
+                                           0,
+                                           0);
 
             var resp = new MContrato().Insertar(Data, Menu.ActUsuario.idUsuario, txtRazon.txt.Text);
 
@@ -224,14 +224,17 @@ namespace HumanResourcesSM.Windows
 
             double Sueldo = double.Parse(txtSueldo.txt.Text);
             int HorasSemanales = int.Parse(txtHorasSemanales.txt.Text);
-            //DateTime FechaCulminacion = CbFechaCulminacion.SelectedDate ?? DateTime.Now.AddYears(1);
+
+
 
             UForm = new DContrato(0,
                                   0,
                                   DateTime.Now,
                                   "",
                                   Sueldo,
-                                  HorasSemanales);
+                                  HorasSemanales,
+                                  0,
+                                  0);
         }
 
         void Create()
@@ -282,18 +285,6 @@ namespace HumanResourcesSM.Windows
                 txtHorasSemanales.SetText(Data.horasSemanales.ToString());
             }
         }
-
-        //private void CbFechaCulminacion_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    if (CbFechaCulminacion.SelectedDate != null)
-        //    {
-        //        PlaceFechaCulminacion.Text = "";
-        //    }
-        //    else
-        //    {
-        //        PlaceFechaCulminacion.Text = "Culminación del Contrato";
-        //    }
-        //}
 
 
         #region Validation

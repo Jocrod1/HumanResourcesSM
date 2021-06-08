@@ -83,14 +83,18 @@ namespace HumanResourcesSM.Windows
             int TipoDeuda = CbTipoDeuda.SelectedIndex;
             string Concepto = txtConcepto.txt.Text;
 
+            int Repetitivo = 0; //aca ba el check si es repetitivo
+            int TipoPago = 0; //el tipo del pago si es porcentaje o monto normal
+
 
             UForm = new DDeuda(0,
                                idEmpleado,
                                Monto,
-                               0,
                                Concepto,
                                TipoDeuda,
-                               1);
+                               1,
+                               Repetitivo,
+                               TipoPago);
         }
 
         void Create()
@@ -128,8 +132,6 @@ namespace HumanResourcesSM.Windows
             {
                 CbEmpleado.SelectedValue = Data.idEmpleado;
                 txtMonto.SetText(Data.monto.ToString());
-                txtPagado.Text = "Pagado: " + Data.pagado.ToString() + "€";
-                txtRestante.Text = "Restante: " + (Data.monto - Data.pagado).ToString() + "€";
                 CbTipoDeuda.SelectedIndex = Data.tipoDeuda;
                 txtConcepto.SetText(Data.concepto);
             }

@@ -28,13 +28,6 @@ namespace Datos
             set { _Monto = value; }
         }
 
-        private double _Pagado;
-        public double pagado
-        {
-            get { return _Pagado; }
-            set { _Pagado = value; }
-        }
-
         private string _Concepto;
         public string concepto
         {
@@ -92,6 +85,28 @@ namespace Datos
             }
         }
 
+
+        private int _Repetitivo;
+        public int repetitivo
+        {
+            get { return _Repetitivo; }
+            set { _Repetitivo = value; }
+        }
+
+        private int _TipoPago;
+        public int tipoPago
+        {
+            get { return _TipoPago; }
+            set { _TipoPago = value; }
+        }
+
+        private string _TipoPagoString;
+        public string tipoPagoString
+        {
+            get { return _TipoPagoString; }
+            set { _TipoPagoString = value; }
+        }
+
         private string _Cedula;
         public string cedula
         {
@@ -120,15 +135,16 @@ namespace Datos
 
         }
 
-        public DDeuda(int IdDeuda, int IdEmpleado, double Monto, double Pagado, string Concepto, int TipoDeuda, int Status)
+        public DDeuda(int IdDeuda, int IdEmpleado, double Monto, string Concepto, int TipoDeuda, int Repetitivo, int TipoPago, int Status)
         {
             this.idDeuda = IdDeuda;
             this.idEmpleado = IdEmpleado;
             this.monto = Monto;
-            this.pagado = Pagado;
             this.concepto = Concepto;
             this.tipoDeuda = TipoDeuda;
             this.status = Status;
+            this.repetitivo = Repetitivo;
+            this.tipoPago = TipoPago;
         }
     }
 }

@@ -49,12 +49,34 @@ namespace Datos
             set { _HorasSemanales = value; }
         }
 
+        private double _MontoPrestacion;
+        public double montoPrestacion
+        {
+            get { return _MontoPrestacion; }
+            set { _MontoPrestacion = value; }
+        }
+
+        private double _MontoLiquidacion;
+        public double montoLiquidacion
+        {
+            get { return _MontoLiquidacion; }
+            set { _MontoLiquidacion = value; }
+        }
+
+        private DateTime _FechaCulminacion;
+        public DateTime fechaCulminacion
+        {
+            get { return _FechaCulminacion; }
+            set { _FechaCulminacion = value; }
+        }
+
+
         public DContrato()
         {
 
         }
 
-        public DContrato(int IdContrato, int IdEmpleado, DateTime FechaContratacion, string NombrePuesto, double Sueldo, int HorasSemanales)
+        public DContrato(int IdContrato, int IdEmpleado, DateTime FechaContratacion, string NombrePuesto, double Sueldo, int HorasSemanales, double MontoPrestacion, double MontoLiquidacion)
         {
             this.idContrato = IdContrato;
             this.idEmpleado = IdEmpleado;
@@ -62,6 +84,8 @@ namespace Datos
             this.nombrePuesto = NombrePuesto;
             this.sueldo = Sueldo;
             this.horasSemanales = HorasSemanales;
+            this.montoPrestacion = MontoPrestacion;
+            this.montoLiquidacion = MontoLiquidacion;
         }
     }
 }
