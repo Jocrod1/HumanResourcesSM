@@ -89,92 +89,72 @@
                             Foreground="#2A347B" BorderBrush="#2A347B" 
                             Margin="5 5"/>
                 </StackPanel>
-                <StackPanel HorizontalAlignment="Center" Width="200" Margin="0 5">
-                    <TextBlock Text="Horas trabajadas" FontSize="17" FontWeight="Bold" HorizontalAlignment="Center"/>
-                    <TextBox Name="txtHorasTrabajadas" Text="0" HorizontalContentAlignment="Right" FontSize="15" Width="70" LostFocus="TextBox_LostFocus"/>
-                </StackPanel>
-                <TextBlock Text="Bonificaciones" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
-                    <StackPanel Orientation="Horizontal" Background="LightGray" x:Name="StackBonificaciones" Height="90">
-                        <Border HorizontalAlignment="Left" BorderBrush="Black" BorderThickness="1" Background="WhiteSmoke" Visibility="Hidden">
-                            <StackPanel>
-                                <Border BorderBrush="Black" BorderThickness="0 0 0 1">
-                                    <Grid>
-                                        <CheckBox IsChecked="True"/>
-                                        <TextBlock Text="'Horas Trabajadas'" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" Margin="10 5"/>
-                                    </Grid>
-                                </Border>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="180"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border BorderBrush="Black" BorderThickness="0 0 1 0">
-                                        <StackPanel Margin="5">
-                                            <Grid>
-                                                <TextBlock Text="Inicial" FontSize="12" FontWeight="Bold" Foreground="Gray"/>
-                                                <TextBlock Text="100.00 €" FontSize="12" HorizontalAlignment="Right" FontWeight="Bold"/>
-                                            </Grid>
-                                            <Grid>
-                                                <TextBlock Text="Pagado" FontSize="12" FontWeight="Bold" Foreground="Gray"/>
-                                                <TextBlock Text="80.00 €" FontSize="12" HorizontalAlignment="Right" FontWeight="Bold"/>
-                                            </Grid>
-                                            <Separator Margin="0"/>
-                                            <Grid>
-                                                <TextBlock Text="Restante" FontSize="12" FontWeight="Bold" />
-                                                <TextBlock Text="20.00 €" FontSize="12" HorizontalAlignment="Right" FontWeight="Bold"/>
-                                            </Grid>
-                                        </StackPanel>
-                                    </Border>
-                                    <StackPanel Grid.Column="1" Margin="5 3">
-                                        <ComboBox FontSize="15" Text="Cantidad Específica" Width="130" Padding="0" Margin="0 0 0 3"/>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" IsEnabled="False">
-                                            <TextBox FontSize="12" Text="20.00" Width="60" Padding="0" VerticalAlignment="Center" HorizontalContentAlignment="Right" FontWeight="Bold" />
-                                            <TextBlock Text="€" FontSize="15" FontWeight="Bold" VerticalAlignment="Center" Margin="3 0 0 0" Foreground="Gray"/>
-                                        </StackPanel>
-                                    </StackPanel>
-                                </Grid>
-                            </StackPanel>
-                        </Border>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel HorizontalAlignment="Center" Width="200" Margin="0 5">
+                        <TextBlock Text="Horas trabajadas" FontSize="17" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBox Name="txtHorasTrabajadas" Text="0" HorizontalContentAlignment="Right" FontSize="15" Width="70" LostFocus="TextBox_LostFocus"/>
                     </StackPanel>
-                </ScrollViewer>
-                <TextBlock Text="Deducciones" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Hidden">
-                    <StackPanel Orientation="Horizontal" Background="LightGray" x:Name="StackDeducciones" Height="90">
-                        <Border HorizontalAlignment="Left" BorderBrush="Black" BorderThickness="1" Background="WhiteSmoke" Visibility="Hidden">
-                            <StackPanel>
-                                <StackPanel>
-                                    <Border BorderBrush="Black" BorderThickness="0 0 0 1">
-                                        <Grid>
-                                            <CheckBox IsChecked="True"/>
-                                            <TextBlock Text="'Horas Trabajadas'" HorizontalAlignment="Center" FontWeight="Bold" Margin="10 5"/>
-                                        </Grid>
-                                    </Border>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="100"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Border BorderBrush="Black" BorderThickness="0 0 1 0">
-                                            <StackPanel>
-                                                <TextBlock Text="Inicial: 100€" FontSize="10"/>
-                                                <TextBlock Text="Pagado: 50€" FontSize="10"/>
-                                                <TextBlock Text="Restante: 50€" FontSize="10"/>
-                                            </StackPanel>
-                                        </Border>
-                                        <StackPanel Grid.Column="1" Margin="5 3">
-                                            <ComboBox FontSize="9" Text="Cantidad Específica" Height="20" Width="90" Padding="0" Margin="0 0 0 3"/>
-                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                                <TextBlock Text="€" FontSize="14" FontWeight="Bold" VerticalAlignment="Center" Margin="0 0 3 0"/>
-                                                <TextBox FontSize="9" Text="0,00" Height="19" Width="60" Padding="0" VerticalAlignment="Center" FontWeight="Bold"/>
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Grid>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Center" Width="200" Margin="0 5">
+                        <TextBlock Text="Horas Extras" FontSize="17" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBox Name="txtHorasExtras" Text="0" HorizontalContentAlignment="Right" FontSize="15" Width="70" LostFocus="TextBox_LostFocus"/>
                     </StackPanel>
-                </ScrollViewer>
+                </Grid>
+                <DataGrid x:Name="dgOperaciones" 
+                  FontSize="13" Visibility="Collapsed"
+                  AutoGenerateColumns="false" 
+                  IsReadOnly="true" 
+                  Margin="0 20"
+                  BorderThickness="0 1 0 1"
+                  BorderBrush="LightGray"
+                  Background="WhiteSmoke">
+                    <DataGrid.Resources>
+                        <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Background" Value="#f0f0f0" />
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="*" Header="Concepto" Binding="{Binding Concepto}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                    <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Width="auto" Header="Cant" Binding="{Binding CantidadString}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                    <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Width="auto" Header="Salario" Binding="{Binding SalarioString}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                    <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Width="auto" Header="Asignaciones" Binding="{Binding AsignacionesString}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                    <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Width="auto" Header="Deducciones" Binding="{Binding DeduccionesString}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                    <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+               
             </StackPanel>
         </ScrollViewer>
         <Border Grid.Row="2" BorderBrush="Black" BorderThickness="0">
@@ -185,15 +165,11 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Margin="10 10">
                     <Grid>
-                        <TextBlock Text="Sueldo" FontWeight="bold" FontSize="12" Foreground="Gray"/>
-                        <TextBlock x:Name="txtMontoSueldo" Text="0.00 €" FontWeight="bold" FontSize="15" Foreground="Black" HorizontalAlignment="Right"/>
-                    </Grid>
-                    <Grid>
-                        <TextBlock Text="Bonificaciones" FontWeight="bold" FontSize="12" Foreground="Gray"/>
+                        <TextBlock Text="Total Asignaciones" FontWeight="bold" FontSize="12" Foreground="Gray"/>
                         <TextBlock x:Name="txtMontoBonificaciones" Text="0.00 €" FontWeight="bold" FontSize="15" Foreground="Black" HorizontalAlignment="Right"/>
                     </Grid>
                     <Grid>
-                        <TextBlock Text="Deducciones" FontWeight="bold" FontSize="12" Foreground="Gray"/>
+                        <TextBlock Text="Total Deducciones" FontWeight="bold" FontSize="12" Foreground="Gray"/>
                         <TextBlock x:Name="txtMontoDeducciones" Text="-0.00 €" FontWeight="bold" FontSize="15" Foreground="Black" HorizontalAlignment="Right"/>
                     </Grid>
                     <Separator Margin="0"/>

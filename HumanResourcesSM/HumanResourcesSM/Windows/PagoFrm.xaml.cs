@@ -66,14 +66,14 @@ namespace HumanResourcesSM.Windows
 
             Deudas.Clear();
             modelo.Clear();
-            StackBonificaciones.Children.Clear();
-            StackDeducciones.Children.Clear();
+            dgOperaciones.ItemsSource = null;
+            dgOperaciones.Visibility = Visibility.Collapsed;
 
             Sueldo = Bonificaciones = Deducciones = Total = 0;
 
             txtHorasTrabajadas.Text = "0";
 
-            txtMontoSueldo.Text = Sueldo.ToString("0.00") + " €";
+            //txtMontoSueldo.Text = Sueldo.ToString("0.00") + " €";
             txtMontoBonificaciones.Text = Bonificaciones.ToString("0.00") + " €";
             txtMontoDeducciones.Text = "-" + Deducciones.ToString("0.00") + " €";
             txtMontoTotal.Text = Total.ToString("0.00") + " €";
@@ -173,16 +173,21 @@ namespace HumanResourcesSM.Windows
         }
 
         int HorasTrabajadas = 0;
+        int HorasExtras = 0;
 
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (((TextBox)sender).Text == "")
+            if (txtHorasTrabajadas.Text == "")
                 HorasTrabajadas = 0;
+            if (txtHorasExtras.Text == "")
+                HorasExtras = 0;
 
             HorasTrabajadas = int.Parse(txtHorasTrabajadas.Text);
+            HorasExtras = int.Parse(txtHorasExtras.Text);
 
 
-            ((TextBox)sender).Text = HorasTrabajadas.ToString();
+            txtHorasTrabajadas.Text = HorasTrabajadas.ToString();
+            txtHorasExtras.Text = HorasExtras.ToString();
             RefreshMoney();
         }
 
@@ -208,11 +213,11 @@ namespace HumanResourcesSM.Windows
 
             Deudas = resp;
 
-            ConstruirDeudas();
+            //ConstruirDeudas();
 
             txtHorasTrabajadas.Focus();
 
-            RefreshMoney();
+            //RefreshMoney();
         }
 
         double Sueldo = 0, Bonificaciones = 0, Deducciones = 0, Total = 0;
@@ -222,386 +227,128 @@ namespace HumanResourcesSM.Windows
             if (EmpleadoSeleccionado == null)
                 return;
 
+            modelo.Clear();
+
+
             Sueldo = Bonificaciones = Deducciones = Total = 0;
 
             Sueldo = EmpleadoSeleccionado.sueldo * HorasTrabajadas;
 
-            foreach(var item in modelo)
+            modelo.Add(new ModeloDetallePago()
             {
-                if (!item.Enabled)
-                    continue;
+                Concepto = "Salario por horas trabajadas",
+                Cantidad = HorasTrabajadas,
+                Salario = EmpleadoSeleccionado.sueldo,
+                Asignaciones = Sueldo,
+                Deducciones = 0,
+            });
 
-                if(item.deuda.tipoDeuda == 0)
+            double multi = 2;
+
+            double SueldoExtra = EmpleadoSeleccionado.sueldo * 2;
+
+            double PagoHxtra = SueldoExtra * HorasExtras;
+
+            modelo.Add(new ModeloDetallePago()
+            {
+                Concepto = "Pago por Horas Extras",
+                Cantidad = HorasExtras,
+                Salario = SueldoExtra,
+                Asignaciones = PagoHxtra,
+                Deducciones = 0,
+            });
+
+            foreach (var item in Deudas)
+            {
+                if (item.tipoDeuda == 1)
+                    continue;
+                double cantidad = 0;
+                double asignaciones = 0;
+
+                if(item.tipoPago == 1)
                 {
-                    Bonificaciones += item.Pagando;
+                    asignaciones = item.monto;
                 }
                 else
                 {
-                    Deducciones += item.Pagando;
+                    cantidad = item.monto;
+                    asignaciones = Sueldo * (cantidad / 100);
                 }
+
+                var Con = new ModeloDetallePago()
+                {
+                    Concepto = item.concepto,
+                    Cantidad = cantidad,
+                    Salario = 0,
+                    Asignaciones = asignaciones,
+                    Deducciones = 0
+                };
+
+                modelo.Add(Con);
             }
+
+            foreach (var item in Deudas)
+            {
+                if (item.tipoDeuda == 0)
+                    continue;
+                double cantidad = 0;
+                double deducciones = 0;
+
+                if (item.tipoPago == 1)
+                {
+                    deducciones = item.monto;
+                }
+                else
+                {
+                    cantidad = item.monto;
+                    deducciones = Sueldo * (cantidad / 100);
+                }
+
+                var Con = new ModeloDetallePago()
+                {
+                    Concepto = item.concepto,
+                    Cantidad = cantidad,
+                    Salario = 0,
+                    Asignaciones = 0,
+                    Deducciones = deducciones
+                };
+                modelo.Add(Con);
+            }
+
+            foreach (var item in modelo)
+            {
+                //if (!item.Enabled)
+                //    continue;
+
+                //if(item.deuda.tipoDeuda == 0)
+                //{
+                //    
+                //}
+                //else
+                //{
+                //   
+                //}
+                Bonificaciones += item.Asignaciones;
+                Deducciones += item.Deducciones;
+            }
+
+            double Asignaciones = Bonificaciones + Sueldo;
 
             Total = Sueldo + Bonificaciones - Deducciones;
 
-            txtMontoSueldo.Text = Sueldo.ToString("0.00") + " €";
-            txtMontoBonificaciones.Text = Bonificaciones.ToString("0.00") + " €";
+            //txtMontoSueldo.Text = Sueldo.ToString("0.00") + " €";
+            txtMontoBonificaciones.Text = Asignaciones.ToString("0.00") + " €";
             txtMontoDeducciones.Text = "-" + Deducciones.ToString("0.00") + " €";
             txtMontoTotal.Text = Total.ToString("0.00") + " €";
-
+            dgOperaciones.ItemsSource = null;
+            dgOperaciones.ItemsSource = modelo;
+            dgOperaciones.Visibility = Visibility.Visible;
         }
 
         //Refresh Bonificaciones y Deducciones
 
         List<DDeuda> Deudas = new List<DDeuda>();
         List<ModeloDetallePago> modelo = new List<ModeloDetallePago>();
-
-        
-
-        void ConstruirDeudas()
-        {
-            modelo.Clear();
-
-            RefreshBonificaciones(Deudas.FindAll(x => x.tipoDeuda == 0));
-            RefreshDeducciones(Deudas.FindAll(x => x.tipoDeuda == 1));
-        }
-
-        void RefreshBonificaciones(List<DDeuda> Bonificaciones)
-        {
-            StackBonificaciones.Children.Clear();
-            
-
-            foreach (DDeuda bonificacion in Bonificaciones)
-            {
-                StackBonificaciones.Children.Add(ConstruirDeuda(bonificacion));
-                modelo.Add(new ModeloDetallePago(bonificacion, bonificacion.monto, true));
-            }
-        }
-
-        void RefreshDeducciones(List<DDeuda> Deducciones)
-        {
-            StackDeducciones.Children.Clear();
-
-            foreach (DDeuda deduccion in Deducciones)
-            {
-                StackDeducciones.Children.Add(ConstruirDeuda(deduccion));
-                modelo.Add(new ModeloDetallePago(deduccion, deduccion.monto, true));
-            }
-        }
-
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            CheckBox chB = (CheckBox)sender;
-            int id = (int)chB.CommandParameter;
-            int index = modelo.FindIndex(x => x.deuda.idDeuda == id);
-
-            if (!(chB.IsChecked ?? false))
-            {
-                var parent = VisualTreeHelper.GetParent(chB) as Grid;
-                var Title = parent.Children[1] as TextBlock;
-                Title.Foreground = Brushes.Gray;
-                modelo[index].Enabled = false;
-            }
-            else
-            {
-                var parent = VisualTreeHelper.GetParent(chB) as Grid;
-                var Title = parent.Children[1] as TextBlock;
-                Title.Foreground = Brushes.Black;
-                modelo[index].Enabled = true;
-
-            }
-            RefreshMoney();
-
-        }
-
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ComboBox CB = (ComboBox)sender;
-
-            var parent = VisualTreeHelper.GetParent(CB) as StackPanel;
-            var PanelInput = parent.Children[1] as StackPanel;
-            var MoneyText = PanelInput.Children[1] as TextBlock;
-
-            int id = GetIDFromStackPanel(parent);
-            int index = modelo.FindIndex(x => x.deuda.idDeuda == id);
-
-            if (CB.SelectedIndex == 0)
-            {   
-                PanelInput.IsEnabled = false;
-                MoneyText.Foreground = Brushes.Gray;
-                modelo[index].Pagando = (modelo[index].deuda.monto);
-            }
-            else
-            {
-                PanelInput.IsEnabled = true;
-                MoneyText.Foreground = Brushes.Black;
-                var MoneyBox = PanelInput.Children[0] as TextBox;
-                modelo[index].Pagando = double.Parse(MoneyBox.Text);
-            }
-            RefreshMoney();
-
-        }
-
-        private void TextPrecio_LostFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox txt = (TextBox)sender;
-
-            var HorStack = VisualTreeHelper.GetParent(txt) as StackPanel;
-            var parent = VisualTreeHelper.GetParent(HorStack) as StackPanel;
-            int id = GetIDFromStackPanel(parent);
-            int index = modelo.FindIndex(x => x.deuda.idDeuda == id);
-
-            double CantidadEspecifica = 0;
-            if (txt.Text == "")
-                CantidadEspecifica = 0;
-            else
-            {
-                CantidadEspecifica = double.Parse(txt.Text);
-
-                
-                if(CantidadEspecifica < 0 || CantidadEspecifica > modelo[index].deuda.monto)
-                {
-                    //error
-                    CantidadEspecifica = modelo[index].deuda.monto;
-                }
-            }
-            txt.Text = CantidadEspecifica.ToString("0.00");
-            modelo[index].Pagando = CantidadEspecifica;
-            RefreshMoney();
-        }
-
-        int GetIDFromStackPanel(StackPanel SP)
-        {
-            var Cuerpo = VisualTreeHelper.GetParent(SP) as Grid;
-            var Marcototal = VisualTreeHelper.GetParent(Cuerpo) as StackPanel;
-            var marctoTitulo = Marcototal.Children[0] as Border;
-            var gridtitulo = marctoTitulo.Child as Grid;
-            CheckBox CB = gridtitulo.Children[0] as CheckBox;
-            int id = (int)CB.CommandParameter;
-
-            return id;
-        }
-
-
-
-        Border ConstruirDeuda(DDeuda Deuda)
-        {
-            Border MarcoPrincipal = new Border()
-            {
-                HorizontalAlignment = HorizontalAlignment.Left,
-                BorderBrush = Brushes.Black,
-                BorderThickness = new Thickness(1),
-                Background = Brushes.WhiteSmoke
-            };
-
-            StackPanel PilarPrincipal = new StackPanel();
-            MarcoPrincipal.Child = PilarPrincipal;
-
-            Border MarcoTitulo = new Border()
-            {
-                BorderBrush = Brushes.Black,
-                BorderThickness = new Thickness(0, 0, 0, 1)
-            };
-            PilarPrincipal.Children.Add(MarcoTitulo);
-
-            //Seccion Superior
-
-            CheckBox ChBEnable = new CheckBox()
-            {
-                CommandParameter = Deuda.idDeuda,
-                IsChecked = true
-            };
-            ChBEnable.Checked += new RoutedEventHandler(CheckBox_Checked);
-            ChBEnable.Unchecked += new RoutedEventHandler(CheckBox_Checked);
-
-            Grid Titulo = new Grid();
-            Titulo.Children.Add(ChBEnable);
-            Titulo.Children.Add(new TextBlock()
-            {
-                Text = Deuda.concepto,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                FontWeight = FontWeights.Bold,
-                FontSize = 15,
-                Margin = new Thickness(10, 5, 10, 5)
-            });
-            MarcoTitulo.Child = Titulo;
-
-            //Seccion Inferior
-
-            Grid Cuerpo = new Grid();
-            Cuerpo.ColumnDefinitions.Add(
-                new ColumnDefinition()
-                {
-                    Width = new GridLength(180, GridUnitType.Pixel)
-                }
-            );
-            Cuerpo.ColumnDefinitions.Add(
-                new ColumnDefinition()
-                {
-                    Width = new GridLength(1, GridUnitType.Star)
-                }
-            );
-            PilarPrincipal.Children.Add(Cuerpo);
-
-            //Montos
-
-            Border MarcoMontos = new Border()
-            {
-                BorderBrush = Brushes.Black,
-                BorderThickness = new Thickness(0, 0, 1, 0)
-            };
-            Cuerpo.Children.Add(MarcoMontos);
-
-            StackPanel PanelMontos = new StackPanel()
-            {
-                Margin = new Thickness(5)
-            };
-            MarcoMontos.Child = PanelMontos;
-
-
-            int FontSizeMontos = 12;
-
-            Grid GridMontoInicial = new Grid();
-            GridMontoInicial.Children.Add(
-                new TextBlock()
-                {
-                    Text = "Inicial",
-                    FontSize = FontSizeMontos,
-                    FontWeight = FontWeights.Bold,
-                    Foreground = Brushes.Gray
-                }
-            );
-            GridMontoInicial.Children.Add(
-                new TextBlock()
-                {
-                    Text = Deuda.monto.ToString("0.00") + " €",
-                    FontSize = FontSizeMontos,
-                    FontWeight = FontWeights.Bold,
-                    HorizontalAlignment = HorizontalAlignment.Right
-                }
-            );
-
-            Grid GridMontoPagado = new Grid();
-            GridMontoPagado.Children.Add(
-                new TextBlock()
-                {
-                    Text = "Pagado",
-                    FontSize = FontSizeMontos,
-                    FontWeight = FontWeights.Bold,
-                    Foreground = Brushes.Gray
-                }
-            );
-            GridMontoPagado.Children.Add(
-                new TextBlock()
-                {
-                    FontSize = FontSizeMontos,
-                    FontWeight = FontWeights.Bold,
-                    HorizontalAlignment = HorizontalAlignment.Right
-                }
-            );
-
-            Grid GridMontoRestante = new Grid();
-            GridMontoRestante.Children.Add(
-                new TextBlock()
-                {
-                    Text = "Restante",
-                    FontSize = FontSizeMontos,
-                    FontWeight = FontWeights.Bold,
-                    Foreground = Brushes.Black
-                }
-            );
-            GridMontoRestante.Children.Add(
-                new TextBlock()
-                {
-                    FontSize = FontSizeMontos,
-                    FontWeight = FontWeights.Bold,
-                    HorizontalAlignment = HorizontalAlignment.Right
-                }
-            );
-
-            PanelMontos.Children.Add(GridMontoInicial);
-            PanelMontos.Children.Add(GridMontoPagado);
-            PanelMontos.Children.Add(
-                new Separator()
-                {
-                    Margin = new Thickness(0)
-                }    
-            );
-            PanelMontos.Children.Add(GridMontoRestante);
-
-            //Derecha Selección Monto
-
-
-            StackPanel CuerpoInputs = new StackPanel()
-            {
-                Margin = new Thickness(5, 3, 5, 3)
-            };
-            CuerpoInputs.SetValue(Grid.ColumnProperty, 1);
-            Cuerpo.Children.Add(CuerpoInputs);
-
-            ComboBox SeleccionarCantidad = new ComboBox()
-            {
-                FontSize = 15,
-                Width = 130,
-                Padding = new Thickness(0),
-                Margin = new Thickness(0, 0, 0, 3)
-            };
-            SeleccionarCantidad.Items.Add("Pagar Todo");
-            SeleccionarCantidad.Items.Add("Pagar Cantidad");
-            SeleccionarCantidad.SelectedIndex = 0;
-            SeleccionarCantidad.SelectionChanged += new SelectionChangedEventHandler(ComboBox_SelectionChanged);
-            CuerpoInputs.Children.Add(SeleccionarCantidad);
-
-            StackPanel PanelInputCantidad = new StackPanel()
-            {
-                Orientation = Orientation.Horizontal,
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Right,
-                IsEnabled = false
-            };
-
-            TextBox textPrecio = new TextBox()
-            {
-                FontSize = 12,
-                Width = 60,
-                Padding = new Thickness(0),
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalContentAlignment = HorizontalAlignment.Right,
-                FontWeight = FontWeights.Bold
-            };
-            textPrecio.LostFocus += new RoutedEventHandler(TextPrecio_LostFocus);
-            textPrecio.KeyDown += new KeyEventHandler(Validaciones.TextBoxValidatePrices);
-            textPrecio.KeyDown += new KeyEventHandler(
-                (s, t) =>
-                {
-                    if (t.Key == Key.Enter)
-                    {
-                        BtnAccept.Focus();
-                    }
-                }
-            );
-            PanelInputCantidad.Children.Add(
-                textPrecio
-            );
-            PanelInputCantidad.Children.Add(
-                new TextBlock()
-                {
-                    Text = "€",
-                    FontSize = 15,
-                    FontWeight = FontWeights.Bold,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Margin = new Thickness(3, 0, 0, 0),
-                    Foreground = Brushes.Gray
-                }
-            );
-            CuerpoInputs.Children.Add(PanelInputCantidad);
-
-
-
-
-
-
-            return MarcoPrincipal;
-        }
 
 
         class ModeloDetallePago
@@ -619,6 +366,71 @@ namespace HumanResourcesSM.Windows
             }
 
             public DDeuda deuda { get; set; }
+            public string Concepto { get; set; }
+            public double Cantidad { get; set; }
+            public double  Salario { get; set; }
+            public double Asignaciones { get; set; }
+            public double Deducciones { get; set; }
+            public string CantidadString
+            {
+                get
+                {
+                    if(Cantidad > 0)
+                    {
+                        if(Salario == 0)
+                        {
+                            return Cantidad + "%";
+                        }
+                        return Cantidad.ToString();
+                    }
+                    else
+                    {
+                        return "-";
+                    }
+                }
+            }
+            public string SalarioString
+            {
+                get
+                {
+                    if(Salario > 0)
+                    {
+                        return Salario + " €";
+                    }
+                    else
+                    {
+                        return "-";
+                    }
+                }
+            }
+            public string AsignacionesString
+            {
+                get
+                {
+                    if (Asignaciones > 0)
+                    {
+                        return Asignaciones + " €";
+                    }
+                    else
+                    {
+                        return "-";
+                    }
+                }
+            }
+            public string DeduccionesString
+            {
+                get
+                {
+                    if (Deducciones > 0)
+                    {
+                        return Deducciones + " €";
+                    }
+                    else
+                    {
+                        return "-";
+                    }
+                }
+            }
             public double Pagando { get; set; }
             public bool Enabled { get; set; }
         }

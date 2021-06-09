@@ -107,6 +107,22 @@ namespace Datos
             set { _TipoPagoString = value; }
         }
 
+        public string tipoPagoStringz
+        {
+            get
+            {
+                if (tipoPago == 0)
+                {
+                    return "Porcentual";
+                }
+                else if (tipoPago == 1)
+                {
+                    return "Monto";
+                }
+                else return "ERROR";
+            }
+        }
+
         private string _Cedula;
         public string cedula
         {

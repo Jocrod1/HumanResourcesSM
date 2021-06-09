@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HumanResourcesSM.Windows"
         mc:Ignorable="d"
-        Title="DepartamentoFrm" Height="430" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
+        Title="DepartamentoFrm" Height="440" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -23,17 +23,19 @@
             <!--<Separator VerticalAlignment="Bottom" Foreground="Black" />-->
         </Grid>
         <StackPanel Grid.Row="1"  Margin="50 10">
+            <local:UserInputText x:Name="txtConcepto" VerticalAlignment="Center" Placeholder="Nombre" Margin="0 10" FontSize="15"/>
             <Grid Margin="0 10">
                 <TextBlock x:Name="PlaceEmpleado" Text="Empleado" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
                 <ComboBox Name="CbEmpleado" FontSize="15" SelectionChanged="CbDepartamento_SelectionChanged"/>
             </Grid>
-            <StackPanel Margin="0 10 0 0">
-                <local:UserInputText x:Name="txtMonto" VerticalAlignment="Center" Placeholder="Monto Inicial"  FontSize="15"/>
-                <StackPanel Name="PanelPagado" Visibility="Collapsed">
-                    <TextBlock x:Name="txtPagado"  Text="Pagado: 100$" FontWeight="Bold" FontSize="13"/>
-                    <TextBlock x:Name="txtRestante" Text="Restante: 100$" FontWeight="Bold" FontSize="13"/>
-                </StackPanel>
-            </StackPanel>
+            <Grid Margin="0 10">
+                <TextBlock x:Name="PlaceTipoPago" Text="Tipo Pago" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
+                <ComboBox Name="CbTipoPago" FontSize="15" SelectionChanged="CbTipoPago_SelectionChanged">
+                    <ComboBoxItem>Porcentual</ComboBoxItem>
+                    <ComboBoxItem>Monto</ComboBoxItem>
+                </ComboBox>
+            </Grid>
+            <CheckBox Margin="0 -10 0 0" FontSize="14"  Name="ChBFijo" Content="Fijo" FontWeight="Bold"/>
             <Grid Margin="0 10">
                 <TextBlock x:Name="PlaceTipoDeuda" Text="Tipo" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
                 <ComboBox Name="CbTipoDeuda" FontSize="15" SelectionChanged="CbTipoDeuda_SelectionChanged">
@@ -41,8 +43,8 @@
                     <ComboBoxItem>Deduccion</ComboBoxItem>
                 </ComboBox>
             </Grid>
-            <local:UserInputText x:Name="txtConcepto" VerticalAlignment="Center" Placeholder="Concepto" Margin="0 10" FontSize="15"/>
-            
+            <local:UserInputText x:Name="txtMonto" VerticalAlignment="Center" Placeholder="Valor"  FontSize="15"/>
+
         </StackPanel>
         <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Content="Agregar" Margin="0 10" Click="Button_Click" HorizontalAlignment="Center"/>
     </Grid>

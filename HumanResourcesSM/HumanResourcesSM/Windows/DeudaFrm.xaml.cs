@@ -23,6 +23,7 @@ namespace HumanResourcesSM.Windows
 
     public partial class DeudaFrm : Window
     {
+
         public DeudaFrm()
         {
             InitializeComponent();
@@ -62,9 +63,7 @@ namespace HumanResourcesSM.Windows
                 txtTitulo.Text = "Ver";
                 fillForm(DataFill);
                 SetEnable(false);
-                btnEnviar.Visibility = Visibility.Collapsed;
-                PanelPagado.Visibility = Visibility.Visible;
-            }
+                btnEnviar.Visibility = Visibility.Collapsed;            }
         }
 
         void fillData()
@@ -80,8 +79,8 @@ namespace HumanResourcesSM.Windows
             int TipoDeuda = CbTipoDeuda.SelectedIndex;
             string Concepto = txtConcepto.txt.Text;
 
-            int Repetitivo = 0; //aca ba el check si es repetitivo
-            int TipoPago = 0; //el tipo del pago si es porcentaje o monto normal
+            int Repetitivo = ChBFijo.IsChecked ?? false ? 0 : 1; 
+            int TipoPago = CbTipoPago.SelectedIndex;
 
 
             UForm = new DDeuda(0,
@@ -122,6 +121,7 @@ namespace HumanResourcesSM.Windows
             txtMonto.IsEnabled = Enable;
             CbTipoDeuda.IsEnabled = Enable;
             txtConcepto.IsEnabled = Enable;
+            CbTipoPago.IsEnabled = Enable;
         }
         void fillForm(DDeuda Data)
         {
@@ -131,6 +131,8 @@ namespace HumanResourcesSM.Windows
                 txtMonto.SetText(Data.monto.ToString());
                 CbTipoDeuda.SelectedIndex = Data.tipoDeuda;
                 txtConcepto.SetText(Data.concepto);
+                CbTipoPago.SelectedIndex = Data.tipoPago;
+                ChBFijo.IsChecked = Data.repetitivo == 0;
             }
         }
 
@@ -158,19 +160,31 @@ namespace HumanResourcesSM.Windows
             }
         }
 
+        private void CbTipoPago_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CbTipoPago.SelectedIndex > -1)
+            {
+                PlaceTipoPago.Text = "";
+            }
+            else
+            {
+                PlaceTipoPago.Text = "Tipo Pago";
+            }
+        }
+
         #region Validation
         bool Validate()
         {
+            if (txtConcepto.txt.Text == "")
+            {
+                MessageBox.Show("Debes llenar el campo Nombre!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtConcepto.txt.Focus();
+                return true;
+            }
             if (CbEmpleado.SelectedIndex == -1)
             {
                 MessageBox.Show("Debes seleccionar un Empleado!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
                 CbEmpleado.Focus();
-                return true;
-            }
-            if (txtMonto.txt.Text == "")
-            {
-                MessageBox.Show("Debes llenar el campo Monto Inicial!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtMonto.txt.Focus();
                 return true;
             }
             if (CbTipoDeuda.SelectedIndex == -1)
@@ -179,20 +193,27 @@ namespace HumanResourcesSM.Windows
                 CbTipoDeuda.Focus();
                 return true;
             }
-            if (txtConcepto.txt.Text == "")
+            if (CbTipoPago.SelectedIndex == -1)
             {
-                MessageBox.Show("Debes llenar el campo Concepto!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtConcepto.txt.Focus();
+                MessageBox.Show("Debes seleccionar un Tipo Pago!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                CbTipoDeuda.Focus();
+                return true;
+            }
+            
+            if (txtMonto.txt.Text == "")
+            {
+                MessageBox.Show("Debes llenar el campo Monto!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtMonto.txt.Focus();
                 return true;
             }
 
 
 
-
             return false;
         }
+
         #endregion
 
-       
+        
     }
 }
