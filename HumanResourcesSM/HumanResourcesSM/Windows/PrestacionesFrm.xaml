@@ -20,7 +20,6 @@
                        FontWeight="Bold"
                        FontSize="25"
                        Margin="20 30 0 15"/>
-            <!--<Separator VerticalAlignment="Bottom" Foreground="Black" />-->
         </Grid>
         <StackPanel Grid.Row="1"  Margin="50 10">
             <local:UserInputText x:Name="txtMontoPresupuesto" VerticalAlignment="Center" Placeholder="Monto Presupuesto" Margin="0 10" FontSize="15"/>

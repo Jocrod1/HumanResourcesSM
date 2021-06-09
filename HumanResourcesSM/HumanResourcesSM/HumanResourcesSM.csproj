@@ -162,6 +162,9 @@
     <Compile Include="Windows\PrestacionesDG.xaml.cs">
       <DependentUpon>PrestacionesDG.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\RespuestaPrestacionFrm.xaml.cs">
+      <DependentUpon>RespuestaPrestacionFrm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PrestacionesFrm.xaml.cs">
       <DependentUpon>PrestacionesFrm.xaml</DependentUpon>
     </Compile>
@@ -336,6 +339,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\PrestacionesDG.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\RespuestaPrestacionFrm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

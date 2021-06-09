@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:HumanResourcesSM.Windows"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800" Loaded="Window_Loaded"
       Title="DepartamentoDG" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -20,19 +21,34 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="Prestaciones" Foreground="White" FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" Margin="10 10" VerticalAlignment="Center"/>
+            <TextBlock Text="Prestaciones" Foreground="White" FontSize="25" FontWeight="Bold" 
+                       HorizontalAlignment="Center" Margin="10 10" VerticalAlignment="Center"/>
         </Grid>
         <Grid Grid.Row="1" Margin="30 10">
-            <StackPanel Orientation="Horizontal">
-                <RadioButton x:Name="RBSolicitudes" Checked="RBSolicitudes_Checked" FontSize="15" VerticalAlignment="Center" FontWeight="Bold" Padding="0">
-                    <TextBlock Text="Solicitudes" Margin="5 0" VerticalAlignment="Center" FontSize="15" FontWeight="Bold"/>
-                </RadioButton>
-                <RadioButton x:Name="RBOtorgados" Checked="RBOtorgados_Checked" FontSize="15" VerticalAlignment="Center" FontWeight="Bold" Padding="0">
-                    <TextBlock Text="Otorgados" Margin="5 0" VerticalAlignment="Center" FontSize="15" FontWeight="Bold"/>
-                </RadioButton>
-                <RadioButton x:Name="RBNoOtorgados" Checked="RBNoOtorgados_Checked" FontSize="15" VerticalAlignment="Center" FontWeight="Bold" Padding="0">
-                    <TextBlock Text="No Otorgados" Margin="5 0" VerticalAlignment="Center" FontSize="15" FontWeight="Bold"/>
-                </RadioButton>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <ComboBox Name="CbEmpleado" FontSize="15" SelectionChanged="CbDepartamento_SelectionChanged" Margin="0 0 10 0"
+                      materialDesign:HintAssist.Hint="Seleccion de Empleado"
+                      Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <RadioButton x:Name="RBSolicitudes" Grid.Row="0" Checked="RBSolicitudes_Checked" FontSize="14" VerticalAlignment="Center" FontWeight="Bold" Padding="0">
+                        <TextBlock Text="Solicitudes" Margin="5 2" VerticalAlignment="Center" FontSize="15" FontWeight="Bold"/>
+                    </RadioButton>
+                    <RadioButton x:Name="RBOtorgados" Grid.Row="1" Checked="RBOtorgados_Checked" FontSize="15" VerticalAlignment="Center" FontWeight="Bold" Padding="0">
+                        <TextBlock Text="Otorgados" Margin="5 2" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
+                    </RadioButton>
+                    <RadioButton x:Name="RBNoOtorgados" Grid.Row="2" Checked="RBNoOtorgados_Checked" FontSize="15" VerticalAlignment="Center" FontWeight="Bold" Padding="0">
+                        <TextBlock Text="No Otorgados" Margin="5 2" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
+                    </RadioButton>
+                </Grid>
             </StackPanel>
         </Grid>
         <DataGrid x:Name="dgOperaciones" 
@@ -85,21 +101,6 @@
                                         Margin="5 0"
                                         Padding="5">
                                     <Image Source="/HumanResourcesSM;component/Img/book.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                                </Button>
-                                <Button CommandParameter="{Binding idTipoTramite}"
-                                        Click="Button_Click_1"
-                                        Background="{x:Null}" BorderBrush="{x:Null}"
-                                        Margin="0 0 5 0"
-                                        Padding="5">
-                                    <Image Source="/HumanResourcesSM;component/Img/edit.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                                </Button>
-                                <Button x:Name="btnEliminar"
-                                        CommandParameter="{Binding idTipoTramite}" 
-                                        Click="btnEliminar_Click"
-                                        Background="{x:Null}" BorderBrush="{x:Null}"
-                                        Margin="5 0 0 0"
-                                        Padding="0">
-                                    <Image Source="/HumanResourcesSM;component/Img/delete.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                                 </Button>
                             </StackPanel>
                         </DataTemplate>

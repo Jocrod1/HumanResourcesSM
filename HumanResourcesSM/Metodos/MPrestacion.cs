@@ -86,7 +86,7 @@ namespace Metodos
             string queryList = @"
                 SELECT 
                     p.idPrestacion, 
-                    e.nombre, 
+                    CONCAT(e.nombre, ' ', e.apellido) AS nombreCompleto, 
                     p.montoPresupuesto, 
                     p.porcentajeOtorgado, 
                     p.montoOtorgado, 
@@ -95,7 +95,7 @@ namespace Metodos
                     p.estado
                 FROM [Presupuesto] p
                     INNER JOIN [Empleado] e ON p.idEmpleado = e.idEmpleado 
-                WHERE e.nombre = @nombre 
+                WHERE CONCAT(e.nombre, ' ', e.apellido) = @nombre 
                     AND p.estado = @estado
                 ORDER BY p.idPrestacion ASC;
             ";
@@ -119,7 +119,7 @@ namespace Metodos
                         porcentajeOtorgado = reader.GetDouble(3),
                         montoOtorgado = reader.GetDouble(4),
                         razon = reader.GetString(5),
-                        fechaSolicitud = reader.GetDateTime(6),
+                        fechaSolicitudString = reader.GetDateTime(6).ToString("dd/MM/yyyy"),
                         estado = reader.GetInt32(7)
                     });
                 }
@@ -130,5 +130,58 @@ namespace Metodos
             return ListaGenerica;
         }
 
+
+        public List<DPrestacion> Encontrar(string IdPrestacion)
+        {
+            List<DPrestacion> ListaGenerica = new List<DPrestacion>();
+
+            string queryList = @"
+                SELECT 
+                    p.idPrestacion, 
+                    CONCAT(e.nombre, ' ', e.apellido) AS nombreCompleto, 
+                    s.nombrePuesto, 
+                    p.fechaSolicitud,
+                    c.fechaContratacion,
+                    c.sueldo,
+                    p.montoPresupuesto,
+                    p.razon
+                FROM [Presupuesto] p
+                    INNER JOIN [Empleado] e ON p.idEmpleado = e.idEmpleado 
+                    INNER JOIN [Seleccion] s ON s.idEmpleado = e.idEmpleado
+                    INNER JOIN [Contrato] c ON c.idEmpleado = e.idEmpleado
+                WHERE p.idPrestacion = @idPrestacion;
+            ";
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryList, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idPrestacion", IdPrestacion);
+
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListaGenerica.Add(new DPrestacion
+                    {
+                        idPrestacion = reader.GetInt32(0),
+                        nombreEmpleado = reader.GetString(1),
+                        nombrePuesto = reader.GetString(2),
+                        fechaSolicitud = reader.GetDateTime(3),
+                        fechaSolicitudString = reader.GetDateTime(3).ToString("dd/MM/yyyy"),
+                        fechaContratacion = reader.GetDateTime(4),
+                        fechaContratacionString = reader.GetDateTime(4).ToString("dd/MM/yyyy"),
+                        sueldo = reader.GetDouble(5),
+                        montoPresupuesto = reader.GetDouble(6),
+                        razon = reader.GetString(7)
+                    });
+                }
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+        }
     }
 }

@@ -56,6 +56,27 @@ namespace Datos
             set { _FechaSolicitud = value; }
         }
 
+        private string _FechaSolicitudString;
+        public string fechaSolicitudString
+        {
+            get { return _FechaSolicitudString; }
+            set { _FechaSolicitudString = value; }
+        }
+
+        private DateTime _FechaContratacion;
+        public DateTime fechaContratacion
+        {
+            get { return _FechaContratacion; }
+            set { _FechaContratacion = value; }
+        }
+
+        private string _FechaContratacionString;
+        public string fechaContratacionString
+        {
+            get { return _FechaContratacionString; }
+            set { _FechaContratacionString = value; }
+        }
+
         private int _Estado;
         public int estado
         {
@@ -68,6 +89,20 @@ namespace Datos
         {
             get { return _NombreEmpleado; }
             set { _NombreEmpleado = value; }
+        }
+
+        private string _NombrePuesto;
+        public string nombrePuesto
+        {
+            get { return _NombrePuesto; }
+            set { _NombrePuesto = value; }
+        }
+
+        private double _Sueldo;
+        public double sueldo
+        {
+            get { return _Sueldo; }
+            set { _Sueldo = value; }
         }
 
         public DPrestacion()

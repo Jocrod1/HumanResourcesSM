@@ -18,9 +18,7 @@ using Metodos;
 
 namespace HumanResourcesSM.Windows
 {
-    /// <summary>
-    /// Interaction logic for DepartamentoDG.xaml
-    /// </summary>
+
     public partial class PrestacionesDG : Page
     {
         MTipoTramite Metodos = new MTipoTramite();
