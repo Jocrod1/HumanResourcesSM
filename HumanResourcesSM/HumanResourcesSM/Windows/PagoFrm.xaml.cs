@@ -130,21 +130,18 @@ namespace HumanResourcesSM.Windows
                         1);
 
             List<DDetallePago> detallepagos = new List<DDetallePago>();
-            detallepagos.Add(
-                new DDetallePago(0, 0, 0, "Sueldo", Sueldo)
-            );
+
             foreach (var item in modelo)
             {
-                if (!item.Enabled)
-                    continue;
 
-                double multiplier = item.deuda.tipoDeuda == 0 ? 1 : -1;
 
                 detallepagos.Add(
                     new DDetallePago(0, 0,
-                                     item.deuda.idDeuda,
-                                     item.deuda.concepto,
-                                     item.Pagando * multiplier)
+                                     item.Concepto,
+                                     item.CantidadString,
+                                     item.SalarioString,
+                                     item.AsignacionesString,
+                                     item.DeduccionesString)
                 );
             }
             
@@ -225,6 +222,8 @@ namespace HumanResourcesSM.Windows
 
         double Sueldo = 0, Bonificaciones = 0, Deducciones = 0, Total = 0;
 
+        double TotalAsignaciones = 0, TotalDeducciones = 0;
+
         void RefreshMoney()
         {
             if (EmpleadoSeleccionado == null)
@@ -233,16 +232,17 @@ namespace HumanResourcesSM.Windows
             modelo.Clear();
 
 
-            Sueldo = Bonificaciones = Deducciones = Total = 0;
+            Sueldo = Bonificaciones = Deducciones = Total = TotalAsignaciones = TotalDeducciones = 0;
 
-            Sueldo = EmpleadoSeleccionado.sueldo * HorasTrabajadas;
+
+            double SueldoBase = EmpleadoSeleccionado.sueldo * HorasTrabajadas;
 
             modelo.Add(new ModeloDetallePago()
             {
-                Concepto = "Salario por horas trabajadas",
+                Concepto = "Sueldo por horas trabajadas",
                 Cantidad = HorasTrabajadas,
                 Salario = EmpleadoSeleccionado.sueldo,
-                Asignaciones = Sueldo,
+                Asignaciones = SueldoBase,
                 Deducciones = 0,
             });
 
@@ -252,14 +252,19 @@ namespace HumanResourcesSM.Windows
 
             double PagoHxtra = SueldoExtra * HorasExtras;
 
-            modelo.Add(new ModeloDetallePago()
+            if (HorasExtras > 0)
             {
-                Concepto = "Pago por Horas Extras",
-                Cantidad = HorasExtras,
-                Salario = SueldoExtra,
-                Asignaciones = PagoHxtra,
-                Deducciones = 0,
-            });
+                modelo.Add(new ModeloDetallePago()
+                {
+                    Concepto = "Pago por Horas Extras",
+                    Cantidad = HorasExtras,
+                    Salario = SueldoExtra,
+                    Asignaciones = PagoHxtra,
+                    Deducciones = 0,
+                });
+            }
+
+            Sueldo = SueldoBase + PagoHxtra;
 
             foreach (var item in Deudas)
             {
@@ -320,17 +325,6 @@ namespace HumanResourcesSM.Windows
 
             foreach (var item in modelo)
             {
-                //if (!item.Enabled)
-                //    continue;
-
-                //if(item.deuda.tipoDeuda == 0)
-                //{
-                //    
-                //}
-                //else
-                //{
-                //   
-                //}
                 Bonificaciones += item.Asignaciones;
                 Deducciones += item.Deducciones;
             }
@@ -339,7 +333,7 @@ namespace HumanResourcesSM.Windows
 
             Total = Sueldo + Bonificaciones - Deducciones;
 
-            //txtMontoSueldo.Text = Sueldo.ToString("0.00") + " €";
+            txtTotalSueldo.Text = Sueldo.ToString("0.00") + " €";
             txtMontoBonificaciones.Text = Asignaciones.ToString("0.00") + " €";
             txtMontoDeducciones.Text = "-" + Deducciones.ToString("0.00") + " €";
             txtMontoTotal.Text = Total.ToString("0.00") + " €";
@@ -361,14 +355,14 @@ namespace HumanResourcesSM.Windows
             {
 
             }
-            public ModeloDetallePago(DDeuda deuda, double pagando, bool enabled)
+            public ModeloDetallePago(string concepto, double cantidad, double salario, double asignaciones, double deducciones)
             {
-                this.deuda = deuda;
-                Pagando = pagando;
-                Enabled = enabled;
+                this.Concepto = concepto;
+                this.Cantidad = cantidad;
+                this.Salario = salario;
+                this.Asignaciones = asignaciones;
+                this.Deducciones = deducciones;
             }
-
-            public DDeuda deuda { get; set; }
             public string Concepto { get; set; }
             public double Cantidad { get; set; }
             public double  Salario { get; set; }
@@ -434,8 +428,6 @@ namespace HumanResourcesSM.Windows
                     }
                 }
             }
-            public double Pagando { get; set; }
-            public bool Enabled { get; set; }
         }
         
     }

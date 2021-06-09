@@ -88,9 +88,9 @@ namespace HumanResourcesSM.Windows
                                Monto,
                                Concepto,
                                TipoDeuda,
-                               1,
                                Repetitivo,
-                               TipoPago);
+                               TipoPago,
+                               1);
         }
 
         void Create()
