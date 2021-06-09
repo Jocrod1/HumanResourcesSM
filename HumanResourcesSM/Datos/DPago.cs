@@ -92,6 +92,27 @@ namespace Datos
             set { _Nombre = value; }
         }
 
+        private double _TotalAsignacion;
+        public double totalAsignacion
+        {
+            get { return _TotalAsignacion; }
+            set { _TotalAsignacion = value; }
+        }
+
+        private double _TotalDeduccion;
+        public double totalDeduccion
+        {
+            get { return _TotalDeduccion; }
+            set { _TotalDeduccion = value; }
+        }
+
+        private double _TotalSalario;
+        public double totalSalario
+        {
+            get { return _TotalSalario; }
+            set { _TotalSalario = value; }
+        }
+
         private int _Estado;
         public int estado
         {
@@ -104,7 +125,7 @@ namespace Datos
 
         }
 
-        public DPago(int IdPago, int IdEmpleado, DateTime FechaPago, string Banco, string NumeroReferencia, int CantidadHoras, DateTime PeriodoInicio, DateTime PeriodoFinal, double MontoTotal, int Estado)
+        public DPago(int IdPago, int IdEmpleado, DateTime FechaPago, string Banco, string NumeroReferencia, int CantidadHoras, DateTime PeriodoInicio, DateTime PeriodoFinal, double MontoTotal, double TotalAsignacion, double TotalDeduccion, double TotalSalario, int Estado)
         {
             this.idPago = IdPago;
             this.idEmpleado = IdEmpleado;
@@ -115,6 +136,9 @@ namespace Datos
             this.periodoInicio = PeriodoInicio;
             this.periodoFinal = PeriodoFinal;
             this.montoTotal = MontoTotal;
+            this.totalAsignacion = TotalAsignacion;
+            this.totalDeduccion = TotalDeduccion;
+            this.totalSalario = TotalSalario;
             this.estado = Estado;
         }
     }

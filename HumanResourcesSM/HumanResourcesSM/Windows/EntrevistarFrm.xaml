@@ -17,7 +17,12 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <Border BorderThickness="0 0 0 1" BorderBrush="Black">
-                <TextBlock Text="Entrevistar Empleado" FontWeight="Bold" FontSize="23" HorizontalAlignment="Center" Margin="0 10"/>
+                <Grid>
+                    <TextBlock Text="Entrevistar Empleado" FontWeight="Bold" FontSize="23" HorizontalAlignment="Center" Margin="0 10"/>
+                    <Button x:Name="BtnReturn" Content="Regresar Listado" Click="BtnReturn_Click" Background="{x:Null}" 
+                            FontWeight="Bold" Foreground="#2A347B" BorderBrush="#2A347B" Width="150" Margin="10"
+                            HorizontalAlignment="Right"/>
+                </Grid>
             </Border>
             <StackPanel Grid.Row="1" Margin="10 10">
                 <StackPanel Orientation="Horizontal">

@@ -203,11 +203,6 @@ namespace Metodos
         ";
 
 
-        private string queryListEmployeeActive = @"
-            SELECT * FROM [Empleado] 
-            WHERE status = 1 and idEmpleado <> 1
-        ";
-
         //mostrar seleccion
         private string queryListSelection = @"
             SELECT TOP 1 * FROM [Seleccion] 
@@ -274,6 +269,7 @@ namespace Metodos
 				INNER JOIN [Empleado] e ON e.idEmpleado=s.idEmpleado
                 INNER JOIN [Usuario] u ON u.idUsuario=s.idSeleccionador
 			WHERE u.idUsuario = @idUsuario and s.fechaAplicacion >= @fechaInicio and s.fechaAplicacion <= @fechaFinal";
+
         #endregion
 
 
@@ -603,15 +599,21 @@ namespace Metodos
         }
 
 
-        public List<DEmpleado> EmpleadoEntrevista()
+        public List<DEmpleado> EmpleadoEntrevista(int IdEmpleado)
         {
             List<DEmpleado> ListaGenerica = new List<DEmpleado>();
+
+            string queryListEmployeeActive = @"
+                SELECT * FROM [Empleado] 
+                WHERE status = 1 AND idEmpleado <> 1 AND idEmpleado = @idEmpleado
+            ";
 
             try
             {
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryListEmployeeActive, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 while (reader.Read())
@@ -992,5 +994,52 @@ namespace Metodos
 
             return ListaGenerica;
         }
+
+
+
+        public List<DEmpleado> ListadoEmpleadoContrato(string Nombre)
+        {
+            List<DEmpleado> ListaGenerica = new List<DEmpleado>();
+
+            string queryListEmployeeContract = @"
+                SELECT 
+				    e.idEmpleado,
+				    e.cedula,
+				    e.nombre + ' ' + e.apellido,
+				    s.fechaRevision,
+				    s.nombrePuesto
+			    FROM [Empleado] e
+				    INNER JOIN [Seleccion] s ON s.idEmpleado = e.idEmpleado
+                WHERE e.status = 1 AND e.status = 4 AND e.idEmpleado <> 1 AND CONCAT(e.nombre, ' ', e.apellido) LIKE @nombre + '%'
+            ";
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryListEmployeeContract, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@nombre", Nombre);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListaGenerica.Add(new DEmpleado
+                    {
+                        idEmpleado = reader.GetInt32(0),
+                        cedula = reader.GetString(1),
+                        nombre = reader.GetString(2),
+                        fechaRevisionString = reader.GetDateTime(3).ToString("dd-MM-yyyy"),
+                        nombrePuesto = reader.GetString(4)
+                       
+                    });
+                }
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+        }
+
+
     }
 }

@@ -19,15 +19,13 @@ using Metodos;
 
 namespace HumanResourcesSM.Windows
 {
-    /// <summary>
-    /// Interaction logic for SeleccionFrm.xaml
-    /// </summary>
+
     public partial class EvaluacionFrm : Window
     {
         void init()
         {
             InitializeComponent();
-            txtValorEvaluado.txt.KeyDown += new KeyEventHandler(Validaciones.TextBoxValidatePrices);
+            txtValorEvaluado.KeyDown += new KeyEventHandler(Validaciones.TextBoxValidatePrices);
         }
         public EvaluacionFrm()
         {
@@ -91,8 +89,9 @@ namespace HumanResourcesSM.Windows
             }
 
             int idMeta = Meta.idMeta;
-            float ValorEvaluado = float.Parse(txtValorEvaluado.txt.Text);
-            string observaciones = txtobservacion.txt.Text;
+            int ValorEvaluado = int.Parse(txtValorEvaluado.Text);
+            string observaciones = txtobservacion.Text;
+            string recomendaciones = txtRecomendacion.Text;
 
 
             UForm = new DEvaluacion(0,
@@ -101,7 +100,8 @@ namespace HumanResourcesSM.Windows
                                     ValorEvaluado,
                                     observaciones,
                                     1,
-                                    DateTime.Now);
+                                    DateTime.Now,
+                                    recomendaciones);
         }
 
         void Create()
@@ -122,6 +122,7 @@ namespace HumanResourcesSM.Windows
                 this.Close();
             }
         }
+
         void Update()
         {
             fillData();
@@ -161,9 +162,10 @@ namespace HumanResourcesSM.Windows
                     Meta = new MMeta().EncontrarByEmpleado(Data.idMeta)[0];
                 }
                 SeleccionarMeta(Meta, MType == MetaType.Empleado);
-                BtnSeleccionarMeta.Visibility = Visibility.Collapsed;
-                txtValorEvaluado.SetText(Data.valorEvaluado.ToString());
-                txtobservacion.SetText(Data.observacion.ToString());
+                //BtnSeleccionarMeta.Visibility = Visibility.Collapsed;
+
+                txtValorEvaluado.Text = Data.valorEvaluado.ToString();
+                txtobservacion.Text = Data.observacion.ToString();
             }
         }
 
@@ -202,6 +204,8 @@ namespace HumanResourcesSM.Windows
                 txtDepartamento.Text = "Departamento: " + meta.departamento;
             }
 
+            textDescriptivo.Visibility = Visibility.Collapsed;
+
             txtValorMeta.Text = "Valor Meta: " + meta.valorMeta;
             txtTipoMetrica.Text = "Métricas: " + meta.nombreMetrica;
 
@@ -216,10 +220,10 @@ namespace HumanResourcesSM.Windows
                 BtnSeleccionarMeta.Focus();
                 return true;
             }
-            if (txtValorEvaluado.txt.Text == "")
+            if (txtValorEvaluado.Text == "")
             {
                 MessageBox.Show("Debes llenar el campo Valor Evaluado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtValorEvaluado.txt.Focus();
+                txtValorEvaluado.Focus();
                 return true;
             }
 

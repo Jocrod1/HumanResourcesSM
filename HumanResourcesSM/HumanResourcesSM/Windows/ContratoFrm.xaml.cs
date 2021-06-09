@@ -28,7 +28,7 @@ namespace HumanResourcesSM.Windows
         {
             InitializeComponent();
 
-            txtSueldo.txt.KeyDown += new KeyEventHandler(Validaciones.TextBoxValidatePrices);
+            txtSueldo.KeyDown += new KeyEventHandler(Validaciones.TextBoxValidatePrices);
             txtHorasSemanales.KeyDown += new KeyEventHandler(Validaciones.TextBox_KeyDown);
 
             Empleado = empleado;
@@ -71,7 +71,7 @@ namespace HumanResourcesSM.Windows
         {
             InitializeComponent();
 
-            txtSueldo.txt.KeyDown += new KeyEventHandler(Validaciones.TextBoxValidatePrices);
+            txtSueldo.KeyDown += new KeyEventHandler(Validaciones.TextBoxValidatePrices);
             txtHorasSemanales.KeyDown += new KeyEventHandler(Validaciones.TextBox_KeyDown);
 
             Type = TypeForm.Update;
@@ -222,7 +222,7 @@ namespace HumanResourcesSM.Windows
                 return;
             }
 
-            double Sueldo = double.Parse(txtSueldo.txt.Text);
+            double Sueldo = double.Parse(txtSueldo.Text);
             int HorasSemanales = int.Parse(txtHorasSemanales.txt.Text);
 
 
@@ -281,7 +281,7 @@ namespace HumanResourcesSM.Windows
         {
             if(Data != null)
             {
-                txtSueldo.SetText(Data.sueldo.ToString());
+                txtSueldo.Text = Data.sueldo.ToString();
                 txtHorasSemanales.SetText(Data.horasSemanales.ToString());
             }
         }
@@ -290,10 +290,10 @@ namespace HumanResourcesSM.Windows
         #region Validation
         bool Validate()
         {
-            if (txtSueldo.txt.Text == "")
+            if (txtSueldo.Text == "")
             {
                 MessageBox.Show("Debes llenar el Campo Sueldo!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtSueldo.txt.Focus();
+                txtSueldo.Focus();
                 return true;
             }
             if (txtHorasSemanales.txt.Text == "")
@@ -302,12 +302,6 @@ namespace HumanResourcesSM.Windows
                 txtHorasSemanales.txt.Focus();
                 return true;
             }
-            //if (CbFechaCulminacion.SelectedDate == null)
-            //{
-            //    MessageBox.Show("Debes Seleccionar una Fecha de Culminación de Contrato!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-            //    CbFechaCulminacion.Focus();
-            //    return true;
-            //}
 
             return false;
         }

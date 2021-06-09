@@ -4,8 +4,10 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:HumanResourcesSM.Windows"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
-      Height="550" Width="650"
+      WindowStartupLocation="CenterScreen" ResizeMode="NoResize" 
+      Height="685" Width="500"
       Loaded="Window_Loaded"
       Title="SeleccionFrm">
 
@@ -17,50 +19,69 @@
         </Grid.RowDefinitions>
         <Grid Name="BgTitulo" Grid.Row="0" Background="#248232">
             <TextBlock Name="txtTitulo"
-                       Text="Insertar" 
+                       Text="Insertar Evaluación" 
                        Foreground="White"
                        HorizontalAlignment="Left"
                        FontWeight="Bold"
                        FontSize="25"
                        Margin="20 30 0 15"/>
-            <!--<Separator VerticalAlignment="Bottom" Foreground="Black" />-->
         </Grid>
         <ScrollViewer VerticalScrollBarVisibility="Visible" CanContentScroll="False" Grid.Row="1">
-            <StackPanel Margin="100 10" VerticalAlignment="Center">
-                <StackPanel>
-                    <TextBlock Text="Meta Establecida" FontSize="17" FontWeight="Bold"/>
-                    <Border BorderBrush="Gray" BorderThickness=".5" x:Name="BordMeta" Visibility="Collapsed">
-                        <StackPanel>
-                            <Grid Margin="50 10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Orientation="Horizontal">
-                                    <RadioButton x:Name="RBEmpleado" FontSize="15" VerticalAlignment="Center" FontWeight="Bold" Padding="0" Focusable="False" IsHitTestVisible="False"/>
-                                    <TextBlock Text="Empleado" Margin="5 0" VerticalAlignment="Center" FontSize="15" FontWeight="Bold"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Grid.Column="1">
-                                    <RadioButton x:Name="RBDepartamento" FontSize="15" VerticalAlignment="Center" FontWeight="Bold" Padding="0" Focusable="False" IsHitTestVisible="False"/>
-                                    <TextBlock Text="Departamento" Margin="5 0" VerticalAlignment="Center" FontSize="15" FontWeight="Bold"/>
-                                </StackPanel>
-                            </Grid>
-                            <TextBlock x:Name="txtEmpleado" Text="Empleado: " FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" Margin="0 3"/>
-                            <TextBlock x:Name="txtDepartamento" Text="Departamento: " FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" Margin="0 3"/>
-                            <TextBlock x:Name="txtValorMeta" Text="Valor Meta: " FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" Margin="0 3"/>
-                        </StackPanel>
-                    </Border>
-                    <Button x:Name="BtnSeleccionarMeta" Content="Seleccionar Meta" 
-                            Click="BtnSeleccionarMeta_Click"
-                            HorizontalAlignment="Left" Background="{x:Null}" FontWeight="Bold" 
+            <StackPanel Margin="22 20 5 10">
+                <StackPanel Height="185">
+                    <Grid Height="185" VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Meta Establecida" VerticalAlignment="Center" 
+                                   Grid.Row="0" FontSize="17" FontWeight="Bold" HorizontalAlignment="Center"/>
+
+                        <TextBlock Text="Debe Seleccionar Meta para Mostrar Detalles" VerticalAlignment="Center" TextWrapping="Wrap"
+                                   Grid.Row="1" FontSize="15" FontWeight="Light" HorizontalAlignment="Center" Name="textDescriptivo"
+                                   Visibility="Visible" Width="200" TextAlignment="Center" FontStyle="Italic"/>
+                        
+                        <Border BorderBrush="Gray" Grid.Row="1"  BorderThickness=".5" x:Name="BordMeta" Visibility="Collapsed">
+                            <StackPanel>
+                                <Grid Margin="50 10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <RadioButton x:Name="RBEmpleado" FontSize="15" VerticalAlignment="Center" FontWeight="Bold" Padding="0" Focusable="False" IsHitTestVisible="False"/>
+                                        <TextBlock Text="Empleado" Margin="5 0" VerticalAlignment="Center" FontSize="15" FontWeight="Bold"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center">
+                                        <RadioButton x:Name="RBDepartamento" FontSize="15" VerticalAlignment="Center" FontWeight="Bold" Padding="0" Focusable="False" IsHitTestVisible="False"/>
+                                        <TextBlock Text="Departamento" Margin="5 0" VerticalAlignment="Center" FontSize="15" FontWeight="Bold"/>
+                                    </StackPanel>
+                                </Grid>
+                                <TextBlock x:Name="txtEmpleado" Text="Empleado: " FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" Margin="0 3"/>
+                                <TextBlock x:Name="txtDepartamento" Text="Departamento: " FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" Margin="0 3"/>
+                                <TextBlock x:Name="txtValorMeta" Text="Valor Meta: " FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" Margin="0 3"/>
+                            </StackPanel>
+                        </Border>
+                        <Button x:Name="BtnSeleccionarMeta" Content="Seleccionar Meta" 
+                            Click="BtnSeleccionarMeta_Click" Grid.Row="2" VerticalAlignment="Center"
+                            HorizontalAlignment="Center" Background="{x:Null}" FontWeight="Bold" 
                             Foreground="#2A347B" BorderBrush="#2A347B" 
                             Margin="5 5"/>
+                    </Grid>
                 </StackPanel>
                 <StackPanel Margin="0 10">
-                    <local:UserInputText FontSize="15" x:Name="txtValorEvaluado" Placeholder="Valor Evaluado" />
+                    <TextBox FontSize="15" x:Name="txtValorEvaluado" materialDesign:HintAssist.Hint="Valor de la Evaluación"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
                     <TextBlock x:Name="txtTipoMetrica" Text="Métrica: Ventas" FontWeight="Bold" FontSize="14" Visibility="Collapsed"/>
                 </StackPanel>
-                <local:UserInputText FontSize="15" x:Name="txtobservacion" Placeholder="Observaciones" Margin="0 10" Height="100"/>
+                <TextBox FontSize="15" x:Name="txtobservacion" Margin="0 10" Height="100"
+                        materialDesign:HintAssist.Hint="Observación de la Evaluación (Opcional)"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+                <TextBox FontSize="15" x:Name="txtRecomendacion" Margin="0 0 0 10" Height="100"
+                        materialDesign:HintAssist.Hint="Recomendación de la Evaluación (Opcional)"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
             </StackPanel>
         </ScrollViewer>
         <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Content="Agregar" Margin="0 10" Click="Button_Click" HorizontalAlignment="Center"/>

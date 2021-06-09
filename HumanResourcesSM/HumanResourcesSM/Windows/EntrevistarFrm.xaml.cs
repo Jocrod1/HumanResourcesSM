@@ -20,14 +20,18 @@ using System.Text.RegularExpressions;
 
 namespace HumanResourcesSM.Windows
 {
-    /// <summary>
-    /// Interaction logic for SeleccionarMenu.xaml
-    /// </summary>
     public partial class EntrevistarFrm : Page
     {
-        public EntrevistarFrm()
+        DEmpleado Empleado = new DEmpleado();
+
+        GestionMenu Parent = new GestionMenu();
+
+        public EntrevistarFrm(DEmpleado empleado, GestionMenu parent)
         {
             InitializeComponent();
+
+            Empleado = empleado;
+            Parent = parent;
         }
 
         DEmpleado EmpleadoEntrevistado;
@@ -42,19 +46,7 @@ namespace HumanResourcesSM.Windows
         {
             MSeleccion SelMetodo = new MSeleccion();
 
-            var resp = SelMetodo.EmpleadoEntrevista();
-            
-            if(resp.Count < 1)
-            {
-                NotAvailablePanel.Visibility = Visibility.Visible;
-                return;
-            }
-            else
-            {
-                NotAvailablePanel.Visibility = Visibility.Collapsed;
-            }
 
-            var Empleado = resp[0];
 
             var Resp2 = SelMetodo.EncontrarSeleccion(Empleado.idEmpleado);
 
@@ -441,21 +433,34 @@ namespace HumanResourcesSM.Windows
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult Resp = MessageBox.Show("¿Está Seguro que Desea No Contratar al Seleccionado?", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Information);
+            if (Resp == MessageBoxResult.No)
+                return;
+
             ContratoFrm frm = new ContratoFrm(EmpleadoEntrevistado, EmpleadoSelEntrevistado, false);
             bool resp = frm.ShowDialog() ?? false;
 
             if (resp)
-                FetchEmpleado();
-            
+                Parent.RegresarDetalleSeleccionado();
+
         }
 
         private void BtnAccept_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult Resp = MessageBox.Show("¿Está Seguro que Desea Contratar al Seleccionado?", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Information);
+            if (Resp == MessageBoxResult.No)
+                return;
+
             ContratoFrm frm = new ContratoFrm(EmpleadoEntrevistado, EmpleadoSelEntrevistado);
             bool resp = frm.ShowDialog() ?? false;
 
             if (resp)
-                FetchEmpleado();
+                Parent.RegresarDetalleSeleccionado();
+        }
+
+        private void BtnReturn_Click(object sender, RoutedEventArgs e)
+        {
+            Parent.RegresarDetalleSeleccionado();
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)

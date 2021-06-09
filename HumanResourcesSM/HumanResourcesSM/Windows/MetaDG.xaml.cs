@@ -18,9 +18,7 @@ using Metodos;
 
 namespace HumanResourcesSM.Windows
 {
-    /// <summary>
-    /// Interaction logic for DepartamentoDG.xaml
-    /// </summary>
+
     public partial class MetaDG : Page
     {
         MMeta Metodos = new MMeta();

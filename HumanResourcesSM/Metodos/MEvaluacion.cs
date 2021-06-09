@@ -19,14 +19,16 @@ namespace Metodos
                 valorEvaluado,
                 observacion,
                 status,
-                fechaEvaluacion
+                fechaEvaluacion,
+                recomendacion
             ) VALUES (
                 @idUsuario,
                 @idMeta,
                 @valorEvaluado,
                 @observacion,
                 @status,
-                @fechaEvaluacion
+                @fechaEvaluacion,
+                @recomendacion
             );
 	    ";
 
@@ -41,7 +43,8 @@ namespace Metodos
             UPDATE [Evaluacion] SET
                 idMeta = @idMeta,
                 valorEvaluado = @valorEvaluado,
-                observacion = @observacion
+                observacion = @observacion,
+                recomendacion = @recomendacion
             WHERE idEvaluacion = @idEvaluacion;
 	    ";
 
@@ -59,9 +62,10 @@ namespace Metodos
                 ev.idMeta, 
                 e.cedula, 
                 ev.valorEvaluado, 
-                ev.observacion, 
+                ev.observacion,
+                ev.recomendacion,
                 ev.fechaEvaluacion, 
-                ev.status 
+                ev.status
             FROM [Evaluacion] ev 
                 INNER JOIN [Empleado] e ON ev.idUsuario = e.idEmpleado 
             WHERE e.cedula LIKE @cedula + '%'
@@ -116,7 +120,8 @@ namespace Metodos
 				m.valorMeta,
 				ev.valorEvaluado,
 				((ev.valorEvaluado/m.valorMeta)*100) as Rendimiento,
-				ev.observacion
+				ev.observacion,
+                ev.recomendacion
             FROM [Evaluacion] ev
 				INNER JOIN [Meta] m on m.idMeta = ev.idMeta
 				INNER JOIN [Empleado] e ON e.idEmpleado = m.idEmpleado
@@ -132,7 +137,8 @@ namespace Metodos
 				m.valorMeta,
 				ev.valorEvaluado,
 				((ev.valorEvaluado/m.valorMeta)*100) as Rendimiento,
-				ev.observacion
+				ev.observacion,
+                ev.recomendacion
             FROM [Evaluacion] ev
 				INNER JOIN [Meta] m on m.idMeta = ev.idMeta
 				INNER JOIN [Departamento] d ON d.idDepartamento=m.idDepartamento
@@ -153,6 +159,7 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@observacion", Evaluacion.observacion);
                 comm.Parameters.AddWithValue("@status", Evaluacion.status);
                 comm.Parameters.AddWithValue("@fechaEvaluacion", Evaluacion.fechaEvaluacion);
+                comm.Parameters.AddWithValue("@recomendacion", Evaluacion.recomendacion);
 
                 string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingreso el Registro de la evaluacion del empleado";
 
@@ -189,6 +196,7 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@valorEvaluado", Evaluacion.valorEvaluado);
                 comm.Parameters.AddWithValue("@observacion", Evaluacion.observacion);
                 comm.Parameters.AddWithValue("@idEvaluacion", Evaluacion.idEvaluacion);
+                comm.Parameters.AddWithValue("@recomendacion", Evaluacion.recomendacion);
 
                 return comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el Registro de la evaluacion del empleado";
             }
@@ -238,8 +246,9 @@ namespace Metodos
                         cedula = reader.GetString(2),
                         valorEvaluado = reader.GetDouble(3),
                         observacion = reader.GetString(4),
-                        fechaEvaluacion = reader.GetDateTime(5),
-                        status = reader.GetInt32(6)
+                        recomendacion = reader.GetString(5),
+                        fechaEvaluacion = reader.GetDateTime(6),
+                        status = reader.GetInt32(7)
                     });
                 }
                 
@@ -273,7 +282,8 @@ namespace Metodos
                         valorEvaluado = reader.GetDouble(3),
                         observacion = reader.GetString(4),
                         status = reader.GetInt32(5),
-                        fechaEvaluacion = reader.GetDateTime(6)
+                        fechaEvaluacion = reader.GetDateTime(6),
+                        recomendacion = reader.GetString(7)
                     });
                 }
 
@@ -359,7 +369,7 @@ namespace Metodos
                         idMeta = reader.GetInt32(1),
                         nombreMetrica = reader.GetString(2),
                         valorMeta = reader.GetDouble(3),
-                        valorEvaluado = reader.GetDouble(4),
+                        valorEvaluado = reader.GetInt32(4),
                         empleado = reader.GetString(5),
                         departamento = reader.GetString(6)
                     });
@@ -417,7 +427,8 @@ namespace Metodos
                         rendimiento = rend,
                         rendimientoAcumulado = RendAc,
                         periodoString = FechaInicio.ToShortDateString() + " - " + FechaFinal.ToShortDateString(),
-                        observacion = reader.GetString(8)
+                        observacion = reader.GetString(8),
+                        recomendacion = reader.GetString(9)
                     });
                     ListaGenerica.Reverse();
 
@@ -475,7 +486,8 @@ namespace Metodos
                         rendimiento = rend,
                         rendimientoAcumulado = RendAc,
                         periodoString = FechaInicio.ToShortDateString() + " - " + FechaFinal.ToShortDateString(),
-                        observacion = reader.GetString(7)
+                        observacion = reader.GetString(7),
+                        recomendacion = reader.GetString(8)
                     });
                 }
                 ListaGenerica.Reverse();

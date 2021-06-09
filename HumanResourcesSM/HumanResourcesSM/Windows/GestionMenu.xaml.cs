@@ -60,7 +60,7 @@ namespace HumanResourcesSM.Windows
                     ContentFrame.Content = frm1;
                     break;
                 case 2:
-                    EntrevistarFrm frm2 = new EntrevistarFrm();
+                    ContratoDG frm2 = new ContratoDG(this);
                     ContentFrame.Content = frm2;
                     break;
                 case 3:
@@ -94,6 +94,19 @@ namespace HumanResourcesSM.Windows
                 GridContratacion.Visibility = Visibility.Collapsed;
             }
 
+        }
+
+
+        public void MostrarDetalleSeleccionado(DEmpleado Empleado)
+        {
+            EntrevistarFrm frm = new EntrevistarFrm(Empleado, this);
+            ContentFrame.Content = frm;
+        }
+
+        public void RegresarDetalleSeleccionado()
+        {
+            ContratoDG frm = new ContratoDG(this);
+            ContentFrame.Content = frm;
         }
     }
 }

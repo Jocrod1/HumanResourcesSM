@@ -17,9 +17,7 @@ using Metodos;
 
 namespace HumanResourcesSM.Windows
 {
-    /// <summary>
-    /// Interaction logic for CambiarContraseña.xaml
-    /// </summary>
+
     public partial class CambiarContraseña : Window
     {
         PreguntasSeguridad ParentForm;
@@ -94,43 +92,6 @@ namespace HumanResourcesSM.Windows
             }
 
             this.Hide();
-        }
-
-        private void txtBuscar_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (txtContraseña.Password == "")
-            {
-                txtBucarPlaceH.Text = "";
-            }
-
-        }
-
-        private void txtBuscar_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (txtContraseña.Password == "")
-            {
-                txtBucarPlaceH.Text = "Introducir Contraseña";
-            }
-
-        }
-
-
-        private void txtBuscar2_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (txtConfirmar.Password == "")
-            {
-                txtBucarPlaceH2.Text = "";
-            }
-
-        }
-
-        private void txtBuscar2_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (txtContraseña.Password == "")
-            {
-                txtBucarPlaceH2.Text = "Introducir Contraseña";
-            }
-
         }
     }
 }

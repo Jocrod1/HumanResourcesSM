@@ -13,10 +13,12 @@ namespace Metodos
         #region QUERIES
         private string queryInsert = @"
             INSERT INTO [Departamento] (
+                codigo,
                 nombre,
                 descripcion,
                 estado
             ) VALUES (
+                @codigo,
                 @nombre,
                 @descripcion,
                 1
@@ -25,6 +27,7 @@ namespace Metodos
 
         private string queryUpdate = @"
             UPDATE [Departamento] SET
+                codigo = @codigo,
                 nombre = @nombre,
                 descripcion = @descripcion
             WHERE idDepartamento = @idDepartamento;
@@ -55,6 +58,7 @@ namespace Metodos
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryInsert, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@codigo", Departamento.codigo);
                 comm.Parameters.AddWithValue("@nombre", Departamento.nombre);
                 comm.Parameters.AddWithValue("@descripcion", Departamento.descripcion);
 
@@ -72,6 +76,7 @@ namespace Metodos
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryUpdate, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@codigo", Departamento.codigo);
                 comm.Parameters.AddWithValue("@nombre", Departamento.nombre);
                 comm.Parameters.AddWithValue("@descripcion", Departamento.descripcion);
                 comm.Parameters.AddWithValue("@idDepartamento", Departamento.idDepartamento);
@@ -116,8 +121,9 @@ namespace Metodos
                     ListaGenerica.Add(new DDepartamento
                     {
                         idDepartamento = reader.GetInt32(0),
-                        nombre = reader.GetString(1),
-                        descripcion = reader.GetString(2)
+                        codigo = reader.GetString(1),
+                        nombre = reader.GetString(2),
+                        descripcion = reader.GetString(3)
                     });
                 }
             }
@@ -145,8 +151,9 @@ namespace Metodos
                     ListaGenerica.Add(new DDepartamento
                     {
                         idDepartamento = reader.GetInt32(0),
-                        nombre = reader.GetString(1),
-                        descripcion = reader.GetString(2)
+                        codigo = reader.GetString(1),
+                        nombre = reader.GetString(2),
+                        descripcion = reader.GetString(3)
                     });
                 }
             }

@@ -112,6 +112,14 @@ namespace Datos
             set { _StatusString = value; }
         }
 
+
+        private string _FechaRevisionString;
+        public string fechaRevisionString
+        {
+            get { return _FechaRevisionString; }
+            set { _FechaRevisionString = value; }
+        }
+
         public string StatusString
         {
             get

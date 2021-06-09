@@ -639,6 +639,40 @@ namespace Metodos
         }
 
 
+        public List<DUsuario> ListadoUsuarioEntrevistador()
+        {
+            List<DUsuario> ListaGenerica = new List<DUsuario>();
 
+            string queryListUserInterview = @"
+                SELECT 
+                    *
+			    FROM [Usuario]
+                WHERE estado = 1 AND entrevistando = 1
+            ";
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryListUserInterview, Conexion.ConexionSql);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListaGenerica.Add(new DUsuario
+                    {
+                        idUsuario = reader.GetInt32(0),
+                        idRol = reader.GetInt32(1),
+                        usuario = reader.GetString(2),
+                        entrevistando = reader.GetInt32(4)
+
+                    });
+                }
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+        }
     }
 }

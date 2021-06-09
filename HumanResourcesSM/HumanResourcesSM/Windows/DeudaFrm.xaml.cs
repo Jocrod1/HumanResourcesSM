@@ -21,9 +21,6 @@ using Metodos;
 namespace HumanResourcesSM.Windows
 {
 
-    /// <summary>
-    /// Interaction logic for DepartamentoFrm.xaml
-    /// </summary>
     public partial class DeudaFrm : Window
     {
         public DeudaFrm()

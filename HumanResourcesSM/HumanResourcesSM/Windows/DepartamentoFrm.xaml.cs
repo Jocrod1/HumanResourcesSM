@@ -220,10 +220,11 @@ namespace HumanResourcesSM.Windows
                 return;
             }
 
-            string nombre = txtNombre.txt.Text;
+            string codigo = txtCodigo.Text;
+            string nombre = txtNombre.Text;
             string descripcion = txtDescripcion.Text;
 
-            UForm = new DDepartamento(0, nombre, descripcion);
+            UForm = new DDepartamento(codigo, nombre, descripcion);
         }
 
         void Create()
@@ -271,21 +272,6 @@ namespace HumanResourcesSM.Windows
             }
         }
 
-        private void PlaceDescripcion_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (txtDescripcion.Text == "")
-            {
-                PlaceDescripcion.Text = "";
-            }
-        }
-
-        private void PlaceDescripcion_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (txtDescripcion.Text == "")
-            {
-                PlaceDescripcion.Text = "Descripción";
-            }
-        }
 
         void SetEnable(bool Enable)
         {
@@ -296,18 +282,26 @@ namespace HumanResourcesSM.Windows
         {
             if (Data != null)
             {
-                txtNombre.SetText(Data.nombre);
+                txtCodigo.Text = Data.codigo;
+                txtNombre.Text = Data.nombre;
                 txtDescripcion.Text = Data.descripcion;
-                PlaceDescripcion.Text = "";
             }
         }
+
         #region Validation
         bool Validate()
         {
-            if (txtNombre.txt.Text == "")
+            if (txtNombre.Text == "")
+            {
+                MessageBox.Show("Debes llenar el campo Código!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtCodigo.Focus();
+                return true;
+            }
+
+            if (txtNombre.Text == "")
             {
                 MessageBox.Show("Debes llenar el campo Nombre!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtNombre.txt.Focus();
+                txtNombre.Focus();
                 return true;
             }
 

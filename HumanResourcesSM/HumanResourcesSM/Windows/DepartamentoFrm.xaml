@@ -4,8 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HumanResourcesSM.Windows"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="DepartamentoFrm" Height="360" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
+        Title="DepartamentoFrm" Height="445" Width="520" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" 
+        Loaded="Window_Loaded">
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -14,36 +16,37 @@
         </Grid.RowDefinitions>
         <Grid Name="BgTitulo" Grid.Row="0" Background="#248232">
             <TextBlock Name="txtTitulo"
-                       Text="Insertar" 
+                       Text="Insertar Departamento" 
                        Foreground="White"
                        HorizontalAlignment="Left"
                        FontWeight="Bold"
                        FontSize="25"
                        Margin="20 30 0 15"/>
-            <!--<Separator VerticalAlignment="Bottom" Foreground="Black" />-->
         </Grid>
         <Grid Grid.Row="1"  Margin="50 10">
-            <!--<Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>-->
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <local:UserInputText x:Name="txtNombre" Grid.Row="0" VerticalAlignment="Center" Placeholder="Nombre" Margin="0 10" FontSize="15"/>
-            <Grid Margin="0 10" Height="100" Grid.Row="1" VerticalAlignment="Top" >
-                <TextBlock x:Name="PlaceDescripcion" Text="Descripción" FontSize="15" Margin="1 4" Foreground="Gray"/>
+
+            <TextBox x:Name="txtCodigo" Grid.Row="0" VerticalAlignment="Center" Margin="0 10" FontSize="15"
+                            materialDesign:HintAssist.Hint="Código del Departamento"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+
+            <TextBox x:Name="txtNombre" Grid.Row="1" VerticalAlignment="Center" Margin="0 10" FontSize="15"
+                            materialDesign:HintAssist.Hint="Nombre del Departamento"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+
+            <Grid Margin="0 10" Height="100" Grid.Row="2" VerticalAlignment="Top" >
                 <TextBox x:Name="txtDescripcion" FontSize="15" Text="" 
-                              TextWrapping="Wrap"
+                             TextWrapping="Wrap"
                              AcceptsReturn="True"
                              HorizontalScrollBarVisibility="Disabled"
                              VerticalScrollBarVisibility="Auto"
-                             GotFocus="PlaceDescripcion_GotFocus" LostFocus="PlaceDescripcion_LostFocus"/>
+                             materialDesign:HintAssist.Hint="Descripción del Departamento (Opcional)"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
             </Grid>
-            <!--<local:TextInput x:Name="txtContraseña" Placeholder="Contraseña" Margin="0 10" FontSize="15"/>-->
-
-            
         </Grid>
         <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Content="Agregar" Margin="0 10" Click="Button_Click" HorizontalAlignment="Center"/>
     </Grid>

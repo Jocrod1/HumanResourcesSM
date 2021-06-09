@@ -99,6 +99,9 @@
     <Compile Include="Windows\CambiarContraseña.xaml.cs">
       <DependentUpon>CambiarContraseña.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\ContratoDG.xaml.cs">
+      <DependentUpon>ContratoDG.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\EmpleadoDG.xaml.cs">
       <DependentUpon>EmpleadoDG.xaml</DependentUpon>
     </Compile>
@@ -245,6 +248,10 @@
     <Page Include="Windows\CambiarContraseña.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ContratoDG.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\EmpleadoDG.xaml">
       <Generator>MSBuild:Compile</Generator>

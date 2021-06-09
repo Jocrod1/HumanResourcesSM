@@ -99,7 +99,7 @@ namespace HumanResourcesSM.Windows
             int idEmpleado = MType.Equals(MetaType.Empleado) ? idSeleccion : 1;
             int idDepartamento = MType.Equals(MetaType.Departamento) ? idSeleccion : 1;
             int idTipoMetrica = (int)CbTipoMetrica.SelectedValue;
-            double ValorMeta = double.Parse(txtValorMeta.txt.Text);
+            int ValorMeta = int.Parse(txtValorMeta.txt.Text);
             DateTime FechaInicio = CbFechaInicio.SelectedDate ?? DateTime.Now;
             DateTime FechaFinal = CbFechaFinal.SelectedDate ?? DateTime.Now;
 

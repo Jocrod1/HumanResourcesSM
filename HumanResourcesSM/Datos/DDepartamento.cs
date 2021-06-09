@@ -14,6 +14,13 @@ namespace Datos
             set { _IdDepartamento = value; }
         }
 
+        private string _Codigo;
+        public string codigo
+        {
+            get { return _Codigo; }
+            set { _Codigo = value; }
+        }
+
         private string _Nombre;
         public string nombre
         {
@@ -34,9 +41,9 @@ namespace Datos
 
         }
 
-        public DDepartamento(int IdDepartamento, string Nombre, string Descripcion)
+        public DDepartamento(string Codigo, string Nombre, string Descripcion)
         {
-            this.idDepartamento = IdDepartamento;
+            this.codigo = Codigo;
             this.nombre = Nombre;
             this.descripcion = Descripcion;
         }

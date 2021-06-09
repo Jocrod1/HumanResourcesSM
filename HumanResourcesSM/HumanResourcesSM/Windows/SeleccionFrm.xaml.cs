@@ -19,16 +19,13 @@ using Metodos;
 
 namespace HumanResourcesSM.Windows
 {
-    /// <summary>
-    /// Interaction logic for SeleccionFrm.xaml
-    /// </summary>
     public partial class SeleccionFrm : Page
     {
         public SeleccionFrm()
         {
             InitializeComponent();
 
-            txtDNI.txt.LostFocus += new RoutedEventHandler(txtDNI_LostFocus);
+            txtDNI.LostFocus += new RoutedEventHandler(txtDNI_LostFocus);
 
             CbFechaNac.DisplayDateEnd = DateTime.Today.AddYears(-18);
 
@@ -76,27 +73,26 @@ namespace HumanResourcesSM.Windows
             ListaEducacion.Clear();
             RefreshDGEducacion();
 
-            txtDNI.SetText("");
-            txtNombre.SetText("");
-            txtApellido.SetText("");
+            txtDNI.Text = "";
+            txtNombre.Text = "";
+            txtApellido.Text = "";
 
             CbPaisNac.SelectedIndex = -1;
             CbFechaNac.SelectedDate = null;
 
-            txtEmail.SetText("");
-            txtTelefono.SetText("");
-            txtDireccion.SetText("");
+            txtEmail.Text = "";
+            txtTelefono.Text = "";
+            txtDireccion.Text = "";
 
             CbEstadoLegal.Text = "";
-            PlaceEstadoLegal.Visibility = Visibility.Visible;
 
             CbDepartamento.SelectedIndex = -1;
 
-            txtNombrePuesto.SetText("");
+            txtNombrePuesto.Text = "";
 
             CbFechaApl.SelectedDate = null;
 
-            txtURLCV.SetText("");
+            txtURLCV.Text = "";
 
             ScrollContent.ScrollToTop();
 
@@ -112,18 +108,18 @@ namespace HumanResourcesSM.Windows
 
             /*         EMPLEADO           */
             int idDepartamento = (int)CbDepartamento.SelectedValue;
-            string nombre = txtNombre.txt.Text;
-            string apellido = txtApellido.txt.Text;
-            string DNI = txtDNI.txt.Text;
+            string nombre = txtNombre.Text;
+            string apellido = txtApellido.Text;
+            string DNI = txtDNI.Text;
             DateTime fechaNacimiento = CbFechaNac.SelectedDate ?? DateTime.Now;
             if (fechaNacimiento == DateTime.Now)return;
             string nacionalidad = (string)CbPaisNac.SelectedValue;
-            string direccion = txtDireccion.txt.Text;
-            string email = txtEmail.txt.Text;
-            string telefono = txtTelefono.txt.Text;
-            string URLCV = txtURLCV.txt.Text;
+            string direccion = txtDireccion.Text;
+            string email = txtEmail.Text;
+            string telefono = txtTelefono.Text;
+            string URLCV = txtURLCV.Text;
             string estadoLegal = CbEstadoLegal.Text;
-            string nombrePuesto = txtNombrePuesto.txt.Text;
+            string nombrePuesto = txtNombrePuesto.Text;
             /*         END EMPLEADO           */
 
             /*         SELECCIÓN           */
@@ -181,6 +177,13 @@ namespace HumanResourcesSM.Windows
             CbEstadoLegal.ItemsSource = resp3;
             CbEstadoLegal.DisplayMemberPath = "statusCambio";
             CbEstadoLegal.SelectedValuePath = "statusCambio";
+
+
+            var resp4 = new MUsuario().ListadoUsuarioEntrevistador();
+
+            CbEntrevistador.ItemsSource = resp4;
+            CbEntrevistador.DisplayMemberPath = "usuario";
+            CbEntrevistador.SelectedValuePath = "idUsuario";
 
             RefreshDGIdiomas();
             RefreshDGEducacion();
@@ -527,69 +530,7 @@ namespace HumanResourcesSM.Windows
         }
 
         //*********************** END CRUD EDUCACIÓN*********************************
-        private void CbDepartamento_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (CbDepartamento.SelectedIndex > -1)
-            {
-                PlaceDepartamento.Text = "";
-            }
-            else
-            {
-                PlaceDepartamento.Text = "Departamento";
-            }
-        }
-
-        private void CbFechaNac_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (CbFechaNac.SelectedDate != null)
-            {
-                PlaceFechaNac.Text = "";
-            }
-            else
-            {
-                PlaceFechaNac.Text = "Fecha de Nacimiento";
-            }
-        }
-
-        private void CbPaisNac_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (CbPaisNac.SelectedIndex > -1)
-            {
-                PlacePaisNac.Text = "";
-            }
-            else
-            {
-                PlacePaisNac.Text = "País de Nacimiento";
-            }
-        }
-
-        private void CbEstadoLegal_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if(CbEstadoLegal.Text == "")
-            {
-                PlaceEstadoLegal.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        private void CbEstadoLegal_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (CbEstadoLegal.Text == "")
-            {
-                PlaceEstadoLegal.Visibility = Visibility.Visible;
-            }
-        }
-
-        private void CbFechaApl_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (CbFechaApl.SelectedDate != null)
-            {
-                PlaceFechaApl.Text = "";
-            }
-            else
-            {
-                PlaceFechaApl.Text = "Fecha de Aplicación";
-            }
-        }
+       
 
         public class FormSeleccion
         {
@@ -615,22 +556,22 @@ namespace HumanResourcesSM.Windows
         #region Validation
         bool Validate()
         {
-            if (txtNombre.txt.Text == "")
+            if (txtNombre.Text == "")
             {
                 MessageBox.Show("Debes llenar el campo Nombre!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtNombre.txt.Focus();
+                txtNombre.Focus();
                 return true;
             }
-            if (txtApellido.txt.Text == "")
+            if (txtApellido.Text == "")
             {
                 MessageBox.Show("Debes llenar el campo Apellido!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtApellido.txt.Focus();
+                txtApellido.Focus();
                 return true;
             }
-            if (txtDNI.txt.Text == "")
+            if (txtDNI.Text == "")
             {
                 MessageBox.Show("Debes llenar el campo DNI!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtDNI.txt.Focus();
+                txtDNI.Focus();
                 return true;
             }
             if (CbPaisNac.SelectedIndex == -1)
@@ -645,10 +586,10 @@ namespace HumanResourcesSM.Windows
                 CbFechaNac.Focus();
                 return true;
             }
-            if (txtEmail.txt.Text == "" && txtTelefono.txt.Text == "")
+            if (txtEmail.Text == "" && txtTelefono.Text == "")
             {
                 MessageBox.Show("Debes llenar al menos un campo de Email o Telefono!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtEmail.txt.Focus();
+                txtEmail.Focus();
                 return true;
             }
             if (CbEstadoLegal.Text == "")
@@ -663,10 +604,10 @@ namespace HumanResourcesSM.Windows
                 CbDepartamento.Focus();
                 return true;
             }
-            if (txtNombrePuesto.txt.Text == "")
+            if (txtNombrePuesto.Text == "")
             {
                 MessageBox.Show("Debes llenar el campo de Nombre la Posición!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtNombrePuesto.txt.Focus();
+                txtNombrePuesto.Focus();
                 return true;
             }
             if (CbFechaApl.SelectedDate == null)
@@ -675,16 +616,16 @@ namespace HumanResourcesSM.Windows
                 CbFechaApl.Focus();
                 return true;
             }
-            if (txtURLCV.txt.Text == "")
+            if (txtURLCV.Text == "")
             {
                 MessageBox.Show("Debes llenar el campo de URL del Currículo!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtURLCV.txt.Focus();
+                txtURLCV.Focus();
                 return true;
             }
-            if (!Validaciones.IsValidEmail(txtEmail.txt.Text))
+            if (!Validaciones.IsValidEmail(txtEmail.Text))
             {
                 MessageBox.Show("Este email no es valido!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtURLCV.txt.Focus();
+                txtURLCV.Focus();
                 return true;
             }
 
@@ -693,6 +634,11 @@ namespace HumanResourcesSM.Windows
 
 
         #endregion
+
+        private void CbFechaLim_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 
     public class ModelIdiomaHablado

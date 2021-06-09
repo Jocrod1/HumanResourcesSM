@@ -42,6 +42,13 @@ namespace Datos
             set { _Observacion = value; }
         }
 
+        private string _Recomendacion;
+        public string recomendacion
+        {
+            get { return _Recomendacion; }
+            set { _Recomendacion = value; }
+        }
+
         private int _Status;
         public int status
         {
@@ -163,7 +170,7 @@ namespace Datos
         }
 
 
-        public DEvaluacion(int IdEvaluacion, int IdUsuario, int IdMeta, float ValorEvaluado, string Observacion, int Status, DateTime FechaEvaluacion)
+        public DEvaluacion(int IdEvaluacion, int IdUsuario, int IdMeta, double ValorEvaluado, string Observacion, int Status, DateTime FechaEvaluacion, string Recomendacion)
         {
             this.idEvaluacion = IdEvaluacion;
             this.idUsuario = IdUsuario;
@@ -172,6 +179,7 @@ namespace Datos
             this.observacion = Observacion;
             this.status = Status;
             this.fechaEvaluacion = FechaEvaluacion;
+            this.recomendacion = Recomendacion;
         }
     }
 }

@@ -23,6 +23,9 @@ namespace Metodos
                 periodoInicio,
                 periodoFinal,
                 montoTotal,
+                totalAsignacion,
+                totalDeduccion,
+                totalSalario,
                 estado
             ) OUTPUT Inserted.idPago 
             VALUES (
@@ -34,6 +37,9 @@ namespace Metodos
                 @periodoInicio,
                 @periodoFinal,
                 @montoTotal,
+                @totalAsignacion,
+                @totalDeduccion,
+                @totalSalario,
                 1
             );
 	    ";
@@ -205,6 +211,10 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@periodoInicio", Pago.periodoInicio);
                 comm.Parameters.AddWithValue("@periodoFinal", Pago.periodoFinal);
                 comm.Parameters.AddWithValue("@montoTotal", Pago.montoTotal);
+                comm.Parameters.AddWithValue("@totalAsignacion", Pago.totalAsignacion);
+                comm.Parameters.AddWithValue("@totalDeduccion", Pago.totalDeduccion);
+                comm.Parameters.AddWithValue("@totalSalario", Pago.totalSalario);
+
                 Pago.idPago = (int)comm.ExecuteScalar();
 
                 string respuesta = !String.IsNullOrEmpty(idPago.ToString()) ? "OK" : "No se Ingresó el Registro del Pago";
