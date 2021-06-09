@@ -104,7 +104,7 @@
                     </StackPanel>
                 </Grid>
                 <DataGrid x:Name="dgOperaciones" 
-                  FontSize="13" Visibility="Visible"
+                  FontSize="13" Visibility="Collapsed"
                   AutoGenerateColumns="false" 
                   IsReadOnly="true" 
                   Margin="0 20"
@@ -168,6 +168,7 @@
                         <TextBlock Text="Total Sueldo" FontWeight="bold" FontSize="12" Foreground="Gray"/>
                         <TextBlock x:Name="txtTotalSueldo" Text="0.00 €" FontWeight="bold" FontSize="15" Foreground="Black" HorizontalAlignment="Right"/>
                     </Grid>
+                    <Separator/>
                     <Grid>
                         <TextBlock Text="Total Asignaciones" FontWeight="bold" FontSize="12" Foreground="Gray"/>
                         <TextBlock x:Name="txtMontoBonificaciones" Text="0.00 €" FontWeight="bold" FontSize="15" Foreground="Black" HorizontalAlignment="Right"/>
@@ -183,7 +184,7 @@
                     </Grid>
 
                 </StackPanel>
-                <Button x:Name="BtnAccept" Grid.Column="1" Content="Realizar Pago" Click="BtnAccept_Click" Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" HorizontalAlignment="Right" Width="150" Margin="20 10"/>
+                <Button x:Name="BtnAccept" Grid.Column="2" Content="Realizar Pago" Click="BtnAccept_Click" Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" HorizontalAlignment="Right" Width="150" Margin="20 10"/>
             </Grid>
         </Border>
     </Grid>

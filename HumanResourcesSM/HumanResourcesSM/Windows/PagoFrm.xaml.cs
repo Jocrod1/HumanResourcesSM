@@ -72,8 +72,9 @@ namespace HumanResourcesSM.Windows
             Sueldo = Bonificaciones = Deducciones = Total = 0;
 
             txtHorasTrabajadas.Text = "0";
+            txtHorasExtras.Text = "0";
 
-            //txtMontoSueldo.Text = Sueldo.ToString("0.00") + " €";
+            txtTotalSueldo.Text = Sueldo.ToString("0.00") + " €";
             txtMontoBonificaciones.Text = Bonificaciones.ToString("0.00") + " €";
             txtMontoDeducciones.Text = "-" + Deducciones.ToString("0.00") + " €";
             txtMontoTotal.Text = Total.ToString("0.00") + " €";
@@ -124,9 +125,9 @@ namespace HumanResourcesSM.Windows
                         PagoData.periodoInicio,
                         PagoData.periodoFinal,
                         Total,
-                        0,
-                        0,
-                        0,
+                        TotalAsignaciones,
+                        TotalDeducciones,
+                        Sueldo,
                         1);
 
             List<DDetallePago> detallepagos = new List<DDetallePago>();
@@ -325,17 +326,16 @@ namespace HumanResourcesSM.Windows
 
             foreach (var item in modelo)
             {
-                Bonificaciones += item.Asignaciones;
-                Deducciones += item.Deducciones;
+                TotalAsignaciones += item.Asignaciones;
+                TotalDeducciones += item.Deducciones;
             }
 
-            double Asignaciones = Bonificaciones + Sueldo;
 
-            Total = Sueldo + Bonificaciones - Deducciones;
+            Total = TotalAsignaciones - TotalDeducciones;
 
             txtTotalSueldo.Text = Sueldo.ToString("0.00") + " €";
-            txtMontoBonificaciones.Text = Asignaciones.ToString("0.00") + " €";
-            txtMontoDeducciones.Text = "-" + Deducciones.ToString("0.00") + " €";
+            txtMontoBonificaciones.Text = TotalAsignaciones.ToString("0.00") + " €";
+            txtMontoDeducciones.Text = "-" + TotalDeducciones.ToString("0.00") + " €";
             txtMontoTotal.Text = Total.ToString("0.00") + " €";
             dgOperaciones.ItemsSource = null;
             dgOperaciones.ItemsSource = modelo;

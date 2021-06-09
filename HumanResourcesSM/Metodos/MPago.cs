@@ -128,13 +128,7 @@ namespace Metodos
 				dp.cantidad,
                 dp.salario,
                 dp.asignacion,
-                dp.deduccion,
-				ISNULL((
-					SELECT
-						d.concepto
-					FROM [Deuda] d
-					WHERE dp.idDeuda=d.idDeuda
-				), '') AS deuda
+                dp.deduccion
             FROM [DetallePago] dp
 				INNER JOIN [Pago] p ON p.idPago=dp.idPago
 			WHERE p.idPago=@idPago;
