@@ -124,6 +124,9 @@ namespace HumanResourcesSM.Windows
                         PagoData.periodoInicio,
                         PagoData.periodoFinal,
                         Total,
+                        0,
+                        0,
+                        0,
                         1);
 
             List<DDetallePago> detallepagos = new List<DDetallePago>();

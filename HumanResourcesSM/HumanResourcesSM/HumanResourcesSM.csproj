@@ -159,6 +159,12 @@
     <Compile Include="Windows\PreguntasSeguridad.xaml.cs">
       <DependentUpon>PreguntasSeguridad.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\PrestacionesDG.xaml.cs">
+      <DependentUpon>PrestacionesDG.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PrestacionesFrm.xaml.cs">
+      <DependentUpon>PrestacionesFrm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\SeleccionarPago.xaml.cs">
       <DependentUpon>SeleccionarPago.xaml</DependentUpon>
     </Compile>
@@ -328,6 +334,14 @@
     <Page Include="Windows\PreguntasSeguridad.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\PrestacionesDG.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\PrestacionesFrm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\SeleccionarPago.xaml">
       <Generator>MSBuild:Compile</Generator>

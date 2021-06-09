@@ -30,10 +30,10 @@ namespace HumanResourcesSM.Windows
             InitializeComponent();
         }
 
-        public void Refresh(string search)
+        public void Refresh()
         {
 
-            List<DTipoTramite> items = Metodos.Mostrar(search);
+            List<DTipoTramite> items = Metodos.Mostrar("");
 
 
             dgOperaciones.ItemsSource = items;
@@ -43,7 +43,7 @@ namespace HumanResourcesSM.Windows
         {
             //contentsp.Children.Clear();
 
-            Refresh(txtBuscar.Text);
+            Refresh();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -51,7 +51,7 @@ namespace HumanResourcesSM.Windows
 
             TipoTramiteFrm frmTrab = new TipoTramiteFrm();
             bool Resp = frmTrab.ShowDialog() ?? false;
-            Refresh(txtBuscar.Text);
+            Refresh();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -63,12 +63,12 @@ namespace HumanResourcesSM.Windows
             frm.Type = TypeForm.Update;
             frm.DataFill = response[0];
             bool Resp = frm.ShowDialog() ?? false;
-            Refresh(txtBuscar.Text);
+            Refresh();
         }
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            Refresh(txtBuscar.Text);
+            Refresh();
         }
 
         private void btnEliminar_Click(object sender, RoutedEventArgs e)
@@ -90,25 +90,7 @@ namespace HumanResourcesSM.Windows
             }
             else MessageBox.Show(resp);
 
-            Refresh(txtBuscar.Text);
-        }
-
-        private void txtBuscar_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (txtBuscar.Text == "")
-            {
-                txtBucarPlaceH.Text = "";
-            }
-
-        }
-
-        private void txtBuscar_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (txtBuscar.Text == "")
-            {
-                txtBucarPlaceH.Text = "Buscar...";
-            }
-
+            Refresh();
         }
 
         private void txtVer_Click(object sender, RoutedEventArgs e)
@@ -120,10 +102,24 @@ namespace HumanResourcesSM.Windows
             frmTrab.Type = TypeForm.Read;
             frmTrab.DataFill = response[0];
             bool Resp = frmTrab.ShowDialog() ?? false;
-            Refresh(txtBuscar.Text);
+            Refresh();
 
             //MessageBox.Show(response[0].fechaNacimiento.ToString());
         }
 
+        private void RBSolicitudes_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RBOtorgados_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RBNoOtorgados_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

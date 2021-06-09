@@ -22,7 +22,19 @@
             </Grid.ColumnDefinitions>
             <TextBlock Text="Prestaciones" Foreground="White" FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" Margin="10 10" VerticalAlignment="Center"/>
         </Grid>
-
+        <Grid Grid.Row="1" Margin="30 10">
+            <StackPanel Orientation="Horizontal">
+                <RadioButton x:Name="RBSolicitudes" Checked="RBSolicitudes_Checked" FontSize="15" VerticalAlignment="Center" FontWeight="Bold" Padding="0">
+                    <TextBlock Text="Solicitudes" Margin="5 0" VerticalAlignment="Center" FontSize="15" FontWeight="Bold"/>
+                </RadioButton>
+                <RadioButton x:Name="RBOtorgados" Checked="RBOtorgados_Checked" FontSize="15" VerticalAlignment="Center" FontWeight="Bold" Padding="0">
+                    <TextBlock Text="Otorgados" Margin="5 0" VerticalAlignment="Center" FontSize="15" FontWeight="Bold"/>
+                </RadioButton>
+                <RadioButton x:Name="RBNoOtorgados" Checked="RBNoOtorgados_Checked" FontSize="15" VerticalAlignment="Center" FontWeight="Bold" Padding="0">
+                    <TextBlock Text="No Otorgados" Margin="5 0" VerticalAlignment="Center" FontSize="15" FontWeight="Bold"/>
+                </RadioButton>
+            </StackPanel>
+        </Grid>
         <DataGrid x:Name="dgOperaciones" 
                   Grid.Row="2"
                   AutoGenerateColumns="false" 
@@ -38,19 +50,26 @@
                 </Style>
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Width="*" Header="Nombre" Binding="{Binding nombre}">
+                <DataGridTextColumn Width="*" Header="Empleado" Binding="{Binding nombre}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
                             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="*" Header="Descripción" Binding="{Binding descripcion}">
+                <DataGridTextColumn Width="auto" Header="Fecha Solicitud" Binding="{Binding nombre}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="*" Header="Razón" Binding="{Binding descripcion}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
                             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
                             <Setter Property="TextWrapping" Value="Wrap"/>
-                            <Setter Property="MaxHeight" Value="70"/>
+                            <Setter Property="MaxHeight" Value="50"/>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>

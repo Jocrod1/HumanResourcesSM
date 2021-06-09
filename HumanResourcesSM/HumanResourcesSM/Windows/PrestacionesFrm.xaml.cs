@@ -48,6 +48,7 @@ namespace HumanResourcesSM.Windows
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            DPFechaSolicitud.DisplayDateEnd = DateTime.Today;
             if (Type == TypeForm.Read)
             {
                 txtTitulo.Text = "Ver";
@@ -76,11 +77,10 @@ namespace HumanResourcesSM.Windows
                 return;
             }
 
-            string nombre = txtNombre.txt.Text;
-            string StatusCambio = txtStatusCambio.txt.Text;
-            string descripcion = txtDescripcion.txt.Text;
+            //string nombre = txtNombre.txt.Text;
+            //string StatusCambio = txtStatusCambio.txt.Text;
 
-            UForm = new DTipoTramite(0, nombre, StatusCambio, descripcion);
+            //UForm = new DTipoTramite(0, nombre, StatusCambio, descripcion);
         }
 
         void Create()
@@ -126,38 +126,39 @@ namespace HumanResourcesSM.Windows
 
         void SetEnable(bool Enable)
         {
-            txtNombre.IsEnabled = Enable;
-            txtStatusCambio.IsEnabled = Enable;
+            txtMontoPresupuesto.IsEnabled = Enable;
+            txtRazon.IsEnabled = Enable;
+            DPFechaSolicitud.IsEnabled = Enable;
         }
         void fillForm(DTipoTramite Data)
         {
             if (Data != null)
             {
-                txtNombre.SetText(Data.nombre);
-                txtStatusCambio.SetText(Data.statusCambio);
-                txtStatusCambio.SetText(Data.descripcion);
+                txtMontoPresupuesto.SetText(Data.nombre);
+                txtMontoPresupuesto.SetText(Data.statusCambio);
+                DPFechaSolicitud.SelectedDate = DateTime.Today;
             }
         }
         #region Validation
         bool Validate()
         {
-            if (txtNombre.txt.Text == "")
+            if (txtMontoPresupuesto.txt.Text == "")
             {
-                MessageBox.Show("Debes llenar el campo Nombre!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtNombre.txt.Focus();
+                MessageBox.Show("Debes llenar el campo Monto Presupuesto!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtMontoPresupuesto.txt.Focus();
                 return true;
             }
 
-            if (txtStatusCambio.txt.Text == "")
+            if (txtRazon.txt.Text == "")
             {
-                MessageBox.Show("Debes llenar el campo Estatus!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtStatusCambio.txt.Focus();
+                MessageBox.Show("Debes llenar el campo Razón!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtRazon.txt.Focus();
                 return true;
             }
-            if (txtDescripcion.txt.Text == "")
+            if (DPFechaSolicitud.SelectedDate == null)
             {
-                MessageBox.Show("Debes llenar el campo Descripción!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtStatusCambio.txt.Focus();
+                MessageBox.Show("Debes seleccionar la fecha de Solicitud!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                DPFechaSolicitud.Focus();
                 return true;
             }
 

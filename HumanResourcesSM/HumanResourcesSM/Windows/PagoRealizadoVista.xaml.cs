@@ -74,6 +74,9 @@ namespace HumanResourcesSM.Windows
                               PeriodoInicio,
                               PeriodoFinal,
                               0,
+                              0,
+                              0,
+                              0,
                               1);
         }
 
