@@ -21,13 +21,6 @@ namespace Datos
             set { _IdPago = value; }
         }
 
-        private int _IdDeuda;
-        public int idDeuda
-        {
-            get { return _IdDeuda; }
-            set { _IdDeuda = value; }
-        }
-
         private string _Concepto;
         public string concepto
         {
@@ -35,18 +28,32 @@ namespace Datos
             set { _Concepto = value; }
         }
 
-        private double _SubTotal;
-        public double subTotal
+        private string _Cantidad;
+        public string cantidad
         {
-            get { return _SubTotal; }
-            set { _SubTotal = value; }
+            get { return _Cantidad; }
+            set { _Cantidad = value; }
         }
 
-        private string _NombreDeuda;
-        public string nombreDeuda
+        private string _Salario;
+        public string salario
         {
-            get { return _NombreDeuda; }
-            set { _NombreDeuda = value; }
+            get { return _Salario; }
+            set { _Salario = value; }
+        }
+
+        private string _Asignacion;
+        public string asignacion
+        {
+            get { return _Asignacion; }
+            set { _Asignacion = value; }
+        }
+
+        private string _Deduccion;
+        public string deduccion
+        {
+            get { return _Deduccion; }
+            set { _Deduccion = value; }
         }
 
         public DDetallePago()
@@ -54,13 +61,15 @@ namespace Datos
 
         }
 
-        public DDetallePago(int IdDetallePago, int IdPago, int IdDeuda, string Concepto, double SubTotal)
+        public DDetallePago(int IdDetallePago, int IdPago, string Concepto, string Cantidad, string Salario, string Asignacion, string Deduccion)
         {
             this.idDetallePago = IdDetallePago;
             this.idPago = IdPago;
-            this.idDeuda = IdDeuda;
             this.concepto = Concepto;
-            this.subTotal = SubTotal;
+            this.cantidad = Cantidad;
+            this.salario = Salario;
+            this.asignacion = Asignacion;
+            this.deduccion = Deduccion;
         }
     }
 }

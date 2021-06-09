@@ -47,14 +47,18 @@ namespace Metodos
         private string queryInsertPayDetail = @"
             INSERT INTO [DetallePago] (
                 idPago,
-                idDeuda,
                 concepto,
-                subtotalItem
+                cantidad,
+                salario,
+                asignacion,
+                deduccion      
             ) VALUES (
                 @idPago,
-                @idDeuda,
                 @concepto,
-                @subTotal
+                @cantidad,
+                @salario,
+                @asignacion,
+                @deduccion 
             );
 	    ";
 
@@ -96,6 +100,9 @@ namespace Metodos
                 p.periodoInicio,
                 p.periodoFinal,
                 p.montoTotal, 
+                p.totalAsignacion,
+                p.totalDeduccion,
+                p.totalSalario,
                 p.estado 
             FROM [Pago] p 
                 INNER JOIN [Empleado] e ON p.idEmpleado=e.idEmpleado 
@@ -118,7 +125,10 @@ namespace Metodos
             SELECT 
 				dp.idDetallePago,
 				dp.concepto,
-				dp.subtotalItem,
+				dp.cantidad,
+                dp.salario,
+                dp.asignacion,
+                dp.deduccion,
 				ISNULL((
 					SELECT
 						d.concepto
@@ -238,17 +248,16 @@ namespace Metodos
 
                 using SqlCommand comm = new SqlCommand(queryInsertPayDetail, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@idPago", IdPago);
-                comm.Parameters.AddWithValue("@idDeuda", DetallePago[i].idDeuda == 0 ? DBNull.Value : DetallePago[i].idDeuda );
                 comm.Parameters.AddWithValue("@concepto", DetallePago[i].concepto);
-                comm.Parameters.AddWithValue("@subTotal", DetallePago[i].subTotal);
+                comm.Parameters.AddWithValue("@cantidad", DetallePago[i].cantidad);
+                comm.Parameters.AddWithValue("@salario", DetallePago[i].salario);
+                comm.Parameters.AddWithValue("@asignacion", DetallePago[i].asignacion);
+                comm.Parameters.AddWithValue("@deduccion", DetallePago[i].deduccion);
 
                 respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingresaron los detalles del pago";
 
                 if (!respuesta.Equals("OK"))
                     throw new NullReferenceException("Error en el Registro del Detalle del Pago");
-
-                if (DetallePago[i].idDeuda > 0)
-                    respuesta = ActualizarDeuda(DetallePago[i].idDeuda, DetallePago[i].subTotal);
 
                 i++;
             }
@@ -321,7 +330,10 @@ namespace Metodos
                         periodoInicio = reader.GetDateTime(6),
                         periodoFinal = reader.GetDateTime(7),
                         montoTotal = (double)reader.GetDecimal(8),
-                        estado = reader.GetInt32(9)
+                        totalAsignacion = reader.GetDouble(9),
+                        totalDeduccion = reader.GetDouble(10),
+                        totalSalario = reader.GetDouble(11),
+                        estado = reader.GetInt32(12)
                     });
                 }
                 
@@ -379,8 +391,10 @@ namespace Metodos
                     {
                         idDetallePago = reader.GetInt32(0),
                         concepto = reader.GetString(1),
-                        subTotal = (double)reader.GetDecimal(2),
-                        nombreDeuda = reader.GetString(3)
+                        cantidad = reader.GetString(2),
+                        salario = reader.GetString(3),
+                        asignacion = reader.GetString(4),
+                        deduccion = reader.GetString(5)
                     });
                 }
 
@@ -502,7 +516,7 @@ namespace Metodos
                     {
                         idPago = reader.GetInt32(0),
                         periodoInicio = reader.GetDateTime(1),
-                        periodoFinal = reader.GetDateTime(2),
+                        periodoFinal = reader.GetDateTime(2)
                     });
                 }
 
