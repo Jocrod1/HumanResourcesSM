@@ -43,7 +43,7 @@ namespace HumanResourcesSM.Windows
             //HACER CALCULO DE MONTOTOTAL
 
             //ejecutar prestacion aca
-            string respuesta = Metodos.AsignarPrestacion(new DPrestacion);
+            //string respuesta = Metodos.AsignarPrestacion(new DPrestacion);
         }
 
 

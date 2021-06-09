@@ -647,7 +647,7 @@ namespace Metodos
                 SELECT 
                     *
 			    FROM [Usuario]
-                WHERE estado = 1 AND entrevistando = 1
+                WHERE estado = 1 AND entrevistando = 1 and idUsuario <> 1
             ";
 
             try

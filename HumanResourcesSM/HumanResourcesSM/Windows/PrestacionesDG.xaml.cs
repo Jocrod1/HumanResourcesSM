@@ -119,5 +119,10 @@ namespace HumanResourcesSM.Windows
         {
 
         }
+
+        private void CbEmpleado_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

@@ -16,6 +16,9 @@
         <Grid Grid.Column="0" Background="#2A347B" MaxWidth="130">
             <StackPanel VerticalAlignment="Center">
                 <Grid>
+                    <Button Content="Prestaciones" Uid="4" Background="{x:Null}" BorderBrush="{x:Null}" Click="Button_Click"/>
+                </Grid>
+                <Grid>
                     <Button Content="Nómina" Uid="0" Background="{x:Null}" BorderBrush="{x:Null}" Click="Button_Click"/>
                     <Border x:Name="SelectedBord"  Background="Black" Opacity=".3"/>
                 </Grid>

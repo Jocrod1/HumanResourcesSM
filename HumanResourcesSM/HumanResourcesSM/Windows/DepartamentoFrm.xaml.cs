@@ -275,6 +275,7 @@ namespace HumanResourcesSM.Windows
 
         void SetEnable(bool Enable)
         {
+            txtCodigo.IsEnabled = Enable;
             txtNombre.IsEnabled = Enable;
             txtDescripcion.IsEnabled = Enable;
         }

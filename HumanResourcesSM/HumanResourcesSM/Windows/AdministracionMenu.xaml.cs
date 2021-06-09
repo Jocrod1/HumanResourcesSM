@@ -66,6 +66,10 @@ namespace HumanResourcesSM.Windows
                     TipoTramiteDG dg = new TipoTramiteDG();
                     ContentFrame.Content = dg;
                     break;
+                case 4:
+                    PrestacionesDG dg1 = new PrestacionesDG();
+                    ContentFrame.Content = dg1;
+                    break;
             }
 
         }

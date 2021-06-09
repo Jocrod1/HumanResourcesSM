@@ -29,7 +29,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
-            <ComboBox Name="CbEmpleado" FontSize="15" SelectionChanged="CbDepartamento_SelectionChanged" Margin="0 0 10 0"
+            <ComboBox Name="CbEmpleado" FontSize="15" SelectionChanged="CbEmpleado_SelectionChanged" Margin="0 0 10 0"
                       materialDesign:HintAssist.Hint="Seleccion de Empleado"
                       Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
