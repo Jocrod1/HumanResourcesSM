@@ -11,6 +11,7 @@ namespace Metodos
 {
     public class MPago:DPago
     {
+
         #region QUERIES
         //insertar
         private string queryInsertPay = @"
@@ -225,7 +226,10 @@ namespace Metodos
 
                 if (!respuesta.Equals("OK")) return "No se ingreso el Registro del pago";
 
-                return InsertarDetallePago(Pago.idPago, DetallePago);
+                respuesta = InsertarDetallePago(Pago.idPago, DetallePago);
+                if (!respuesta.Equals("OK")) return "No se ingreso el Detalle del pago";
+
+                return ActualizarDeuda(Pago.idEmpleado);
             }
             catch (SqlException e) { return e.Message; }
             catch (Exception ex) { return ex.Message; }
@@ -259,26 +263,19 @@ namespace Metodos
             return respuesta; 
         }
 
-        private string ActualizarDeuda(int IdDeuda, double MontoDeuda)
+        private string ActualizarDeuda(int IdEmpleado)
         {
-            using SqlCommand comm = new SqlCommand(queryUpdateDebt, Conexion.ConexionSql);
-            comm.Parameters.AddWithValue("@pagado", Math.Abs(MontoDeuda));
-            comm.Parameters.AddWithValue("@idDeuda", IdDeuda);
+            string queryUpdateAllDebt = @"
+                UPDATE [Deuda] SET
+                    deuda.status = 2
+			    FROM [Deuda] d
+				    INNER JOIN [Empleado] e ON d.idEmpleado = e.idEmpleado
+                WHERE e.idEmpleado = @idEmpleado AND d.status = 1 AND d.repetitivo = 0;
+            ";
 
-            string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó la Deuda";
+            using SqlCommand comm = new SqlCommand(queryUpdateAllDebt, Conexion.ConexionSql);
+            comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
 
-            if (!respuesta.Equals("OK"))
-                throw new NullReferenceException("Error en la Actualización de la Deuda");
-
-            return CompletarDeuda(IdDeuda);
-        }
-
-        private string CompletarDeuda(int IdDeuda)
-        {
-            using SqlCommand comm = new SqlCommand(queryUpdateDebtComplete, Conexion.ConexionSql);
-            comm.Parameters.AddWithValue("@idDeuda", IdDeuda);
-
-            // 1 completa la deuda, 0 no la completa
             return comm.ExecuteNonQuery() == 1 ? "OK" : "OK";
         }
 
