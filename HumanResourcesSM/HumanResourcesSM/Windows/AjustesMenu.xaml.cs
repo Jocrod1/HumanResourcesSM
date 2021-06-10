@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using System.Diagnostics;
 using Datos;
 using Metodos;
 
@@ -44,6 +44,12 @@ namespace HumanResourcesSM.Windows
             if(index == 1)
             {
                 ActualizarUsuario();
+                return;
+            }
+
+            if (index == 3)
+            {
+                AbrirManual();
                 return;
             }
 
@@ -93,6 +99,27 @@ namespace HumanResourcesSM.Windows
             bool r = frm.ShowDialog() ?? false;
 
             Parentfrm.RefreshUsuario();
+        }
+
+        void AbrirManual()
+        {
+            Process process = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            process.StartInfo = startInfo;
+
+            startInfo.FileName = @"C:\manual\manual-1.pdf";
+
+
+            if (Menu.ActUsuario.idRol == 1)
+                startInfo.FileName = @"C:\manual\manual-1.pdf";
+            if (Menu.ActUsuario.idRol == 2)
+                startInfo.FileName = @"C:\manual\manual-2.pdf";
+            if (Menu.ActUsuario.idRol == 3)
+                startInfo.FileName = @"C:\manual\manual-3.pdf";
+            if (Menu.ActUsuario.idRol == 4)
+                startInfo.FileName = @"C:\manual\manual-4.pdf";
+
+            process.Start();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)

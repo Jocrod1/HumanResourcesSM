@@ -30,6 +30,9 @@ namespace HumanResourcesSM.Windows
             CbFechaNac.DisplayDateEnd = DateTime.Today.AddYears(-18);
 
             txtTelefono.KeyDown += new KeyEventHandler(Validaciones.TextBox_KeyDown);
+
+            txtNombre.KeyDown += new KeyEventHandler(Validaciones.DontPressNumber);
+            txtApellido.KeyDown += new KeyEventHandler(Validaciones.DontPressNumber);
         }
 
         public TypeForm Type = TypeForm.Create;
@@ -629,6 +632,20 @@ namespace HumanResourcesSM.Windows
                 txtURLCV.Focus();
                 return true;
             }
+            if (CbEntrevistador.Text == "")
+            {
+                MessageBox.Show("Debes seleccionar un entrevistador al seleccionado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtURLCV.Focus();
+                return true;
+            }
+
+            if (CbFechaLim.SelectedDate == null)
+            {
+                MessageBox.Show("Debes seleccionar una fecha límite de entrevista!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtURLCV.Focus();
+                return true;
+            }
+
             if (txtEmail.Text != "" && !Validaciones.IsValidEmail(txtEmail.Text))
             {
                 MessageBox.Show("Este email no es valido!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);

@@ -1,29 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+﻿using System.Windows;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-
 using Datos;
 using Metodos;
 
 namespace HumanResourcesSM.Windows
 {
 
-    /// <summary>
-    /// Interaction logic for DepartamentoFrm.xaml
-    /// </summary>
     public partial class TipoTramiteFrm : Window
     {
         public TipoTramiteFrm()
@@ -76,9 +58,9 @@ namespace HumanResourcesSM.Windows
                 return;
             }
 
-            string nombre = txtNombre.txt.Text;
-            string StatusCambio = txtStatusCambio.txt.Text;
-            string descripcion = txtDescripcion.txt.Text;
+            string nombre = txtNombre.Text;
+            string StatusCambio = txtStatusCambio.Text;
+            string descripcion = txtDescripcion.Text;
 
             UForm = new DTipoTramite(0, nombre, StatusCambio, descripcion);
         }
@@ -133,31 +115,25 @@ namespace HumanResourcesSM.Windows
         {
             if (Data != null)
             {
-                txtNombre.SetText(Data.nombre);
-                txtStatusCambio.SetText(Data.statusCambio);
-                txtStatusCambio.SetText(Data.descripcion);
+                txtNombre.Text = Data.nombre;
+                txtStatusCambio.Text = Data.statusCambio;
+                txtStatusCambio.Text = Data.descripcion;
             }
         }
         #region Validation
         bool Validate()
         {
-            if (txtNombre.txt.Text == "")
+            if (txtNombre.Text == "")
             {
-                MessageBox.Show("Debes llenar el campo Nombre!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtNombre.txt.Focus();
+                MessageBox.Show("Debes llenar el campo Nombre!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtNombre.Focus();
                 return true;
             }
 
-            if (txtStatusCambio.txt.Text == "")
+            if (txtStatusCambio.Text == "")
             {
-                MessageBox.Show("Debes llenar el campo Estatus!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtStatusCambio.txt.Focus();
-                return true;
-            }
-            if (txtDescripcion.txt.Text == "")
-            {
-                MessageBox.Show("Debes llenar el campo Descripción!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtStatusCambio.txt.Focus();
+                MessageBox.Show("Debes llenar el campo Estatus!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtStatusCambio.Focus();
                 return true;
             }
 

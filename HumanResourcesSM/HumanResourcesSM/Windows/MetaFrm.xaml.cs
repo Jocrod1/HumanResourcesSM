@@ -19,16 +19,13 @@ using Metodos;
 
 namespace HumanResourcesSM.Windows
 {
-    /// <summary>
-    /// Interaction logic for SeleccionFrm.xaml
-    /// </summary>
     public partial class MetaFrm : Window
     {
 
         void init()
         {
             InitializeComponent();
-            txtValorMeta.txt.KeyDown += new KeyEventHandler(Validaciones.TextBoxValidatePrices);
+            txtValorMeta.KeyDown += new KeyEventHandler(Validaciones.TextBoxValidatePrices);
         }
         public MetaFrm()
         {
@@ -99,7 +96,7 @@ namespace HumanResourcesSM.Windows
             int idEmpleado = MType.Equals(MetaType.Empleado) ? idSeleccion : 1;
             int idDepartamento = MType.Equals(MetaType.Departamento) ? idSeleccion : 1;
             int idTipoMetrica = (int)CbTipoMetrica.SelectedValue;
-            int ValorMeta = int.Parse(txtValorMeta.txt.Text);
+            int ValorMeta = int.Parse(txtValorMeta.Text);
             DateTime FechaInicio = CbFechaInicio.SelectedDate ?? DateTime.Now;
             DateTime FechaFinal = CbFechaFinal.SelectedDate ?? DateTime.Now;
 
@@ -183,7 +180,7 @@ namespace HumanResourcesSM.Windows
                 RBDepartamento.IsEnabled = false;
                 RBEmpleado.IsEnabled = false;
                 CbTipoMetrica.SelectedValue = Data.idTipoMetrica;
-                txtValorMeta.SetText(Data.valorMeta.ToString());
+                txtValorMeta.Text = Data.valorMeta.ToString();
                 CbFechaInicio.SelectedDate = Data.fechaInicio;
                 CbFechaFinal.SelectedDate = Data.fechaFinal;
             }
@@ -206,7 +203,6 @@ namespace HumanResourcesSM.Windows
             CbSeleccion.SelectedValuePath = "idEmpleado";
 
             CbSeleccion.SelectedIndex = -1;
-            PlaceSeleccion.Text = "Seleccionar Empleado";
         }
 
         private void RBDepartamento_Checked(object sender, RoutedEventArgs e)
@@ -220,15 +216,12 @@ namespace HumanResourcesSM.Windows
             CbSeleccion.SelectedValuePath = "idDepartamento";
 
             CbSeleccion.SelectedIndex = -1;
-            PlaceSeleccion.Text = "Seleccionar Departamento";
         }
 
         private void CbSeleccion_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (CbSeleccion.SelectedIndex > -1)
             {
-                PlaceSeleccion.Visibility = Visibility.Hidden;
-
                 int id = 0;
                 if (MType == MetaType.Empleado)
                 {
@@ -250,8 +243,6 @@ namespace HumanResourcesSM.Windows
             }
             else
             {
-                PlaceSeleccion.Visibility = Visibility.Visible;
-
                 CbTipoMetrica.SelectedIndex = -1;
                 CbTipoMetrica.IsEnabled = false;
             }
@@ -273,10 +264,10 @@ namespace HumanResourcesSM.Windows
                 CbTipoMetrica.Focus();
                 return true;
             }
-            if (txtValorMeta.txt.Text == "")
+            if (txtValorMeta.Text == "")
             {
                 MessageBox.Show("Debes llenar el campo Valor Meta!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtValorMeta.txt.Focus();
+                txtValorMeta.Focus();
                 return true;
             }
             if (CbFechaInicio.SelectedDate == null)
@@ -308,14 +299,10 @@ namespace HumanResourcesSM.Windows
         {
             if (CbFechaInicio.SelectedDate != null)
             {
-                PlaceFechaInicio.Text = "";
-
                 CbFechaFinal.DisplayDateStart = CbFechaInicio.SelectedDate?.Date;
             }
             else
             {
-                PlaceFechaInicio.Text = "Fecha de Inicio";
-
                 CbFechaFinal.DisplayDateStart = null;
             }
         }
@@ -324,29 +311,11 @@ namespace HumanResourcesSM.Windows
         {
             if (CbFechaFinal.SelectedDate != null)
             {
-                PlaceFechaFinal.Text = "";
-
                 CbFechaInicio.DisplayDateEnd = CbFechaFinal.SelectedDate?.Date;
             }
             else
             {
-                PlaceFechaFinal.Text = "Fecha Final";
-
                 CbFechaInicio.DisplayDateEnd = null;
-            }
-        }
-
-        
-
-        private void CbTipoMetrica_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (CbTipoMetrica.SelectedIndex > -1)
-            {
-                PlaceTipoMetrica.Text = "";
-            }
-            else
-            {
-                PlaceTipoMetrica.Text = "Tipo de Métrica";
             }
         }
 

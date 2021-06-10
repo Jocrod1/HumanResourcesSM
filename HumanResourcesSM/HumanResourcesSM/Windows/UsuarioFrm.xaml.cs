@@ -20,10 +20,6 @@ using Metodos;
 
 namespace HumanResourcesSM.Windows
 {
-
-    /// <summary>
-    /// Interaction logic for DepartamentoFrm.xaml
-    /// </summary>
     public partial class UsuarioFrm : Window
     {
         public UsuarioFrm()
@@ -90,7 +86,7 @@ namespace HumanResourcesSM.Windows
             }
 
             int idRol = (int)CbRol.SelectedValue;
-            string usuario = txtUsuario.txt.Text;
+            string usuario = txtUsuario.Text;
             string password = txtContraseña.Password;
 
             UForm = new DUsuario(0, 
@@ -109,16 +105,16 @@ namespace HumanResourcesSM.Windows
             DSeguridad DS2 = new DSeguridad();
             DSeguridad DS3 = new DSeguridad();
 
-            DS.pregunta = txtPregunta1.txt.Text;
-            DS.respuesta = txtRespuesta1.txt.Text;
+            DS.pregunta = txtPregunta1.Text;
+            DS.respuesta = txtRespuesta1.Text;
             ListaSeguridad.Add(DS);
 
-            DS2.pregunta = txtPregunta2.txt.Text;
-            DS2.respuesta = txtRespuesta2.txt.Text;
+            DS2.pregunta = txtPregunta2.Text;
+            DS2.respuesta = txtRespuesta2.Text;
             ListaSeguridad.Add(DS2);
 
-            DS3.pregunta = txtPregunta3.txt.Text;
-            DS3.respuesta = txtRespuesta3.txt.Text;
+            DS3.pregunta = txtPregunta3.Text;
+            DS3.respuesta = txtRespuesta3.Text;
             ListaSeguridad.Add(DS3);
 
         }
@@ -177,35 +173,34 @@ namespace HumanResourcesSM.Windows
         {
             if (Data != null)
             {
-                txtUsuario.SetText(Data.usuario);
+                txtUsuario.Text = Data.usuario;
                 CbRol.SelectedValue = Data.idRol;
                 if (Type == TypeForm.Read)
                     grdContraseña.Visibility = Visibility.Collapsed;
                 else if(Type == TypeForm.Update)
                 {
                     txtContraseña.Password = Data.contraseña;
-                    PlaceContraseña.Text = "";
                 }
                 if (IsSelf)
                     CbRol.IsEnabled = false;
 
-                txtPregunta1.SetText(DataSeguridad[0].pregunta);
-                txtRespuesta1.SetText(DataSeguridad[0].respuesta);
+                txtPregunta1.Text = DataSeguridad[0].pregunta;
+                txtRespuesta1.Text = DataSeguridad[0].respuesta;
 
-                txtPregunta2.SetText(DataSeguridad[1].pregunta);
-                txtRespuesta2.SetText(DataSeguridad[1].respuesta);
+                txtPregunta2.Text = DataSeguridad[1].pregunta;
+                txtRespuesta2.Text = DataSeguridad[1].respuesta;
 
-                txtPregunta3.SetText(DataSeguridad[2].pregunta);
-                txtRespuesta3.SetText(DataSeguridad[2].respuesta);
+                txtPregunta3.Text = DataSeguridad[2].pregunta;
+                txtRespuesta3.Text = DataSeguridad[2].respuesta;
             }
         }
         #region Validation
         bool Validate()
         {
-            if (txtUsuario.txt.Text == "")
+            if (txtUsuario.Text == "")
             {
                 MessageBox.Show("Debes llenar el campo Usuario!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtUsuario.txt.Focus();
+                txtUsuario.Focus();
                 return true;
             }
 
@@ -223,59 +218,78 @@ namespace HumanResourcesSM.Windows
                 return true;
             }
 
-            if (txtPregunta1.txt.Text == "")
+            if (StrongPassword())
             {
-                MessageBox.Show("Debes llenar la pregunta #1!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtPregunta1.txt.Focus();
-                return true;
-            }
-            if (txtRespuesta1.txt.Text == "")
-            {
-                MessageBox.Show("Debes llenar la respuesta #1!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtRespuesta1.txt.Focus();
                 return true;
             }
 
-            if (txtPregunta2.txt.Text == "")
+            if (txtConfirmar.Password == "")
+            {
+                MessageBox.Show("Debe ingresar la confirmación de la contraseña!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                txtConfirmar.Focus();
+                return true;
+            }
+
+            if (txtContraseña.Password != txtConfirmar.Password)
+            {
+                MessageBox.Show("Las contraseñas deben coincidir!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                txtConfirmar.Focus();
+                return true;
+            }
+
+            if (txtPregunta1.Text == "")
+            {
+                MessageBox.Show("Debes llenar la pregunta #1!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtPregunta1.Focus();
+                return true;
+            }
+            if (txtRespuesta1.Text == "")
+            {
+                MessageBox.Show("Debes llenar la respuesta #1!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtRespuesta1.Focus();
+                return true;
+            }
+
+            if (txtPregunta2.Text == "")
             {
                 MessageBox.Show("Debes llenar la pregunta #2!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtPregunta2.txt.Focus();
+                txtPregunta2.Focus();
                 return true;
             }
-            if (txtRespuesta2.txt.Text == "")
+            if (txtRespuesta2.Text == "")
             {
                 MessageBox.Show("Debes llenar la respuesta #2!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtRespuesta2.txt.Focus();
+                txtRespuesta2.Focus();
                 return true;
             }
-            if (txtPregunta3.txt.Text == "")
+            if (txtPregunta3.Text == "")
             {
                 MessageBox.Show("Debes llenar la pregunta #3!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtPregunta3.txt.Focus();
+                txtPregunta3.Focus();
                 return true;
             }
-            if (txtRespuesta3.txt.Text == "")
+            if (txtRespuesta3.Text == "")
             {
                 MessageBox.Show("Debes llenar la respuesta #3!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtRespuesta3.txt.Focus();
+                txtRespuesta3.Focus();
                 return true;
             }
-            var UserCheck = Metodos.EncontrarByUsuario(txtUsuario.txt.Text);
+            var UserCheck = Metodos.EncontrarByUsuario(txtUsuario.Text);
             if (UserCheck.Count > 0)
             {
                 var user = UserCheck[0];
                 if (user.estado == 1)
                 {
                     MessageBox.Show("El usuario ingresado ya está registrado!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                    txtUsuario.txt.Focus();
+                    txtUsuario.Focus();
                     return true;
                 }
                 else if(Type == TypeForm.Update)
                 {
-                    if(txtUsuario.txt.Text != DataFill.usuario)
+                    if(txtUsuario.Text != DataFill.usuario)
                     {
                         MessageBox.Show("El usuario ingresado ya está registrado!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                        txtUsuario.txt.Focus();
+                        txtUsuario.Focus();
                         return true;
                     }
                 }
@@ -285,7 +299,7 @@ namespace HumanResourcesSM.Windows
                     if (resp == MessageBoxResult.Yes)
                     {
                         int idRol = (int)CbRol.SelectedValue;
-                        string usuario = txtUsuario.txt.Text;
+                        string usuario = txtUsuario.Text;
                         string password = txtContraseña.Password;
 
                         UForm = new DUsuario(user.idUsuario,
@@ -321,34 +335,71 @@ namespace HumanResourcesSM.Windows
         }
         #endregion
 
+
+        private bool StrongPassword()
+        {
+            if (txtContraseña.Password.Length < 6)
+            {
+                MessageBox.Show("La contraseña no puede ser menor de 6 carácteres!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                txtContraseña.Focus();
+                return true;
+            }
+            if (txtContraseña.Password.Length > 24)
+            {
+                MessageBox.Show("La contraseña no puede ser mayor de 24 carácteres!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                txtContraseña.Focus();
+                return true;
+            }
+            if (!txtContraseña.Password.Any(char.IsUpper))
+            {
+                MessageBox.Show("La contraseña debe contener al menos una mayúscula!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                txtContraseña.Focus();
+                return true;
+            }
+            if (!txtContraseña.Password.Any(char.IsLower))
+            {
+                MessageBox.Show("La contraseña debe contener al menos una minúscula!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                txtContraseña.Focus();
+                return true;
+            }
+            if (txtContraseña.Password.Contains(" "))
+            {
+                MessageBox.Show("La contraseña no debe contener espacios en blanco!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                txtContraseña.Focus();
+                return true;
+            }
+            if (SpecialCharacter())
+            {
+                MessageBox.Show("La contraseña debe contener al menos un carácter especial!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                txtContraseña.Focus();
+                return true;
+            }
+            return false;
+        }
+
+        private bool SpecialCharacter()
+        {
+            string specialCh = @"%!@#$%^&*()?/>.<,:;'\|}]{[_~`+=-" + "\"";
+            char[] specialChArray = specialCh.ToCharArray();
+            foreach (char ch in specialChArray)
+            {
+                if (txtContraseña.Password.Contains(ch))
+                    return true;
+            }
+            return false;
+        }
+
+
         private void CbRol_SelectionChanged(object sender, RoutedEventArgs e)
         {
             if(CbRol.SelectedIndex > -1)
             {
-                PlaceRol.Text = "";
                 var rol = CbRol.SelectedItem as DRol;
                 txtDescripción.Text = rol.descripcion;
             }
             else
             {
-                PlaceRol.Text = "Rol";
                 txtDescripción.Text = "";
-            }
-        }
-
-        private void txtContraseña_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if(txtContraseña.Password == "")
-            {
-                PlaceContraseña.Text = "";
-            }
-        }
-
-        private void txtContraseña_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (txtContraseña.Password == "")
-            {
-                PlaceContraseña.Text = "Contraseña";
             }
         }
     }

@@ -52,6 +52,12 @@ namespace HumanResourcesSM.Windows
                 txtContraseña.Focus();
                 return true;
             }
+
+            if (StrongPassword())
+            {
+                return true;
+            }
+
             if (txtConfirmar.Password == "")
             {
                 MessageBox.Show("Debe ingresar la confirmación de la contraseña!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -66,6 +72,59 @@ namespace HumanResourcesSM.Windows
                 return true;
             }
 
+            return false;
+        }
+
+        private bool StrongPassword()
+        {
+            if (txtContraseña.Password.Length < 6)
+            {
+                MessageBox.Show("La contraseña no puede ser menor de 6 carácteres!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                txtContraseña.Focus();
+                return true;
+            }
+            if (txtContraseña.Password.Length > 24)
+            {
+                MessageBox.Show("La contraseña no puede ser mayor de 24 carácteres!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                txtContraseña.Focus();
+                return true;
+            }
+            if (!txtContraseña.Password.Any(char.IsUpper))
+            {
+                MessageBox.Show("La contraseña debe contener al menos una mayúscula!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                txtContraseña.Focus();
+                return true;
+            }
+            if (!txtContraseña.Password.Any(char.IsLower))
+            {
+                MessageBox.Show("La contraseña debe contener al menos una minúscula!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                txtContraseña.Focus();
+                return true;
+            }
+            if (txtContraseña.Password.Contains(" "))
+            {
+                MessageBox.Show("La contraseña no debe contener espacios en blanco!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                txtContraseña.Focus();
+                return true;
+            }
+            if (SpecialCharacter())
+            {
+                MessageBox.Show("La contraseña debe contener al menos un carácter especial!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                txtContraseña.Focus();
+                return true;
+            }
+            return false;
+        }
+
+        private bool SpecialCharacter()
+        {
+            string specialCh = @"%!@#$%^&*()?/>.<,:;'\|}]{[_~`+=-" + "\"";
+            char[] specialChArray = specialCh.ToCharArray();
+            foreach (char ch in specialChArray)
+            {
+                if (txtContraseña.Password.Contains(ch))
+                    return true;
+            }
             return false;
         }
 

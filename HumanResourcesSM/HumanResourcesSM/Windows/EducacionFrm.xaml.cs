@@ -20,9 +20,6 @@ using Metodos;
 
 namespace HumanResourcesSM.Windows
 {
-    /// <summary>
-    /// Interaction logic for DepartamentoFrm.xaml
-    /// </summary>
     public partial class EducacionFrm : Window
     {
         public EducacionFrm(SeleccionFrm Par)
@@ -123,8 +120,8 @@ namespace HumanResourcesSM.Windows
                 return;
             }
 
-            string nombreCarrera = txtNombreCarrera.txt.Text;
-            string nombreInstitucion = txtNombreInstitucion.txt.Text;
+            string nombreCarrera = txtNombreCarrera.Text;
+            string nombreInstitucion = txtNombreInstitucion.Text;
             DateTime fechaingreso = CbFechaIngreso.SelectedDate ?? DateTime.Now;
             if (fechaingreso == DateTime.Now) return;
             DateTime? fechaEgreso = CbFechaEgreso.SelectedDate;
@@ -183,8 +180,8 @@ namespace HumanResourcesSM.Windows
         {
             if (Data != null)
             {
-                txtNombreCarrera.SetText(Data.nombreCarrera);
-                txtNombreInstitucion.SetText(Data.nombreInstitucion);
+                txtNombreCarrera.Text = Data.nombreCarrera;
+                txtNombreInstitucion.Text = Data.nombreInstitucion;
                 CbFechaIngreso.SelectedDate = Data.fechaIngreso;
                 CbFechaEgreso.SelectedDate = Data.fechaEgreso;
                 ChBNotEnded.IsChecked = Data.fechaEgreso == null;
@@ -195,14 +192,10 @@ namespace HumanResourcesSM.Windows
         {
             if (CbFechaIngreso.SelectedDate != null)
             {
-                PlaceFechaIngreso.Text = "";
-
                 CbFechaEgreso.DisplayDateStart = CbFechaIngreso.SelectedDate?.Date;
             }
             else
             {
-                PlaceFechaIngreso.Text = "Fecha de Ingreso";
-
                 CbFechaEgreso.DisplayDateStart = null;
             }
         }
@@ -211,14 +204,10 @@ namespace HumanResourcesSM.Windows
         {
             if (CbFechaEgreso.SelectedDate != null)
             {
-                PlaceFechaEgreso.Text = "";
-
                 CbFechaIngreso.DisplayDateEnd = CbFechaEgreso.SelectedDate?.Date;
             }
             else
             {
-                PlaceFechaEgreso.Text = "Fecha de Egreso";
-
                 CbFechaIngreso.DisplayDateEnd = null;
             }
         }
@@ -237,16 +226,16 @@ namespace HumanResourcesSM.Windows
         #region Validation
         bool Validate()
         {
-            if (txtNombreCarrera.txt.Text == "")
+            if (txtNombreCarrera.Text == "")
             {
                 MessageBox.Show("Debes llenar el Nombre de Titulo!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtNombreCarrera.txt.Focus();
+                txtNombreCarrera.Focus();
                 return true;
             }
-            if (txtNombreInstitucion.txt.Text == "")
+            if (txtNombreInstitucion.Text == "")
             {
                 MessageBox.Show("Debes llenar el Nombre de Institución!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtNombreInstitucion.txt.Focus();
+                txtNombreInstitucion.Focus();
                 return true;
             }
             if (CbFechaIngreso.SelectedDate == null)

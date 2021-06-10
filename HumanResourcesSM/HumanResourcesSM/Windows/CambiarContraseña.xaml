@@ -7,7 +7,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
-        Title="CambiarContraseña" Height="300" Width="440">
+        Title="SwissNet" Height="350" Width="440">
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -72,6 +72,9 @@
                                      Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
                     </Grid>
                 </Grid>
+
+                <TextBlock Text="(La contraseña debe contener al menos una minúscula, una mayúscula, un dígito, un carácter especial y sin espacios en blanco) " 
+                           FontWeight="Light" TextWrapping="Wrap" FontStyle="Italic" TextAlignment="Center"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>

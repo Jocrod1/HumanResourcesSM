@@ -17,9 +17,6 @@ using Metodos;
 
 namespace HumanResourcesSM.Windows
 {
-    /// <summary>
-    /// Interaction logic for PreguntasSeguridad.xaml
-    /// </summary>
     public partial class PreguntasSeguridad : Window
     {
         Login ParentForm;
@@ -88,58 +85,6 @@ namespace HumanResourcesSM.Windows
             else
             {
                 MessageBox.Show("Datos Incorrectos!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-        }
-
-        private void txtBuscar_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (txtRespuesta.Password == "")
-            {
-                txtBucarPlaceH.Text = "";
-            }
-
-        }
-
-        private void txtBuscar_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (txtRespuesta.Password == "")
-            {
-                txtBucarPlaceH.Text = "Respuesta";
-            }
-
-        }
-
-
-        private void txtBuscar2_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (txtRespuesta2.Password == "")
-            {
-                txtBucarPlaceH2.Text = "";
-            }
-        }
-
-        private void txtBuscar2_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (txtRespuesta2.Password == "")
-            {
-                txtBucarPlaceH2.Text = "Respuesta";
-            }
-        }
-
-
-        private void txtBuscar3_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (txtRespuesta3.Password == "")
-            {
-                txtBucarPlaceH3.Text = "";
-            }
-        }
-
-        private void txtBuscar3_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (txtRespuesta3.Password == "")
-            {
-                txtBucarPlaceH3.Text = "Respuesta";
             }
         }
     }

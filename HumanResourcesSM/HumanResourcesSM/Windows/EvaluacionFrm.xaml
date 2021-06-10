@@ -84,6 +84,6 @@
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
             </StackPanel>
         </ScrollViewer>
-        <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Content="Agregar" Margin="0 10" Click="Button_Click" HorizontalAlignment="Center"/>
+        <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Content="Agregar" Margin="0 25" Click="Button_Click" HorizontalAlignment="Center"/>
     </Grid>
 </Window>

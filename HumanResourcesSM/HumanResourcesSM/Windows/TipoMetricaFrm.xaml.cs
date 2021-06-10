@@ -20,10 +20,6 @@ using Metodos;
 
 namespace HumanResourcesSM.Windows
 {
-
-    /// <summary>
-    /// Interaction logic for DepartamentoFrm.xaml
-    /// </summary>
     public partial class TipoMetricaFrm : Window
     {
         public TipoMetricaFrm()
@@ -83,7 +79,7 @@ namespace HumanResourcesSM.Windows
                 return;
             }
 
-            string nombre = txtNombre.txt.Text;
+            string nombre = txtNombre.Text;
             int idDepartamento = (int)CbDepartamento.SelectedValue;
 
 
@@ -140,22 +136,22 @@ namespace HumanResourcesSM.Windows
             if (Data != null)
             {
                 CbDepartamento.SelectedValue = Data.idDepartamento;
-                txtNombre.SetText(Data.nombre);
+                txtNombre.Text = Data.nombre;
             }
         }
         #region Validation
         bool Validate()
         {
-            if (txtNombre.txt.Text == "")
+            if (txtNombre.Text == "")
             {
-                MessageBox.Show("Debes llenar el campo Nombre de Tipo de Tramite!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtNombre.txt.Focus();
+                MessageBox.Show("Debes llenar el campo Nombre de Tipo de Tramite!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtNombre.Focus();
                 return true;
             }
 
             if (CbDepartamento.SelectedIndex == -1)
             {
-                MessageBox.Show("Debes seleccionar un Departamento!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Debes seleccionar un Departamento!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                 CbDepartamento.Focus();
                 return true;
             }
@@ -164,17 +160,5 @@ namespace HumanResourcesSM.Windows
             return false;
         }
         #endregion
-
-        private void CbDepartamento_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (CbDepartamento.SelectedIndex > -1)
-            {
-                PlaceDepartamento.Text = "";
-            }
-            else
-            {
-                PlaceDepartamento.Text = "Departamento";
-            }
-        }
     }
 }

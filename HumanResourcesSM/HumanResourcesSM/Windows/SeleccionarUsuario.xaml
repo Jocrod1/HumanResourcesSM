@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HumanResourcesSM.Windows"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
         Title="SeleccionarUsuario" Height="220" Width="400">
@@ -20,19 +21,22 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Margin="0 0 10 0">
-                    <TextBlock x:Name="PlaceFechaInicio" Text="Fecha de Inicio" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
-                    <DatePicker Name="CbFechaInicio" FontSize="15" SelectedDateChanged="CbFechaInicio_SelectedDateChanged" Focusable="False"/>
+                    <DatePicker Name="CbFechaInicio" FontSize="15" SelectedDateChanged="CbFechaInicio_SelectedDateChanged" 
+                            materialDesign:HintAssist.Hint="Fecha Inicial"
+                            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Focusable="False"/>
                 </Grid>
                 <Grid Grid.Column="1" Margin="10 0 0 0">
-                    <TextBlock x:Name="PlaceFechaFinal" Text="Fecha Final" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
-                    <DatePicker Name="CbFechaFinal" FontSize="15" SelectedDateChanged="CbFechaFinal_SelectedDateChanged" Focusable="False"/>
+                    <DatePicker Name="CbFechaFinal" FontSize="15" SelectedDateChanged="CbFechaFinal_SelectedDateChanged" 
+                            materialDesign:HintAssist.Hint="Fecha Final"
+                            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Focusable="False"/>
                 </Grid>
             </Grid>
             <Grid Margin="0 10" Name="GridUsuario">
-                <TextBlock x:Name="PlaceUsuario" Text="Usuario" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
-                <ComboBox Name="CbUsuario" FontSize="15" SelectionChanged="CbUsuario_SelectionChanged"/>
+                <ComboBox Name="CbUsuario" FontSize="15" SelectionChanged="CbUsuario_SelectionChanged"
+                            materialDesign:HintAssist.Hint="Usuario"
+                            Style="{StaticResource MaterialDesignComboBox}"/>
             </Grid>
         </StackPanel>
-        <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Content="Seleccionar" Margin="0 10" Click="btnEnviar_Click" HorizontalAlignment="Center"/>
+        <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Content="Seleccionar" Margin="0 5 0 10" Click="btnEnviar_Click" HorizontalAlignment="Center"/>
     </Grid>
 </Window>

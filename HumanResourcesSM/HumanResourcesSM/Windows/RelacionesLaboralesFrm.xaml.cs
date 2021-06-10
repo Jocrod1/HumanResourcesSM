@@ -1,29 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-
 using Datos;
 using Metodos;
 
 namespace HumanResourcesSM.Windows
 {
 
-    /// <summary>
-    /// Interaction logic for DepartamentoFrm.xaml
-    /// </summary>
     public partial class RelacionesLaboralesFrm : Window
     {
         public RelacionesLaboralesFrm()
@@ -99,7 +83,7 @@ namespace HumanResourcesSM.Windows
             int idEmpleado = (int)CbEmpleado.SelectedValue;
             int idTipoTramite = (int)CbTipoTramite.SelectedValue;
             DateTime FechaTramite = DPFechaTramite.SelectedDate ?? DateTime.Now;
-            string Url = txtUrl.txt.Text;
+            string Url = txtUrl.Text;
 
             UForm = new DRelacionesLaborales(0,
                                              idEmpleado,
@@ -134,13 +118,6 @@ namespace HumanResourcesSM.Windows
             if (UForm == null)
                 return;
             UForm.idTipoTramite = DataFill.idTipoTramite;
-            //string response = Metodos.Editar(UForm);
-            //MessageBox.Show(response);
-            //if (response == "OK")
-            //{
-            //    this.DialogResult = true;
-            //    this.Close();
-            //}
         }
 
         void SetEnable(bool Enable)
@@ -156,38 +133,39 @@ namespace HumanResourcesSM.Windows
             {
                 CbEmpleado.SelectedValue = Data.idEmpleado;
                 CbTipoTramite.SelectedValue = Data.idTipoTramite;
-                txtUrl.SetText(Data.documentoUrl);
+                txtUrl.Text = Data.documentoUrl;
             }
         }
+
         #region Validation
         bool Validate()
         {
 
             if (CbEmpleado.SelectedIndex == -1)
             {
-                MessageBox.Show("Debes seleccionar un Empleado!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Debes seleccionar un Empleado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                 CbEmpleado.Focus();
                 return true;
             }
 
             if (CbTipoTramite.SelectedIndex == -1)
             {
-                MessageBox.Show("Debes seleccionar un Rol!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Debes seleccionar un Rol!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                 CbTipoTramite.Focus();
                 return true;
             }
 
             if (DPFechaTramite.SelectedDate == null)
             {
-                MessageBox.Show("Debes seleccionar una Fecha de Tramite!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Debes seleccionar una Fecha de Tramite!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                 DPFechaTramite.Focus();
                 return true;
             }
 
-            if (txtUrl.txt.Text == "")
+            if (txtUrl.Text == "")
             {
-                MessageBox.Show("Debes llenar el campo URL!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtUrl.txt.Focus();
+                MessageBox.Show("Debes llenar el campo URL!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtUrl.Focus();
                 return true;
             }
 
@@ -195,40 +173,5 @@ namespace HumanResourcesSM.Windows
         }
         #endregion
 
-        private void CbEmpleado_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (CbEmpleado.SelectedIndex > -1)
-            {
-                PlaceEmpleado.Text = "";
-            }
-            else
-            {
-                PlaceEmpleado.Text = "Empleado";
-            }
-        }
-
-        private void CbTipoTramite_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (CbTipoTramite.SelectedIndex > -1)
-            {
-                PlaceTipoTramite.Text = "";
-            }
-            else
-            {
-                PlaceTipoTramite.Text = "Tipo de Tramite";
-            }
-        }
-
-        private void DPFechaTramite_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (DPFechaTramite.SelectedDate != null)
-            {
-                PlaceFechaTramite.Text = "";
-            }
-            else
-            {
-                PlaceFechaTramite.Text = "Fecha de Tramite";
-            }
-        }
     }
 }

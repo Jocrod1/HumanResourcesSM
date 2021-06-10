@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HumanResourcesSM.Windows"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="DepartamentoFrm" Height="400" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
+        Title="SwissNet" Height="455" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -20,22 +21,26 @@
                        FontWeight="Bold"
                        FontSize="25"
                        Margin="20 30 0 15"/>
-            <!--<Separator VerticalAlignment="Bottom" Foreground="Black" />-->
         </Grid>
         <StackPanel Grid.Row="1"  Margin="50 10">
             <Grid Margin="0 10">
-                <TextBlock x:Name="PlaceEmpleado" Text="Empleado" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
-                <ComboBox Name="CbEmpleado" FontSize="15" SelectionChanged="CbEmpleado_SelectionChanged"/>
+                <ComboBox Name="CbEmpleado" FontSize="15" 
+                            materialDesign:HintAssist.Hint="Empleado"
+                            Style="{StaticResource MaterialDesignFloatingHintComboBox}"/>
             </Grid>
             <Grid Margin="0 10">
-                <TextBlock x:Name="PlaceTipoTramite" Text="Tipo de Tramite" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
-                <ComboBox Name="CbTipoTramite" FontSize="15" SelectionChanged="CbTipoTramite_SelectionChanged"/>
+                <ComboBox Name="CbTipoTramite" FontSize="15" 
+                            materialDesign:HintAssist.Hint="Tipo de Trámite"
+                            Style="{StaticResource MaterialDesignFloatingHintComboBox}"/>
             </Grid>
             <Grid Margin="0 10">
-                <TextBlock x:Name="PlaceFechaTramite" Text="Fecha de Tramite" Margin="1 4 0 0" FontSize="15" Foreground="Gray"/>
-                <DatePicker Name="DPFechaTramite" FontSize="15" SelectedDateChanged="DPFechaTramite_SelectedDateChanged"/>
+                <DatePicker Name="DPFechaTramite" FontSize="15"
+                            materialDesign:HintAssist.Hint="Fecha de Trámite"
+                            Style="{StaticResource MaterialDesignFloatingHintDatePicker}"/>
             </Grid>
-            <local:UserInputText x:Name="txtUrl" VerticalAlignment="Center" Placeholder="Url" Margin="0 10" FontSize="15"/>
+            <TextBox x:Name="txtUrl" VerticalAlignment="Center" Margin="0 10" FontSize="15"
+                            materialDesign:HintAssist.Hint="Url"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
         </StackPanel>
         <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Content="Agregar" Margin="0 10" Click="Button_Click" HorizontalAlignment="Center"/>
     </Grid>

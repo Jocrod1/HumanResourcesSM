@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HumanResourcesSM.Windows"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="Login" Height="400" Width="700" ResizeMode="NoResize">
+        Title="SwissNet" Height="400" Width="700" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -17,13 +18,15 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="250">
-                <!--<TextBlock Text="Iniciar Sesión" FontSize="20" FontWeight="Bold" Foreground="#C22723" HorizontalAlignment="Center"/>-->
                 <Image Source="/HumanResourcesSM;component/Img/Logo.png" Margin="10 10"/>
                 <StackPanel KeyDown="StackPanel_KeyDown">
-                    <local:UserInputText x:Name="txtUsuario" Placeholder="Usuario" Margin="0 10"/>
+                    <TextBox x:Name="txtUsuario" Margin="0 10"
+                            materialDesign:HintAssist.Hint="Usuario"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
                     <Grid Margin="0 10">
-                        <TextBlock x:Name="placePassword" Text="Contraseña" Foreground="Gray" Margin="1 4 0 0"/>
-                        <PasswordBox x:Name="txtPassword" GotFocus="txtPassword_GotFocus" LostFocus="txtPassword_LostFocus" MaxLength="20" />
+                        <PasswordBox x:Name="txtPassword" MaxLength="20" 
+                            materialDesign:HintAssist.Hint="Contraseña"
+                            Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
                     </Grid>
                 </StackPanel>
                 <Button x:Name="BtnLogin" Content="Iniciar Sesión" Margin="0 10" Click="BtnLogin_Click" Background="#2A347B" BorderBrush="#2A347B"/>

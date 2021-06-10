@@ -129,6 +129,14 @@ namespace HumanResourcesSM.Windows
             }
         }
 
+        public static void DontPressNumber(object sender, KeyEventArgs e)
+        {
+            if (!Regex.IsMatch(GetCharFromKey(e.Key).ToString(), @"[a-zA-Z/]"))
+            {
+                e.Handled = true;
+            }
+        }
+
         public static void TextBoxValidatePrices(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Tab)

@@ -144,7 +144,7 @@ namespace HumanResourcesSM.Windows
 
         public void NoContratado()
         {
-            var resp = new MContrato().NoContratado(Empleado.idEmpleado, Menu.ActUsuario.idUsuario, txtRazon.txt.Text);
+            var resp = new MContrato().NoContratado(Empleado.idEmpleado, Menu.ActUsuario.idUsuario, txtRazon.Text);
 
             if (resp.Equals("OK"))
             {
@@ -162,7 +162,7 @@ namespace HumanResourcesSM.Windows
         }
         public void Despedido()
         {
-            var resp = new MSeleccion().Despido(Empleado.idEmpleado, txtRazon.txt.Text);
+            var resp = new MSeleccion().Despido(Empleado.idEmpleado, txtRazon.Text);
 
             if (resp.Equals("OK"))
             {
@@ -189,7 +189,7 @@ namespace HumanResourcesSM.Windows
                                            0,
                                            0);
 
-            var resp = new MContrato().Insertar(Data, Menu.ActUsuario.idUsuario, txtRazon.txt.Text);
+            var resp = new MContrato().Insertar(Data, Menu.ActUsuario.idUsuario, txtRazon.Text);
 
             if (resp.Equals("OK"))
                 MAuditoria.Insertar(new DAuditoria(
@@ -226,7 +226,7 @@ namespace HumanResourcesSM.Windows
             }
 
             double Sueldo = double.Parse(txtSueldo.Text);
-            int HorasSemanales = int.Parse(txtHorasSemanales.txt.Text);
+            int HorasSemanales = int.Parse(txtHorasSemanales.Text);
 
 
 
@@ -285,7 +285,7 @@ namespace HumanResourcesSM.Windows
             if(Data != null)
             {
                 txtSueldo.Text = Data.sueldo.ToString();
-                txtHorasSemanales.SetText(Data.horasSemanales.ToString());
+                txtHorasSemanales.Text = Data.horasSemanales.ToString();
             }
         }
 
@@ -299,10 +299,10 @@ namespace HumanResourcesSM.Windows
                 txtSueldo.Focus();
                 return true;
             }
-            if (txtHorasSemanales.txt.Text == "")
+            if (txtHorasSemanales.Text == "")
             {
                 MessageBox.Show("Debes llenar el Campo de Horas Semanales!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtHorasSemanales.txt.Focus();
+                txtHorasSemanales.Focus();
                 return true;
             }
 

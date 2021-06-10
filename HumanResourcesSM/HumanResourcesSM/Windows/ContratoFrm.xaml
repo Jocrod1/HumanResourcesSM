@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:HumanResourcesSM.Windows"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="DepartamentoFrm" Height="400" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
+        Title="SwissNet" Height="450" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -28,10 +28,17 @@
                 <TextBox x:Name="txtSueldo" Margin="0 10" FontSize="15" 
                             materialDesign:HintAssist.Hint="Sueldo (€ por Hora)"
                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
-                <TextBlock Grid.Row="1" x:Name="txtDepartamento" Text="Departamento Asignado: Marketing" FontWeight="Bold" FontSize="15" Margin="0 0"/>
-                <local:UserInputText x:Name="txtHorasSemanales" Margin="0 10" FontSize="15" Placeholder="Horas Semanales"/>
+                
+                <TextBlock Grid.Row="1" x:Name="txtDepartamento" Text="Departamento Asignado: Marketing" 
+                           FontWeight="Bold" FontSize="15" Margin="0 0"/>
+
+                <TextBox x:Name="txtHorasSemanales" Margin="0 10" FontSize="15"
+                            materialDesign:HintAssist.Hint="Horas Semanales"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
             </StackPanel>
-            <local:UserInputText x:Name="txtRazon" Margin="0 10" FontSize="15" Placeholder="Razón" Height="70"/>
+            <TextBox x:Name="txtRazon" Margin="0 10" FontSize="15" Height="90"
+                            materialDesign:HintAssist.Hint="Razón de Contratación (Opcional)"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
         </StackPanel>
         <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Content="Agregar" Margin="0 10" Click="Button_Click" HorizontalAlignment="Center"/>
     </Grid>

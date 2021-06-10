@@ -3,9 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:HumanResourcesSM.Windows"
         mc:Ignorable="d"
-        Title="DepartamentoFrm" Height="360" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
+        Title="SwissNet" Height="330" Width="450" ResizeMode="NoResize" Loaded="Window_Loaded">
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -20,16 +21,15 @@
                        FontWeight="Bold"
                        FontSize="25"
                        Margin="20 30 0 15"/>
-            <!--<Separator VerticalAlignment="Bottom" Foreground="Black" />-->
         </Grid>
         <StackPanel Grid.Row="1"  Margin="50 10">
             <Grid Margin="0 10">
-                <TextBlock x:Name="PlaceIdioma" Text="Idioma" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
-                <ComboBox Name="CbIdioma" FontSize="15" SelectionChanged="CbIdioma_SelectionChanged"/>
+                <ComboBox Name="CbIdioma" FontSize="15" materialDesign:HintAssist.Hint="Idioma Hablado"
+                            Style="{StaticResource MaterialDesignFloatingHintComboBox}"/>
             </Grid>
             <Grid Margin="0 10">
-                <TextBlock x:Name="PlaceNivel" Text="Nivel" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
-                <ComboBox Name="CbNivel" FontSize="15" SelectionChanged="CbNivel_SelectionChanged">
+                <ComboBox Name="CbNivel" FontSize="15" materialDesign:HintAssist.Hint="Nivel de Idioma"
+                            Style="{StaticResource MaterialDesignFloatingHintComboBox}">
                     <ComboBoxItem>Basico</ComboBoxItem>
                     <ComboBoxItem>Intermedio</ComboBoxItem>
                     <ComboBoxItem>Avanzado</ComboBoxItem>
@@ -37,6 +37,7 @@
                 </ComboBox>
             </Grid>
         </StackPanel>
-        <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Content="Agregar" Margin="0 10" Click="Button_Click" HorizontalAlignment="Center"/>
+        <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" 
+                BorderBrush="#248232" Content="Agregar" Margin="0 15" Click="Button_Click" HorizontalAlignment="Center"/>
     </Grid>
 </Window>

@@ -20,9 +20,6 @@ using Metodos;
 
 namespace HumanResourcesSM.Windows
 {
-    /// <summary>
-    /// Interaction logic for DepartamentoFrm.xaml
-    /// </summary>
     public partial class IdiomaHabladoFrm : Window
     {
         public IdiomaHabladoFrm(SeleccionFrm Par)
@@ -189,31 +186,6 @@ namespace HumanResourcesSM.Windows
             {
                 CbIdioma.SelectedValue = Data.idIdioma;
                 CbNivel.SelectedIndex = Data.nivel;
-            }
-        }
-
-
-        private void CbIdioma_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (CbIdioma.SelectedIndex > -1)
-            {
-                PlaceIdioma.Text = "";
-            }
-            else
-            {
-                PlaceIdioma.Text = "Idioma";
-            }
-        }
-
-        private void CbNivel_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (CbNivel.SelectedIndex > -1)
-            {
-                PlaceNivel.Text = "";
-            }
-            else
-            {
-                PlaceNivel.Text = "Nivel";
             }
         }
 

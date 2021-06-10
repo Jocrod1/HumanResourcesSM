@@ -28,8 +28,7 @@ namespace HumanResourcesSM.Windows
         {
             InitializeComponent();
 
-            txtMonto.txt.KeyDown += new KeyEventHandler(Validaciones.TextBoxValidatePrices);
-
+            txtMonto.KeyDown += new KeyEventHandler(Validaciones.TextBoxValidatePrices);
 
             var res = new MSeleccion().MostrarEmpleado("");
 
@@ -63,7 +62,8 @@ namespace HumanResourcesSM.Windows
                 txtTitulo.Text = "Ver";
                 fillForm(DataFill);
                 SetEnable(false);
-                btnEnviar.Visibility = Visibility.Collapsed;            }
+                btnEnviar.Visibility = Visibility.Collapsed;            
+            }
         }
 
         void fillData()
@@ -75,9 +75,9 @@ namespace HumanResourcesSM.Windows
             }
 
             int idEmpleado = (int)CbEmpleado.SelectedValue;
-            double Monto = double.Parse(txtMonto.txt.Text);
+            double Monto = double.Parse(txtMonto.Text);
             int TipoDeuda = CbTipoDeuda.SelectedIndex;
-            string Concepto = txtConcepto.txt.Text;
+            string Concepto = txtConcepto.Text;
 
             int Repetitivo = ChBFijo.IsChecked ?? false ? 0 : 1; 
             int TipoPago = CbTipoPago.SelectedIndex;
@@ -128,82 +128,46 @@ namespace HumanResourcesSM.Windows
             if (Data != null)
             {
                 CbEmpleado.SelectedValue = Data.idEmpleado;
-                txtMonto.SetText(Data.monto.ToString());
+                txtMonto.Text = Data.monto.ToString();
                 CbTipoDeuda.SelectedIndex = Data.tipoDeuda;
-                txtConcepto.SetText(Data.concepto);
+                txtConcepto.Text = Data.concepto;
                 CbTipoPago.SelectedIndex = Data.tipoPago;
                 ChBFijo.IsChecked = Data.repetitivo == 0;
-            }
-        }
-
-        private void CbDepartamento_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (CbEmpleado.SelectedIndex > -1)
-            {
-                PlaceEmpleado.Text = "";
-            }
-            else
-            {
-                PlaceEmpleado.Text = "Empleado";
-            }
-        }
-
-        private void CbTipoDeuda_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (CbTipoDeuda.SelectedIndex > -1)
-            {
-                PlaceTipoDeuda.Text = "";
-            }
-            else
-            {
-                PlaceTipoDeuda.Text = "Tipo";
-            }
-        }
-
-        private void CbTipoPago_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (CbTipoPago.SelectedIndex > -1)
-            {
-                PlaceTipoPago.Text = "";
-            }
-            else
-            {
-                PlaceTipoPago.Text = "Tipo Pago";
             }
         }
 
         #region Validation
         bool Validate()
         {
-            if (txtConcepto.txt.Text == "")
+            if (txtConcepto.Text == "")
             {
-                MessageBox.Show("Debes llenar el campo Nombre!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtConcepto.txt.Focus();
+                MessageBox.Show("Debes llenar el campo Nombre!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtConcepto.Focus();
                 return true;
             }
             if (CbEmpleado.SelectedIndex == -1)
             {
-                MessageBox.Show("Debes seleccionar un Empleado!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Debes seleccionar un Empleado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                 CbEmpleado.Focus();
                 return true;
             }
             if (CbTipoDeuda.SelectedIndex == -1)
             {
-                MessageBox.Show("Debes seleccionar un Tipo!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Debes seleccionar si es Boficicación o Deducción!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                 CbTipoDeuda.Focus();
                 return true;
             }
             if (CbTipoPago.SelectedIndex == -1)
             {
-                MessageBox.Show("Debes seleccionar un Tipo Pago!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Debes seleccionar un Tipo Pago!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                 CbTipoDeuda.Focus();
                 return true;
             }
             
-            if (txtMonto.txt.Text == "")
+            if (txtMonto.Text == "")
             {
-                MessageBox.Show("Debes llenar el campo Monto!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtMonto.txt.Focus();
+                MessageBox.Show("Debes llenar el campo Monto!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtMonto.Focus();
                 return true;
             }
 

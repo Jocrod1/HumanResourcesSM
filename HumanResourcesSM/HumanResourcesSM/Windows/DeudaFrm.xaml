@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HumanResourcesSM.Windows"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="DepartamentoFrm" Height="440" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
+        Title="SwissNet" Height="520" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -20,32 +21,42 @@
                        FontWeight="Bold"
                        FontSize="25"
                        Margin="20 30 0 15"/>
-            <!--<Separator VerticalAlignment="Bottom" Foreground="Black" />-->
         </Grid>
-        <StackPanel Grid.Row="1"  Margin="50 10">
-            <local:UserInputText x:Name="txtConcepto" VerticalAlignment="Center" Placeholder="Nombre" Margin="0 10" FontSize="15"/>
+        <StackPanel Grid.Row="1"  Margin="40 10">
+            <TextBox x:Name="txtConcepto" VerticalAlignment="Center" Margin="0 5 0 10" FontSize="15"
+                            materialDesign:HintAssist.Hint="Nombre"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
             <Grid Margin="0 10">
-                <TextBlock x:Name="PlaceEmpleado" Text="Empleado" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
-                <ComboBox Name="CbEmpleado" FontSize="15" SelectionChanged="CbDepartamento_SelectionChanged"/>
+                <ComboBox Name="CbEmpleado" FontSize="15"
+                            materialDesign:HintAssist.Hint="Nombre del Empleado"
+                            Style="{StaticResource MaterialDesignFloatingHintComboBox}"/>
             </Grid>
             <Grid Margin="0 10">
-                <TextBlock x:Name="PlaceTipoPago" Text="Tipo Pago" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
-                <ComboBox Name="CbTipoPago" FontSize="15" SelectionChanged="CbTipoPago_SelectionChanged">
+                <TextBlock x:Name="PlaceTipoPago" FontSize="15" Foreground="Gray"/>
+                <ComboBox Name="CbTipoPago" FontSize="15"
+                            materialDesign:HintAssist.Hint="Tipo de Pago"
+                            Style="{StaticResource MaterialDesignFloatingHintComboBox}">
                     <ComboBoxItem>Porcentual</ComboBoxItem>
                     <ComboBoxItem>Monto</ComboBoxItem>
                 </ComboBox>
             </Grid>
             <CheckBox Margin="0 -10 0 0" FontSize="14"  Name="ChBFijo" Content="Fijo" FontWeight="Bold"/>
             <Grid Margin="0 10">
-                <TextBlock x:Name="PlaceTipoDeuda" Text="Tipo" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
-                <ComboBox Name="CbTipoDeuda" FontSize="15" SelectionChanged="CbTipoDeuda_SelectionChanged">
+                <TextBlock x:Name="PlaceTipoDeuda" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
+                <ComboBox Name="CbTipoDeuda" FontSize="15"
+                            materialDesign:HintAssist.Hint="Bonificación o Deducción"
+                            Style="{StaticResource MaterialDesignFloatingHintComboBox}">
                     <ComboBoxItem>Bonificacion</ComboBoxItem>
                     <ComboBoxItem>Deduccion</ComboBoxItem>
                 </ComboBox>
             </Grid>
-            <local:UserInputText x:Name="txtMonto" VerticalAlignment="Center" Placeholder="Valor"  FontSize="15"/>
+            <TextBox x:Name="txtMonto" VerticalAlignment="Center" FontSize="15"
+                            materialDesign:HintAssist.Hint="Valor"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
 
         </StackPanel>
-        <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Content="Agregar" Margin="0 10" Click="Button_Click" HorizontalAlignment="Center"/>
+        <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" 
+                BorderBrush="#248232" Content="Agregar" Click="Button_Click" HorizontalAlignment="Center"
+                Margin="0 25 0 0"/>
     </Grid>
 </Window>

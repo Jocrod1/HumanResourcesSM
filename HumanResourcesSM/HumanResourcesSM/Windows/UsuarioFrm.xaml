@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HumanResourcesSM.Windows"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="DepartamentoFrm" Height="410" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
+        Title="SwissNet" Height="600" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -20,15 +21,17 @@
                        FontWeight="Bold"
                        FontSize="25"
                        Margin="20 30 0 15"/>
-            <!--<Separator VerticalAlignment="Bottom" Foreground="Black" />-->
         </Grid>
         <ScrollViewer Grid.Row="1" >
-            <StackPanel Grid.Row="1"  Margin="50 10">
-                <local:UserInputText x:Name="txtUsuario" VerticalAlignment="Center" Placeholder="Usuario" Margin="0 10" FontSize="15"/>
+            <StackPanel Grid.Row="1"  Margin="22 10 5 0">
+                <TextBox x:Name="txtUsuario" VerticalAlignment="Center" Margin="0 10" FontSize="15"
+                         materialDesign:HintAssist.Hint="Usuario"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
                 <StackPanel Margin="0 5">
                     <Grid>
-                        <TextBlock x:Name="PlaceRol" Text="Rol" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
-                        <ComboBox Name="CbRol" FontSize="15" SelectionChanged="CbRol_SelectionChanged"/>
+                        <ComboBox Name="CbRol" FontSize="15" SelectionChanged="CbRol_SelectionChanged"
+                            materialDesign:HintAssist.Hint="Rol"
+                            Style="{StaticResource MaterialDesignFloatingHintComboBox}"/>
                     </Grid>
                     <Grid Margin="5 0">
                         <Grid.ColumnDefinitions>
@@ -40,20 +43,51 @@
                     </Grid>
                 </StackPanel>
                 <Grid x:Name="grdContraseña" Margin="0 10">
-                    <TextBlock x:Name="PlaceContraseña" Text="Contraseña" Margin="1 4 0 0" FontSize="15" Foreground="Gray"/>
-                    <PasswordBox Name="txtContraseña" FontSize="15" GotFocus="txtContraseña_GotFocus" LostFocus="txtContraseña_LostFocus"/>
-                </Grid>
-                <local:UserInputText x:Name="txtPregunta1" VerticalAlignment="Center" Placeholder="Pregunta de seguridad #1" Margin="0 10" FontSize="15"/>
-                <local:UserInputText x:Name="txtRespuesta1" VerticalAlignment="Center" Placeholder="Respuesta de seguridad #1" Margin="0 10" FontSize="15"/>
-                <local:UserInputText x:Name="txtPregunta2" VerticalAlignment="Center" Placeholder="Pregunta de seguridad #2" Margin="0 10" FontSize="15"/>
-                <local:UserInputText x:Name="txtRespuesta2" VerticalAlignment="Center" Placeholder="Respuesta de seguridad #2" Margin="0 10" FontSize="15"/>
-                <local:UserInputText x:Name="txtPregunta3" VerticalAlignment="Center" Placeholder="Pregunta de seguridad #3" Margin="0 10" FontSize="15"/>
-                <local:UserInputText x:Name="txtRespuesta3" VerticalAlignment="Center" Placeholder="Respuesta de seguridad #3" Margin="0 10" FontSize="15"/>
-                <!--<local:TextInput x:Name="txtContraseña" Placeholder="Contraseña" Margin="0 10" FontSize="15"/>-->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <PasswordBox Name="txtContraseña" FontSize="15"
+                            materialDesign:HintAssist.Hint="Contraseña"
+                            Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
 
+                    <PasswordBox Name="txtConfirmar" Grid.Column="2" FontSize="15"
+                            materialDesign:HintAssist.Hint="Confirmar Contraseña"
+                            Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
+                </Grid>
+                <TextBlock Grid.Column="0" Text="(La contraseña debe contener al menos una minúscula, una mayúscula, un dígito, un carácter especial y sin espacios en blanco) " 
+                           FontWeight="Light" TextWrapping="Wrap" FontStyle="Italic" TextAlignment="Center"/>
+
+                <TextBlock Grid.Column="0" Text="Preguntas Secretas" Margin="0 30 0 0" FontSize="18"
+                           FontWeight="SemiBold" TextWrapping="Wrap" FontStyle="Italic" TextAlignment="Left"/>
+
+                <TextBox x:Name="txtPregunta1" VerticalAlignment="Center"
+                               Margin="0 10" FontSize="15" materialDesign:HintAssist.Hint="Pregunta de seguridad #1"
+                               Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                <TextBox x:Name="txtRespuesta1" VerticalAlignment="Center"
+                         Margin="0 10" FontSize="15" materialDesign:HintAssist.Hint="Respuesta de seguridad #1"
+                               Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                
+                
+                <TextBox x:Name="txtPregunta2" VerticalAlignment="Center"
+                               materialDesign:HintAssist.Hint="Pregunta de seguridad #2"
+                               Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0 10" FontSize="15"/>
+                <TextBox x:Name="txtRespuesta2" VerticalAlignment="Center"
+                               Margin="0 10" FontSize="15" materialDesign:HintAssist.Hint="Respuesta de seguridad #2"
+                               Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+
+
+                <TextBox x:Name="txtPregunta3" VerticalAlignment="Center"
+                               Margin="0 10" FontSize="15" materialDesign:HintAssist.Hint="Pregunta de seguridad #3"
+                               Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                <TextBox x:Name="txtRespuesta3" VerticalAlignment="Center" 
+                               Margin="0 10" FontSize="15" materialDesign:HintAssist.Hint="Respuesta de seguridad #3"
+                               Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
 
             </StackPanel>
         </ScrollViewer>
-        <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Content="Agregar" Margin="0 10" Click="Button_Click" HorizontalAlignment="Center"/>
+        <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" 
+                BorderBrush="#248232" Content="Agregar" Margin="0 10 0 20" Click="Button_Click" HorizontalAlignment="Center"/>
     </Grid>
 </Window>

@@ -17,9 +17,6 @@ using Metodos;
 
 namespace HumanResourcesSM.Windows
 {
-    /// <summary>
-    /// Interaction logic for Login.xaml
-    /// </summary>
     public partial class Login : Window
     {
         public Login()
@@ -29,7 +26,7 @@ namespace HumanResourcesSM.Windows
 
         public void Log()
         {
-            if (txtUsuario.txt.Text == "")
+            if (txtUsuario.Text == "")
             {
                 MessageBox.Show("¡Debe escribir su Usuario!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -42,7 +39,7 @@ namespace HumanResourcesSM.Windows
 
             MUsuario Metodo = new MUsuario();
 
-            var response = Metodo.Login(txtUsuario.txt.Text, txtPassword.Password);
+            var response = Metodo.Login(txtUsuario.Text, txtPassword.Password);
 
             if (response.Count > 0)
             {
@@ -51,7 +48,7 @@ namespace HumanResourcesSM.Windows
                                                 MAuditoria.IniciarSesion,
                                                 "Ha Iniciado Sesión"));
 
-                //MessageBox.Show("CodigoConfirmacion: " + response[0].confirmacion + "| ID: " + response[0].idUsuario);
+
                 Menu Frm = new Menu(response[0]);
                 Frm.Closing += new System.ComponentModel.CancelEventHandler(Window_Closing);
                 Frm.Show();
@@ -66,22 +63,6 @@ namespace HumanResourcesSM.Windows
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
             Log();
-        }
-
-        private void txtPassword_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if(txtPassword.Password == "")
-            {
-                placePassword.Text = "";
-            }
-        }
-
-        private void txtPassword_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (txtPassword.Password == "")
-            {
-                placePassword.Text = "Contraseña";
-            }
         }
 
         private void StackPanel_KeyDown(object sender, KeyEventArgs e)
@@ -99,16 +80,16 @@ namespace HumanResourcesSM.Windows
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
-            if(txtUsuario.txt.Text == "")
+            if(txtUsuario.Text == "")
             {
                 MessageBox.Show("Debe proporcionar un Nombre de Usuario en el login", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
-                txtUsuario.txt.Focus();
+                txtUsuario.Focus();
             }
             else
             {
                 MUsuario Metodo = new MUsuario();
 
-                var res = Metodo.Seguridad(txtUsuario.txt.Text);
+                var res = Metodo.Seguridad(txtUsuario.Text);
 
                 if(res.Count > 0)
                 {

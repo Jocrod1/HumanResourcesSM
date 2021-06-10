@@ -17,9 +17,6 @@ using Metodos;
 
 namespace HumanResourcesSM.Windows
 {
-    /// <summary>
-    /// Interaction logic for SeleccionarUsuario.xaml
-    /// </summary>
     public partial class SeleccionarUsuario : Window
     {
 
@@ -50,13 +47,11 @@ namespace HumanResourcesSM.Windows
         {
             if (CbUsuario.SelectedIndex > -1)
             {
-                PlaceUsuario.Text = "";
                 btnEnviar.Visibility = Visibility.Visible;
                 UsuarioSeleccionado = (DUsuario)CbUsuario.SelectedItem;
             }
             else
             {
-                PlaceUsuario.Text = "Usuario";
                 btnEnviar.Visibility = Visibility.Collapsed;
                 UsuarioSeleccionado = null;
             }
@@ -72,14 +67,10 @@ namespace HumanResourcesSM.Windows
         {
             if (CbFechaInicio.SelectedDate != null)
             {
-                PlaceFechaInicio.Text = "";
-
                 CbFechaFinal.DisplayDateStart = CbFechaInicio.SelectedDate?.Date;
             }
             else
             {
-                PlaceFechaInicio.Text = "Fecha de Inicio";
-
                 CbFechaFinal.DisplayDateStart = null;
             }
             FechaInicioSel = CbFechaInicio.SelectedDate;
@@ -89,14 +80,10 @@ namespace HumanResourcesSM.Windows
         {
             if (CbFechaFinal.SelectedDate != null)
             {
-                PlaceFechaFinal.Text = "";
-
                 CbFechaInicio.DisplayDateEnd = CbFechaFinal.SelectedDate?.Date;
             }
             else
             {
-                PlaceFechaFinal.Text = "Fecha Final";
-
                 CbFechaInicio.DisplayDateEnd = null;
             }
             FechaFinalSel = CbFechaFinal.SelectedDate;

@@ -4,9 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HumanResourcesSM.Windows"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Loaded="Window_Loaded"
         mc:Ignorable="d"
-        Title="PreguntasSeguridad" Height="450" Width="500">
+        Title="SwissNet" Height="495" Width="450">
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -21,7 +22,7 @@
                        Margin="0 10"/>
         </Grid>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible" CanContentScroll="True" >
-            <StackPanel Width="450" Margin="0 20 0 0">
+            <StackPanel Margin="22 20 5 0">
                 <Grid HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -41,8 +42,9 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="1" Margin="0 0 0 0">
-                        <TextBlock Name="txtBucarPlaceH" Text="Respuesta" FontSize="15" VerticalAlignment="Center" Foreground="Gray"/>
-                        <PasswordBox Name="txtRespuesta" Password="" FontSize="15" Margin="0" GotFocus="txtBuscar_GotFocus" LostFocus="txtBuscar_LostFocus"/>
+                        <PasswordBox Name="txtRespuesta" Password="" FontSize="15" Margin="0" 
+                            materialDesign:HintAssist.Hint="Primera Respuesta"
+                            Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
                     </Grid>
                 </Grid>
 
@@ -66,8 +68,9 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="1" Margin="0 0 0 0">
-                        <TextBlock Name="txtBucarPlaceH2" Text="Respuesta" FontSize="15" VerticalAlignment="Center" Foreground="Gray"/>
-                        <PasswordBox Name="txtRespuesta2" Password="" FontSize="15" Margin="0" GotFocus="txtBuscar2_GotFocus" LostFocus="txtBuscar2_LostFocus"/>
+                        <PasswordBox Name="txtRespuesta2" Password="" FontSize="15" Margin="0" 
+                            materialDesign:HintAssist.Hint="Segunda Respuesta"
+                            Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
                     </Grid>
                 </Grid>
 
@@ -91,15 +94,16 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="1" Margin="0 0 0 0">
-                        <TextBlock Name="txtBucarPlaceH3" Text="Respuesta" FontSize="15" VerticalAlignment="Center" Foreground="Gray"/>
-                        <PasswordBox Name="txtRespuesta3" Password="" FontSize="15" Margin="0" GotFocus="txtBuscar3_GotFocus" LostFocus="txtBuscar3_LostFocus"/>
+                        <PasswordBox Name="txtRespuesta3" Password="" FontSize="15" Margin="0"
+                            materialDesign:HintAssist.Hint="Tercera Respuesta"
+                            Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
                     </Grid>
                 </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Name="btnEnviar" Width="150" Background="#248232" BorderBrush="#248232" Content="Enviar" Margin="0 30 0 0" Click="Button_Click"/>
+                    <Button Name="btnEnviar" Width="150" Background="#248232" BorderBrush="#248232" Content="Enviar" Margin="0 20 0 0" Click="Button_Click"/>
                 </Grid>
 
             </StackPanel>

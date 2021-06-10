@@ -17,9 +17,6 @@ using Metodos;
 
 namespace HumanResourcesSM.Windows
 {
-    /// <summary>
-    /// Interaction logic for SeleccionarUsuario.xaml
-    /// </summary>
     public partial class SeleccionarPago : Window
     {
 
@@ -57,7 +54,6 @@ namespace HumanResourcesSM.Windows
         {
             if (CbEmpleado.SelectedIndex > -1)
             {
-                PlaceEmpleado.Text = "";
 
                 var resp = Metodo.MostrarByEmpleado((int)CbEmpleado.SelectedValue);
 
@@ -70,7 +66,6 @@ namespace HumanResourcesSM.Windows
             }
             else
             {
-                PlaceEmpleado.Text = "Empleado";
                 CbPago.SelectedIndex = -1;
                 CbPago.IsEnabled = false;
             }
@@ -80,13 +75,11 @@ namespace HumanResourcesSM.Windows
         {
             if (CbPago.SelectedIndex > -1)
             {
-                PlacePago.Text = "";
                 btnEnviar.Visibility = Visibility.Visible;
                 PagoSeleccionado = (DPago)CbPago.SelectedItem;
             }
             else
             {
-                PlacePago.Text = "Pago";
                 btnEnviar.Visibility = Visibility.Collapsed;
                 PagoSeleccionado = null;
             }

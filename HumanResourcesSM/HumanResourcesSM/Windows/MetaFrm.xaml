@@ -4,10 +4,11 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:HumanResourcesSM.Windows"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
-      Height="450" Width="650"
+      Height="495" Width="550"
       Loaded="Window_Loaded"
-      Title="SeleccionFrm">
+      Title="SwissNet">
 
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>
@@ -23,48 +24,54 @@
                        FontWeight="Bold"
                        FontSize="25"
                        Margin="20 30 0 15"/>
-            <!--<Separator VerticalAlignment="Bottom" Foreground="Black" />-->
         </Grid>
         <ScrollViewer VerticalScrollBarVisibility="Visible" CanContentScroll="False" Grid.Row="1">
-            <StackPanel Margin="100 10" VerticalAlignment="Center">
+            <StackPanel Margin="22 10 5 0" VerticalAlignment="Center">
                 <Grid Margin="50 10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <RadioButton x:Name="RBEmpleado" FontSize="15" VerticalAlignment="Center" FontWeight="Bold" Padding="0" Checked="RBEmpleado_Checked">
+                    <RadioButton x:Name="RBEmpleado" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Padding="0" Checked="RBEmpleado_Checked">
                         <TextBlock Text="Empleado" Margin="5 0"/>
                     </RadioButton>
-                    <RadioButton Grid.Column="1" x:Name="RBDepartamento" FontSize="15" VerticalAlignment="Center" FontWeight="Bold" Padding="0" Checked="RBDepartamento_Checked">
+                    <RadioButton Grid.Column="1" x:Name="RBDepartamento" HorizontalAlignment="Center" FontSize="15" VerticalAlignment="Center" FontWeight="Bold" Padding="0" Checked="RBDepartamento_Checked">
                         <TextBlock Text="Departamento" Margin="5 0"/>
                     </RadioButton>
                 </Grid>
                 <Grid Margin="0 10">
-                    <TextBlock x:Name="PlaceSeleccion" Text="Seleccionar Empleado" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
-                    <ComboBox Name="CbSeleccion" FontSize="15" SelectionChanged="CbSeleccion_SelectionChanged"/>
+                    <ComboBox Name="CbSeleccion" FontSize="15" SelectionChanged="CbSeleccion_SelectionChanged" 
+                            materialDesign:HintAssist.Hint="Seleccionar Empleado"
+                            Style="{StaticResource MaterialDesignFloatingHintComboBox}"/>
                 </Grid>
                 <Grid Margin="0 10">
-                    <TextBlock x:Name="PlaceTipoMetrica" Text="Tipo de Metrica" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
-                    <ComboBox Name="CbTipoMetrica" FontSize="15" SelectionChanged="CbTipoMetrica_SelectionChanged" IsEnabled="False"/>
+                    <TextBlock x:Name="PlaceTipoMetrica" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
+                    <ComboBox Name="CbTipoMetrica" FontSize="15" IsEnabled="False"
+                            materialDesign:HintAssist.Hint="Tipo de Métrica"
+                            Style="{StaticResource MaterialDesignFloatingHintComboBox}"/>
                 </Grid>
-                <local:UserInputText FontSize="15" x:Name="txtValorMeta" Placeholder="Valor Meta" Margin="0 10"/>
+                <TextBox FontSize="15" x:Name="txtValorMeta" Margin="0 10"
+                            materialDesign:HintAssist.Hint="Valor Meta"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
                 <Grid Margin="0 10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid Margin="0 0 10 0">
-                        <TextBlock x:Name="PlaceFechaInicio" Text="Fecha de Inicio" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
-                        <DatePicker Name="CbFechaInicio" FontSize="15" SelectedDateChanged="CbFechaInicio_SelectedDateChanged" Focusable="False"/>
+                        <DatePicker Name="CbFechaInicio" FontSize="15" SelectedDateChanged="CbFechaInicio_SelectedDateChanged" 
+                            materialDesign:HintAssist.Hint="Fecha Inicial"
+                            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Focusable="False"/>
                     </Grid>
                     <Grid Grid.Column="1" Margin="10 0 0 0">
-                        <TextBlock x:Name="PlaceFechaFinal" Text="Fecha Final" FontSize="15" Margin="1 4 0 0" Foreground="Gray"/>
-                        <DatePicker Name="CbFechaFinal" FontSize="15" SelectedDateChanged="CbFechaFinal_SelectedDateChanged" Focusable="False"/>
+                        <DatePicker Name="CbFechaFinal" FontSize="15" SelectedDateChanged="CbFechaFinal_SelectedDateChanged" 
+                            materialDesign:HintAssist.Hint="Fecha Final"
+                            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Focusable="False"/>
                     </Grid>
                 </Grid>
 
             </StackPanel>
         </ScrollViewer>
-        <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Content="Agregar" Margin="0 10" Click="Button_Click" HorizontalAlignment="Center"/>
+        <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Content="Agregar" Margin="0 15" Click="Button_Click" HorizontalAlignment="Center"/>
     </Grid>
 </Window>
