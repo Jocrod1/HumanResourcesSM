@@ -63,8 +63,8 @@ namespace Datos
             set { _MontoLiquidacion = value; }
         }
 
-        private DateTime _FechaCulminacion;
-        public DateTime fechaCulminacion
+        private DateTime? _FechaCulminacion;
+        public DateTime? fechaCulminacion
         {
             get { return _FechaCulminacion; }
             set { _FechaCulminacion = value; }

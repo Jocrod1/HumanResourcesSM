@@ -605,7 +605,7 @@ namespace Metodos
 
             string queryListEmployeeActive = @"
                 SELECT * FROM [Empleado] 
-                WHERE status = 1 AND idEmpleado <> 1 AND idEmpleado = @idEmpleado
+                WHERE idEmpleado <> 1 AND idEmpleado = @idEmpleado
             ";
 
             try
@@ -1010,7 +1010,7 @@ namespace Metodos
 				    s.nombrePuesto
 			    FROM [Empleado] e
 				    INNER JOIN [Seleccion] s ON s.idEmpleado = e.idEmpleado
-                WHERE e.status = 1 AND e.status = 4 AND e.idEmpleado <> 1 AND CONCAT(e.nombre, ' ', e.apellido) LIKE @nombre + '%'
+                WHERE (e.status = 1 OR e.status = 4) AND e.idEmpleado <> 1 AND CONCAT(e.nombre, ' ', e.apellido) LIKE @nombre + '%'
             ";
 
             try

@@ -56,6 +56,8 @@ namespace HumanResourcesSM.Windows
 
         public ContratoFrm(DEmpleado empleado)
         {
+            InitializeComponent();
+
             Empleado = empleado;
             Fired = true;
             StackContrato.Visibility = Visibility.Collapsed;
@@ -170,6 +172,7 @@ namespace HumanResourcesSM.Windows
                                     "Se ha Despedido al empleado Nº" + Empleado.idEmpleado));
 
                 MessageBox.Show("Despido completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.DialogResult = true;
                 this.Close();
             }
             else

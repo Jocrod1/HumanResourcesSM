@@ -94,6 +94,10 @@ namespace HumanResourcesSM.Windows
 
             txtURLCV.Text = "";
 
+            CbEntrevistador.SelectedIndex = -1;
+
+            CbFechaLim.SelectedDate = null;
+
             ScrollContent.ScrollToTop();
 
         }
@@ -184,6 +188,9 @@ namespace HumanResourcesSM.Windows
             CbEntrevistador.ItemsSource = resp4;
             CbEntrevistador.DisplayMemberPath = "usuario";
             CbEntrevistador.SelectedValuePath = "idUsuario";
+
+            CbFechaLim.DisplayDateStart = DateTime.Today;
+            CbFechaApl.DisplayDateEnd = DateTime.Today;
 
             RefreshDGIdiomas();
             RefreshDGEducacion();
@@ -622,7 +629,7 @@ namespace HumanResourcesSM.Windows
                 txtURLCV.Focus();
                 return true;
             }
-            if (!Validaciones.IsValidEmail(txtEmail.Text))
+            if (txtEmail.Text != "" && !Validaciones.IsValidEmail(txtEmail.Text))
             {
                 MessageBox.Show("Este email no es valido!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                 txtURLCV.Focus();

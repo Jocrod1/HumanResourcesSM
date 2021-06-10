@@ -147,6 +147,7 @@ namespace HumanResourcesSM.Windows
             BtnSeleccionarMeta.IsEnabled = Enable;
             txtValorEvaluado.IsEnabled = Enable;
             txtobservacion.IsEnabled = Enable;
+            txtRecomendacion.IsEnabled = Enable;
         }
         void fillForm(DEvaluacion Data)
         {
@@ -166,6 +167,7 @@ namespace HumanResourcesSM.Windows
 
                 txtValorEvaluado.Text = Data.valorEvaluado.ToString();
                 txtobservacion.Text = Data.observacion.ToString();
+                txtRecomendacion.Text = Data.recomendacion.ToString();
             }
         }
 

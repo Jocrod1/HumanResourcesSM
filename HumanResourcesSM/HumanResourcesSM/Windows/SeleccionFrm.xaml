@@ -141,7 +141,7 @@
                     <Button x:Name="BtnAgregarEducacion" Click="BtnAgregarEducacion_Click" Content="Agregar" Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" HorizontalAlignment="Left" Margin="0 10"/>
                 </StackPanel>
                 <TextBox x:Name="txtURLCV" FontSize="15" Margin="0 10"
-                         materialDesign:HintAssist.Hint="URL del Currículo (Opcional)"
+                         materialDesign:HintAssist.Hint="URL del Currículo"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
 
                 <Grid Margin="0 10">
