@@ -21,7 +21,7 @@ namespace HumanResourcesSM.Windows
 
     public partial class PrestacionesDG : Page
     {
-        MTipoTramite Metodos = new MTipoTramite();
+        MPrestacion Metodos = new MPrestacion();
 
         public PrestacionesDG()
         {
@@ -31,98 +31,84 @@ namespace HumanResourcesSM.Windows
         public void Refresh()
         {
 
-            List<DTipoTramite> items = Metodos.Mostrar("");
-
+            List<DPrestacion> items = Metodos.Mostrar(CbEmpleado.Text, TipoEstado());
 
             dgOperaciones.ItemsSource = items;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //contentsp.Children.Clear();
+            RBSolicitudes.IsChecked = true;
 
             Refresh();
+
+            var resp = new MSeleccion().MostrarEmpleado();
+
+            CbEmpleado.ItemsSource = resp;
+            CbEmpleado.DisplayMemberPath = "nombre";
+            CbEmpleado.SelectedValuePath = "nombre";
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
-            TipoTramiteFrm frmTrab = new TipoTramiteFrm();
-            bool Resp = frmTrab.ShowDialog() ?? false;
+            PrestacionesFrm frmPrest = new PrestacionesFrm();
+            bool Resp = frmPrest.ShowDialog() ?? false;
             Refresh();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            int id = (int)((Button)sender).CommandParameter;
-            var response = Metodos.Encontrar(id);
-
-            TipoTramiteFrm frm = new TipoTramiteFrm();
-            frm.Type = TypeForm.Update;
-            frm.DataFill = response[0];
-            bool Resp = frm.ShowDialog() ?? false;
-            Refresh();
-        }
-
-        private void TextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            Refresh();
-        }
-
-        private void btnEliminar_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBoxResult Resp = MessageBox.Show("¿Seguro que quieres eliminar este item?", "Magicolor", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (Resp != MessageBoxResult.Yes)
-                return;
-            int id = (int)((Button)sender).CommandParameter;
-            var resp = Metodos.Eliminar(id);
-
-            if (resp.Equals("OK"))
-            {
-                MAuditoria.Insertar(new DAuditoria(
-                                    Menu.ActUsuario.idUsuario,
-                                    DAuditoria.Eliminar,
-                                    "Se ha Eliminado el Tipo Tramite Nº" + id));
-
-                MessageBox.Show("Eliminar completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            else MessageBox.Show(resp);
-
-            Refresh();
-        }
 
         private void txtVer_Click(object sender, RoutedEventArgs e)
         {
             int id = (int)((Button)sender).CommandParameter;
-            var response = Metodos.Encontrar(id);
+            List<DPrestacion> response = Metodos.Encontrar(id);
 
-            TipoTramiteFrm frmTrab = new TipoTramiteFrm();
-            frmTrab.Type = TypeForm.Read;
-            frmTrab.DataFill = response[0];
-            bool Resp = frmTrab.ShowDialog() ?? false;
+            RespuestaPrestacionFrm frmPrest = new RespuestaPrestacionFrm(response[0]);
+
+            bool Resp = frmPrest.ShowDialog() ?? false;
+
+            CbEmpleado.Text = "";
+            RBSolicitudes.IsChecked = true;
             Refresh();
 
-            //MessageBox.Show(response[0].fechaNacimiento.ToString());
         }
 
         private void RBSolicitudes_Checked(object sender, RoutedEventArgs e)
         {
-
+            Refresh();
         }
 
         private void RBOtorgados_Checked(object sender, RoutedEventArgs e)
         {
-
+            Refresh();
         }
 
         private void RBNoOtorgados_Checked(object sender, RoutedEventArgs e)
         {
-
+            Refresh();
         }
+
 
         private void CbEmpleado_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            Refresh();
         }
+
+        private int TipoEstado ()
+        {
+            if(RBSolicitudes.IsChecked == true)
+            {
+                return 1;
+            }
+            if(RBOtorgados.IsChecked == true)
+            {
+                return 2;
+            }
+            if(RBNoOtorgados.IsChecked == true)
+            {
+                return 3;
+            }
+            return 0;
+        }
+
     }
 }

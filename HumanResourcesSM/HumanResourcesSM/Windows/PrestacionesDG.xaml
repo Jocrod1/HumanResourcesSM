@@ -29,8 +29,8 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
-            <ComboBox Name="CbEmpleado" FontSize="15" SelectionChanged="CbEmpleado_SelectionChanged" Margin="0 0 10 0"
-                      materialDesign:HintAssist.Hint="Seleccion de Empleado"
+            <ComboBox Name="CbEmpleado" FontSize="16" SelectionChanged="CbEmpleado_SelectionChanged" Margin="10 0 10 0"
+                      materialDesign:HintAssist.Hint="Seleccion de Empleados"
                       Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
                 <Grid>
@@ -66,21 +66,21 @@
                 </Style>
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Width="*" Header="Empleado" Binding="{Binding nombre}">
+                <DataGridTextColumn Width="*" Header="Empleado" Binding="{Binding nombreEmpleado}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
                             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="auto" Header="Fecha Solicitud" Binding="{Binding nombre}">
+                <DataGridTextColumn Width="auto" Header="Fecha Solicitud" Binding="{Binding montoPresupuesto}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
                             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="*" Header="Razón" Binding="{Binding descripcion}">
+                <DataGridTextColumn Width="*" Header="Razón" Binding="{Binding fechaSolicitud}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
                             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
@@ -95,13 +95,12 @@
                             <StackPanel Orientation="Horizontal" Width="auto">
 
                                 <Button Name="txtVer"
-                                        CommandParameter="{Binding idTipoTramite}"
+                                        CommandParameter="{Binding idPrestacion}"
                                         Click="txtVer_Click"
                                         Background="{x:Null}" BorderBrush="{x:Null}"
                                         Margin="5 0"
-                                        Padding="5">
-                                    <Image Source="/HumanResourcesSM;component/Img/book.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                                </Button>
+                                        Padding="5" ToolTip="Seleccionar Prestación">
+                                    <materialDesign:PackIcon Kind="Select" Background="#2A347B" Height="20" Width="20" />                                </Button>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

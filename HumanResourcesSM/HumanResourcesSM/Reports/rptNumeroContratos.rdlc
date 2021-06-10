@@ -591,7 +591,11 @@
                         <Y>=Sum(Fields!numeroContrataciones.Value)</Y>
                       </ChartDataPointValues>
                       <ChartDataLabel>
-                        <Style />
+                        <Style>
+                          <FontWeight>Bold</FontWeight>
+                          <Color>White</Color>
+                        </Style>
+                        <UseValueAsLabel>true</UseValueAsLabel>
                         <Visible>true</Visible>
                       </ChartDataLabel>
                       <Style />
@@ -902,11 +906,13 @@
                 <VerticalAlign>Top</VerticalAlign>
               </Style>
             </ChartNoDataMessage>
+            <DataSetName>NumeroContratosDS</DataSetName>
             <Top>0.4591cm</Top>
             <Left>0.65828cm</Left>
             <Height>4.47083cm</Height>
             <Width>9.55115cm</Width>
             <ZIndex>1</ZIndex>
+            <ToolTip>#PERCENT</ToolTip>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -954,6 +960,8 @@
                       </ChartDataPointValues>
                       <ChartDataLabel>
                         <Style />
+                        <UseValueAsLabel>true</UseValueAsLabel>
+                        <Visible>true</Visible>
                       </ChartDataLabel>
                       <Style />
                       <ChartMarker>
@@ -987,7 +995,13 @@
                         <Y>=Sum(Fields!numeroContrataciones.Value)</Y>
                       </ChartDataPointValues>
                       <ChartDataLabel>
-                        <Style />
+                        <Style>
+                          <FontFamily>Arial Rounded MT Bold</FontFamily>
+                          <FontWeight>Bold</FontWeight>
+                          <Color>White</Color>
+                        </Style>
+                        <UseValueAsLabel>true</UseValueAsLabel>
+                        <Visible>true</Visible>
                       </ChartDataLabel>
                       <Style />
                       <ChartMarker>

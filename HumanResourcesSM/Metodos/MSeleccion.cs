@@ -1041,5 +1041,53 @@ namespace Metodos
         }
 
 
+
+
+        public List<DEmpleado> MostrarEmpleado()
+        {
+            List<DEmpleado> ListaGenerica = new List<DEmpleado>();
+
+            string queryListEmployeeContract = @"
+                SELECT * FROM [Empleado] 
+                WHERE status = 3
+                ORDER BY idEmpleado DESC;
+            ";
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryListEmployeeContract, Conexion.ConexionSql);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListaGenerica.Add(new DEmpleado
+                    {
+                        idEmpleado = reader.GetInt32(0),
+                        idDepartamento = reader.GetInt32(1),
+                        nombre = reader.GetString(2) + " " + reader.GetString(3),
+                        apellido = reader.GetString(3),
+                        cedula = reader.GetString(4),
+                        fechaNacimiento = reader.GetDateTime(5),
+                        nacionalidad = reader.GetString(6),
+                        direccion = reader.GetString(7),
+                        email = reader.GetString(8),
+                        telefono = reader.GetString(9),
+                        curriculum = reader.GetString(10),
+                        estadoLegal = reader.GetString(11),
+                        fechaCulminacion = !reader.IsDBNull(12) ? reader.GetDateTime(12) : null,
+                        status = reader.GetInt32(13),
+                        razonDespido = !reader.IsDBNull(14) ? reader.GetString(14) : ""
+                    });
+                }
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+        }
+
+
     }
 }

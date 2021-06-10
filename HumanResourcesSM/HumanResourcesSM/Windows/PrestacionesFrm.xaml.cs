@@ -20,10 +20,6 @@ using Metodos;
 
 namespace HumanResourcesSM.Windows
 {
-
-    /// <summary>
-    /// Interaction logic for DepartamentoFrm.xaml
-    /// </summary>
     public partial class PrestacionesFrm : Window
     {
         public PrestacionesFrm()
@@ -31,133 +27,74 @@ namespace HumanResourcesSM.Windows
             InitializeComponent();
         }
 
-
-        public TypeForm Type;
-        public DTipoTramite DataFill;
-
-        public DTipoTramite UForm;
-
-        public MTipoTramite Metodos = new MTipoTramite();
+        public MPrestacion Metodos = new MPrestacion();
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (Type == TypeForm.Update)
-                Update();
-            else
-                Create();
+            if (Validate())
+            {
+                return;
+            }
+
+            DPrestacion prestacion = new DPrestacion(
+                                            0,
+                                            int.Parse(CbEmpleado.SelectedValue.ToString()),
+                                            double.Parse(txtMontoPresupuesto.Text),
+                                            0,
+                                            0,
+                                            txtRazon.Text,
+                                            DPFechaSolicitud.DisplayDate,
+                                            1
+                                         );
+
+            string respuesta = Metodos.Insertar(prestacion);
+
+            if(respuesta.Equals("OK"))
+            {
+                MessageBox.Show("Prestación Registrada Correctamente", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.Hide();
+            }
         }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             DPFechaSolicitud.DisplayDateEnd = DateTime.Today;
-            if (Type == TypeForm.Read)
-            {
-                txtTitulo.Text = "Ver";
-                fillForm(DataFill);
-                SetEnable(false);
-                btnEnviar.Visibility = Visibility.Collapsed;
-            }
-            else if (Type == TypeForm.Update)
-            {
-                txtTitulo.Text = "Editar";
-                BgTitulo.Background = (Brush)new BrushConverter().ConvertFrom("#2A347B");
-                btnEnviar.Content = "Editar";
-                btnEnviar.Foreground = (Brush)new BrushConverter().ConvertFrom("#2A347B");
-                btnEnviar.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#2A347B");
-                fillForm(DataFill);
-            }
+
+            var resp = new MSeleccion().MostrarEmpleado();
+
+            CbEmpleado.ItemsSource = resp;
+            CbEmpleado.DisplayMemberPath = "nombre";
+            CbEmpleado.SelectedValuePath = "idEmpleado";
         }
 
 
 
-        void fillData()
-        {
-            if (Validate())
-            {
-                UForm = null;
-                return;
-            }
-
-            //string nombre = txtNombre.txt.Text;
-            //string StatusCambio = txtStatusCambio.txt.Text;
-
-            //UForm = new DTipoTramite(0, nombre, StatusCambio, descripcion);
-        }
-
-        void Create()
-        {
-            fillData();
-            if (UForm == null)
-                return;
-            string response = Metodos.Insertar(UForm);
-            MessageBox.Show(response);
-            if (response == "OK")
-            {
-                MAuditoria.Insertar(new DAuditoria(
-                                    Menu.ActUsuario.idUsuario,
-                                    DAuditoria.Registrar,
-                                    "Se ha registrado un Tipo Tramite " + UForm.nombre));
-
-
-                this.DialogResult = true;
-                this.Close();
-            }
-
-        }
-
-        void Update()
-        {
-            fillData();
-            if (UForm == null)
-                return;
-            UForm.idTipoTramite = DataFill.idTipoTramite;
-            string response = Metodos.Editar(UForm);
-            MessageBox.Show(response);
-            if (response == "OK")
-            {
-                MAuditoria.Insertar(new DAuditoria(
-                                    Menu.ActUsuario.idUsuario,
-                                    DAuditoria.Editar,
-                                    "Se ha Editado el Tipo Tramite Nº" + UForm.idTipoTramite));
-
-                this.DialogResult = true;
-                this.Close();
-            }
-        }
-
-        void SetEnable(bool Enable)
-        {
-            txtMontoPresupuesto.IsEnabled = Enable;
-            txtRazon.IsEnabled = Enable;
-            DPFechaSolicitud.IsEnabled = Enable;
-        }
-        void fillForm(DTipoTramite Data)
-        {
-            if (Data != null)
-            {
-                txtMontoPresupuesto.SetText(Data.nombre);
-                txtMontoPresupuesto.SetText(Data.statusCambio);
-                DPFechaSolicitud.SelectedDate = DateTime.Today;
-            }
-        }
         #region Validation
         bool Validate()
         {
-            if (txtMontoPresupuesto.txt.Text == "")
+            if (CbEmpleado.Text == "")
             {
-                MessageBox.Show("Debes llenar el campo Monto Presupuesto!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtMontoPresupuesto.txt.Focus();
+                MessageBox.Show("Debes seleccionar un empleado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtMontoPresupuesto.Focus();
                 return true;
             }
 
-            if (txtRazon.txt.Text == "")
+            if (txtMontoPresupuesto.Text == "")
             {
-                MessageBox.Show("Debes llenar el campo Razón!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtRazon.txt.Focus();
+                MessageBox.Show("Debes llenar el campo Monto Presupuesto!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtMontoPresupuesto.Focus();
+                return true;
+            }
+
+            if (txtRazon.Text == "")
+            {
+                MessageBox.Show("Debes llenar el campo Razón!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtRazon.Focus();
                 return true;
             }
             if (DPFechaSolicitud.SelectedDate == null)
             {
-                MessageBox.Show("Debes seleccionar la fecha de Solicitud!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Debes seleccionar la fecha de Solicitud!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                 DPFechaSolicitud.Focus();
                 return true;
             }

@@ -49,7 +49,7 @@ namespace HumanResourcesSM.Windows
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            txtFecha.Text = "Solicitado el 88 / 88 / 8888 " + Prestacion.fechaSolicitudString;
+            txtFecha.Text = "Solicitado el " + Prestacion.fechaSolicitudString;
             txtEmpleado.Text = Prestacion.nombreEmpleado;
             txtCargo.Text = Prestacion.nombrePuesto;
 
@@ -59,8 +59,10 @@ namespace HumanResourcesSM.Windows
 
             string antiguedad = "";
 
-            if (years > 0)
-                antiguedad = years + " años y " + (months > 0 ? months + " meses" : "");
+            if(years == 1)
+                antiguedad = years + " año ";
+            if (years > 1)
+                antiguedad = years + " años ";
             else
                 antiguedad = months + " meses";
 

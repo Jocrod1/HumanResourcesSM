@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HumanResourcesSM.Windows"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="DepartamentoFrm" Height="450" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
+        Title="DepartamentoFrm" Height="540" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -22,9 +23,18 @@
                        Margin="20 30 0 15"/>
         </Grid>
         <StackPanel Grid.Row="1"  Margin="50 10">
-            <local:UserInputText x:Name="txtMontoPresupuesto" VerticalAlignment="Center" Placeholder="Monto Presupuesto" Margin="0 10" FontSize="15"/>
-            <local:UserInputText x:Name="txtRazon" VerticalAlignment="Center" Placeholder="razon" Margin="0 10" FontSize="15" Height="130"/>
-            <DatePicker Name="DPFechaSolicitud" VerticalAlignment="Center" FontSize="15" Margin="0 10"/>
+            <ComboBox Name="CbEmpleado" FontSize="15"
+                      materialDesign:HintAssist.Hint="Selección de Empleado" Margin="0 10" 
+                      Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+            <TextBox x:Name="txtMontoPresupuesto" VerticalAlignment="Center" Margin="0 10" 
+                      materialDesign:HintAssist.Hint="Monto Presupuesto"
+                      Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="15"/>
+            <TextBox x:Name="txtRazon" VerticalAlignment="Center" Margin="0 10" FontSize="15" 
+                      materialDesign:HintAssist.Hint="Razón de Solicitud de Prestación"
+                      Style="{StaticResource MaterialDesignFloatingHintTextBox}" Height="130"/>
+            <DatePicker Name="DPFechaSolicitud" VerticalAlignment="Center" FontSize="15" Margin="0 10"
+                      materialDesign:HintAssist.Hint="Fecha de Solicitud"
+                      Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
         </StackPanel>
         <Button Name="btnEnviar" Grid.Row="2"  Background="{x:Null}" FontWeight="Bold" Foreground="#248232" BorderBrush="#248232" Content="Agregar" Margin="0 10" Click="Button_Click" HorizontalAlignment="Center"/>
     </Grid>

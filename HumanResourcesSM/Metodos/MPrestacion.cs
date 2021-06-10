@@ -93,9 +93,9 @@ namespace Metodos
                     p.razon, 
                     p.fechaSolicitud,
                     p.estado
-                FROM [Presupuesto] p
+                FROM [Prestacion] p
                     INNER JOIN [Empleado] e ON p.idEmpleado = e.idEmpleado 
-                WHERE CONCAT(e.nombre, ' ', e.apellido) = @nombre 
+                WHERE CONCAT(e.nombre, ' ', e.apellido) LIKE @nombre + '%' 
                     AND p.estado = @estado
                 ORDER BY p.idPrestacion ASC;
             ";
@@ -131,7 +131,7 @@ namespace Metodos
         }
 
 
-        public List<DPrestacion> Encontrar(string IdPrestacion)
+        public List<DPrestacion> Encontrar(int IdPrestacion)
         {
             List<DPrestacion> ListaGenerica = new List<DPrestacion>();
 
@@ -145,7 +145,7 @@ namespace Metodos
                     c.sueldo,
                     p.montoPresupuesto,
                     p.razon
-                FROM [Presupuesto] p
+                FROM [Prestacion] p
                     INNER JOIN [Empleado] e ON p.idEmpleado = e.idEmpleado 
                     INNER JOIN [Seleccion] s ON s.idEmpleado = e.idEmpleado
                     INNER JOIN [Contrato] c ON c.idEmpleado = e.idEmpleado
@@ -172,7 +172,7 @@ namespace Metodos
                         fechaSolicitudString = reader.GetDateTime(3).ToString("dd/MM/yyyy"),
                         fechaContratacion = reader.GetDateTime(4),
                         fechaContratacionString = reader.GetDateTime(4).ToString("dd/MM/yyyy"),
-                        sueldo = reader.GetDouble(5),
+                        sueldo = (double)reader.GetDecimal(5),
                         montoPresupuesto = reader.GetDouble(6),
                         razon = reader.GetString(7)
                     });
