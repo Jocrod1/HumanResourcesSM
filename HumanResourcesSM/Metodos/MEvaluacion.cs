@@ -369,7 +369,7 @@ namespace Metodos
                         idMeta = reader.GetInt32(1),
                         nombreMetrica = reader.GetString(2),
                         valorMeta = reader.GetDouble(3),
-                        valorEvaluado = reader.GetInt32(4),
+                        valorEvaluado = reader.GetDouble(4),
                         empleado = reader.GetString(5),
                         departamento = reader.GetString(6)
                     });

@@ -189,7 +189,7 @@ namespace Metodos
                         horasSemanales = reader.GetInt32(5),
                         montoPrestacion = reader.GetDouble(6),
                         montoLiquidacion = reader.GetDouble(7),
-                        fechaCulminacion = reader.GetDateTime(8)
+                        fechaCulminacion = reader.IsDBNull(8) ? null : reader.GetDateTime(8)
                     });
                 }
             }

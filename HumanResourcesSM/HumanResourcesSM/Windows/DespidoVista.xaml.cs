@@ -275,7 +275,7 @@ namespace HumanResourcesSM.Windows
 
         private void BtnFire_Click(object sender, RoutedEventArgs e)
         {
-            ContratoFrm frm = new ContratoFrm(EmpleadoEntrevistado, EmpleadoSelEntrevistado, false);
+            ContratoFrm frm = new ContratoFrm(EmpleadoEntrevistado);
             bool resp = frm.ShowDialog() ?? false;
 
             if (resp)
