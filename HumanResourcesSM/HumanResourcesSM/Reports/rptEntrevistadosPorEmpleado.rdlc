@@ -611,7 +611,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>ENTREVISTADOS POR</Value>
+                  <Value>GESTION DE ENTREVISTAS</Value>
                   <Style>
                     <FontSize>12pt</FontSize>
                     <FontWeight>Normal</FontWeight>

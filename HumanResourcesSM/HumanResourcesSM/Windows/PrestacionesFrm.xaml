@@ -27,7 +27,7 @@
                       materialDesign:HintAssist.Hint="Selección de Empleado" Margin="0 10" 
                       Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
             <TextBox x:Name="txtMontoPresupuesto" VerticalAlignment="Center" Margin="0 10" 
-                      materialDesign:HintAssist.Hint="Monto Presupuesto"
+                      materialDesign:HintAssist.Hint="Monto Presupuesto (€)"
                       Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="15"/>
             <TextBox x:Name="txtRazon" VerticalAlignment="Center" Margin="0 10" FontSize="15" 
                       materialDesign:HintAssist.Hint="Razón de Solicitud de Prestación"

@@ -79,7 +79,7 @@ namespace HumanResourcesSM.Windows
             int TipoDeuda = CbTipoDeuda.SelectedIndex;
             string Concepto = txtConcepto.Text;
 
-            int Repetitivo = ChBFijo.IsChecked ?? false ? 0 : 1; 
+            int Repetitivo = ChBFijo.IsChecked == true ? 1 : 0; 
             int TipoPago = CbTipoPago.SelectedIndex;
 
 
@@ -122,6 +122,7 @@ namespace HumanResourcesSM.Windows
             CbTipoDeuda.IsEnabled = Enable;
             txtConcepto.IsEnabled = Enable;
             CbTipoPago.IsEnabled = Enable;
+            ChBFijo.IsEnabled = Enable;
         }
         void fillForm(DDeuda Data)
         {
@@ -132,7 +133,7 @@ namespace HumanResourcesSM.Windows
                 CbTipoDeuda.SelectedIndex = Data.tipoDeuda;
                 txtConcepto.Text = Data.concepto;
                 CbTipoPago.SelectedIndex = Data.tipoPago;
-                ChBFijo.IsChecked = Data.repetitivo == 0;
+                ChBFijo.IsChecked = Data.repetitivo == 1;
             }
         }
 

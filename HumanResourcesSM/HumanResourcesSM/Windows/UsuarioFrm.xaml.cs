@@ -122,7 +122,7 @@ namespace HumanResourcesSM.Windows
         void Create()
         {
             fillData();
-            if (UForm == null && ListaSeguridad.Count > 0)
+            if (UForm == null)
                 return;
             string response = Metodos.Insertar(UForm, ListaSeguridad); //COLOCAR LOS CAMPOS DE PREGUNTAS
             if (response == "OK")
@@ -365,12 +365,6 @@ namespace HumanResourcesSM.Windows
             if (txtContraseña.Password.Contains(" "))
             {
                 MessageBox.Show("La contraseña no debe contener espacios en blanco!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
-                txtContraseña.Focus();
-                return true;
-            }
-            if (SpecialCharacter())
-            {
-                MessageBox.Show("La contraseña debe contener al menos un carácter especial!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
                 txtContraseña.Focus();
                 return true;
             }

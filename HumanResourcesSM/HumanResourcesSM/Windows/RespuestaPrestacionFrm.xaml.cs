@@ -29,6 +29,8 @@ namespace HumanResourcesSM.Windows
             InitializeComponent();
 
             Prestacion = prestacion;
+
+            txtPorcentajePrestacion.KeyDown += new KeyEventHandler(Validaciones.TextBox_KeyDown);
         }
 
         public MPrestacion Metodos = new MPrestacion();
@@ -41,9 +43,47 @@ namespace HumanResourcesSM.Windows
             }
 
             //HACER CALCULO DE MONTOTOTAL
+            
+            string razonOtorgado = txtRazonResultado.Text;
+
+            DPrestacion Res;
+
+            if (RBOtorgado.IsChecked ?? false)
+            {
+                int porcentajeOtorgado = int.Parse(txtPorcentajePrestacion.Text);
+                Res = new DPrestacion()
+                {
+                    idPrestacion = Prestacion.idPrestacion,
+                    porcentajeOtorgado = porcentajeOtorgado,
+                    montoOtorgado = montoPorcentual,
+                    estado = 2
+                };
+            }
+            else if (RBNoOtorgado.IsChecked ?? false)
+            {
+                Res = new DPrestacion()
+                {
+                    idPrestacion = Prestacion.idPrestacion,
+                    porcentajeOtorgado = 0,
+                    montoOtorgado = 0,
+                    estado = 3
+                };
+            }
+            else
+                return;
 
             //ejecutar prestacion aca
-            //string respuesta = Metodos.AsignarPrestacion(new DPrestacion);
+            string respuesta = Metodos.AsignarPrestacion(Res);
+
+            if (respuesta.Equals("OK"))
+            {
+                this.DialogResult = true;
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show(respuesta);
+            }
         }
 
 
@@ -66,33 +106,52 @@ namespace HumanResourcesSM.Windows
             else
                 antiguedad = months + " meses";
 
+            if(years > 0)
+            {
+                valorCalculado = years * 30 * Prestacion.sueldo * 8;
+            }
+            else
+            {
+                valorCalculado = months * 5 * Prestacion.sueldo * 8;
+            }
+
+            txtValorCalculado.Text = valorCalculado + " €";
+
             txtAntiguedad.Text = antiguedad;
 
-            txtMonto.Text = Prestacion.montoPresupuesto.ToString();
+            txtMonto.Text = Prestacion.montoPresupuesto + " €";
             txtRazonPrestacion.Text = Prestacion.razon;
 
 
             txtPorcentajePrestacion.IsEnabled = false;
         }
 
+        double valorCalculado = 0, montoPorcentual = 0;
+
 
 
         #region Validation
         bool Validate()
         {
-            if (txtPorcentajePrestacion.Text == "")
+            if(!(RBOtorgado.IsChecked == true || RBNoOtorgado.IsChecked == true))
+            {
+                MessageBox.Show("Debe Seleccionar Si se otorgará o no!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtPorcentajePrestacion.Focus();
+                return true;
+            }
+            if (txtPorcentajePrestacion.Text == "" && RBOtorgado.IsChecked == true)
             {
                 MessageBox.Show("Debes llenar el campo Monto Presupuesto!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
                 txtPorcentajePrestacion.Focus();
                 return true;
             }
 
-            if (txtRazonResultado.Text == "")
-            {
-                MessageBox.Show("Debes llenar el campo Razón!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtRazonResultado.Focus();
-                return true;
-            }
+            //if (txtRazonResultado.Text == "")
+            //{
+            //    MessageBox.Show("Debes llenar el campo Razón!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    txtRazonResultado.Focus();
+            //    return true;
+            //}
 
             return false;
         }
@@ -124,6 +183,31 @@ namespace HumanResourcesSM.Windows
             }
 
             return 1;
+        }
+
+
+        private void txtPorcentajePrestacion_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if(((TextBox)sender).Text == "")
+            {
+                txtMontoPorcentual.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                txtMontoPorcentual.Visibility = Visibility.Visible;
+
+                int porcentaje = int.Parse(((TextBox)sender).Text);
+
+                if(porcentaje > 75)
+                {
+                    porcentaje = 75;
+                    ((TextBox)sender).Text = porcentaje.ToString();
+                }
+
+                double montoPorcentual = valorCalculado * ((double)porcentaje / 100);
+
+                txtMontoPorcentual.Text = "Monto: " + montoPorcentual + " €";
+            }
         }
     }
 }

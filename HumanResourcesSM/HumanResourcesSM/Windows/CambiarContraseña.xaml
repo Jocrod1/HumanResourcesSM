@@ -73,7 +73,7 @@
                     </Grid>
                 </Grid>
 
-                <TextBlock Text="(La contraseña debe contener al menos una minúscula, una mayúscula, un dígito, un carácter especial y sin espacios en blanco) " 
+                <TextBlock Text="(La contraseña debe contener al menos una minúscula, una mayúscula, un dígito y sin espacios en blanco) " 
                            FontWeight="Light" TextWrapping="Wrap" FontStyle="Italic" TextAlignment="Center"/>
                 <Grid>
                     <Grid.ColumnDefinitions>

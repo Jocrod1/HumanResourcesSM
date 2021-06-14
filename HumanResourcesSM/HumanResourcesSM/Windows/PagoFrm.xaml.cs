@@ -30,6 +30,7 @@ namespace HumanResourcesSM.Windows
             InitializeComponent();
 
             txtHorasTrabajadas.KeyDown += new KeyEventHandler(Validaciones.TextBox_KeyDown);
+            txtHorasExtras.KeyDown += new KeyEventHandler(Validaciones.TextBox_KeyDown);
             txtHorasTrabajadas.KeyDown += new KeyEventHandler(
                 (s,t) =>
                 {

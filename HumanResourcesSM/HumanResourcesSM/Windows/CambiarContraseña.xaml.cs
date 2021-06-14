@@ -107,12 +107,6 @@ namespace HumanResourcesSM.Windows
                 txtContraseña.Focus();
                 return true;
             }
-            if (SpecialCharacter())
-            {
-                MessageBox.Show("La contraseña debe contener al menos un carácter especial!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
-                txtContraseña.Focus();
-                return true;
-            }
             return false;
         }
 

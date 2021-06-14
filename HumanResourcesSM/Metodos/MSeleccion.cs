@@ -262,7 +262,7 @@ namespace Metodos
             SELECT 
 				e.cedula,
                 (e.nombre + ' ' + e.apellido) as nombreCompleto,
-				e.status,s
+				e.status,
 				s.fechaAplicacion,
 				u.usuario
             FROM [Seleccion] s

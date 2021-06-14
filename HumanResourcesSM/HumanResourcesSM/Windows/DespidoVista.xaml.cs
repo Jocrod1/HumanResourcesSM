@@ -30,6 +30,8 @@ namespace HumanResourcesSM.Windows
             InitializeComponent();
 
             idEmpleado = idempleado;
+            txtHorasTrabajadas.KeyDown += new KeyEventHandler(Validaciones.TextBox_KeyDown);
+            txtHorasExtras.KeyDown += new KeyEventHandler(Validaciones.TextBox_KeyDown);
         }
 
         int idEmpleado;
@@ -37,10 +39,14 @@ namespace HumanResourcesSM.Windows
         DEmpleado EmpleadoEntrevistado;
         DSeleccion EmpleadoSelEntrevistado;
 
+        DContrato Contrato;
+
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             FetchEmpleado();
         }
+
+        int AñosAntiguedad = 0, MesesAntiguedad = 0;
 
         void FetchEmpleado()
         {
@@ -49,6 +55,36 @@ namespace HumanResourcesSM.Windows
             var Empleado = SelMetodo.EncontrarEmpleado(idEmpleado)[0];
 
             var DatosSeleccion = SelMetodo.EncontrarSeleccion(Empleado.idEmpleado)[0];
+
+            var contrato = new MContrato().Encontrar(Empleado.idEmpleado);
+
+            if (contrato.Count > 0)
+            {
+                Contrato = contrato[0];
+                TimeSpan yearsOld = (Empleado.fechaCulminacion ?? DateTime.Now) - contrato[0].fechaContratacion;
+                int years = (int)(yearsOld.TotalDays / 365.25);
+                int months = (int)(((yearsOld.TotalDays / 365.25) - years) * 12);
+
+                AñosAntiguedad = years;
+                MesesAntiguedad = months;
+
+                string antiguedad = "";
+
+                if (years > 0)
+                {
+                    antiguedad = years + " años " + (months > 0 ? months + "y  meses" : "");
+                }
+                else
+                {
+                    antiguedad = months + " meses";
+                }
+
+                txtAntiguedad.Text = antiguedad;
+            }
+            else
+            {
+                GridAntiguedad.Visibility = Visibility.Collapsed;
+            }
 
             EmpleadoEntrevistado = Empleado;
             EmpleadoSelEntrevistado = DatosSeleccion;
@@ -282,5 +318,124 @@ namespace HumanResourcesSM.Windows
                 this.Close();
             
         }
+
+        double SalariosPendientes = 0, Vacaciones = 0, Utilidades = 0,
+                PrestacionesSociales = 0, Preavisto = 0, indemnización = 0, Total = 0;
+
+        void CalcularLiquidación()
+        {
+            if (CbRazonDespido.SelectedIndex == -1)
+            {
+                return;
+            }
+
+            SalariosPendientes = Vacaciones = Utilidades = PrestacionesSociales =
+                Preavisto = indemnización = Total = 0;
+
+
+            //Calculo Horas trabajadas
+            double SueldoBase = Contrato.sueldo * HorasTrabajadas;
+
+            double SueldoExtra = Contrato.sueldo * 2 * HorasExtras;
+
+            SalariosPendientes = SueldoBase + SueldoExtra;
+
+            //Calculo de Vacaciones
+            if(AñosAntiguedad > 0)
+            {
+                int DiasPagar = 15 + (1 * AñosAntiguedad);
+                double pagoVacaciones = Contrato.sueldo * 8 * DiasPagar;
+
+
+                int DiasBono = 7 + (1 * AñosAntiguedad);
+                double bonoVacaciones = Contrato.sueldo * 8 * DiasBono;
+
+                Vacaciones = pagoVacaciones + bonoVacaciones;
+            }
+            else
+            {
+                //No merece Vacaciones
+                SlotVacaciones.Visibility = Visibility.Collapsed;
+            }
+
+            //Calculo de Utilidades
+
+            double SueldoMensual = Contrato.sueldo * 8 * 30;
+
+            TimeSpan yearsOld = DateTime.Today - new DateTime(DateTime.Today.AddYears(-1).Year, 12, 15);
+            int Days = (int)yearsOld.TotalDays;
+
+            double MontoaPagar = (SueldoMensual * Days) / 360;
+
+            //double PagoUtilidades = double.Parse(txtPagoUtilidades.Text);
+
+            //if(txt)
+
+            Utilidades = MontoaPagar;
+
+            //Prestaciones Sociales
+            int years = AñosAntiguedad;
+            int months = MesesAntiguedad;
+            if (years > 0)
+            {
+                PrestacionesSociales = years * 30 * Contrato.sueldo * 8;
+            }
+            else
+            {
+                PrestacionesSociales = months * 5 * Contrato.sueldo * 8;
+            }
+
+            //indemnización
+            if(CbRazonDespido.SelectedIndex == 1 || CbRazonDespido.SelectedIndex == 2)
+            {
+                SlotIndemnizacion.Visibility = Visibility.Collapsed;
+                SlotPreaviso.Visibility = Visibility.Collapsed;
+
+            }
+            else
+            {
+                SlotIndemnizacion.Visibility = Visibility.Visible;
+                SlotPreaviso.Visibility = Visibility.Visible;
+                Preavisto = Contrato.sueldo * 8 * 30;
+                indemnización = Contrato.sueldo * 9 * 30;
+            }
+
+            Total = SalariosPendientes + Vacaciones + Utilidades + PrestacionesSociales + Preavisto + indemnización;
+
+            txtSueldosPendientes.Text = SalariosPendientes.ToString("0.00") + " €";
+            txtVacaciones.Text = Vacaciones.ToString("0.00") + " €";
+            txtUtilidades.Text = Utilidades.ToString("0.00") + " €";
+            txtPrestaciones.Text = PrestacionesSociales.ToString("0.00") + " €";
+            txtPreaviso.Text = Preavisto.ToString("0.00") + " €";
+            txtIndemnización.Text = indemnización.ToString("0.00") + " €";
+            txtTotal.Text = Total.ToString("0.00") + " €";
+
+        }
+
+        int HorasTrabajadas = 0;
+        int HorasExtras = 0;
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (txtHorasTrabajadas.Text == "")
+                HorasTrabajadas = 0;
+            if (txtHorasExtras.Text == "")
+                HorasExtras = 0;
+
+            HorasTrabajadas = int.Parse(txtHorasTrabajadas.Text);
+            HorasExtras = int.Parse(txtHorasExtras.Text);
+
+
+            txtHorasTrabajadas.Text = HorasTrabajadas.ToString();
+            txtHorasExtras.Text = HorasExtras.ToString();
+            CalcularLiquidación();
+        }
+
+
+        private void CbRazonDespido_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CalcularLiquidación();
+        }
+
     }
 }

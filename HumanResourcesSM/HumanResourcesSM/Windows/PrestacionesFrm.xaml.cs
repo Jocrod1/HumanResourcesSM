@@ -62,6 +62,7 @@ namespace HumanResourcesSM.Windows
 
             var resp = new MSeleccion().MostrarEmpleado();
 
+
             CbEmpleado.ItemsSource = resp;
             CbEmpleado.DisplayMemberPath = "nombre";
             CbEmpleado.SelectedValuePath = "idEmpleado";

@@ -4,8 +4,9 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:HumanResourcesSM.Windows"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
-      Height="550" Width="680"
+      Height="570" Width="900"
       Loaded="Page_Loaded"
       Title="SeleccionarMenu">
 
@@ -18,152 +19,247 @@
         <Border BorderThickness="0 0 0 1" BorderBrush="Black">
             <TextBlock Text="Despedir Empleado" FontWeight="Bold" FontSize="23" HorizontalAlignment="Center" Margin="0 10"/>
         </Border>
-        <StackPanel Grid.Row="1" Margin="10 10">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Información" FontWeight="Bold" FontSize="30"/>
-            </StackPanel>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5 10">
-                            <TextBlock Text="Nombres" FontWeight="Bold" FontSize="20"/>
-                            <TextBlock x:Name="txtNombre" Text="José Arturo" FontSize="17" Margin="7 0 0 0"/>
-                        </StackPanel>
-                        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5 10">
-                            <TextBlock Text="Apellidos" FontWeight="Bold" FontSize="20"/>
-                            <TextBlock x:Name="txtApellido" Text="Pereira Zambrano" FontSize="17" Margin="7 0 0 0"/>
-                        </StackPanel>
-                    </StackPanel>
-                    <StackPanel VerticalAlignment="Top" Margin="5 10">
-                        <TextBlock Text="Dirección de Vivienda" FontWeight="Bold" FontSize="15"/>
-                        <TextBlock x:Name="txtDireccion" Text="Sevilla, Cento, Calle Valdivieso Sangrador, Edificio #16 Apartamento #9" FontSize="14" Margin="7 0 0 0" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
-                    </StackPanel>
-                </StackPanel>
-                <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="0.5" Width="350" VerticalAlignment="Top" HorizontalAlignment="Right">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                        </Grid.RowDefinitions>
-                        <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5">
-                            <TextBlock Text="DNI o Pasaporte" FontWeight="Bold" FontSize="15"/>
-                            <TextBlock x:Name="txtDocumento" Text="16516265162" FontSize="14"  Margin="7 0 0 0" TextTrimming="CharacterEllipsis"/>
-                        </StackPanel>
-                        <StackPanel Grid.Column="1" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5">
-                            <TextBlock Text="Fecha de Nacimiento" FontWeight="Bold" FontSize="15"/>
-                            <TextBlock x:Name="txtFechaNac" Text="01/07/1998 (27 años)" FontSize="14"  Margin="7 0 0 0" TextTrimming="CharacterEllipsis"/>
-                        </StackPanel>
-                        <StackPanel Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5">
-                            <TextBlock Text="Pais de Nacimiento" FontWeight="Bold" FontSize="15"/>
-                            <TextBlock x:Name="txtPaisNac" Text="España - ES" FontSize="14"  Margin="7 0 0 0" TextTrimming="CharacterEllipsis"/>
-                        </StackPanel>
-                        <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5">
-                            <TextBlock Text="Estado Legal" FontWeight="Bold" FontSize="15"/>
-                            <TextBlock x:Name="txtEstadoLegal" Text="Tarjeta Roja" FontSize="14"  Margin="7 0 0 0" TextTrimming="CharacterEllipsis"/>
-                        </StackPanel>
-                        <StackPanel Grid.Column="0" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5">
-                            <TextBlock Text="Email" FontWeight="Bold" FontSize="15"/>
-                            <TextBlock x:Name="txtEmail" Text="Jocrod.one@gmail.com" FontSize="14"  Margin="7 0 0 0" TextTrimming="CharacterEllipsis"/>
-                        </StackPanel>
-                        <StackPanel Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5">
-                            <TextBlock Text="Numero Telefonico" FontWeight="Bold" FontSize="15"/>
-                            <TextBlock x:Name="txtTelf" Text="012301238123" FontSize="14"  Margin="7 0 0 0" TextTrimming="CharacterEllipsis"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-            </Grid>
-            <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
-                <TextBlock Text="Información Laboral" FontWeight="Bold" FontSize="23" />
-            </StackPanel>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="200"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel>
-                    <TextBlock>
-                        <Hyperlink Name="UrlCurriculo" NavigateUri="www.google.com" RequestNavigate="Hyperlink_RequestNavigate" FontWeight="Bold" FontSize="17" Foreground="#2A347B" TextDecorations="Underline">
-                            URL del Currículo
-                        </Hyperlink>
-                    </TextBlock>
-                    <StackPanel VerticalAlignment="Top" Margin="5 5">
-                        <TextBlock Text="Nombre Posición" FontWeight="Bold" FontSize="15"/>
-                        <TextBlock x:Name="txtNombrePosicion" Text="Repartidor" FontSize="15" Margin="7 0 0 0" TextWrapping="Wrap"/>
-                    </StackPanel>
-                    <StackPanel VerticalAlignment="Top" Margin="5 5">
-                        <TextBlock Text="Departamento" FontWeight="Bold" FontSize="15"/>
-                        <TextBlock x:Name="txtDepartamento" Text="Repartidores" FontSize="15" Margin="7 0 0 0" TextWrapping="Wrap"/>
-                    </StackPanel>
-                    <StackPanel VerticalAlignment="Top" Margin="5 5">
-                        <TextBlock Text="Fecha Aplicación" FontWeight="Bold" FontSize="15"/>
-                        <TextBlock x:Name="txtFechaApl" Text="01/03/21" FontSize="15" Margin="7 0 0 0"/>
-                    </StackPanel>
-                </StackPanel>
-                <Grid Grid.Column="1">
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="672"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="1" Margin="5 50 5 10">
+                <ComboBox Name="CbRazonDespido" materialDesign:HintAssist.Hint="Razón de Despido" SelectionChanged="CbRazonDespido_SelectionChanged"
+                            Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                    <ComboBoxItem>Despido injustificado</ComboBoxItem>
+                    <ComboBoxItem>Despido justificado</ComboBoxItem>
+                    <ComboBoxItem>Renuncia justificada</ComboBoxItem>
+                    <ComboBoxItem>Retiro justificacion</ComboBoxItem>
+                </ComboBox>
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <StackPanel Margin="10 10">
-                        <StackPanel Orientation="Horizontal" Margin="5 5">
-                            <TextBlock Text="Idiomas Hablados" FontWeight="Bold" FontSize="17" />
-                        </StackPanel>
-                        <Border BorderBrush="Black" BorderThickness="1">
-                            <ScrollViewer VerticalScrollBarVisibility="Visible" CanContentScroll="False" Height="80" Margin="0 10">
-                                <StackPanel Name="IdiomaList">
-                                    <Border BorderBrush="Black" BorderThickness="0">
-                                        <Grid Height="30">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            <StackPanel Grid.Column="1" MaxHeight="50">
-                                                <TextBlock Text="INGLÉS" MaxHeight="35" FontWeight="Bold" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" FontSize="12" Margin="5 0"/>
-                                                <TextBlock Text="Avanzado" FontSize="10" Margin="5 0" TextWrapping="Wrap"/>
-                                            </StackPanel>
-                                        </Grid>
-                                    </Border>
-                                </StackPanel>
-                            </ScrollViewer>
-                        </Border>
+                    <StackPanel HorizontalAlignment="Center" Margin="0 3">
+                        <TextBlock Text="Horas trabajadas" FontSize="12" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBox Name="txtHorasTrabajadas" Text="0" HorizontalContentAlignment="Right" FontSize="12" Width="40" LostFocus="TextBox_LostFocus"/>
                     </StackPanel>
-                    <StackPanel Margin="0 10" Grid.Column="1">
-                        <StackPanel Orientation="Horizontal" Margin="5 5">
-                            <TextBlock Text="Educación" FontWeight="Bold" FontSize="17" />
-                        </StackPanel>
-                        <Border BorderBrush="Black" BorderThickness="1">
-                            <ScrollViewer VerticalScrollBarVisibility="Visible" CanContentScroll="False" Height="80" Margin="0 10">
-                                <StackPanel Name="EducacionList">
-                                    <Border BorderBrush="Black" BorderThickness="0">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            <StackPanel Grid.Column="1" MaxHeight="50">
-                                                <TextBlock Text="Ingeniería de Computación" MaxHeight="35" FontWeight="Bold" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" FontSize="12" Margin="5 0"/>
-                                                <TextBlock Text=" 2017 - Actualidad " FontSize="10" Margin="5 0" TextWrapping="Wrap"/>
-                                            </StackPanel>
-                                        </Grid>
-                                    </Border>
-                                </StackPanel>
-                            </ScrollViewer>
-                        </Border>
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Center" Margin="0 3">
+                        <TextBlock Text="Horas Extras" FontSize="12" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBox Name="txtHorasExtras" Text="0" HorizontalContentAlignment="Right" FontSize="12" Width="40" LostFocus="TextBox_LostFocus"/>
                     </StackPanel>
                 </Grid>
-            </Grid>
-        </StackPanel>
+                <!--<TextBox Name="txtPagoUtilidades" materialDesign:HintAssist.Hint="Utilidades"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>-->
+                <StackPanel Margin="10">
+                    <Grid Margin="0 3" x:Name="SlotSalarios">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Sueldos Pendientes" FontWeight="Bold" TextWrapping="Wrap" Foreground="Gray"/>
+                        <TextBlock Name="txtSueldosPendientes" Text="0.0 €" FontWeight="Bold" FontSize="15" HorizontalAlignment="Right" Grid.Column="1"/>
+                    </Grid>
+                    <Grid Margin="0 3" Name="SlotVacaciones">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Vacaciones y bono Vacacional" FontWeight="Bold" TextWrapping="Wrap" Foreground="Gray"/>
+                        <TextBlock Name="txtVacaciones" Text="0.0 €" FontWeight="Bold" FontSize="15" HorizontalAlignment="Right" Grid.Column="1"/>
+                    </Grid>
+                    <Grid Margin="0 3" Name="SlotUtilidades">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Utilidades y Bono de fin de año" FontWeight="Bold" TextWrapping="Wrap" Foreground="Gray"/>
+                        <TextBlock x:Name="txtUtilidades" Text="0.0 €" FontWeight="Bold" FontSize="15" HorizontalAlignment="Right" Grid.Column="1" Margin="10 0 0 0"/>
+                    </Grid>
+                    <Grid Margin="0 5" x:Name="SlotPrestaciones">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Prestaciones sociales" FontWeight="Bold" TextWrapping="Wrap" Foreground="Gray"/>
+                        <TextBlock x:Name="txtPrestaciones" Text="0.0 €" FontWeight="Bold" FontSize="15" HorizontalAlignment="Right" Grid.Column="1"/>
+                    </Grid>
+                    <Grid Margin="0" x:Name="SlotPreaviso">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Preaviso" FontWeight="Bold" TextWrapping="Wrap" Foreground="Gray"/>
+                        <TextBlock Name="txtPreaviso" Text="0.0 €" FontWeight="Bold" FontSize="15" HorizontalAlignment="Right" Grid.Column="1"/>
+                    </Grid>
+                    <Grid Margin="0 3" Name="SlotIndemnizacion">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Indemnización" FontWeight="Bold" TextWrapping="Wrap" Foreground="Gray"/>
+                        <TextBlock Name="txtIndemnización" Text="0.0 €" FontWeight="Bold" FontSize="15" HorizontalAlignment="Right" Grid.Column="1"/>
+                    </Grid>
+                    <Separator/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Total" FontWeight="Bold" FontSize="16" TextWrapping="Wrap" Foreground="Black"/>
+                        <TextBlock Name="txtTotal" Text="0.0 €" FontWeight="Bold" FontSize="17" HorizontalAlignment="Right" Grid.Column="1"/>
+                    </Grid>
+                    
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Margin="10 10">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Información" FontWeight="Bold" FontSize="30"/>
+                    <StackPanel Name="GridAntiguedad" VerticalAlignment="Top" Margin="10 5">
+                        <TextBlock Text="Antiguedad" FontWeight="Bold" FontSize="15"/>
+                        <TextBlock x:Name="txtAntiguedad" Text="10 años y 12 meses" FontSize="15" Margin="7 0 0 0"/>
+                    </StackPanel>
+                </StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5 10">
+                                <TextBlock Text="Nombres" FontWeight="Bold" FontSize="20"/>
+                                <TextBlock x:Name="txtNombre" Text="José Arturo" FontSize="17" Margin="7 0 0 0"/>
+                            </StackPanel>
+                            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5 10">
+                                <TextBlock Text="Apellidos" FontWeight="Bold" FontSize="20"/>
+                                <TextBlock x:Name="txtApellido" Text="Pereira Zambrano" FontSize="17" Margin="7 0 0 0"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel VerticalAlignment="Top" Margin="5 10">
+                            <TextBlock Text="Dirección de Vivienda" FontWeight="Bold" FontSize="15"/>
+                            <TextBlock x:Name="txtDireccion" Text="Sevilla, Cento, Calle Valdivieso Sangrador, Edificio #16 Apartamento #9" FontSize="14" Margin="7 0 0 0" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="0.5" Width="350" VerticalAlignment="Top" HorizontalAlignment="Right">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5">
+                                <TextBlock Text="DNI o Pasaporte" FontWeight="Bold" FontSize="15"/>
+                                <TextBlock x:Name="txtDocumento" Text="16516265162" FontSize="14"  Margin="7 0 0 0" TextTrimming="CharacterEllipsis"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5">
+                                <TextBlock Text="Fecha de Nacimiento" FontWeight="Bold" FontSize="15"/>
+                                <TextBlock x:Name="txtFechaNac" Text="01/07/1998 (27 años)" FontSize="14"  Margin="7 0 0 0" TextTrimming="CharacterEllipsis"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5">
+                                <TextBlock Text="Pais de Nacimiento" FontWeight="Bold" FontSize="15"/>
+                                <TextBlock x:Name="txtPaisNac" Text="España - ES" FontSize="14"  Margin="7 0 0 0" TextTrimming="CharacterEllipsis"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5">
+                                <TextBlock Text="Estado Legal" FontWeight="Bold" FontSize="15"/>
+                                <TextBlock x:Name="txtEstadoLegal" Text="Tarjeta Roja" FontSize="14"  Margin="7 0 0 0" TextTrimming="CharacterEllipsis"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="0" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5">
+                                <TextBlock Text="Email" FontWeight="Bold" FontSize="15"/>
+                                <TextBlock x:Name="txtEmail" Text="Jocrod.one@gmail.com" FontSize="14"  Margin="7 0 0 0" TextTrimming="CharacterEllipsis"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5">
+                                <TextBlock Text="Numero Telefonico" FontWeight="Bold" FontSize="15"/>
+                                <TextBlock x:Name="txtTelf" Text="012301238123" FontSize="14"  Margin="7 0 0 0" TextTrimming="CharacterEllipsis"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+                <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
+                    <TextBlock Text="Información Laboral" FontWeight="Bold" FontSize="23" />
+                </StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock>
+                        <Hyperlink Name="UrlCurriculo" NavigateUri="www.google.com" RequestNavigate="Hyperlink_RequestNavigate" FontWeight="Bold" FontSize="17" Foreground="#2A347B" TextDecorations="Underline">
+                            URL del Currículo
+                        </Hyperlink>
+                        </TextBlock>
+                        <StackPanel VerticalAlignment="Top" Margin="5 5">
+                            <TextBlock Text="Nombre Posición" FontWeight="Bold" FontSize="15"/>
+                            <TextBlock x:Name="txtNombrePosicion" Text="Repartidor" FontSize="15" Margin="7 0 0 0" TextWrapping="Wrap"/>
+                        </StackPanel>
+                        <StackPanel VerticalAlignment="Top" Margin="5 5">
+                            <TextBlock Text="Departamento" FontWeight="Bold" FontSize="15"/>
+                            <TextBlock x:Name="txtDepartamento" Text="Repartidores" FontSize="15" Margin="7 0 0 0" TextWrapping="Wrap"/>
+                        </StackPanel>
+                        <StackPanel VerticalAlignment="Top" Margin="5 5">
+                            <TextBlock Text="Fecha Aplicación" FontWeight="Bold" FontSize="15"/>
+                            <TextBlock x:Name="txtFechaApl" Text="01/03/21" FontSize="15" Margin="7 0 0 0"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Margin="10 10">
+                            <StackPanel Orientation="Horizontal" Margin="5 5">
+                                <TextBlock Text="Idiomas Hablados" FontWeight="Bold" FontSize="17" />
+                            </StackPanel>
+                            <Border BorderBrush="Black" BorderThickness="1">
+                                <ScrollViewer VerticalScrollBarVisibility="Visible" CanContentScroll="False" Height="80" Margin="0 10">
+                                    <StackPanel Name="IdiomaList">
+                                        <Border BorderBrush="Black" BorderThickness="0">
+                                            <Grid Height="30">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel Grid.Column="1" MaxHeight="50">
+                                                    <TextBlock Text="INGLÉS" MaxHeight="35" FontWeight="Bold" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" FontSize="12" Margin="5 0"/>
+                                                    <TextBlock Text="Avanzado" FontSize="10" Margin="5 0" TextWrapping="Wrap"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </Border>
+                        </StackPanel>
+                        <StackPanel Margin="0 10" Grid.Column="1">
+                            <StackPanel Orientation="Horizontal" Margin="5 5">
+                                <TextBlock Text="Educación" FontWeight="Bold" FontSize="17" />
+                            </StackPanel>
+                            <Border BorderBrush="Black" BorderThickness="1">
+                                <ScrollViewer VerticalScrollBarVisibility="Visible" CanContentScroll="False" Height="80" Margin="0 10">
+                                    <StackPanel Name="EducacionList">
+                                        <Border BorderBrush="Black" BorderThickness="0">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel Grid.Column="1" MaxHeight="50">
+                                                    <TextBlock Text="Ingeniería de Computación" MaxHeight="35" FontWeight="Bold" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" FontSize="12" Margin="5 0"/>
+                                                    <TextBlock Text=" 2017 - Actualidad " FontSize="10" Margin="5 0" TextWrapping="Wrap"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </StackPanel>
+        </Grid>
         <Border Grid.Row="2" BorderBrush="Black" BorderThickness="0">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button x:Name="BtnFire" Content="Despedir" Click="BtnFire_Click" Background="{x:Null}" FontWeight="Bold" Foreground="#C22723" BorderBrush="#C22723" Width="150" Margin="10"/>

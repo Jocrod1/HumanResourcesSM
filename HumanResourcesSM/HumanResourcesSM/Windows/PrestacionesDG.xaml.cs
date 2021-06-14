@@ -30,8 +30,9 @@ namespace HumanResourcesSM.Windows
 
         public void Refresh()
         {
+            int buscarEmpleado = CbEmpleado.SelectedIndex > -1 ? (int)CbEmpleado.SelectedValue : -1;
 
-            List<DPrestacion> items = Metodos.Mostrar(CbEmpleado.Text, TipoEstado());
+            List<DPrestacion> items = Metodos.Mostrar(buscarEmpleado, TipoEstado());
 
             dgOperaciones.ItemsSource = items;
         }
@@ -46,8 +47,9 @@ namespace HumanResourcesSM.Windows
 
             CbEmpleado.ItemsSource = resp;
             CbEmpleado.DisplayMemberPath = "nombre";
-            CbEmpleado.SelectedValuePath = "nombre";
+            CbEmpleado.SelectedValuePath = "idEmpleado";
         }
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {

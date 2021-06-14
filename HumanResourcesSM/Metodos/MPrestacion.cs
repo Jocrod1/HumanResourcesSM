@@ -79,7 +79,7 @@ namespace Metodos
         }
 
 
-        public List<DPrestacion> Mostrar(string Nombre, int Estado)
+        public List<DPrestacion> Mostrar(int BuscarEmpleado, int Estado)
         {
             List<DPrestacion> ListaGenerica = new List<DPrestacion>();
 
@@ -95,17 +95,15 @@ namespace Metodos
                     p.estado
                 FROM [Prestacion] p
                     INNER JOIN [Empleado] e ON p.idEmpleado = e.idEmpleado 
-                WHERE CONCAT(e.nombre, ' ', e.apellido) LIKE @nombre + '%' 
-                    AND p.estado = @estado
-                ORDER BY p.idPrestacion ASC;
-            ";
+                WHERE p.estado = @estado";
+
+            string searcher = (BuscarEmpleado > 0) ? (" and e.idEmpleado =" + BuscarEmpleado) : "";
 
             try
             {
                 Conexion.ConexionSql.Open();
 
-                using SqlCommand comm = new SqlCommand(queryList, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@nombre", Nombre);
+                using SqlCommand comm = new SqlCommand(queryList + searcher, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@estado", Estado);
 
                 using SqlDataReader reader = comm.ExecuteReader();
@@ -175,6 +173,51 @@ namespace Metodos
                         sueldo = (double)reader.GetDecimal(5),
                         montoPresupuesto = reader.GetDouble(6),
                         razon = reader.GetString(7)
+                    });
+                }
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+        }
+
+        public List<DEmpleado> MostrarEmpleadoByPrestaciones()
+        {
+            List<DEmpleado> ListaGenerica = new List<DEmpleado>();
+
+            string queryListEmployeeContract = @"
+                SELECT * FROM [Empleado] 
+                WHERE status = 3
+                ORDER BY idEmpleado DESC;
+            ";
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryListEmployeeContract, Conexion.ConexionSql);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListaGenerica.Add(new DEmpleado
+                    {
+                        idEmpleado = reader.GetInt32(0),
+                        idDepartamento = reader.GetInt32(1),
+                        nombre = reader.GetString(2) + " " + reader.GetString(3),
+                        apellido = reader.GetString(3),
+                        cedula = reader.GetString(4),
+                        fechaNacimiento = reader.GetDateTime(5),
+                        nacionalidad = reader.GetString(6),
+                        direccion = reader.GetString(7),
+                        email = reader.GetString(8),
+                        telefono = reader.GetString(9),
+                        curriculum = reader.GetString(10),
+                        estadoLegal = reader.GetString(11),
+                        fechaCulminacion = !reader.IsDBNull(12) ? reader.GetDateTime(12) : null,
+                        status = reader.GetInt32(13),
+                        razonDespido = !reader.IsDBNull(14) ? reader.GetString(14) : ""
                     });
                 }
             }

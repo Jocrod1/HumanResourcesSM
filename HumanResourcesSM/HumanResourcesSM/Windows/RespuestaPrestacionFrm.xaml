@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:HumanResourcesSM.Windows"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="DepartamentoFrm" Height="450" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
+        Title="DepartamentoFrm" Height="650" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -34,6 +34,7 @@
                         </Grid>
                         <Grid>
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
@@ -68,7 +69,7 @@
                                            Margin="5" TextWrapping="Wrap" FontStyle="Italic"/>
                                 </Border>
                             </Grid>
-                            <Grid Grid.Row="2">
+                            <Grid Grid.Row="4">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto" />
                                     <ColumnDefinition Width="*" />
@@ -82,7 +83,7 @@
                                            Margin="5" TextWrapping="Wrap" FontStyle="Italic"/>
                                 </Border>
                             </Grid>
-                            <Grid Grid.Row="3">
+                            <Grid Grid.Row="2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto" />
                                     <ColumnDefinition Width="*" />
@@ -96,7 +97,7 @@
                                            Margin="5" TextWrapping="Wrap" FontStyle="Italic"/>
                                 </Border>
                             </Grid>
-                            <Grid Grid.Row="4">
+                            <Grid Grid.Row="3">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto" />
                                     <ColumnDefinition Width="*" />
@@ -108,6 +109,20 @@
                                 <Border BorderBrush="Green"  BorderThickness="1" Grid.Column="1">
                                     <TextBlock x:Name="txtRazonPrestacion" Text="Cosas vriadas sdlkfnwdlñfijweofijervgoiefngvierjeoifjeriofjewro" FontSize="15" Grid.Column="1"
                                            Margin="5" TextWrapping="Wrap" FontStyle="Italic"/>
+                                </Border>
+                            </Grid>
+                            <Grid Grid.Row="6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Border BorderBrush="Green"  BorderThickness="1" Grid.Column="0">
+                                    <TextBlock Text=" Valor Calculado: " FontSize="15" FontWeight="Bold" VerticalAlignment="Center"
+                                           HorizontalAlignment="Center" Margin="5"/>
+                                </Border>
+                                <Border BorderBrush="Green"  BorderThickness="1" Grid.Column="1">
+                                    <TextBlock x:Name="txtValorCalculado" Text="500 €" FontSize="15" Grid.Column="1"
+                                           Margin="5" FontWeight="Bold" FontStyle="Italic"/>
                                 </Border>
                             </Grid>
                         </Grid>
@@ -129,10 +144,11 @@
                 </Grid>
                 
                 <TextBox x:Name="txtPorcentajePrestacion" VerticalAlignment="Center" Margin="0 10" FontSize="15"
-                        materialDesign:HintAssist.Hint="Porcentaje de Presupuesto Aprobado"
+                        materialDesign:HintAssist.Hint="Porcentaje de Presupuesto Aprobado (%)" MaxLength="2" LostFocus="txtPorcentajePrestacion_LostFocus"
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                <TextBlock FontSize="16" FontWeight="Bold" Name="txtMontoPorcentual" Text="Monto: 500€" Visibility="Hidden"/>
                 <TextBox x:Name="txtRazonResultado" VerticalAlignment="Center" Margin="0 10" FontSize="15" Height="80"
-                        materialDesign:HintAssist.Hint="Razón de Decisión (Opcional)"
+                        materialDesign:HintAssist.Hint="Razón de Decisión (Opcional)" MaxLength="400"
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
             </StackPanel>
         </ScrollViewer>

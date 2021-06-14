@@ -56,7 +56,7 @@
                             materialDesign:HintAssist.Hint="Confirmar Contraseña"
                             Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
                 </Grid>
-                <TextBlock Grid.Column="0" Text="(La contraseña debe contener al menos una minúscula, una mayúscula, un dígito, un carácter especial y sin espacios en blanco) " 
+                <TextBlock Grid.Column="0" Text="(La contraseña debe contener al menos una minúscula, una mayúscula y sin espacios en blanco) " 
                            FontWeight="Light" TextWrapping="Wrap" FontStyle="Italic" TextAlignment="Center"/>
 
                 <TextBlock Grid.Column="0" Text="Preguntas Secretas" Margin="0 30 0 0" FontSize="18"
