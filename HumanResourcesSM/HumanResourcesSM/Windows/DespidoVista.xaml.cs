@@ -104,9 +104,10 @@ namespace HumanResourcesSM.Windows
             txtEmail.Text = Empleado.email;
             txtTelf.Text = Empleado.telefono;
 
+            var res = new MDepartamento().Encontrar(Empleado.idDepartamento)[0];
 
             txtNombrePosicion.Text = DatosSeleccion.nombrePuesto;
-            txtDepartamento.Text = Empleado.idDepartamento.ToString(); // actualmente se está viendo el id y no el nombre del departamento
+            txtDepartamento.Text = res.nombre;
             txtFechaApl.Text = DatosSeleccion.fechaAplicacion.ToString();
 
 
@@ -311,6 +312,12 @@ namespace HumanResourcesSM.Windows
 
         private void BtnFire_Click(object sender, RoutedEventArgs e)
         {
+            if(CbRazonDespido.SelectedIndex == -1)
+            {
+                MessageBox.Show("Debes Seleccionar una Razón de Despido!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                CbRazonDespido.Focus();
+                return;
+            }
             ContratoFrm frm = new ContratoFrm(EmpleadoEntrevistado);
             bool resp = frm.ShowDialog() ?? false;
 
@@ -374,15 +381,42 @@ namespace HumanResourcesSM.Windows
             Utilidades = MontoaPagar;
 
             //Prestaciones Sociales
+            var resp = new MPrestacion().EncontrarByEmpleado(idEmpleado);
+
+            if(resp.Count > 0)
+            {
+                if(resp[0].porcentajeOtorgado != 0)
+                {
+                    SlotPrestacionesOtorgadas.Visibility = Visibility.Visible;
+
+                    txtPrestacionesOtorgadas.Text = "-" + resp[0].porcentajeOtorgado.ToString("0.00") + " %";
+
+                }
+                else
+                {
+                    SlotPrestacionesOtorgadas.Visibility = Visibility.Collapsed;
+                }
+
+            }
+            else
+            {
+                SlotPrestacionesOtorgadas.Visibility = Visibility.Collapsed;
+            }
+
             int years = AñosAntiguedad;
             int months = MesesAntiguedad;
             if (years > 0)
             {
                 PrestacionesSociales = years * 30 * Contrato.sueldo * 8;
             }
-            else
+            else if(months > 3)
             {
                 PrestacionesSociales = months * 5 * Contrato.sueldo * 8;
+            }
+            else
+            {
+                SlotPrestaciones.Visibility = Visibility.Collapsed;
+                SlotPrestacionesOtorgadas.Visibility = Visibility.Collapsed;
             }
 
             //indemnización

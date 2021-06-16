@@ -117,7 +117,7 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Border BorderBrush="Green"  BorderThickness="1" Grid.Column="0">
-                                    <TextBlock Text=" Valor Calculado: " FontSize="15" FontWeight="Bold" VerticalAlignment="Center"
+                                    <TextBlock Text="Porcentaje del presupuesto: " FontSize="15" FontWeight="Bold" VerticalAlignment="Center"
                                            HorizontalAlignment="Center" Margin="5"/>
                                 </Border>
                                 <Border BorderBrush="Green"  BorderThickness="1" Grid.Column="1">
@@ -146,7 +146,7 @@
                 <TextBox x:Name="txtPorcentajePrestacion" VerticalAlignment="Center" Margin="0 10" FontSize="15"
                         materialDesign:HintAssist.Hint="Porcentaje de Presupuesto Aprobado (%)" MaxLength="2" LostFocus="txtPorcentajePrestacion_LostFocus"
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
-                <TextBlock FontSize="16" FontWeight="Bold" Name="txtMontoPorcentual" Text="Monto: 500€" Visibility="Hidden"/>
+                <TextBlock FontSize="16" FontWeight="Bold" Name="txtMontoPorcentual" Text="Monto: 500€" Visibility="Collapsed"/>
                 <TextBox x:Name="txtRazonResultado" VerticalAlignment="Center" Margin="0 10" FontSize="15" Height="80"
                         materialDesign:HintAssist.Hint="Razón de Decisión (Opcional)" MaxLength="400"
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>

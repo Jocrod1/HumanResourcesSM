@@ -17,7 +17,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Border BorderThickness="0 0 0 1" BorderBrush="Black" Background="#248232">
-            <TextBlock Text="Seleccionar Empleado" FontWeight="Bold" FontSize="23" HorizontalAlignment="Center" 
+            <TextBlock Text="Registro de Postulante" FontWeight="Bold" FontSize="23" HorizontalAlignment="Center" 
                        Margin="0 10" Foreground="White"/>
         </Border>
         <ScrollViewer Name="ScrollContent" VerticalScrollBarVisibility="Visible" CanContentScroll="False" Grid.Row="1">

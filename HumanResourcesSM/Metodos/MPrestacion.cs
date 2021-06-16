@@ -226,5 +226,54 @@ namespace Metodos
 
             return ListaGenerica;
         }
+
+        public List<DPrestacion> EncontrarByEmpleado(int IdEmpleado)
+        {
+            List<DPrestacion> ListaGenerica = new List<DPrestacion>();
+
+            string queryList = @"
+                SELECT TOP 1 
+                    p.idPrestacion, 
+                    CONCAT(e.nombre, ' ', e.apellido) AS nombreCompleto, 
+                    p.montoPresupuesto, 
+                    p.porcentajeOtorgado, 
+                    p.montoOtorgado, 
+                    p.razon, 
+                    p.fechaSolicitud,
+                    p.estado
+                FROM [Prestacion] p
+                    INNER JOIN [Empleado] e ON p.idEmpleado = e.idEmpleado
+                WHERE p.idEmpleado = @idEmpleado AND p.estado = 2 ORDER BY p.idPrestacion DESC
+            ";
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryList, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
+
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListaGenerica.Add(new DPrestacion
+                    {
+                        idPrestacion = reader.GetInt32(0),
+                        nombreEmpleado = reader.GetString(1),
+                        montoPresupuesto = reader.GetDouble(2),
+                        porcentajeOtorgado = reader.GetDouble(3),
+                        montoOtorgado = reader.GetDouble(4),
+                        razon = reader.GetString(5),
+                        fechaSolicitudString = reader.GetDateTime(6).ToString("dd/MM/yyyy"),
+                        estado = reader.GetInt32(7)
+                    });
+                }
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+        }
     }
 }

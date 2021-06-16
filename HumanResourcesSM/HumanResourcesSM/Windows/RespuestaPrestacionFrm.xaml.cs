@@ -115,7 +115,11 @@ namespace HumanResourcesSM.Windows
                 valorCalculado = months * 5 * Prestacion.sueldo * 8;
             }
 
-            txtValorCalculado.Text = valorCalculado + " €";
+            double porcentajePresupuesto = ((Prestacion.montoPresupuesto / valorCalculado) * 100);
+
+            porcentajePresupuesto = Math.Truncate(100 * porcentajePresupuesto) / 100;
+
+            txtValorCalculado.Text = porcentajePresupuesto  + " %";
 
             txtAntiguedad.Text = antiguedad;
 
@@ -190,12 +194,9 @@ namespace HumanResourcesSM.Windows
         {
             if(((TextBox)sender).Text == "")
             {
-                txtMontoPorcentual.Visibility = Visibility.Hidden;
             }
             else
             {
-                txtMontoPorcentual.Visibility = Visibility.Visible;
-
                 int porcentaje = int.Parse(((TextBox)sender).Text);
 
                 if(porcentaje > 75)
@@ -204,7 +205,7 @@ namespace HumanResourcesSM.Windows
                     ((TextBox)sender).Text = porcentaje.ToString();
                 }
 
-                double montoPorcentual = valorCalculado * ((double)porcentaje / 100);
+                montoPorcentual = valorCalculado * ((double)porcentaje / 100);
 
                 txtMontoPorcentual.Text = "Monto: " + montoPorcentual + " €";
             }

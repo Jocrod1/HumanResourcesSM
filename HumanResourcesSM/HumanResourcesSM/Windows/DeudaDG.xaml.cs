@@ -141,12 +141,6 @@ namespace HumanResourcesSM.Windows
                 return;
             }
 
-            if (CbEmpleado.SelectedIndex < 0)
-            {
-                MessageBox.Show("Se debe seleccionar un empleado!", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                return;
-            }
-
             int idEmpleado = CbEmpleado.SelectedIndex > -1 ? (int)CbEmpleado.SelectedValue : -1;
 
             int? SearchStatus = 1;

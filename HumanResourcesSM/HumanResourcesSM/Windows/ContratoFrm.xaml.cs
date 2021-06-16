@@ -39,16 +39,18 @@ namespace HumanResourcesSM.Windows
             if (!Contracted)
             {
                 StackContrato.Visibility = Visibility.Collapsed;
-                txtFechaContratación.Visibility = Visibility.Collapsed;
                 txtTitulo.Text = "No Contratado";
                 BgTitulo.Background = (Brush)new BrushConverter().ConvertFrom("#C22723");
                 btnEnviar.Content = "Enviar";
                 btnEnviar.Foreground = (Brush)new BrushConverter().ConvertFrom("#C22723");
                 btnEnviar.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#C22723");
+                MaterialDesignThemes.Wpf.HintAssist.SetHint(txtRazon, "Razón de no Contratación");
+
             }
             else
             {
-                txtFechaContratación.Text = "Fecha de Contratación: " + DateTime.Now.ToShortDateString();
+                cbFechaInicio.SelectedDate = DateTime.Today;
+                cbFechaFinal.DisplayDateStart = DateTime.Today.AddDays(1);
                 var resp = new MDepartamento().Encontrar(empleado.idDepartamento)[0].nombre;
                 txtDepartamento.Text = "Departamento Asignado: " + resp;
             }
@@ -61,12 +63,12 @@ namespace HumanResourcesSM.Windows
             Empleado = empleado;
             Fired = true;
             StackContrato.Visibility = Visibility.Collapsed;
-            txtFechaContratación.Visibility = Visibility.Collapsed;
             txtTitulo.Text = "Despido";
             BgTitulo.Background = (Brush)new BrushConverter().ConvertFrom("#C22723");
             btnEnviar.Content = "Enviar";
             btnEnviar.Foreground = (Brush)new BrushConverter().ConvertFrom("#C22723");
             btnEnviar.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#C22723");
+            MaterialDesignThemes.Wpf.HintAssist.SetHint(txtRazon, "Razón de Despido");
         }
 
         public ContratoFrm(DContrato contrato)
@@ -80,7 +82,8 @@ namespace HumanResourcesSM.Windows
 
             DataFill = contrato;
 
-            txtFechaContratación.Text = "Fecha de Contratación: " + contrato.fechaContratacion.ToShortDateString();
+            cbFechaInicio.SelectedDate = DateTime.Today;
+            cbFechaFinal.DisplayDateStart = DateTime.Today.AddDays(1);
             txtDepartamento.Visibility = Visibility.Collapsed;
         }
 
@@ -286,6 +289,8 @@ namespace HumanResourcesSM.Windows
             {
                 txtSueldo.Text = Data.sueldo.ToString();
                 txtHorasSemanales.Text = Data.horasSemanales.ToString();
+                cbFechaInicio.SelectedDate = Data.fechaContratacion;
+                cbFechaFinal.SelectedDate = Data.fechaCulminacion;
             }
         }
 
@@ -302,6 +307,12 @@ namespace HumanResourcesSM.Windows
             if (txtHorasSemanales.Text == "")
             {
                 MessageBox.Show("Debes llenar el Campo de Horas Semanales!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtHorasSemanales.Focus();
+                return true;
+            }
+            if (cbFechaFinal.SelectedDate != null)
+            {
+                MessageBox.Show("Debes seleccionar una fecha de culminación!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                 txtHorasSemanales.Focus();
                 return true;
             }
