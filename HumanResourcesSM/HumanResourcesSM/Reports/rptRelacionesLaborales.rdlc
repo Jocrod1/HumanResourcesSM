@@ -757,7 +757,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value EvaluationMode="Constant" />
+                  <Value>=First(Fields!usuarioEmisor.Value, "RelacionesLaboralesDS")</Value>
                   <Style>
                     <FontWeight>Normal</FontWeight>
                   </Style>
@@ -847,6 +847,10 @@
         </Field>
         <Field Name="nombreTramite">
           <DataField>nombreTramite</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="usuarioEmisor">
+          <DataField>usuarioEmisor</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

@@ -25,6 +25,10 @@
           <DataField>cedula</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="cedulaEntrevistado">
+          <DataField>cedulaEntrevistado</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="curriculum">
           <DataField>curriculum</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -57,6 +61,10 @@
           <DataField>fechaRevision</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
+        <Field Name="fechaRevisionString">
+          <DataField>fechaRevisionString</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="idDepartamento">
           <DataField>idDepartamento</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
@@ -77,6 +85,10 @@
           <DataField>nombreDepartamento</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="nombreEntrevistado">
+          <DataField>nombreEntrevistado</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="nombrePuesto">
           <DataField>nombrePuesto</DataField>
           <rd:TypeName>System.String</rd:TypeName>
@@ -93,9 +105,25 @@
           <DataField>periodo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="razonDespido">
+          <DataField>razonDespido</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="razonSeleccion">
+          <DataField>razonSeleccion</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="status">
           <DataField>status</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="StatusEstaenEmpresa">
+          <DataField>StatusEstaenEmpresa</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="statusString">
+          <DataField>statusString</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="StatusString">
           <DataField>StatusString</DataField>
@@ -123,6 +151,10 @@
         </Field>
         <Field Name="ultimoPagoFecha">
           <DataField>ultimoPagoFecha</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="usuarioEmisor">
+          <DataField>usuarioEmisor</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -1745,7 +1777,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Constant" />
+                      <Value>=First(Fields!usuarioEmisor.Value, "NumeroContratosDS")</Value>
                       <Style>
                         <FontWeight>Normal</FontWeight>
                       </Style>

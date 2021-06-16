@@ -801,7 +801,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value EvaluationMode="Constant" />
+                  <Value>=First(Fields!usuarioEmisor.Value, "SeleccionadosPorEmpleadoDS")</Value>
                   <Style>
                     <FontWeight>Normal</FontWeight>
                   </Style>
@@ -905,6 +905,10 @@
           <DataField>fechaRevision</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
+        <Field Name="fechaRevisionString">
+          <DataField>fechaRevisionString</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="idDepartamento">
           <DataField>idDepartamento</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
@@ -945,6 +949,14 @@
           <DataField>periodo</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="razonDespido">
+          <DataField>razonDespido</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="razonSeleccion">
+          <DataField>razonSeleccion</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="status">
           <DataField>status</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
@@ -983,6 +995,10 @@
         </Field>
         <Field Name="ultimoPagoFecha">
           <DataField>ultimoPagoFecha</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="usuarioEmisor">
+          <DataField>usuarioEmisor</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

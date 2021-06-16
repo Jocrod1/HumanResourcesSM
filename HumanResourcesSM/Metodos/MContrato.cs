@@ -48,7 +48,8 @@ namespace Metodos
         private string queryUpdate = @"
             UPDATE [Contrato] SET 
                 sueldo = @sueldo,
-                horasSemanales = @horasSemanales
+                horasSemanales = @horasSemanales,
+                fechaCulminacion = @fechaCulminacion
             WHERE idContrato = @idContrato;
         ";
 
@@ -165,6 +166,7 @@ namespace Metodos
                 using SqlCommand comm = new SqlCommand(queryUpdate, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@sueldo", Contrato.sueldo);
                 comm.Parameters.AddWithValue("@horasSemanales", Contrato.horasSemanales);
+                comm.Parameters.AddWithValue("@fechaCulminacion", Contrato.fechaCulminacion);
                 comm.Parameters.AddWithValue("@idContrato", Contrato.idContrato);
 
 
@@ -217,7 +219,7 @@ namespace Metodos
                         horasSemanales = reader.GetInt32(5),
                         montoPrestacion = reader.GetDouble(6),
                         montoLiquidacion = reader.GetDouble(7),
-                        fechaCulminacion = reader.IsDBNull(8) ? null : reader.GetDateTime(8)
+                        fechaCulminacion = reader.GetDateTime(8)
                     });
                 }
             }

@@ -1348,7 +1348,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value EvaluationMode="Constant" />
+                  <Value>=First(Fields!usuarioEmisor.Value, "PagoGeneralDS")</Value>
                   <Style>
                     <FontWeight>Normal</FontWeight>
                   </Style>
@@ -1471,6 +1471,10 @@
         <Field Name="totalSalario">
           <DataField>totalSalario</DataField>
           <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="usuarioEmisor">
+          <DataField>usuarioEmisor</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>

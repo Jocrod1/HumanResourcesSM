@@ -1178,7 +1178,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value EvaluationMode="Constant" />
+                  <Value>=First(Fields!usuarioEmisor.Value, "RendimientobyEmpleadoDS")</Value>
                   <Style>
                     <FontWeight>Normal</FontWeight>
                   </Style>
@@ -1290,6 +1290,10 @@
           <DataField>periodoString</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="recomendacion">
+          <DataField>recomendacion</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
         <Field Name="rendimiento">
           <DataField>rendimiento</DataField>
           <rd:TypeName>System.Double</rd:TypeName>
@@ -1312,6 +1316,10 @@
         </Field>
         <Field Name="usuario">
           <DataField>usuario</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="usuarioEmisor">
+          <DataField>usuarioEmisor</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="valorEvaluado">

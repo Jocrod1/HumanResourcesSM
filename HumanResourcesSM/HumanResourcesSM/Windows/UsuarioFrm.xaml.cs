@@ -199,21 +199,21 @@ namespace HumanResourcesSM.Windows
         {
             if (txtUsuario.Text == "")
             {
-                MessageBox.Show("Debes llenar el campo Usuario!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Debes llenar el campo Usuario!", "Swissnet", MessageBoxButton.OK, MessageBoxImage.Error);
                 txtUsuario.Focus();
                 return true;
             }
 
             if (CbRol.SelectedIndex == -1)
             {
-                MessageBox.Show("Debes seleccionar un Rol!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Debes seleccionar un Rol!", "Swissnet", MessageBoxButton.OK, MessageBoxImage.Error);
                 CbRol.Focus();
                 return true;
             }
 
             if (txtContraseña.Password == "")
             {
-                MessageBox.Show("Debes llenar el campo Contraseña!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Debes llenar el campo Contraseña!", "Swissnet", MessageBoxButton.OK, MessageBoxImage.Error);
                 txtContraseña.Focus();
                 return true;
             }
@@ -225,52 +225,52 @@ namespace HumanResourcesSM.Windows
 
             if (txtConfirmar.Password == "")
             {
-                MessageBox.Show("Debe ingresar la confirmación de la contraseña!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Debe ingresar la confirmación de la contraseña!", "Swissnet", MessageBoxButton.OK, MessageBoxImage.Information);
                 txtConfirmar.Focus();
                 return true;
             }
 
             if (txtContraseña.Password != txtConfirmar.Password)
             {
-                MessageBox.Show("Las contraseñas deben coincidir!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Las contraseñas deben coincidir!", "Swissnet", MessageBoxButton.OK, MessageBoxImage.Information);
                 txtConfirmar.Focus();
                 return true;
             }
 
             if (txtPregunta1.Text == "")
             {
-                MessageBox.Show("Debes llenar la pregunta #1!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Debes llenar la pregunta #1!", "Swissnet", MessageBoxButton.OK, MessageBoxImage.Error);
                 txtPregunta1.Focus();
                 return true;
             }
             if (txtRespuesta1.Text == "")
             {
-                MessageBox.Show("Debes llenar la respuesta #1!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Debes llenar la respuesta #1!", "Swissnet", MessageBoxButton.OK, MessageBoxImage.Error);
                 txtRespuesta1.Focus();
                 return true;
             }
 
             if (txtPregunta2.Text == "")
             {
-                MessageBox.Show("Debes llenar la pregunta #2!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Debes llenar la pregunta #2!", "Swissnet", MessageBoxButton.OK, MessageBoxImage.Error);
                 txtPregunta2.Focus();
                 return true;
             }
             if (txtRespuesta2.Text == "")
             {
-                MessageBox.Show("Debes llenar la respuesta #2!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Debes llenar la respuesta #2!", "Swissnet", MessageBoxButton.OK, MessageBoxImage.Error);
                 txtRespuesta2.Focus();
                 return true;
             }
             if (txtPregunta3.Text == "")
             {
-                MessageBox.Show("Debes llenar la pregunta #3!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Debes llenar la pregunta #3!", "Swissnet", MessageBoxButton.OK, MessageBoxImage.Error);
                 txtPregunta3.Focus();
                 return true;
             }
             if (txtRespuesta3.Text == "")
             {
-                MessageBox.Show("Debes llenar la respuesta #3!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Debes llenar la respuesta #3!", "Swissnet", MessageBoxButton.OK, MessageBoxImage.Error);
                 txtRespuesta3.Focus();
                 return true;
             }
@@ -280,7 +280,7 @@ namespace HumanResourcesSM.Windows
                 var user = UserCheck[0];
                 if (user.estado == 1)
                 {
-                    MessageBox.Show("El usuario ingresado ya está registrado!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("El usuario ingresado ya está registrado!", "Swissnet", MessageBoxButton.OK, MessageBoxImage.Error);
                     txtUsuario.Focus();
                     return true;
                 }
@@ -288,14 +288,14 @@ namespace HumanResourcesSM.Windows
                 {
                     if(txtUsuario.Text != DataFill.usuario)
                     {
-                        MessageBox.Show("El usuario ingresado ya está registrado!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show("El usuario ingresado ya está registrado!", "Swissnet", MessageBoxButton.OK, MessageBoxImage.Error);
                         txtUsuario.Focus();
                         return true;
                     }
                 }
                 else if (Type == TypeForm.Create && user.estado == 0)
                 {
-                    var resp = MessageBox.Show("El usuario ingresado ya está registrado pero está anulado. ¿Desea Reactivarlo?!", "Magicolor", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                    var resp = MessageBox.Show("El usuario ingresado ya está registrado pero está anulado. ¿Desea Reactivarlo?!", "Swissnet", MessageBoxButton.YesNo, MessageBoxImage.Information);
                     if (resp == MessageBoxResult.Yes)
                     {
                         int idRol = (int)CbRol.SelectedValue;
@@ -323,7 +323,7 @@ namespace HumanResourcesSM.Windows
                         }
                         else
                         {
-                            MessageBox.Show(response, "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show(response, "Swissnet", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
 
                     }

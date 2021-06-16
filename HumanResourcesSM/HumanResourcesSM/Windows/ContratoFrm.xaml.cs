@@ -230,6 +230,7 @@ namespace HumanResourcesSM.Windows
 
             double Sueldo = double.Parse(txtSueldo.Text);
             int HorasSemanales = int.Parse(txtHorasSemanales.Text);
+            DateTime FechaCulminacion = cbFechaFinal.SelectedDate ?? DateTime.Today;
 
 
 
@@ -241,6 +242,7 @@ namespace HumanResourcesSM.Windows
                                   HorasSemanales,
                                   0,
                                   0);
+            UForm.fechaCulminacion = FechaCulminacion;
         }
 
         void Create()
