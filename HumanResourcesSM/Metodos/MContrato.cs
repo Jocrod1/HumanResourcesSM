@@ -31,7 +31,8 @@ namespace Metodos
                 sueldo,
                 horasSemanales,
                 montoPrestacion,
-                montoLiquidacion
+                montoLiquidacion,
+                fechaCulminacion
             ) VALUES (
                 @idEmpleado,
                 @fechaContratacion,
@@ -39,7 +40,8 @@ namespace Metodos
                 @sueldo,
                 @horasSemanales,
                 @montoPrestacion,
-                @montoLiquidacion
+                @montoLiquidacion,
+                @fechaCulminacion
             );
 	    ";
 
@@ -47,6 +49,13 @@ namespace Metodos
             UPDATE [Contrato] SET 
                 sueldo = @sueldo,
                 horasSemanales = @horasSemanales
+            WHERE idContrato = @idContrato;
+        ";
+
+        private string queryUpdateDates = @"
+            UPDATE [Contrato] SET 
+                fechaContratacion = @fechaContratacion,
+                fechaCulminacion = @fechaCulminacion
             WHERE idContrato = @idContrato;
         ";
 
@@ -128,12 +137,13 @@ namespace Metodos
 
                 using SqlCommand comm = new SqlCommand(queryInsert, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@idEmpleado", Contrato.idEmpleado);
-                comm.Parameters.AddWithValue("@fechaContratacion", DateTime.Now);
+                comm.Parameters.AddWithValue("@fechaContratacion", Contrato.fechaContratacion);
                 comm.Parameters.AddWithValue("@nombrePuesto", Contrato.nombrePuesto);
                 comm.Parameters.AddWithValue("@sueldo", Contrato.sueldo);
                 comm.Parameters.AddWithValue("@horasSemanales", Contrato.horasSemanales);
                 comm.Parameters.AddWithValue("@montoPrestacion", Contrato.montoPrestacion);
                 comm.Parameters.AddWithValue("@montoLiquidacion", Contrato.montoLiquidacion);
+                comm.Parameters.AddWithValue("@fechaCulminacion", Contrato.fechaCulminacion);
 
                 string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se ingreso el Registro del Contrato";
                 if (!respuesta.Equals("OK"))
@@ -155,6 +165,24 @@ namespace Metodos
                 using SqlCommand comm = new SqlCommand(queryUpdate, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@sueldo", Contrato.sueldo);
                 comm.Parameters.AddWithValue("@horasSemanales", Contrato.horasSemanales);
+                comm.Parameters.AddWithValue("@idContrato", Contrato.idContrato);
+
+
+                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el Registro del Contrato";
+            }
+            catch (SqlException e) { return e.Message; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+        }
+
+        public string EditarFechaContrato(DContrato Contrato)
+        {
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryUpdateDates, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@fechaContratacion", Contrato.fechaContratacion);
+                comm.Parameters.AddWithValue("@fechaCulminacion", Contrato.fechaCulminacion);
                 comm.Parameters.AddWithValue("@idContrato", Contrato.idContrato);
 
 
