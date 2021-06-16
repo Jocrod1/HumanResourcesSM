@@ -43,6 +43,8 @@ namespace HumanResourcesSM.Windows
         {
             InitializeComponent();
             ActUsuario = User;
+
+            Globals.USUARIO_SISTEMA = User.usuario;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

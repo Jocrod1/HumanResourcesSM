@@ -226,7 +226,8 @@ namespace Metodos
                         nombre = reader.GetString(2),
                         numeroContrataciones = reader.GetInt32(3),
                         numeroSelecciones = reader.GetInt32(4),
-                        ultimaContratacion = reader.IsDBNull(5) ? "Sin Contrataciones" : reader.GetDateTime(5).ToShortDateString()
+                        ultimaContratacion = reader.IsDBNull(5) ? "Sin Contrataciones" : reader.GetDateTime(5).ToShortDateString(),
+                        usuarioEmisor = Globals.USUARIO_SISTEMA
                     });
                 }
             }

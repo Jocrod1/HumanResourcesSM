@@ -428,7 +428,8 @@ namespace Metodos
                         rendimientoAcumulado = RendAc,
                         periodoString = FechaInicio.ToShortDateString() + " - " + FechaFinal.ToShortDateString(),
                         observacion = reader.GetString(8),
-                        recomendacion = reader.GetString(9)
+                        recomendacion = reader.GetString(9),
+                        usuarioEmisor = Globals.USUARIO_SISTEMA
                     });
                     ListaGenerica.Reverse();
 
@@ -487,7 +488,8 @@ namespace Metodos
                         rendimientoAcumulado = RendAc,
                         periodoString = FechaInicio.ToShortDateString() + " - " + FechaFinal.ToShortDateString(),
                         observacion = reader.GetString(7),
-                        recomendacion = reader.GetString(8)
+                        recomendacion = reader.GetString(8),
+                        usuarioEmisor = Globals.USUARIO_SISTEMA
                     });
                 }
                 ListaGenerica.Reverse();

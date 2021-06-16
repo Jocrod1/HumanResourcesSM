@@ -63,6 +63,13 @@ namespace Datos
             set { _CedulaEmpleado = value; }
         }
 
+        private string _UsuarioEmisor;
+        public string usuarioEmisor
+        {
+            get { return _UsuarioEmisor; }
+            set { _UsuarioEmisor = value; }
+        }
+
         public DRelacionesLaborales()
         {
 

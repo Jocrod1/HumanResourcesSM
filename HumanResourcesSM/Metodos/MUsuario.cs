@@ -11,6 +11,12 @@ using System.Security.Cryptography;
 
 namespace Metodos
 {
+
+    public static class Globals
+    {
+        public static String USUARIO_SISTEMA = "";
+    }
+
     public class Encripter
     {
         // set permutations

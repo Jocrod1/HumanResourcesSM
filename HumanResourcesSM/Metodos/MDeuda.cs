@@ -244,7 +244,8 @@ namespace Metodos
                         cedula = reader.GetString(4),
                         nombreCompleto = reader.GetString(5),
                         repetitivo = reader.GetInt32(6),
-                        tipoPagoString = TipoDeudaString(reader.GetInt32(7))
+                        tipoPagoString = TipoDeudaString(reader.GetInt32(7)),
+                        usuarioEmisor = Globals.USUARIO_SISTEMA
                     });
                 }
             }

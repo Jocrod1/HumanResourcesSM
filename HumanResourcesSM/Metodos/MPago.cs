@@ -324,7 +324,8 @@ namespace Metodos
                         totalAsignacion = reader.GetDouble(9),
                         totalDeduccion = reader.GetDouble(10),
                         totalSalario = reader.GetDouble(11),
-                        estado = reader.GetInt32(12)
+                        estado = reader.GetInt32(12),
+                        usuarioEmisor = Globals.USUARIO_SISTEMA
                     });
                 }
                 

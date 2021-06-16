@@ -952,7 +952,8 @@ namespace Metodos
                         nombreEntrevistado = reader.GetString(1),
                         statusString = EstadoString(reader.GetInt32(2)),
                         fechaRevision = reader.GetDateTime(3),
-                        nombre = reader.GetString(4)
+                        nombre = reader.GetString(4),
+                        usuarioEmisor = Globals.USUARIO_SISTEMA
                     });
                 }
             }
@@ -985,7 +986,8 @@ namespace Metodos
                         nombreEntrevistado = reader.GetString(1),
                         statusString = EstadoString(reader.GetInt32(2)),
                         fechaAplicacion = reader.GetDateTime(3),
-                        nombre = reader.GetString(4)
+                        nombre = reader.GetString(4),
+                        usuarioEmisor = Globals.USUARIO_SISTEMA
                     });
                 }
             }
