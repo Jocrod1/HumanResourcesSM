@@ -99,6 +99,9 @@
     <Compile Include="Windows\CambiarContraseña.xaml.cs">
       <DependentUpon>CambiarContraseña.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\AsignarEntrevistadorDG.xaml.cs">
+      <DependentUpon>AsignarEntrevistadorDG.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ContratoDG.xaml.cs">
       <DependentUpon>ContratoDG.xaml</DependentUpon>
     </Compile>
@@ -173,6 +176,9 @@
     </Compile>
     <Compile Include="Windows\SeleccionarUsuario.xaml.cs">
       <DependentUpon>SeleccionarUsuario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\AsignarEntrevistadorFrm.xaml.cs">
+      <DependentUpon>AsignarEntrevistadorFrm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\TipoMetricaFrm.xaml.cs">
       <DependentUpon>TipoMetricaFrm.xaml</DependentUpon>
@@ -257,6 +263,10 @@
     <Page Include="Windows\CambiarContraseña.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AsignarEntrevistadorDG.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\ContratoDG.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -357,6 +367,10 @@
     <Page Include="Windows\SeleccionarUsuario.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AsignarEntrevistadorFrm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\TipoMetricaFrm.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -97,10 +97,6 @@ namespace HumanResourcesSM.Windows
 
             txtURLCV.Text = "";
 
-            CbEntrevistador.SelectedIndex = -1;
-
-            CbFechaLim.SelectedDate = null;
-
             ScrollContent.ScrollToTop();
 
         }
@@ -185,14 +181,6 @@ namespace HumanResourcesSM.Windows
             CbEstadoLegal.DisplayMemberPath = "statusCambio";
             CbEstadoLegal.SelectedValuePath = "statusCambio";
 
-
-            var resp4 = new MUsuario().ListadoUsuarioEntrevistador();
-
-            CbEntrevistador.ItemsSource = resp4;
-            CbEntrevistador.DisplayMemberPath = "usuario";
-            CbEntrevistador.SelectedValuePath = "idUsuario";
-
-            CbFechaLim.DisplayDateStart = DateTime.Today;
             CbFechaApl.DisplayDateEnd = DateTime.Today;
 
             RefreshDGIdiomas();

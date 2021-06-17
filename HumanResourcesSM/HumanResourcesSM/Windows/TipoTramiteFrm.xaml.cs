@@ -110,6 +110,7 @@ namespace HumanResourcesSM.Windows
         {
             txtNombre.IsEnabled = Enable;
             txtStatusCambio.IsEnabled = Enable;
+            txtDescripcion.IsEnabled = Enable;
         }
         void fillForm(DTipoTramite Data)
         {
@@ -117,7 +118,7 @@ namespace HumanResourcesSM.Windows
             {
                 txtNombre.Text = Data.nombre;
                 txtStatusCambio.Text = Data.statusCambio;
-                txtStatusCambio.Text = Data.descripcion;
+                txtDescripcion.Text = Data.descripcion;
             }
         }
         #region Validation
