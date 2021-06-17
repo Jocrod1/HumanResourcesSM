@@ -39,7 +39,7 @@ namespace Metodos
                 @telefono,
                 @curriculum,
                 @estadoLegal,
-                1
+                8
             );
         ";
 
@@ -475,6 +475,70 @@ namespace Metodos
 
             return ListaGenerica;
         }
+
+
+        public List<DEmpleado> MostrarEmpleadoRegistrado(string NombreCompleto)
+        {
+            List<DEmpleado> ListaGenerica = new List<DEmpleado>();
+
+            string queryListEmployeeRegister = @"
+                SELECT * FROM [Empleado] 
+                WHERE nombre + ' ' + apellido LIKE @nombreCompleto + '%' AND idEmpleado <> 1 AND status = 8
+            ";
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryListEmployeeRegister, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@nombreCompleto", NombreCompleto);
+
+                using SqlDataReader reader = comm.ExecuteReader();
+                while (reader.Read())
+                {
+                    ListaGenerica.Add(new DEmpleado
+                    {
+                        idEmpleado = reader.GetInt32(0),
+                        idDepartamento = reader.GetInt32(1),
+                        nombre = reader.GetString(2),
+                        apellido = reader.GetString(3),
+                        cedula = reader.GetString(4)
+                    });
+                }
+            }
+            catch (SqlException e) { MessageBox.Show(e.Message, "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error); }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+
+            return ListaGenerica;
+        }
+
+        public string EditarEmpleadoAlSeleccionar(int IdEmpleado, int IdSeleccionador, DateTime FechaRevision)
+        {
+            string queryUpdateSelectionToInterview = @"
+                UPDATE [Seleccion] SET 
+                    idEntrevistador = @idEntrevistador,
+                    fechaRevision = @fechaRevision
+                WHERE idEmpleado = @idEmpleado;
+	        ";
+
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryUpdateSelectionToInterview, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idEntrevistador", FechaRevision);
+                comm.Parameters.AddWithValue("@fechaRevision", IdSeleccionador);
+                comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
+
+                string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Seleccionó el Empleado";
+
+                if (!respuesta.Equals("OK")) return respuesta;
+                return ActivarEmpleado(IdEmpleado);
+            }
+            catch (SqlException e) { return e.Message; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+        }
+
 
 
         public List<DEmpleado> MostrarEmpleado(string NombreCompleto)
