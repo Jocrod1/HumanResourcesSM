@@ -157,6 +157,13 @@ namespace Datos
             set { _RendimientoAcumulado = value; }
         }
 
+        private double _RendimientoPromedio;
+        public double rendimientoPromedio
+        {
+            get { return _RendimientoPromedio; }
+            set { _RendimientoPromedio = value; }
+        }
+
         private string _TipoMetrica;
         public string tipoMetrica
         {

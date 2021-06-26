@@ -620,19 +620,6 @@ namespace HumanResourcesSM.Windows
                 txtURLCV.Focus();
                 return true;
             }
-            if (CbEntrevistador.Text == "")
-            {
-                MessageBox.Show("Debes seleccionar un entrevistador al seleccionado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtURLCV.Focus();
-                return true;
-            }
-
-            if (CbFechaLim.SelectedDate == null)
-            {
-                MessageBox.Show("Debes seleccionar una fecha límite de entrevista!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtURLCV.Focus();
-                return true;
-            }
 
             if (txtEmail.Text != "" && !Validaciones.IsValidEmail(txtEmail.Text))
             {

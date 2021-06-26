@@ -72,7 +72,7 @@ namespace HumanResourcesSM.Windows
 
                 if (years > 0)
                 {
-                    antiguedad = years + " años " + (months > 0 ? months + "y  meses" : "");
+                    antiguedad = years + " años " + (months > 0 ? (" y " + months + " meses") : "");
                 }
                 else
                 {

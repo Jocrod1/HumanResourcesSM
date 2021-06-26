@@ -65,7 +65,6 @@ namespace Datos
         }
 
         public const string
-            Ingresar = "Ingresar",
             Registrar = "Registrar",
             Editar = "Editar",
             Eliminar = "Eliminar",

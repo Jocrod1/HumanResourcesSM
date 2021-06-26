@@ -274,6 +274,7 @@ namespace HumanResourcesSM.Windows
                     continue;
                 double cantidad = 0;
                 double asignaciones = 0;
+                string descripcion = "";
 
                 if(item.tipoPago == 1)
                 {
@@ -281,6 +282,7 @@ namespace HumanResourcesSM.Windows
                 }
                 else
                 {
+                    descripcion = " (% en base al Total Sueldo)";
                     cantidad = item.monto;
                     asignaciones = Sueldo * (cantidad / 100);
                 }
@@ -288,6 +290,7 @@ namespace HumanResourcesSM.Windows
                 var Con = new ModeloDetallePago()
                 {
                     Concepto = item.concepto,
+                    Descripcion = descripcion,
                     Cantidad = cantidad,
                     Salario = 0,
                     Asignaciones = asignaciones,
@@ -303,6 +306,7 @@ namespace HumanResourcesSM.Windows
                     continue;
                 double cantidad = 0;
                 double deducciones = 0;
+                string descripcion = "";
 
                 if (item.tipoPago == 1)
                 {
@@ -310,6 +314,7 @@ namespace HumanResourcesSM.Windows
                 }
                 else
                 {
+                    descripcion = " (% en base al Total Sueldo)";
                     cantidad = item.monto;
                     deducciones = Sueldo * (cantidad / 100);
                 }
@@ -317,6 +322,7 @@ namespace HumanResourcesSM.Windows
                 var Con = new ModeloDetallePago()
                 {
                     Concepto = item.concepto,
+                    Descripcion = descripcion,
                     Cantidad = cantidad,
                     Salario = 0,
                     Asignaciones = 0,
@@ -365,6 +371,7 @@ namespace HumanResourcesSM.Windows
                 this.Deducciones = deducciones;
             }
             public string Concepto { get; set; }
+            public string Descripcion { get; set; }
             public double Cantidad { get; set; }
             public double  Salario { get; set; }
             public double Asignaciones { get; set; }

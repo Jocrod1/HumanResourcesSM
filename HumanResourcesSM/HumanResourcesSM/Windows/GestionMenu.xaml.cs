@@ -75,6 +75,10 @@ namespace HumanResourcesSM.Windows
                     EmpleadoDG dgE = new EmpleadoDG();
                     ContentFrame.Content = dgE;
                     break;
+                case 9:
+                    AsignarEntrevistadorDG AEDG = new AsignarEntrevistadorDG();
+                    ContentFrame.Content = AEDG;
+                    break;
             }
 
         }

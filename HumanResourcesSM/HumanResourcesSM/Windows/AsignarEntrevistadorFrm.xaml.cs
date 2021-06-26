@@ -22,7 +22,7 @@ namespace HumanResourcesSM.Windows
 {
     public partial class AsignarEntrevistadorFrm : Window
     {
-        public AsignarEntrevistadorFrm()
+        public AsignarEntrevistadorFrm(DEmpleado empleado)
         {
             InitializeComponent();
 
@@ -34,6 +34,8 @@ namespace HumanResourcesSM.Windows
 
             DpFechaEntrevista.DisplayDateStart = DateTime.Today;
 
+
+            EmpleadoSeleccionado = empleado;
         }
 
 
@@ -44,7 +46,7 @@ namespace HumanResourcesSM.Windows
 
         public DSeleccion UForm;
 
-        public DSeleccion Metodos = new DSeleccion();
+        public MSeleccion Metodos = new MSeleccion();
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -83,11 +85,11 @@ namespace HumanResourcesSM.Windows
                 return;
             }
 
-            //string nombre = txtNombre.Text;
-            //int idDepartamento = (int)CbDepartamento.SelectedValue;
+            string nombre = "";
+            int idDepartamento = 1;
 
 
-            //UForm = new DSeleccion(0, nombre, idDepartamento);
+            UForm = new DSeleccion(0, 0, idDepartamento, 1, DateTime.Now, 1, DateTime.Now, "");
         }
 
         void Create()
@@ -95,18 +97,18 @@ namespace HumanResourcesSM.Windows
             fillData();
             if (UForm == null)
                 return;
-            //string response = Metodos.Insertar(UForm);
-            //MessageBox.Show(response);
-            //if (response == "OK")
-            //{
-            //    MAuditoria.Insertar(new DAuditoria(
-            //                        Menu.ActUsuario.idUsuario,
-            //                        DAuditoria.Registrar,
-            //                        "Se ha registrado un Tipo Metrica para el departamento Nº" + UForm.idDepartamento));
+            string response = Metodos.EditarEmpleadoAlSeleccionar(EmpleadoSeleccionado.idEmpleado, (int)CbEntrevistador.SelectedValue, DpFechaEntrevista.SelectedDate ?? DateTime.Today);
+            MessageBox.Show(response);
+            if (response == "OK")
+            {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Registrar,
+                                    "Se ha asignado una entrevista al postulado Nº" + EmpleadoSeleccionado.idEmpleado));
 
-            //    this.DialogResult = true;
-            //    this.Close();
-            //}
+                this.DialogResult = true;
+                this.Close();
+            }
 
         }
 

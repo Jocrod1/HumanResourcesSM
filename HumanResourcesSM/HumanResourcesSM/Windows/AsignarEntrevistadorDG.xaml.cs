@@ -31,7 +31,7 @@ namespace HumanResourcesSM.Windows
 
         public void Refresh(string nombre)
         {
-            var items = Metodos.ListadoEmpleadoContrato(nombre);
+            var items = Metodos.MostrarEmpleadoRegistrado(nombre);
 
             dgOperaciones.ItemsSource = items;
         }
@@ -45,9 +45,12 @@ namespace HumanResourcesSM.Windows
         {
             int id = (int)((Button)sender).CommandParameter;
 
-            List<DEmpleado> Empleado = new MSeleccion().EmpleadoEntrevista(id);
+            List<DEmpleado> Empleado = new MSeleccion().EncontrarEmpleado(id);
 
-            //Parent.MostrarDetalleSeleccionado(Empleado[0]);
+            AsignarEntrevistadorFrm frm = new AsignarEntrevistadorFrm(Empleado[0]);
+            frm.ShowDialog();
+
+            Refresh(txtBuscar.Text);
         }
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)

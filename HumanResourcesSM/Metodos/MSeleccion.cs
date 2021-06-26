@@ -526,8 +526,8 @@ namespace Metodos
                 Conexion.ConexionSql.Open();
 
                 using SqlCommand comm = new SqlCommand(queryUpdateSelectionToInterview, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@idEntrevistador", FechaRevision);
-                comm.Parameters.AddWithValue("@fechaRevision", IdSeleccionador);
+                comm.Parameters.AddWithValue("@idEntrevistador", IdSeleccionador);
+                comm.Parameters.AddWithValue("@fechaRevision", FechaRevision);
                 comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
 
                 string respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se Seleccionó el Empleado";

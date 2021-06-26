@@ -191,6 +191,7 @@ namespace HumanResourcesSM.Windows
                                            contrato.horasSemanales,
                                            0,
                                            0);
+            Data.fechaCulminacion = contrato.fechaCulminacion;
 
             var resp = new MContrato().Insertar(Data, Menu.ActUsuario.idUsuario, txtRazon.Text);
 
@@ -312,7 +313,7 @@ namespace HumanResourcesSM.Windows
                 txtHorasSemanales.Focus();
                 return true;
             }
-            if (cbFechaFinal.SelectedDate != null)
+            if (cbFechaFinal.SelectedDate == null)
             {
                 MessageBox.Show("Debes seleccionar una fecha de culminación!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                 txtHorasSemanales.Focus();
