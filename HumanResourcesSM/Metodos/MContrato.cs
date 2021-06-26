@@ -17,12 +17,6 @@ namespace Metodos
             WHERE idEmpleado = @idEmpleado;
 	    ";
 
-        private string queryNotHired = @"
-            UPDATE [Empleado] SET
-                status = 4
-            WHERE idEmpleado = @idEmpleado;
-	    ";
-
         private string queryInsert = @"
             INSERT INTO [Contrato] (
                 idEmpleado,
@@ -112,6 +106,12 @@ namespace Metodos
 
         public string NoContratado(int IdEmpleado, int idEntrevistador, string Razon)
         {
+            string queryNotHired = @"
+                UPDATE [Empleado] SET
+                    status = 4
+                WHERE idEmpleado = @idEmpleado;
+	        ";
+
             try
             {
                 Conexion.ConexionSql.Open();

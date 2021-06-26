@@ -43,6 +43,7 @@ namespace HumanResourcesSM.Windows
                                             0,
                                             0,
                                             txtRazon.Text,
+                                            "",
                                             DPFechaSolicitud.DisplayDate,
                                             1
                                          );

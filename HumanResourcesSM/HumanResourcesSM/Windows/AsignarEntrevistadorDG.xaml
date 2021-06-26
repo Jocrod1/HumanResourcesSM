@@ -8,7 +8,9 @@
       mc:Ignorable="d" 
       d:DesignHeight="520" d:DesignWidth="680" Loaded="Window_Loaded"
       Title="DepartamentoDG" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-
+    <Page.Resources>
+        <local:DesactivateInformationNotSelected x:Key="DesactivateInformationNotSelected"/>
+    </Page.Resources>
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -59,20 +61,42 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="3*" Header="Nombre" Binding="{Binding nombre}">
+                <DataGridTextColumn Width="3*" Header="Nombre Completo" Binding="{Binding nombre}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
                             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <!--<DataGridTextColumn Width="*" Header="Puesto" Binding="{Binding nombrePuesto}">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
-                            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>-->
+
+                <DataGridTemplateColumn Width="auto" Header="Estado Asignado">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding estadoString}"/>
+                                <materialDesign:PackIcon Grid.Column="1" Kind="InformationCircle" Foreground="#2A347B" 
+                                        Height="15" Width="15" Margin="10 0 0 0"
+                                        Visibility="{Binding Path=usuario, Converter={StaticResource DesactivateInformationNotSelected}}">
+                                    <materialDesign:PackIcon.ToolTip>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Grid.Row="0" Margin="0 0 0 10" Text="{Binding usuario}" TextWrapping="Wrap" TextAlignment="Center"/>
+                                            <TextBlock Grid.Row="1" Text="{Binding razon}" TextWrapping="Wrap" TextAlignment="Justify" FontStyle="Italic"/>
+                                        </Grid>
+                                    </materialDesign:PackIcon.ToolTip>
+                                </materialDesign:PackIcon>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -82,7 +106,7 @@
                                         Click="btnEliminar_Click"
                                         Background="{x:Null}" BorderBrush="{x:Null}"
                                         Margin="5 0 0 0" ToolTip="Asignar Entrevista" Padding="2">
-                                    <materialDesign:PackIcon Kind="Select" Background="#2A347B" Height="20" Width="20" />
+                                    <materialDesign:PackIcon Kind="Magnify" Foreground="green" Height="20" Width="20" />
                                 </Button>
                             </StackPanel>
                         </DataTemplate>

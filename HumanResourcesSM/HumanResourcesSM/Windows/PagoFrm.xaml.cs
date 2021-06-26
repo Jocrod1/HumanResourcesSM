@@ -1,26 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
 using Datos;
 using Metodos;
 
 namespace HumanResourcesSM.Windows
 {
-    /// <summary>
-    /// Interaction logic for PagoFrm.xaml
-    /// </summary>
     public partial class PagoFrm : Page
     {
         MPago met = new MPago();
@@ -79,9 +66,6 @@ namespace HumanResourcesSM.Windows
             txtMontoBonificaciones.Text = Bonificaciones.ToString("0.00") + " €";
             txtMontoDeducciones.Text = "-" + Deducciones.ToString("0.00") + " €";
             txtMontoTotal.Text = Total.ToString("0.00") + " €";
-
-            
-
         }
 
         private void BtnSeleccionarEmpleado_Click(object sender, RoutedEventArgs e)

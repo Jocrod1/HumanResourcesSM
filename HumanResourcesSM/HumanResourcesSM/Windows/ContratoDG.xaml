@@ -89,7 +89,7 @@
                                         Click="btnEliminar_Click"
                                         Background="{x:Null}" BorderBrush="{x:Null}"
                                         Margin="5 0 0 0" ToolTip="Seleccionar" Padding="2">
-                                    <materialDesign:PackIcon Kind="Select" Background="#2A347B" Height="20" Width="20" />
+                                    <materialDesign:PackIcon Kind="Magnify" Foreground="green" Height="20" Width="20" />
                                 </Button>
                             </StackPanel>
                         </DataTemplate>

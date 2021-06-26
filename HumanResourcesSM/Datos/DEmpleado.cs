@@ -271,6 +271,27 @@ namespace Datos
             set { _UsuarioEmisor = value; }
         }
 
+        private string _Razon;
+        public string razon
+        {
+            get { return _Razon; }
+            set { _Razon = value; }
+        }
+
+        private string _Usuario;
+        public string usuario
+        {
+            get { return _Usuario; }
+            set { _Usuario = value; }
+        }
+
+        private string _EstadoString;
+        public string estadoString
+        {
+            get { return _EstadoString; }
+            set { _EstadoString = value; }
+        }
+
         public DEmpleado()
         {
 

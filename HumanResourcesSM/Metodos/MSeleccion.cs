@@ -482,8 +482,33 @@ namespace Metodos
             List<DEmpleado> ListaGenerica = new List<DEmpleado>();
 
             string queryListEmployeeRegister = @"
-                SELECT * FROM [Empleado] 
-                WHERE nombre + ' ' + apellido LIKE @nombreCompleto + '%' AND idEmpleado <> 1 AND status = 8
+                SELECT
+                    e.idEmpleado,
+                    e.idDepartamento,
+                    e.nombre,
+                    e.apellido,
+                    e.cedula,
+					ISNULL((
+						SELECT TOP 1
+							u.usuario
+						FROM [Seleccion] s
+							INNER JOIN [Usuario] u ON s.idEntrevistador=u.idUsuario
+						WHERE e.idEmpleado = s.idEmpleado
+						AND u.idUsuario <> 1
+						ORDER BY s.idSeleccion DESC
+					), '') AS Entrevistador,
+					ISNULL((
+						SELECT TOP 1
+							s.razon
+						FROM [Seleccion] s
+							INNER JOIN [Usuario] u ON s.idEntrevistador=u.idUsuario
+						WHERE e.idEmpleado = s.idEmpleado
+						ORDER BY s.idSeleccion DESC
+					), '') AS RazonNoContrato
+                FROM [Empleado] e
+                WHERE e.nombre + ' ' + e.apellido LIKE @nombreCompleto + '%' 
+                    AND e.idEmpleado <> 1 
+                    AND (e.status = 8 OR e.status = 4)
             ";
 
             try
@@ -500,9 +525,12 @@ namespace Metodos
                     {
                         idEmpleado = reader.GetInt32(0),
                         idDepartamento = reader.GetInt32(1),
-                        nombre = reader.GetString(2),
+                        nombre = reader.GetString(2) + " " + reader.GetString(3), 
                         apellido = reader.GetString(3),
-                        cedula = reader.GetString(4)
+                        cedula = reader.GetString(4),
+                        usuario = reader.GetString(5),
+                        razon = reader.GetString(6),
+                        estadoString = reader.GetString(5) == "" ? "No Entrevistado" : "No Contratado"
                     });
                 }
             }
@@ -538,7 +566,6 @@ namespace Metodos
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
-
 
 
         public List<DEmpleado> MostrarEmpleado(string NombreCompleto)
@@ -1076,7 +1103,7 @@ namespace Metodos
 				    s.nombrePuesto
 			    FROM [Empleado] e
 				    INNER JOIN [Seleccion] s ON s.idEmpleado = e.idEmpleado
-                WHERE (e.status = 1 OR e.status = 4) AND e.idEmpleado <> 1 AND CONCAT(e.nombre, ' ', e.apellido) LIKE @nombre + '%'
+                WHERE e.status = 1 AND e.idEmpleado <> 1 AND CONCAT(e.nombre, ' ', e.apellido) LIKE @nombre + '%'
             ";
 
             try
