@@ -49,6 +49,13 @@ namespace Datos
             set { _Razon = value; }
         }
 
+        private string _RazonDecision;
+        public string razonDecision
+        {
+            get { return _RazonDecision; }
+            set { _RazonDecision = value; }
+        }
+
         private DateTime _FechaSolicitud;
         public DateTime fechaSolicitud
         {
@@ -110,7 +117,7 @@ namespace Datos
 
         }
 
-        public DPrestacion(int IdPrestacion, int IdEmpleado, double MontoPresupuesto, double PorcentajeOtorgado, double MontoOtorgado, string Razon, DateTime FechaSolicitud, int Estado)
+        public DPrestacion(int IdPrestacion, int IdEmpleado, double MontoPresupuesto, double PorcentajeOtorgado, double MontoOtorgado, string Razon, string RazonDecision, DateTime FechaSolicitud, int Estado)
         {
             this.idPrestacion = IdPrestacion;
             this.idEmpleado = IdEmpleado;
@@ -118,6 +125,7 @@ namespace Datos
             this.porcentajeOtorgado = PorcentajeOtorgado;
             this.montoOtorgado = MontoOtorgado;
             this.razon = Razon;
+            this.razonDecision = RazonDecision;
             this.fechaSolicitud = FechaSolicitud;
             this.estado = Estado;
         }

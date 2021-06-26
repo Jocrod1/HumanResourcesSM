@@ -58,6 +58,7 @@ namespace Metodos
                 UPDATE [Prestacion] SET
                     porcentajeOtorgado = @porcentajeOtorgado,
                     montoOtorgado = @montoOtorgado,
+                    razonDecision = @razonDecision,
                     estado = @estado
                 WHERE idPrestacion = @idPrestacion;
 	        ";
@@ -70,6 +71,7 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@idPrestacion", Prestacion.idPrestacion);
                 comm.Parameters.AddWithValue("@porcentajeOtorgado", Prestacion.porcentajeOtorgado);
                 comm.Parameters.AddWithValue("@montoOtorgado", Prestacion.montoOtorgado);
+                comm.Parameters.AddWithValue("@razonDecision", Prestacion.razonDecision);
                 comm.Parameters.AddWithValue("@estado", Prestacion.estado);
 
                 return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Asignó el Monto de Prestacion";
@@ -91,6 +93,7 @@ namespace Metodos
                     p.porcentajeOtorgado, 
                     p.montoOtorgado, 
                     p.razon, 
+                    p.razonDecision,
                     p.fechaSolicitud,
                     p.estado
                 FROM [Prestacion] p
@@ -117,6 +120,7 @@ namespace Metodos
                         porcentajeOtorgado = reader.GetDouble(3),
                         montoOtorgado = reader.GetDouble(4),
                         razon = reader.GetString(5),
+                        razonDecision = reader.GetString(6),
                         fechaSolicitudString = reader.GetDateTime(6).ToString("dd/MM/yyyy"),
                         estado = reader.GetInt32(7)
                     });
@@ -142,7 +146,8 @@ namespace Metodos
                     c.fechaContratacion,
                     c.sueldo,
                     p.montoPresupuesto,
-                    p.razon
+                    p.razon,
+                    p.razonDecision
                 FROM [Prestacion] p
                     INNER JOIN [Empleado] e ON p.idEmpleado = e.idEmpleado 
                     INNER JOIN [Seleccion] s ON s.idEmpleado = e.idEmpleado
@@ -172,7 +177,8 @@ namespace Metodos
                         fechaContratacionString = reader.GetDateTime(4).ToString("dd/MM/yyyy"),
                         sueldo = (double)reader.GetDecimal(5),
                         montoPresupuesto = reader.GetDouble(6),
-                        razon = reader.GetString(7)
+                        razon = reader.GetString(7),
+                        razonDecision = reader.GetString(8)
                     });
                 }
             }
@@ -239,6 +245,7 @@ namespace Metodos
                     p.porcentajeOtorgado, 
                     p.montoOtorgado, 
                     p.razon, 
+                    p.razonDecision,
                     p.fechaSolicitud,
                     p.estado
                 FROM [Prestacion] p
@@ -265,8 +272,9 @@ namespace Metodos
                         porcentajeOtorgado = reader.GetDouble(3),
                         montoOtorgado = reader.GetDouble(4),
                         razon = reader.GetString(5),
-                        fechaSolicitudString = reader.GetDateTime(6).ToString("dd/MM/yyyy"),
-                        estado = reader.GetInt32(7)
+                        razonDecision = reader.GetString(6),
+                        fechaSolicitudString = reader.GetDateTime(7).ToString("dd/MM/yyyy"),
+                        estado = reader.GetInt32(8)
                     });
                 }
             }
