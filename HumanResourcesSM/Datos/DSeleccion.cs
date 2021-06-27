@@ -72,6 +72,13 @@ namespace Datos
             set { _Razon = value; }
         }
 
+        private string _RazonFinal;
+        public string razonFinal
+        {
+            get { return _RazonFinal; }
+            set { _RazonFinal = value; }
+        }
+
 
         public DSeleccion()
         {

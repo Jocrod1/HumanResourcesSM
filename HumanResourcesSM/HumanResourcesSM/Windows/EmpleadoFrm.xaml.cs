@@ -92,6 +92,7 @@ namespace HumanResourcesSM.Windows
             var res = new MDepartamento().Encontrar(Empleado.idDepartamento)[0];
 
             txtNombrePosicion.Text = Seleccion.nombrePuesto;
+            razonFinal.Text = Seleccion.razonFinal == "" ? "Sin Razón" : Seleccion.razonFinal;
             txtDepartamento.Text = res.nombre;
             txtFechaApl.Text = Seleccion.fechaAplicacion.ToShortDateString();
             txtFechaRev.Text = Seleccion.fechaRevision.ToShortDateString();

@@ -173,22 +173,6 @@ namespace Metodos
             WHERE idDepartamento = @idDepartamento;
         ";
 
-
-        private string queryListEmployeeDG = @"
-            SELECT 
-                em.idEmpleado, 
-                (em.nombre + ' ' + em.apellido) AS nombreCompleto, 
-                em.cedula, 
-                em.nacionalidad, 
-                d.nombre,
-                em.status
-            FROM [Empleado] em 
-                INNER JOIN [Departamento] d ON em.idDepartamento = d.idDepartamento 
-                INNER JOIN [Paises] p ON em.nacionalidad = p.codigo 
-            WHERE em.nombre + ' ' + em.apellido LIKE @nombreCompleto + '%' and em.status <> 0 and em.status <> 4 and em.status <> 5
-        ";
-
-
         private string queryListToFireDG = @"
             SELECT 
                 em.idEmpleado, 
@@ -200,14 +184,6 @@ namespace Metodos
                 INNER JOIN [Departamento] d ON em.idDepartamento = d.idDepartamento 
                 INNER JOIN [Paises] p ON em.nacionalidad = p.codigo 
             WHERE em.nombre + ' ' + em.apellido LIKE @nombreCompleto + '%' and em.status = 3
-        ";
-
-
-        //mostrar seleccion
-        private string queryListSelection = @"
-            SELECT TOP 1 * FROM [Seleccion] 
-            WHERE idEmpleado = @idEmpleado
-            ORDER BY idSeleccion DESC;
         ";
 
         //mostrar paises
@@ -222,12 +198,6 @@ namespace Metodos
                 status = 5,
                 fechaCulminacion = @fechaCulminacion,
                 razonDespido = @razonDespido
-            WHERE idEmpleado = @idEmpleado;
-	    ";
-
-        private string queryUpdateEmployeeContract = @"
-            UPDATE [Empleado] SET
-                status = 3
             WHERE idEmpleado = @idEmpleado;
 	    ";
 
@@ -632,6 +602,21 @@ namespace Metodos
         {
             List<DEmpleado> ListaGenerica = new List<DEmpleado>();
 
+            string queryListEmployeeDG = @"
+                SELECT 
+                    em.idEmpleado, 
+                    (em.nombre + ' ' + em.apellido) AS nombreCompleto, 
+                    em.cedula, 
+                    em.nacionalidad, 
+                    d.nombre,
+                    em.status
+                FROM [Empleado] em 
+                    INNER JOIN [Departamento] d ON em.idDepartamento = d.idDepartamento 
+                    INNER JOIN [Paises] p ON em.nacionalidad = p.codigo 
+                WHERE em.nombre + ' ' + em.apellido LIKE @nombreCompleto + '%' 
+                    AND (em.status = 3 OR em.status = 5)
+            ";
+
             try
             {
                 Conexion.ConexionSql.Open();
@@ -739,6 +724,28 @@ namespace Metodos
         {
             List<DSeleccion> ListaGenerica = new List<DSeleccion>();
 
+            string queryListSelection = @"
+                SELECT TOP 1
+                    s.idSeleccion,
+                    s.idEmpleado,
+                    s.idSeleccionador,
+                    s.idEntrevistador,
+                    s.fechaAplicacion,
+                    s.status,
+                    s.fechaRevision,
+                    s.nombrePuesto,
+                    s.razon,
+                    ISNULL((
+						SELECT TOP 1
+							e.razonDespido
+						FROM [Empleado] e
+						WHERE e.idEmpleado = s.idEmpleado
+					), '') AS RazonDespido
+                FROM [Seleccion] s
+                WHERE idEmpleado = @idEmpleado
+                ORDER BY idSeleccion DESC;
+            ";
+
             try
             {
                 if(Conexion.ConexionSql.State == ConnectionState.Closed)
@@ -760,7 +767,8 @@ namespace Metodos
                         status = reader.GetInt32(5),
                         fechaRevision = reader.GetDateTime(6),
                         nombrePuesto = reader.GetString(7),
-                        razon = !reader.IsDBNull(8) ? reader.GetString(8) : ""
+                        razon = !reader.IsDBNull(8) ? reader.GetString(8) : "",
+                        razonFinal = reader.GetInt32(5) == 3 ? reader.GetString(8) : reader.GetString(9)
                     });
                 }
             }
@@ -882,6 +890,12 @@ namespace Metodos
 
         public string Contratado(int IdEmpleado, int idEntrevistador, string Razon)
         {
+            string queryUpdateEmployeeContract = @"
+                UPDATE [Empleado] SET
+                    status = 3
+                WHERE idEmpleado = @idEmpleado;
+	        ";
+
             try
             {
                 if (Conexion.ConexionSql.State == ConnectionState.Closed)
@@ -1089,7 +1103,6 @@ namespace Metodos
         }
 
 
-
         public List<DEmpleado> ListadoEmpleadoContrato(string Nombre)
         {
             List<DEmpleado> ListaGenerica = new List<DEmpleado>();
@@ -1132,8 +1145,6 @@ namespace Metodos
 
             return ListaGenerica;
         }
-
-
 
 
         public List<DEmpleado> MostrarEmpleado()
