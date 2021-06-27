@@ -24,16 +24,28 @@ namespace HumanResourcesSM.Windows
     {
         DPrestacion Prestacion = new DPrestacion();
 
+        public RespuestaPrestacionFrm(DPrestacion prestacion, TypeForm type)
+        {
+            InitializeComponent();
+
+            Prestacion = prestacion;
+            Type = type;
+
+            txtPorcentajePrestacion.KeyDown += new KeyEventHandler(Validaciones.TextBox_KeyDown);
+        }
+
         public RespuestaPrestacionFrm(DPrestacion prestacion)
         {
             InitializeComponent();
 
             Prestacion = prestacion;
+            Type = TypeForm.Create;
 
             txtPorcentajePrestacion.KeyDown += new KeyEventHandler(Validaciones.TextBox_KeyDown);
         }
 
         public MPrestacion Metodos = new MPrestacion();
+        public TypeForm Type;
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -56,6 +68,7 @@ namespace HumanResourcesSM.Windows
                     idPrestacion = Prestacion.idPrestacion,
                     porcentajeOtorgado = porcentajeOtorgado,
                     montoOtorgado = montoPorcentual,
+                    razonDecision = razonOtorgado,
                     estado = 2
                 };
             }
@@ -66,6 +79,7 @@ namespace HumanResourcesSM.Windows
                     idPrestacion = Prestacion.idPrestacion,
                     porcentajeOtorgado = 0,
                     montoOtorgado = 0,
+                    razonDecision = razonOtorgado,
                     estado = 3
                 };
             }
@@ -105,14 +119,20 @@ namespace HumanResourcesSM.Windows
                 antiguedad = years + " años ";
             else
                 antiguedad = months + " meses";
-
-            if(years > 0)
+            if (Prestacion.estado == 1 || Prestacion.estado == 3)
             {
-                valorCalculado = years * 30 * Prestacion.sueldo * 8;
+                if (years > 0)
+                {
+                    valorCalculado = years * 30 * Prestacion.sueldo * 8;
+                }
+                else
+                {
+                    valorCalculado = months * 5 * Prestacion.sueldo * 8;
+                }
             }
             else
             {
-                valorCalculado = months * 5 * Prestacion.sueldo * 8;
+                valorCalculado = (Prestacion.montoOtorgado * 100) / Prestacion.porcentajeOtorgado;
             }
 
             double porcentajePresupuesto = ((Prestacion.montoPresupuesto / valorCalculado) * 100);
@@ -128,6 +148,25 @@ namespace HumanResourcesSM.Windows
 
 
             txtPorcentajePrestacion.IsEnabled = false;
+
+            if(Type == TypeForm.Read)
+            {
+                txtPorcentajePrestacion.Text = Prestacion.porcentajeOtorgado.ToString();
+                txtRazonResultado.Text = Prestacion.razonDecision;
+                if(Prestacion.estado == 2)
+                {
+                    RBOtorgado.IsChecked = true;
+                }
+                else if(Prestacion.estado == 3)
+                {
+                    RBNoOtorgado.IsChecked = true;
+                }
+                txtPorcentajePrestacion.IsEnabled =
+                    txtRazonResultado.IsEnabled =
+                    RBOtorgado.IsEnabled =
+                    RBNoOtorgado.IsEnabled = false;
+                btnEnviar.Visibility = Visibility.Collapsed;
+            }
         }
 
         double valorCalculado = 0, montoPorcentual = 0;

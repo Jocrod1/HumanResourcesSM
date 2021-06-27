@@ -64,14 +64,51 @@ namespace HumanResourcesSM.Windows
             int id = (int)((Button)sender).CommandParameter;
             List<DPrestacion> response = Metodos.Encontrar(id);
 
-            RespuestaPrestacionFrm frmPrest = new RespuestaPrestacionFrm(response[0]);
+            if(response[0].estado == 1)
+            {
+                RespuestaPrestacionFrm frmPrest = new RespuestaPrestacionFrm(response[0]);
 
-            bool Resp = frmPrest.ShowDialog() ?? false;
+                bool Resp = frmPrest.ShowDialog() ?? false;
 
-            CbEmpleado.Text = "";
-            RBSolicitudes.IsChecked = true;
+                if (Resp)
+                {
+                    CbEmpleado.Text = "";
+                    RBSolicitudes.IsChecked = true;
+                    Refresh();
+                }
+            }
+            else
+            {
+                RespuestaPrestacionFrm frmPrest = new RespuestaPrestacionFrm(response[0], TypeForm.Read);
+
+                bool Resp = frmPrest.ShowDialog() ?? false;
+            }
+
             Refresh();
 
+        }
+
+        private void txtEliminar_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult Resp = MessageBox.Show("¿Seguro que quieres eliminar este item?", "Magicolor", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (Resp != MessageBoxResult.Yes)
+                return;
+            int id = (int)((Button)sender).CommandParameter;
+
+            var resp = Metodos.Eliminar(id);
+
+            if (resp.Equals("OK"))
+            {
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Eliminar,
+                                    "Se ha Eliminado la Prestación Nº" + id));
+
+                MessageBox.Show("Eliminar completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else MessageBox.Show(resp);
+
+            Refresh();
         }
 
         private void RBSolicitudes_Checked(object sender, RoutedEventArgs e)
@@ -109,8 +146,9 @@ namespace HumanResourcesSM.Windows
             {
                 return 3;
             }
-            return 0;
+            return 1;
         }
 
+        
     }
 }

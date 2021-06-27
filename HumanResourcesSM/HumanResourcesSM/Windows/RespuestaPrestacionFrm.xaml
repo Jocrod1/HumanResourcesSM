@@ -121,7 +121,7 @@
                                            HorizontalAlignment="Center" Margin="5"/>
                                 </Border>
                                 <Border BorderBrush="Green"  BorderThickness="1" Grid.Column="1">
-                                    <TextBlock x:Name="txtValorCalculado" Text="500 €" FontSize="15" Grid.Column="1"
+                                    <TextBlock x:Name="txtValorCalculado" Text="100 %" FontSize="15" Grid.Column="1"
                                            Margin="5" FontWeight="Bold" FontStyle="Italic"/>
                                 </Border>
                             </Grid>

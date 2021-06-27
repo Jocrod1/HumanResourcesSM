@@ -20,6 +20,7 @@ namespace Metodos
                     porcentajeOtorgado,
                     montoOtorgado,
                     razon,
+                    razonDecision,
                     fechaSolicitud,
                     estado
                 ) VALUES (
@@ -28,6 +29,7 @@ namespace Metodos
                     @porcentajeOtorgado,
                     @montoOtorgado,
                     @razon,
+                    '',
                     @fechaSolicitud,
                     1
                 );
@@ -46,6 +48,29 @@ namespace Metodos
                 comm.Parameters.AddWithValue("@fechaSolicitud", Prestacion.fechaSolicitud);
 
                 return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Ingreso el Registro del Presupuesto";
+            }
+            catch (SqlException e) { return e.Message; }
+            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
+        }
+
+        public string Eliminar(int idPrestacion)
+        {
+            string queryDelete = @"
+            DELETE FROM [Prestacion] 
+            WHERE idPrestacion = @idPrestacion;
+	        ";
+
+            string respuesta = "";
+            try
+            {
+                Conexion.ConexionSql.Open();
+
+                using SqlCommand comm = new SqlCommand(queryDelete, Conexion.ConexionSql);
+                comm.Parameters.AddWithValue("@idPrestacion", idPrestacion);
+
+                respuesta = comm.ExecuteNonQuery() == 1 ? "OK" : "No se elimino el Registro de la evaluacion del empleado";
+                
+                return respuesta;
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
@@ -112,6 +137,7 @@ namespace Metodos
                 using SqlDataReader reader = comm.ExecuteReader();
                 while (reader.Read())
                 {
+
                     ListaGenerica.Add(new DPrestacion
                     {
                         idPrestacion = reader.GetInt32(0),
@@ -121,8 +147,8 @@ namespace Metodos
                         montoOtorgado = reader.GetDouble(4),
                         razon = reader.GetString(5),
                         razonDecision = reader.GetString(6),
-                        fechaSolicitudString = reader.GetDateTime(6).ToString("dd/MM/yyyy"),
-                        estado = reader.GetInt32(7)
+                        fechaSolicitudString = reader.GetDateTime(7).ToString("dd/MM/yyyy"),
+                        estado = reader.GetInt32(8)
                     });
                 }
             }
@@ -147,7 +173,10 @@ namespace Metodos
                     c.sueldo,
                     p.montoPresupuesto,
                     p.razon,
-                    p.razonDecision
+                    p.razonDecision,
+                    p.montoOtorgado,
+					p.porcentajeOtorgado,
+					p.estado
                 FROM [Prestacion] p
                     INNER JOIN [Empleado] e ON p.idEmpleado = e.idEmpleado 
                     INNER JOIN [Seleccion] s ON s.idEmpleado = e.idEmpleado
@@ -178,7 +207,10 @@ namespace Metodos
                         sueldo = (double)reader.GetDecimal(5),
                         montoPresupuesto = reader.GetDouble(6),
                         razon = reader.GetString(7),
-                        razonDecision = reader.GetString(8)
+                        razonDecision = reader.GetString(8),
+                        montoOtorgado = reader.GetDouble(9),
+                        porcentajeOtorgado = reader.GetDouble(10),
+                        estado = reader.GetInt32(11)
                     });
                 }
             }
