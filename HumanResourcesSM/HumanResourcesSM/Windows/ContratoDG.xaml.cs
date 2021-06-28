@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using Datos;
 using Metodos;
 
@@ -23,13 +27,20 @@ namespace HumanResourcesSM.Windows
 
         public void Refresh(string nombre)
         {
-            var items = Metodos.ListadoEmpleadoContrato(nombre);
+            int idUsuario = Menu.ActUsuario.idRol != 4 ? -1 : Menu.ActUsuario.idUsuario; 
+
+            var items = Metodos.ListadoEmpleadoContrato(nombre, idUsuario);
 
             dgOperaciones.ItemsSource = items;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            if(Menu.ActUsuario.idRol == 4)
+            {
+                dgOperaciones.Columns[3].Visibility = Visibility.Collapsed;
+            }
+
             Refresh(txtBuscar.Text);
         }
 
@@ -64,6 +75,28 @@ namespace HumanResourcesSM.Windows
                 txtBucarPlaceH.Text = "Buscar...";
             }
 
+        }
+    }
+    public class ChangeRedColorRowInteviewDates : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+
+            DateTime FechaEntrevista = DateTime.Parse(values[0].ToString());
+
+            if (FechaEntrevista < DateTime.Today)
+            {
+                return (SolidColorBrush)(new BrushConverter().ConvertFrom("Red"));
+            }
+            else
+            {
+                return (SolidColorBrush)(new BrushConverter().ConvertFrom("Black"));
+            }
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

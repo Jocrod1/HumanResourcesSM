@@ -68,6 +68,29 @@ namespace HumanResourcesSM.Windows
             }
 
         }
+
+        private void btnAnular_Click(object sender, RoutedEventArgs e)
+        {
+            int id = (int)((Button)sender).CommandParameter;
+
+            var resp = Metodos.AnularEmpleado(id);
+            if (resp.Equals("OK"))
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Anular,
+                                    "Se ha Anulado el Postulante Nº" + id));
+            Refresh(txtBuscar.Text);
+        }
+
+        private void btnEditar_Click(object sender, RoutedEventArgs e)
+        {
+            int id = (int)((Button)sender).CommandParameter;
+
+
+            EmpleadoFrm frmTrab = new EmpleadoFrm(id);
+            bool Resp = frmTrab.ShowDialog() ?? false;
+            Refresh(txtBuscar.Text);
+        }
     }
 
 

@@ -92,7 +92,17 @@ namespace HumanResourcesSM.Windows
             var res = new MDepartamento().Encontrar(Empleado.idDepartamento)[0];
 
             txtNombrePosicion.Text = Seleccion.nombrePuesto;
-            razonFinal.Text = Seleccion.razonFinal == "" ? "Sin Razón" : Seleccion.razonFinal;
+            if(Empleado.status == 8 || Empleado.status == 1) {
+                iconInfo.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                razonFinal.Text = Seleccion.razonFinal == "" ? "Sin Razón" : Seleccion.razonFinal;
+                if(Empleado.status == 5)
+                {
+                    razonFinal.Text += Environment.NewLine + "Liquidación: " + Contrato.montoLiquidacion.ToString("0.00") + " €";
+                }
+            }
             txtDepartamento.Text = res.nombre;
             txtFechaApl.Text = Seleccion.fechaAplicacion.ToShortDateString();
             txtFechaRev.Text = Seleccion.fechaRevision.ToShortDateString();

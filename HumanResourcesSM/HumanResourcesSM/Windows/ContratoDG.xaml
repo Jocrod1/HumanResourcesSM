@@ -8,7 +8,9 @@
       mc:Ignorable="d" 
       d:DesignHeight="520" d:DesignWidth="680" Loaded="Window_Loaded"
       Title="DepartamentoDG" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-
+    <Page.Resources>
+        <local:ChangeRedColorRowInteviewDates x:Key="ChangeRedColorRowInteviewDates"/>
+    </Page.Resources>
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -46,34 +48,45 @@
                   BorderThickness="0 1 0 1"
                   BorderBrush="LightGray"
                   Background="WhiteSmoke">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Foreground">
+                        <Setter.Value>
+                            <MultiBinding Converter="{StaticResource ChangeRedColorRowInteviewDates}">
+                                <Binding Path="fechaRevision"/>
+                            </MultiBinding>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.RowStyle>
             <DataGrid.Resources>
                 <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="Background" Value="#f0f0f0" />
                 </Style>
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Width="2*" Header="Documento" Binding="{Binding cedula}">
+                <DataGridTextColumn Width="*" Header="Nombre" Binding="{Binding nombre}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
                             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="3*" Header="Nombre" Binding="{Binding nombre}">
+                <DataGridTextColumn Width="auto" Header="Fecha Entrevista" Binding="{Binding fechaRevisionString}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
                             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="2*" Header="Fecha Entrevista" Binding="{Binding fechaRevisionString}">
+                <DataGridTextColumn Width="auto" Header="Puesto" Binding="{Binding nombrePuesto}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
                             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Width="*" Header="Puesto" Binding="{Binding nombrePuesto}">
+                <DataGridTextColumn Width="auto" Header="Entrevistador" Binding="{Binding usuario}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
                             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>

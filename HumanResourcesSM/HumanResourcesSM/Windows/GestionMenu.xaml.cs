@@ -90,14 +90,14 @@ namespace HumanResourcesSM.Windows
                 GridDepartamentos.Visibility = Visibility.Collapsed;
                 GridEmpleados.Visibility = Visibility.Collapsed;
                 GridAsignacion.Visibility = Visibility.Collapsed;
-                
-            }
 
-            if (Menu.ActUsuario.entrevistando != 1)
-            {
-                GridContratacion.Visibility = Visibility.Collapsed;
-            }
 
+                if (Menu.ActUsuario.entrevistando != 1 || Menu.ActUsuario.idRol == 3)
+                {
+                    GridContratacion.Visibility = Visibility.Collapsed;
+                }
+
+            }
         }
 
 

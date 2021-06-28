@@ -759,7 +759,7 @@ namespace Metodos
                         fechaRevision = reader.GetDateTime(6),
                         nombrePuesto = reader.GetString(7),
                         razon = !reader.IsDBNull(8) ? reader.GetString(8) : "",
-                        razonFinal = reader.GetInt32(5) == 3 ? reader.GetString(8) : reader.GetString(9)
+                        razonFinal = reader.GetInt32(5) == 5 ? reader.GetString(9) : !reader.IsDBNull(8) ? reader.GetString(8) : ""
                     });
                 }
             }
@@ -1107,7 +1107,7 @@ namespace Metodos
         }
 
 
-        public List<DEmpleado> ListadoEmpleadoContrato(string Nombre)
+        public List<DEmpleado> ListadoEmpleadoContrato(string Nombre, int idUsuario)
         {
             List<DEmpleado> ListaGenerica = new List<DEmpleado>();
 
@@ -1117,17 +1117,21 @@ namespace Metodos
 				    e.cedula,
 				    e.nombre + ' ' + e.apellido,
 				    s.fechaRevision,
-				    s.nombrePuesto
+				    s.nombrePuesto,
+					u.usuario
 			    FROM [Empleado] e
 				    INNER JOIN [Seleccion] s ON s.idEmpleado = e.idEmpleado
-                WHERE e.status = 1 AND e.idEmpleado <> 1 AND CONCAT(e.nombre, ' ', e.apellido) LIKE @nombre + '%'
-            ";
+					INNER JOIN [Usuario] u on u.idUsuario = s.idEntrevistador
+                WHERE e.status = 1 AND e.idEmpleado <> 1 AND CONCAT(e.nombre, ' ', e.apellido) LIKE @nombre + '%'";
 
             try
             {
+
+                string condicional = idUsuario != -1 ? " AND s.idEntrevistador = " + idUsuario : "";
+
                 Conexion.ConexionSql.Open();
 
-                using SqlCommand comm = new SqlCommand(queryListEmployeeContract, Conexion.ConexionSql);
+                using SqlCommand comm = new SqlCommand(queryListEmployeeContract + condicional, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@nombre", Nombre);
 
                 using SqlDataReader reader = comm.ExecuteReader();
@@ -1139,8 +1143,9 @@ namespace Metodos
                         cedula = reader.GetString(1),
                         nombre = reader.GetString(2),
                         fechaRevisionString = reader.GetDateTime(3).ToString("dd-MM-yyyy"),
-                        nombrePuesto = reader.GetString(4)
-                       
+                        fechaRevision = reader.GetDateTime(3),
+                        nombrePuesto = reader.GetString(4),
+                        usuario = reader.GetString(5),
                     });
                 }
             }

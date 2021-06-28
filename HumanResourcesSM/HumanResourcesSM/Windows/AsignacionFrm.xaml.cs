@@ -43,8 +43,10 @@ namespace HumanResourcesSM.Windows
 
             foreach (DUsuario item in usuarios)
             {
+                if (item.idRol != 4)
+                    continue;
 
-                DRol DAR = resp.Find((Rol) => Rol.idRol == item.idRol);
+                DRol DAR = resp.Find((Rol) => (Rol.idRol == item.idRol));
 
                 if(item.entrevistando == 0)
                 {

@@ -135,7 +135,9 @@ namespace Datos
                     case 4:
                         return "No Contratado";
                     case 5:
-                        return "Despido";
+                        return "Despedido";
+                    case 8:
+                        return "No Asignado";
                     default:
                         return "ERROR";
                 }
