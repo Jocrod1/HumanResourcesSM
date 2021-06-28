@@ -192,15 +192,6 @@ namespace Metodos
             ORDER BY pais;
         ";
 
-        //despido
-        private string queryUpdateEmployeeFire = @"
-            UPDATE [Empleado] SET
-                status = 5,
-                fechaCulminacion = @fechaCulminacion,
-                razonDespido = @razonDespido
-            WHERE idEmpleado = @idEmpleado;
-	    ";
-
 
         //repetido
         private string queryUpdateEmployeeSelection = @"
@@ -866,8 +857,17 @@ namespace Metodos
         }
 
 
-        public string Despido(int IdEmpleado, string Razon)
+        public string Despido(int IdEmpleado, string Razon, double MontoLiquidacion)
         {
+
+            string queryUpdateEmployeeFire = @"
+                UPDATE [Empleado] SET
+                    status = 5,
+                    fechaCulminacion = @fechaCulminacion,
+                    razonDespido = @razonDespido
+                WHERE idEmpleado = @idEmpleado;
+	        ";
+
             try
             {
                 Conexion.ConexionSql.Open();
@@ -882,7 +882,11 @@ namespace Metodos
                 if (!respuesta.Equals("OK"))
                     return respuesta;
 
-                return CambiarStatus(IdEmpleado, 5);
+                respuesta = CambiarStatus(IdEmpleado, 5);
+                if (!respuesta.Equals("OK"))
+                    return respuesta;
+
+                return new MContrato().FechaCulminacionDespedido(MontoLiquidacion, IdEmpleado);
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }

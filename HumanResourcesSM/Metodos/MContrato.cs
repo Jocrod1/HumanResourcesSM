@@ -47,13 +47,6 @@ namespace Metodos
             WHERE idContrato = @idContrato;
         ";
 
-        private string queryUpdateDates = @"
-            UPDATE [Contrato] SET 
-                fechaContratacion = @fechaContratacion,
-                fechaCulminacion = @fechaCulminacion
-            WHERE idContrato = @idContrato;
-        ";
-
         private string queryList = @"
             SELECT * FROM [Contrato]
             WHERE idEmpleado = @idEmpleado;
@@ -176,19 +169,24 @@ namespace Metodos
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
-        public string EditarFechaContrato(DContrato Contrato)
+        public string FechaCulminacionDespedido(double MontoLiquidacion, int IdEmpleado)
         {
+            string queryUpdateDates = @"
+                UPDATE [Contrato] SET 
+                    fechaCulminacion = @fechaCulminacion,
+                    montoLiquidacion = @montoLiquidacion
+                WHERE idEmpleado = @idEmpleado;
+            ";
+
             try
             {
-                Conexion.ConexionSql.Open();
-
                 using SqlCommand comm = new SqlCommand(queryUpdateDates, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@fechaContratacion", Contrato.fechaContratacion);
-                comm.Parameters.AddWithValue("@fechaCulminacion", Contrato.fechaCulminacion);
-                comm.Parameters.AddWithValue("@idContrato", Contrato.idContrato);
+                comm.Parameters.AddWithValue("@fechaCulminacion", DateTime.Today);
+                comm.Parameters.AddWithValue("@montoLiquidacion", MontoLiquidacion);
+                comm.Parameters.AddWithValue("@idEmpleado", IdEmpleado);
 
 
-                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el Registro del Contrato";
+                return comm.ExecuteNonQuery() == 1 ? "OK" : "No se actualizo el Contrato";
             }
             catch (SqlException e) { return e.Message; }
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }

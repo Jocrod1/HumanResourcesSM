@@ -314,11 +314,11 @@ namespace HumanResourcesSM.Windows
         {
             if(CbRazonDespido.SelectedIndex == -1)
             {
-                MessageBox.Show("Debes Seleccionar una Razón de Despido!", "Magicolor", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Debes Seleccionar una Razón de Despido!", "Swissnet", MessageBoxButton.OK, MessageBoxImage.Error);
                 CbRazonDespido.Focus();
                 return;
             }
-            ContratoFrm frm = new ContratoFrm(EmpleadoEntrevistado);
+            ContratoFrm frm = new ContratoFrm(EmpleadoEntrevistado, Total);
             bool resp = frm.ShowDialog() ?? false;
 
             if (resp)

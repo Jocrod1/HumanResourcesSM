@@ -11,7 +11,7 @@ namespace HumanResourcesSM.Windows
     public partial class ContratoFrm : Window
     {
 
-        public ContratoFrm(DEmpleado empleado, DSeleccion seleccion, bool isContracted = true)
+        public ContratoFrm(DEmpleado empleado, DSeleccion seleccion = null, bool isContracted = true)
         {
             InitializeComponent();
 
@@ -43,11 +43,12 @@ namespace HumanResourcesSM.Windows
             }
         }
 
-        public ContratoFrm(DEmpleado empleado)
+        public ContratoFrm(DEmpleado empleado, double totalLiquidacion)
         {
             InitializeComponent();
 
             Empleado = empleado;
+            TotalLiquidacion = totalLiquidacion;
             Fired = true;
             StackContrato.Visibility = Visibility.Collapsed;
             txtTitulo.Text = "Despido";
@@ -83,9 +84,11 @@ namespace HumanResourcesSM.Windows
         public MContrato Metodos = new MContrato();
 
         public DEmpleado Empleado;
+        private double TotalLiquidacion;
+        public bool Fired;
+
         public DSeleccion Seleccion;
         public bool Contracted = true;
-        public bool Fired = false;
 
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -150,9 +153,10 @@ namespace HumanResourcesSM.Windows
             else
                 MessageBox.Show(resp);
         }
+
         public void Despedido()
         {
-            var resp = new MSeleccion().Despido(Empleado.idEmpleado, txtRazon.Text);
+            var resp = new MSeleccion().Despido(Empleado.idEmpleado, txtRazon.Text, TotalLiquidacion);
 
             if (resp.Equals("OK"))
             {
