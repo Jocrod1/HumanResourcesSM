@@ -46,6 +46,29 @@ namespace HumanResourcesSM.Windows
             
         }
 
+        private void BtnAnular_Click(object sender, RoutedEventArgs e)
+        {
+            SeleccionarPago dialog = new SeleccionarPago();
+            if (dialog.ShowDialog() ?? false)
+            {
+                var id = dialog.PagoSeleccionado.idPago;
+
+                var PagoSeleccionado = dialog.PagoSeleccionado;
+
+                var resp = met.Anular(id);
+
+                if(resp == "OK")
+                {
+                    MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Anular,
+                                    "Se ha Anulado el Pago Nº" + PagoSeleccionado.idPago));
+
+                    MessageBox.Show("Pago Anulado Correctamente!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+        }
+
         void limpiar()
         {
             BordEmpleado.Visibility = Visibility.Collapsed;
@@ -137,8 +160,8 @@ namespace HumanResourcesSM.Windows
             {
                 MAuditoria.Insertar(new DAuditoria(
                                     Menu.ActUsuario.idUsuario,
-                                    DAuditoria.Registrar,
-                                    "Se ha registrado un Pago para el empleado Nº" + pago.idEmpleado));
+                                    DAuditoria.Pagar,
+                                    "Se ha realizado un Pago para el empleado Nº" + pago.idEmpleado));
 
                 var msgResp = MessageBox.Show("¡Pago Procesado!" + Environment.NewLine + "¿Desea Guardar el Comprobante de Pago?", "SwissNet", MessageBoxButton.YesNo, MessageBoxImage.Information);
                 if (msgResp == MessageBoxResult.Yes)
@@ -209,6 +232,8 @@ namespace HumanResourcesSM.Windows
         double Sueldo = 0, Bonificaciones = 0, Deducciones = 0, Total = 0;
 
         double TotalAsignaciones = 0, TotalDeducciones = 0;
+
+        
 
         void RefreshMoney()
         {

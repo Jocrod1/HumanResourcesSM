@@ -118,7 +118,7 @@ namespace Metodos
 				p.periodoInicio,
 				p.periodoFinal
             FROM [Pago] p 
-            WHERE p.idEmpleado = @idEmpleado
+            WHERE p.idEmpleado = @idEmpleado AND p.estado <> 0
             ORDER BY p.idPago DESC;
         ";
 
@@ -145,19 +145,19 @@ namespace Metodos
 					SELECT TOP 1
 						montoTotal
 					FROM [Pago] p
-					where p.idEmpleado = e.idEmpleado
+					where p.idEmpleado = e.idEmpleado and p.estado <> 0
 					ORDER BY idPago DESC), 0) AS ultimoPago,
 				ISNULL((
 					SELECT TOP 1
 						periodoInicio
 					FROM [Pago] p
-					where p.idEmpleado = e.idEmpleado
+					where p.idEmpleado = e.idEmpleado and p.estado <> 0
 					ORDER BY idPago DESC), null) AS ultimoPeriodoInicio,
 				ISNULL((
 					SELECT TOP 1
 						periodoFinal
 					FROM [Pago] p
-					where p.idEmpleado = e.idEmpleado
+					where p.idEmpleado = e.idEmpleado and p.estado <> 0
 					ORDER BY idPago DESC), null) AS ultimoPeriodoFinal,
 				e.status
             FROM [Empleado] e
@@ -178,19 +178,22 @@ namespace Metodos
 				e.telefono,
 				ISNULL((
 					SELECT TOP 1
-						fechaPago
-					FROM [Pago]
-					ORDER BY idPago DESC), null) AS ultimoPagoFecha,
+						p.fechaPago
+					FROM [Pago] p
+					where p.idEmpleado = e.idEmpleado and p.estado <> 0
+					ORDER BY p.idPago DESC), null) AS ultimoPagoFecha,
 				ISNULL((
 					SELECT TOP 1
-						periodoInicio
-					FROM [Pago]
-					ORDER BY idPago DESC), null) AS ultimoPeriodoInicio,
+						p.periodoInicio
+					FROM [Pago] p
+					where p.idEmpleado = e.idEmpleado and p.estado <> 0
+					ORDER BY p.idPago DESC), null) AS ultimoPeriodoInicio,
 				ISNULL((
 					SELECT TOP 1
-						periodoFinal
-					FROM [Pago]
-					ORDER BY idPago DESC), null) AS ultimoPeriodoFinal,
+						p.periodoFinal
+					FROM [Pago] p
+					where p.idEmpleado = e.idEmpleado and p.estado <> 0
+					ORDER BY p.idPago DESC), null) AS ultimoPeriodoFinal,
 				e.status
             FROM [Empleado] e
 				INNER JOIN [Contrato] c ON e.idEmpleado = c.idEmpleado

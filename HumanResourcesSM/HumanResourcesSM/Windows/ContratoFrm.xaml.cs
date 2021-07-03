@@ -143,8 +143,8 @@ namespace HumanResourcesSM.Windows
             {
                 MAuditoria.Insertar(new DAuditoria(
                                     Menu.ActUsuario.idUsuario,
-                                    DAuditoria.Registrar,
-                                    "Se ha registrado no contratado el empleado Nº" + Empleado.idEmpleado));
+                                    DAuditoria.NoContratar,
+                                    "No se ha contratado el postulante Nº" + Empleado.idEmpleado));
 
                 MessageBox.Show("Accion Completada!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.DialogResult = true;
@@ -162,7 +162,7 @@ namespace HumanResourcesSM.Windows
             {
                 MAuditoria.Insertar(new DAuditoria(
                                     Menu.ActUsuario.idUsuario,
-                                    DAuditoria.Eliminar,
+                                    DAuditoria.Despedir,
                                     "Se ha Despedido al empleado Nº" + Empleado.idEmpleado));
 
                 MessageBox.Show("Despido completado!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -189,8 +189,8 @@ namespace HumanResourcesSM.Windows
             if (resp.Equals("OK"))
                 MAuditoria.Insertar(new DAuditoria(
                                     Menu.ActUsuario.idUsuario, 
-                                    DAuditoria.Registrar, 
-                                    "Se ha registrado el contrato del empleado Nº" + Empleado.idEmpleado));
+                                    DAuditoria.Contratar, 
+                                    "Se ha contratado al postulante Nº" + Empleado.idEmpleado));
 
             return resp;
         }

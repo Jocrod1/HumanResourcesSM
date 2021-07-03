@@ -100,6 +100,12 @@ namespace HumanResourcesSM.Windows
             TipoMetricaFrm frmTrab = new TipoMetricaFrm();
             frmTrab.Type = TypeForm.Read;
             frmTrab.DataFill = response[0];
+
+            MAuditoria.Insertar(new DAuditoria(
+                                   Menu.ActUsuario.idUsuario,
+                                   DAuditoria.Ver,
+                                   "Se ha visualzado el Tipo Metrica Nº" + response[0].idTipoMetrica));
+
             bool Resp = frmTrab.ShowDialog() ?? false;
             Refresh();
         }

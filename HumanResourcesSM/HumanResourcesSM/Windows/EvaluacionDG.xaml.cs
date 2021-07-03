@@ -84,6 +84,12 @@ namespace HumanResourcesSM.Windows
             {
                 MetaType TipoMeta = searchType == SearchType.Departamento ? MetaType.Departamento : MetaType.Empleado;
                 EvaluacionFrm frmMeta = new EvaluacionFrm(TypeForm.Read, TipoMeta, Evaluacion);
+
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Ver,
+                                    "Se ha visualzado la Evaluación Nº" + Evaluacion.idEvaluacion));
+
                 bool Resp = frmMeta.ShowDialog() ?? false;
                 Refresh();
             }

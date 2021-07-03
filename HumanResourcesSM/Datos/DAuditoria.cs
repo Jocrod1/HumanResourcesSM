@@ -69,11 +69,17 @@ namespace Datos
             Editar = "Editar",
             Eliminar = "Eliminar",
             Anular = "Anular",
+            Ver = "Ver",
             Generar = "Generar",
             Backup = "Respaldo",
             Restore = "Restaurar",
             IniciarSesion = "Iniciar Sesión",
-            CerrarSesion = "Cerrar Sesión";
+            CerrarSesion = "Cerrar Sesión",
+            Seleccionar = "Seleccionar",
+            Contratar = "Contratar",
+            NoContratar = "No Contratar",
+            Despedir = "Despedir",
+            Pagar = "Pagar";
             
 
 

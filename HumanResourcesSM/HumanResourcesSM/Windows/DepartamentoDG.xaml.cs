@@ -119,6 +119,12 @@ namespace HumanResourcesSM.Windows
             DepartamentoFrm frmTrab = new DepartamentoFrm();
             frmTrab.Type = TypeForm.Read;
             frmTrab.DataFill = response[0];
+
+            MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Ver,
+                                    "Se ha visualzado el departamento codigo" + response[0].codigo));
+
             bool Resp = frmTrab.ShowDialog() ?? false;
             Refresh(txtBuscar.Text);
 

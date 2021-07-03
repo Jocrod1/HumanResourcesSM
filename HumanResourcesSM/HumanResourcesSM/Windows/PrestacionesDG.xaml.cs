@@ -81,6 +81,11 @@ namespace HumanResourcesSM.Windows
             {
                 RespuestaPrestacionFrm frmPrest = new RespuestaPrestacionFrm(response[0], TypeForm.Read);
 
+                MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Ver,
+                                    "Se ha visualzado la Prestación Nº" + response[0].idPrestacion));
+
                 bool Resp = frmPrest.ShowDialog() ?? false;
             }
 

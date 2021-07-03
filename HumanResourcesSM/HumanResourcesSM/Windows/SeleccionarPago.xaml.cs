@@ -42,6 +42,8 @@ namespace HumanResourcesSM.Windows
 
         public DPago PagoSeleccionado;
 
+
+
         private void btnEnviar_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;

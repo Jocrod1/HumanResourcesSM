@@ -106,6 +106,13 @@ namespace HumanResourcesSM.Windows
             DeudaFrm frmTrab = new DeudaFrm();
             frmTrab.Type = TypeForm.Read;
             frmTrab.DataFill = response[0];
+
+            MAuditoria.Insertar(new DAuditoria(
+                                    Menu.ActUsuario.idUsuario,
+                                    DAuditoria.Ver,
+                                    "Se ha visualzado la bonificación/deducción de codigo " + response[0].concepto));
+
+
             bool Resp = frmTrab.ShowDialog() ?? false;
             Refresh();
         }

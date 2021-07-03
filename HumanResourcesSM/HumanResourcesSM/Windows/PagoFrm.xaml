@@ -17,7 +17,10 @@
         <Border BorderThickness="0 0 0 1" BorderBrush="Black">
             <Grid>
                 <TextBlock Text="Realizar Pago" FontWeight="Bold" FontSize="23" HorizontalAlignment="Center" Margin="0 5"/>
-                <Button Grid.Column="3" Name="BtnReporte" HorizontalAlignment="Right" Content="Guardar Listado" Click="BtnReporte_Click" Padding="3" Height="24" Margin="10 0"  Background="#248232" BorderBrush="#248232"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Grid.Column="3" Name="BtnReporte" HorizontalAlignment="Right" Content="Imprimir" Click="BtnReporte_Click" Padding="6 3" Height="24" Margin="10 0"  Background="#248232" BorderBrush="#248232"/>
+                    <Button Grid.Column="2" Name="BtnAnular" HorizontalAlignment="Right" Content="Anular" Click="BtnAnular_Click" Padding="6 3" Height="24" Margin="10 0"  Background="#C22723" BorderBrush="#C22723"/>
+                </StackPanel>
             </Grid>
         </Border>
         <ScrollViewer Grid.Row="1">

@@ -118,6 +118,12 @@ namespace HumanResourcesSM.Windows
             RelacionesLaboralesFrm frmTrab = new RelacionesLaboralesFrm();
             frmTrab.Type = TypeForm.Read;
             frmTrab.DataFill = response[0];
+
+            MAuditoria.Insertar(new DAuditoria(
+                                   Menu.ActUsuario.idUsuario,
+                                   DAuditoria.Ver,
+                                   "Se ha visualzado la Relación Laboral Nº" + response[0].idRelacionesLaborales));
+
             bool Resp = frmTrab.ShowDialog() ?? false;
             Refresh();
         }

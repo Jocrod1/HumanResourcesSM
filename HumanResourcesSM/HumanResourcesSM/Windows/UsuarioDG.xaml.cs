@@ -136,6 +136,12 @@ namespace HumanResourcesSM.Windows
             UsuarioFrm frmTrab = new UsuarioFrm();
             frmTrab.Type = TypeForm.Read;
             frmTrab.DataFill = response[0];
+
+            MAuditoria.Insertar(new DAuditoria(
+                                   Menu.ActUsuario.idUsuario,
+                                   DAuditoria.Ver,
+                                   "Se ha visualzado el Usuario Nº" + response[0].idUsuario));
+
             frmTrab.ListaSeguridad = responseSecurity;
             bool Resp = frmTrab.ShowDialog() ?? false;
             Refresh(txtBuscar.Text);

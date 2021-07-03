@@ -119,6 +119,12 @@ namespace HumanResourcesSM.Windows
             TipoTramiteFrm frmTrab = new TipoTramiteFrm();
             frmTrab.Type = TypeForm.Read;
             frmTrab.DataFill = response[0];
+
+            MAuditoria.Insertar(new DAuditoria(
+                                   Menu.ActUsuario.idUsuario,
+                                   DAuditoria.Ver,
+                                   "Se ha visualzado el Tipo Tramite Nº" + response[0].idTipoTramite));
+
             bool Resp = frmTrab.ShowDialog() ?? false;
             Refresh(txtBuscar.Text);
 

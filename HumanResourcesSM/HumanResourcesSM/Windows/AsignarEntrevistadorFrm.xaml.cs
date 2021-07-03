@@ -103,8 +103,8 @@ namespace HumanResourcesSM.Windows
             {
                 MAuditoria.Insertar(new DAuditoria(
                                     Menu.ActUsuario.idUsuario,
-                                    DAuditoria.Registrar,
-                                    "Se ha asignado una entrevista al postulado Nº" + EmpleadoSeleccionado.idEmpleado));
+                                    DAuditoria.Seleccionar,
+                                    "Se ha seleccionado un postulante Nº" + EmpleadoSeleccionado.idEmpleado));
 
                 this.DialogResult = true;
                 this.Close();
