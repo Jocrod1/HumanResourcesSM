@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:HumanResourcesSM.Windows"
       mc:Ignorable="d" 
       d:DesignHeight="520" d:DesignWidth="680" Loaded="Window_Loaded"
-      Title="DepartamentoDG" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+      Title="SwissNet" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>

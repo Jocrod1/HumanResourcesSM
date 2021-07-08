@@ -7,7 +7,7 @@
       mc:Ignorable="d" 
       Loaded="Page_Loaded"
       d:DesignHeight="520" d:DesignWidth="800"
-      Title="SeleccionFrm">
+      Title="SwissNet">
 
     <Grid Background="WhiteSmoke">
         <Grid.ColumnDefinitions>

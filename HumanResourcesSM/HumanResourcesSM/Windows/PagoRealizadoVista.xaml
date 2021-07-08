@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HumanResourcesSM.Windows"
         mc:Ignorable="d"
-        Title="DepartamentoFrm" Height="360" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
+        Title="SwissNet" Height="360" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>

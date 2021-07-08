@@ -8,7 +8,7 @@
       mc:Ignorable="d" 
       Height="570" Width="900"
       Loaded="Page_Loaded"
-      Title="SeleccionarMenu">
+      Title="SwissNet">
 
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>

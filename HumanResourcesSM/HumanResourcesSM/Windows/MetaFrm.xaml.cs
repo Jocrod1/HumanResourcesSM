@@ -299,7 +299,7 @@ namespace HumanResourcesSM.Windows
         {
             if (CbFechaInicio.SelectedDate != null)
             {
-                CbFechaFinal.DisplayDateStart = CbFechaInicio.SelectedDate?.Date;
+                CbFechaFinal.DisplayDateStart = CbFechaInicio.SelectedDate?.Date.AddDays(1);
             }
             else
             {
@@ -311,7 +311,7 @@ namespace HumanResourcesSM.Windows
         {
             if (CbFechaFinal.SelectedDate != null)
             {
-                CbFechaInicio.DisplayDateEnd = CbFechaFinal.SelectedDate?.Date;
+                CbFechaInicio.DisplayDateEnd = CbFechaFinal.SelectedDate?.Date.AddDays(-1);
             }
             else
             {

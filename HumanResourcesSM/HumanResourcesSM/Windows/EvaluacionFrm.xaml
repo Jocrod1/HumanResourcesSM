@@ -9,7 +9,7 @@
       WindowStartupLocation="CenterScreen" ResizeMode="NoResize" 
       Height="685" Width="500"
       Loaded="Window_Loaded"
-      Title="SeleccionFrm">
+      Title="SwissNet">
 
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>

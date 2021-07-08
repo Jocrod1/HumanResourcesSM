@@ -33,6 +33,7 @@ namespace HumanResourcesSM.Windows
 
             txtNombre.KeyDown += new KeyEventHandler(Validaciones.DontPressNumber);
             txtApellido.KeyDown += new KeyEventHandler(Validaciones.DontPressNumber);
+            cbTipoDocumento.SelectedIndex = 0;
         }
 
         public TypeForm Type = TypeForm.Create;

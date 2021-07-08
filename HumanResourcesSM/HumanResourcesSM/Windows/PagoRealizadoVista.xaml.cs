@@ -99,7 +99,7 @@ namespace HumanResourcesSM.Windows
             {
                 PlacePeriodoInicio.Text = "";
 
-                CbPeriodoFinal.DisplayDateStart = CbPeriodoInicio.SelectedDate?.Date;
+                CbPeriodoFinal.DisplayDateStart = CbPeriodoInicio.SelectedDate?.Date.AddDays(1);
             }
             else
             {
@@ -115,7 +115,7 @@ namespace HumanResourcesSM.Windows
             {
                 PlacePeriodoFinal.Text = "";
 
-                CbPeriodoInicio.DisplayDateEnd = CbPeriodoFinal.SelectedDate?.Date;
+                CbPeriodoInicio.DisplayDateEnd = CbPeriodoFinal.SelectedDate?.Date.AddDays(-1);
             }
             else
             {

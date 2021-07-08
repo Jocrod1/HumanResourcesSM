@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:HumanResourcesSM.Windows"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="DepartamentoFrm" Height="320" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
+        Title="SwissNet" Height="320" Width="500" ResizeMode="NoResize" Loaded="Window_Loaded">
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>

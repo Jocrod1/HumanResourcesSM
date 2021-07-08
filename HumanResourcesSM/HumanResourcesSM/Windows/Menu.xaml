@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:HumanResourcesSM.Windows"
         mc:Ignorable="d"
         Loaded="Window_Loaded" Closing="Window_Closing"
-        Title="Menu" Height="600" Width="950">
+        Title="Menú" Height="600" Width="950">
     <Grid>
         <Grid Background="WhiteSmoke">
             <Grid.RowDefinitions>
@@ -20,9 +20,9 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <Grid Margin="5 10 30 10">
+                    <Button x:Name="HomeButton" Margin="5 10 30 10" Background="{x:Null}" BorderBrush="{x:Null}" Click="HomeButton_Click" Padding="0">
                         <Image Source="/HumanResourcesSM;component/Img/Logo.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                    </Grid>
+                    </Button>
                     <Grid Grid.Column="1">
                         <Grid HorizontalAlignment="Center">
                             <Grid.ColumnDefinitions>
@@ -81,7 +81,10 @@
                     </Grid>
                 </Grid>
             </Border>
-            <Frame Grid.Row="1" x:Name="ContentFrame" NavigationUIVisibility="Hidden" Background="Gray">
+            <Grid Grid.Row="1" Background="WhiteSmoke">
+                <Image Source="/HumanResourcesSM;component/Img/Logo.png" RenderOptions.BitmapScalingMode="HighQuality" Width="500" Opacity=".8"/>
+            </Grid>
+            <Frame Grid.Row="1" x:Name="ContentFrame" NavigationUIVisibility="Hidden" Background="Transparent">
             </Frame>
         </Grid>
     </Grid>

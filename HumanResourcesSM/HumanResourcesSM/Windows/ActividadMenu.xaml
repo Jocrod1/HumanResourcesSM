@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:HumanResourcesSM.Windows"
       mc:Ignorable="d" 
       d:DesignHeight="520" d:DesignWidth="800"
-      Title="SeleccionFrm">
+      Title="SwissNet">
 
     <Grid Background="WhiteSmoke">
         <Grid.ColumnDefinitions>

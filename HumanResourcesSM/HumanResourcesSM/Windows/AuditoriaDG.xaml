@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:HumanResourcesSM.Windows"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
-        Title="AuditoriaDG" Height="450" Width="800">
+        Title="Auditoria" Height="450" Width="800">
 
     <Grid>
         <Grid.RowDefinitions>

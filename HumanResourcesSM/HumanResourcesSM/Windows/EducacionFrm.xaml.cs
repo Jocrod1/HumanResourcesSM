@@ -192,7 +192,7 @@ namespace HumanResourcesSM.Windows
         {
             if (CbFechaIngreso.SelectedDate != null)
             {
-                CbFechaEgreso.DisplayDateStart = CbFechaIngreso.SelectedDate?.Date;
+                CbFechaEgreso.DisplayDateStart = CbFechaIngreso.SelectedDate?.Date.AddDays(1);
             }
             else
             {
@@ -204,7 +204,7 @@ namespace HumanResourcesSM.Windows
         {
             if (CbFechaEgreso.SelectedDate != null)
             {
-                CbFechaIngreso.DisplayDateEnd = CbFechaEgreso.SelectedDate?.Date;
+                CbFechaIngreso.DisplayDateEnd = CbFechaEgreso.SelectedDate?.Date.AddDays(-1);
             }
             else
             {

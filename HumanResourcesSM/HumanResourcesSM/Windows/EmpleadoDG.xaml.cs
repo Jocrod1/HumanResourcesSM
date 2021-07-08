@@ -47,6 +47,10 @@ namespace HumanResourcesSM.Windows
 
         private void btnEliminar_Click(object sender, RoutedEventArgs e)
         {
+
+            MessageBoxResult Resp = MessageBox.Show("¿Seguro que quieres anular este item?", "Magicolor", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (Resp != MessageBoxResult.Yes)
+                return;
             int id = (int)((Button)sender).CommandParameter;
 
             var resp = Metodos.AnularEmpleado(id);

@@ -22,7 +22,16 @@ namespace HumanResourcesSM.Windows
         public Login()
         {
             InitializeComponent();
+
+            if(randComp == null)
+            {
+                randComp = new Random(DateTime.Now.Second + DateTime.Now.Millisecond);
+                idSecretQ = randComp.Next(0, 3);
+            }
         }
+
+        public static Random randComp;
+        public static int idSecretQ;
 
         public void Log()
         {
@@ -80,7 +89,7 @@ namespace HumanResourcesSM.Windows
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
-            if(txtUsuario.Text == "")
+            if (txtUsuario.Text == "")
             {
                 MessageBox.Show("Debe proporcionar un Nombre de Usuario en el login", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
                 txtUsuario.Focus();

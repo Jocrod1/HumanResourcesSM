@@ -204,7 +204,7 @@ namespace HumanResourcesSM.Windows
             {
                 PlaceFechaInicio.Text = "";
 
-                CbFechaFinal.DisplayDateStart = CbFechaInicio.SelectedDate?.Date;
+                CbFechaFinal.DisplayDateStart = CbFechaInicio.SelectedDate?.Date.AddDays(1);
                 Refresh();
 
             }
@@ -222,7 +222,7 @@ namespace HumanResourcesSM.Windows
             {
                 PlaceFechaFinal.Text = "";
 
-                CbFechaInicio.DisplayDateEnd = CbFechaFinal.SelectedDate?.Date;
+                CbFechaInicio.DisplayDateEnd = CbFechaFinal.SelectedDate?.Date.AddDays(-1);
                 Refresh();
 
             }

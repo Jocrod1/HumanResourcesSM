@@ -112,6 +112,19 @@ namespace HumanResourcesSM.Windows
             
         }
 
+        private void HomeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (LastIndex > -1)
+            {
+                LastSelected.BorderThickness = new Thickness(0, 0, 0, 0);
+            }
+
+            LastIndex = -1;
+            LastSelected = null;
+
+            ContentFrame.Content = null;
+        }
+
         private void BtnSettings_Click(object sender, RoutedEventArgs e)
         {
             if (LastIndex > -1)
@@ -162,5 +175,7 @@ namespace HumanResourcesSM.Windows
                 e.Cancel = true; 
             }
         }
+
+        
     }
 }

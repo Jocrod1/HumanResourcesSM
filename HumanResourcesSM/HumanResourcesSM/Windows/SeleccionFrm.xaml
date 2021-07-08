@@ -8,7 +8,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="520" d:DesignWidth="680"
       Loaded="Page_Loaded"
-      Title="SeleccionFrm">
+      Title="SwissNet">
 
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>
@@ -22,9 +22,21 @@
         </Border>
         <ScrollViewer Name="ScrollContent" VerticalScrollBarVisibility="Visible" CanContentScroll="False" Grid.Row="1">
             <StackPanel Margin="32 5 10 0">
-                <TextBox FontSize="15" x:Name="txtDNI" Margin="0 10"
-                         materialDesign:HintAssist.Hint="DNI o Pasaporte"
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox Name="cbTipoDocumento" FontSize="15"
+                            materialDesign:HintAssist.Hint="Tipo"
+                            Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                        <ComboBoxItem>DNI</ComboBoxItem>
+                        <ComboBoxItem>Pasaporte</ComboBoxItem>
+                    </ComboBox>
+                    <TextBox Grid.Column="1" FontSize="15" x:Name="txtDNI" Margin="0 10" MaxLength="9"
+                         materialDesign:HintAssist.Hint="Número de Documento"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                </Grid>
                 <Grid Margin="0 10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>

@@ -41,29 +41,18 @@ namespace HumanResourcesSM.Windows
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             txtTitulo.Text = DataFill[0].usuario;
-            txtPregunta.Text = DataFill[0].pregunta;
-            txtPregunta2.Text = DataFill[1].pregunta;
-            txtPregunta3.Text = DataFill[2].pregunta;
+
+
+            int id = Login.idSecretQ;
+            txtPregunta.Text = DataFill[id].pregunta;
         }
 
         private bool Validate()
         {
             if (txtRespuesta.Password == "")
             {
-                MessageBox.Show("Debes responder la primera pregunta!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Debes responder la pregunta!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
                 txtRespuesta.Focus();
-                return true;
-            }
-            if (txtRespuesta2.Password == "")
-            {
-                MessageBox.Show("Debes responder la segunda pregunta!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
-                txtRespuesta2.Focus();
-                return true;
-            }
-            if (txtRespuesta3.Password == "")
-            {
-                MessageBox.Show("Debes responder la tercera pregunta!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Information);
-                txtRespuesta3.Focus();
                 return true;
             }
 
@@ -74,7 +63,7 @@ namespace HumanResourcesSM.Windows
         {
             if (Validate()) return;
 
-            if ((txtRespuesta.Password == DataFill[0].respuesta) && (txtRespuesta2.Password == DataFill[1].respuesta) && (txtRespuesta3.Password == DataFill[2].respuesta))
+            if ((txtRespuesta.Password == DataFill[0].respuesta))
             {
                 CambiarContraseña frmContraseña = new CambiarContraseña(this);
                 frmContraseña.DataFill = DataFill[0];

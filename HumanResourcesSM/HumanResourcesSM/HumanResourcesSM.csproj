@@ -36,6 +36,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>LogoIcon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MaterialDesignColors, Version=2.0.1.2556, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignColors.2.0.1\lib\net452\MaterialDesignColors.dll</HintPath>
@@ -560,6 +563,8 @@
     <Resource Include="Img\close.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Img\LogoIcon.png" />
+    <Resource Include="LogoIcon.ico" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll" />
     <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll" />
