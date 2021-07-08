@@ -193,10 +193,7 @@ namespace Metodos
 	    ";
 
 
-        private string queryUserRepeated = @"
-            SELECT * FROM [Usuario] 
-            WHERE usuario = @usuario;
-        ";
+
 
         private string queryUserNullRepeated = @"
             SELECT idUsuario FROM [Usuario] 
@@ -574,9 +571,17 @@ namespace Metodos
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
-        public List<DUsuario> EncontrarByUsuario(string Usuario)
+
+
+        public List<DUsuario> EncontrarByUsuario(string Usuario, int IdUsuario)
         {
             List<DUsuario> ListaGenerica = new List<DUsuario>();
+
+            string queryUserRepeated = @"
+                SELECT * FROM [Usuario] 
+                WHERE usuario = @usuario
+                    AND (idUsuario <> @idUsuario OR (idUsuario = @idUsuario AND estado = 0));
+            ";
 
             try
             {
@@ -584,6 +589,7 @@ namespace Metodos
 
                 using SqlCommand comm = new SqlCommand(queryUserRepeated, Conexion.ConexionSql);
                 comm.Parameters.AddWithValue("@usuario", Usuario);
+                comm.Parameters.AddWithValue("@idUsuario", IdUsuario);
 
                 using SqlDataReader reader = comm.ExecuteReader();
                 if (reader.Read())
@@ -603,45 +609,6 @@ namespace Metodos
             finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
 
             return ListaGenerica;
-        }
-
-        public bool UsuarioRepetido(string Usuario)
-        {
-            try
-            {
-                Conexion.ConexionSql.Open();
-
-                using SqlCommand comm = new SqlCommand(queryUserRepeated, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@usuario", Usuario);
-
-                using SqlDataReader reader = comm.ExecuteReader();
-                if (reader.Read())
-                    return true;
-
-                return false;
-            }
-            catch (SqlException e) { return false; }
-            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
-        }
-
-
-        public bool UsuarioAnuladoRepetido(string Usuario)
-        {
-            try
-            {
-                Conexion.ConexionSql.Open();
-
-                using SqlCommand comm = new SqlCommand(queryUserNullRepeated, Conexion.ConexionSql);
-                comm.Parameters.AddWithValue("@usuario", Usuario);
-
-                using SqlDataReader reader = comm.ExecuteReader();
-                if (reader.Read())
-                    return true;
-
-                return false;
-            }
-            catch (SqlException e) { return false; }
-            finally { if (Conexion.ConexionSql.State == ConnectionState.Open) Conexion.ConexionSql.Close(); }
         }
 
 

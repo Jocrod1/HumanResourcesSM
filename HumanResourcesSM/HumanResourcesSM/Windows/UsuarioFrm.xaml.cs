@@ -274,7 +274,8 @@ namespace HumanResourcesSM.Windows
                 txtRespuesta3.Focus();
                 return true;
             }
-            var UserCheck = Metodos.EncontrarByUsuario(txtUsuario.Text);
+
+            var UserCheck = Metodos.EncontrarByUsuario(txtUsuario.Text, DataFill.idUsuario);
             if (UserCheck.Count > 0)
             {
                 var user = UserCheck[0];

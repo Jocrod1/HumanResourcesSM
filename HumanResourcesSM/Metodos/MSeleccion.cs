@@ -200,11 +200,6 @@ namespace Metodos
             WHERE idEmpleado = @idEmpleado;
 	    ";
 
-        private string queryIDCardRepeated = @"
-            SELECT status, idEmpleado, (nombre + ' ' + apellido) as nombre FROM [Empleado] 
-            WHERE cedula = @cedula;
-        ";
-
 
         //reportes
         private string queryListInterviewPerUser = @"
@@ -960,6 +955,7 @@ namespace Metodos
             return comm.ExecuteNonQuery() == 1 ? "OK" : "No se Actualizó el Estatus de Seleccion";
         }
 
+
         public string CedulaRepetida(string Cedula)
         {
             List<DSeleccion> ListaGenerica = new List<DSeleccion>();
@@ -968,6 +964,15 @@ namespace Metodos
             int idEmpleado = 0;
 
             string nombreCompleto = "";
+
+            string queryIDCardRepeated = @"
+                SELECT 
+                    status, 
+                    idEmpleado, 
+                    (nombre + ' ' + apellido) AS nombre 
+                FROM [Empleado] 
+                WHERE cedula = @cedula;
+            ";
 
             try
             {
