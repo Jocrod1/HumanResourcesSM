@@ -150,7 +150,11 @@ namespace HumanResourcesSM.Windows
 
                 txtNombre.Text = Empleado.nombre;
                 txtApellido.Text = Empleado.apellido;
-                txtDNI.Text = Empleado.cedula;
+
+                string[] words = Empleado.cedula.Split('-');
+                cbTipoDocumento.SelectedIndex = words[0] == "D" ? 0 : words[0] == "P" ? 1 : -1;
+                txtDNI.Text = words[1];
+
                 CbPaisNac.SelectedValue = Empleado.nacionalidad;
                 CbFechaNac.SelectedDate = Empleado.fechaNacimiento;
                 txtEmail.Text = Empleado.email;

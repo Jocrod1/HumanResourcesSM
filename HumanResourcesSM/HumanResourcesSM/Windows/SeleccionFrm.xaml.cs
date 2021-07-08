@@ -114,7 +114,7 @@ namespace HumanResourcesSM.Windows
             int idDepartamento = (int)CbDepartamento.SelectedValue;
             string nombre = txtNombre.Text;
             string apellido = txtApellido.Text;
-            string DNI = txtDNI.Text;
+            string DNI = cbTipoDocumento.SelectedValue.ToString()[0] + "-" + txtDNI.Text;
             DateTime fechaNacimiento = CbFechaNac.SelectedDate ?? DateTime.Now;
             if (fechaNacimiento == DateTime.Now)return;
             string nacionalidad = (string)CbPaisNac.SelectedValue;
@@ -565,6 +565,12 @@ namespace HumanResourcesSM.Windows
             {
                 MessageBox.Show("Debes llenar el campo Apellido!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
                 txtApellido.Focus();
+                return true;
+            }
+            if (cbTipoDocumento.SelectedIndex == -1)
+            {
+                MessageBox.Show("Debes llenar el campo TIpo Documento!", "SwissNet", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtDNI.Focus();
                 return true;
             }
             if (txtDNI.Text == "")

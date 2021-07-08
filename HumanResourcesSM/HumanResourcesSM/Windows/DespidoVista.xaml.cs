@@ -113,6 +113,8 @@ namespace HumanResourcesSM.Windows
 
             RefreshDGIdiomas();
             RefreshDGEducacion();
+
+            CalcularLiquidación();
         }
 
         //***********************CRUD IDIOMAS*********************************
@@ -312,12 +314,6 @@ namespace HumanResourcesSM.Windows
 
         private void BtnFire_Click(object sender, RoutedEventArgs e)
         {
-            if(CbRazonDespido.SelectedIndex == -1)
-            {
-                MessageBox.Show("Debes Seleccionar una Razón de Despido!", "Swissnet", MessageBoxButton.OK, MessageBoxImage.Error);
-                CbRazonDespido.Focus();
-                return;
-            }
             ContratoFrm frm = new ContratoFrm(EmpleadoEntrevistado, Total);
             bool resp = frm.ShowDialog() ?? false;
 
@@ -329,12 +325,13 @@ namespace HumanResourcesSM.Windows
         double SalariosPendientes = 0, Vacaciones = 0, Utilidades = 0,
                 PrestacionesSociales = 0, Preavisto = 0, indemnización = 0, Total = 0;
 
+        private void ChBCulminacionContrato_Checked(object sender, RoutedEventArgs e)
+        {
+            CalcularLiquidación();
+        }
+
         void CalcularLiquidación()
         {
-            if (CbRazonDespido.SelectedIndex == -1)
-            {
-                return;
-            }
 
             SalariosPendientes = Vacaciones = Utilidades = PrestacionesSociales =
                 Preavisto = indemnización = Total = 0;
@@ -420,7 +417,7 @@ namespace HumanResourcesSM.Windows
             }
 
             //indemnización
-            if(CbRazonDespido.SelectedIndex == 1 || CbRazonDespido.SelectedIndex == 2)
+            if(!(ChBCulminacionContrato.IsChecked ?? false))
             {
                 SlotIndemnizacion.Visibility = Visibility.Collapsed;
                 SlotPreaviso.Visibility = Visibility.Collapsed;

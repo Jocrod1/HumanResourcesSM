@@ -33,7 +33,7 @@
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
                             <Border Name="btnGestionMenu" BorderThickness="0 0 0 0" BorderBrush="#C22723">
-                                <Button Grid.Column="0" Name="defButton" Uid="0" Content="Gestion" Background="{x:Null}" BorderBrush="{x:Null}" Height="50" Click="Button_Click"  Foreground="Black" Padding="5"/>
+                                <Button Grid.Column="0" Name="defButton" Uid="0" Content="Gestión" Background="{x:Null}" BorderBrush="{x:Null}" Height="50" Click="Button_Click"  Foreground="Black" Padding="5"/>
                             </Border>
                             <Border Name="btnAdministracionMenu" BorderThickness="0 0 0 0" Grid.Column="1" BorderBrush="#C22723">
                                 <Button Uid="2"  Content="Administración" Background="{x:Null}" BorderBrush="{x:Null}" Height="50" Click="Button_Click"  Foreground="Black" Padding="5"/>

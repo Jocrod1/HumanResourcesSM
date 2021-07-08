@@ -25,13 +25,6 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="1" Margin="5 50 5 10">
-                <ComboBox Name="CbRazonDespido" materialDesign:HintAssist.Hint="Razón de Despido" SelectionChanged="CbRazonDespido_SelectionChanged"
-                            Style="{StaticResource MaterialDesignFloatingHintComboBox}">
-                    <ComboBoxItem>Despido injustificado</ComboBoxItem>
-                    <ComboBoxItem>Despido justificado</ComboBoxItem>
-                    <ComboBoxItem>Renuncia justificada</ComboBoxItem>
-                    <ComboBoxItem>Retiro justificacion</ComboBoxItem>
-                </ComboBox>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -89,7 +82,8 @@
                         <TextBlock Text="Prestaciones Anticipadas" FontWeight="Bold" TextWrapping="Wrap" Foreground="#C22723" FontSize="10"/>
                         <TextBlock x:Name="txtPrestacionesOtorgadas" Text="-0 %" Foreground="#C22723" FontWeight="Bold" FontSize="11" HorizontalAlignment="Right" Grid.Column="1"/>
                     </Grid>
-                    <Grid Margin="0" x:Name="SlotPreaviso">
+                    <CheckBox Name="ChBCulminacionContrato" Content="Culminación de Contrato" FontWeight="Bold" Checked="ChBCulminacionContrato_Checked" Unchecked="ChBCulminacionContrato_Checked"/>
+                    <Grid Margin="0" x:Name="SlotPreaviso" Visibility="Collapsed">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="auto"/>
@@ -97,7 +91,7 @@
                         <TextBlock Text="Preaviso" FontWeight="Bold" TextWrapping="Wrap" Foreground="Gray"/>
                         <TextBlock Name="txtPreaviso" Text="0.0 €" FontWeight="Bold" FontSize="15" HorizontalAlignment="Right" Grid.Column="1"/>
                     </Grid>
-                    <Grid Margin="0 3" Name="SlotIndemnizacion">
+                    <Grid Margin="0 3" Name="SlotIndemnizacion" Visibility="Collapsed">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="auto"/>
