@@ -6,7 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:HumanResourcesSM.Windows"
         mc:Ignorable="d"
-        Title="SwissNet" Height="330" Width="450" ResizeMode="NoResize" Loaded="Window_Loaded">
+        Title="Insertar Idioma" Height="330" Width="450" ResizeMode="NoResize" Loaded="Window_Loaded">
     <Grid Background="WhiteSmoke">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>

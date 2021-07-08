@@ -41,7 +41,7 @@
                     <Image Source="/HumanResourcesSM;component/Img/edit.png" />
                 </Button>
                 <StackPanel VerticalAlignment="Top" Margin="20 5 5 5" Width="150" Grid.Column="3">
-                    <TextBlock Text="Status" FontWeight="Bold" FontSize="15"/>
+                    <TextBlock Text="Estado" FontWeight="Bold" FontSize="15"/>
                     <Grid Margin="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" />
@@ -60,7 +60,7 @@
                     </Grid>
                 </StackPanel>
                 <StackPanel Name="GridAntiguedad" VerticalAlignment="Top" Width="150" Margin="20 5" Grid.Column="4">
-                    <TextBlock Text="Antiguedad" FontWeight="Bold" FontSize="15"/>
+                    <TextBlock Text="Antigüedad" FontWeight="Bold" FontSize="15"/>
                     <TextBlock x:Name="txtAntiguedad" Text="10 años y 12 meses" FontSize="15" Margin="7 0 0 0"/>
                 </StackPanel>
             </Grid>
@@ -105,7 +105,7 @@
                             <TextBlock x:Name="txtFechaNac" Text="01/07/1998 (27 años)" FontSize="14"  Margin="7 0 0 0" TextTrimming="CharacterEllipsis"/>
                         </StackPanel>
                         <StackPanel Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5">
-                            <TextBlock Text="Pais de Nacimiento" FontWeight="Bold" FontSize="15"/>
+                            <TextBlock Text="País de Nacimiento" FontWeight="Bold" FontSize="15"/>
                             <TextBlock x:Name="txtPaisNac" Text="España - ES" FontSize="14"  Margin="7 0 0 0" TextTrimming="CharacterEllipsis"/>
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5">
@@ -113,11 +113,11 @@
                             <TextBlock x:Name="txtEstadoLegal" Text="Tarjeta Roja" FontSize="14"  Margin="7 0 0 0" TextTrimming="CharacterEllipsis"/>
                         </StackPanel>
                         <StackPanel Grid.Column="0" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5">
-                            <TextBlock Text="Email" FontWeight="Bold" FontSize="15"/>
+                            <TextBlock Text="Correo Electrónico" FontWeight="Bold" FontSize="15"/>
                             <TextBlock x:Name="txtEmail" Text="Jocrod.one@gmail.com" FontSize="14"  Margin="7 0 0 0" TextTrimming="CharacterEllipsis"/>
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5">
-                            <TextBlock Text="Numero Telefonico" FontWeight="Bold" FontSize="15"/>
+                            <TextBlock Text="Número Telefónico" FontWeight="Bold" FontSize="15"/>
                             <TextBlock x:Name="txtTelf" Text="012301238123" FontSize="14"  Margin="7 0 0 0" TextTrimming="CharacterEllipsis"/>
                         </StackPanel>
                     </Grid>

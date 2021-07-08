@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:HumanResourcesSM.Windows"
         mc:Ignorable="d"
         Loaded="Window_Loaded" Closing="Window_Closing"
-        Title="Menú" Height="600" Width="950">
+        Title="Menu Principal (SwissNet)" Height="600" Width="950">
     <Grid>
         <Grid Background="WhiteSmoke">
             <Grid.RowDefinitions>

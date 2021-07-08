@@ -43,7 +43,7 @@
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="1" Margin="0 0 0 0">
                         <PasswordBox Name="txtContraseña" Password="" FontSize="15" Margin="0" 
-                                     materialDesign:HintAssist.Hint="Introducir Contraeña"
+                                     materialDesign:HintAssist.Hint="Introducir Contraseña"
                                      Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
                     </Grid>
                 </Grid>
@@ -68,7 +68,7 @@
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="1" Margin="0 0 0 0">
                         <PasswordBox Name="txtConfirmar" Password="" FontSize="15" Margin="0" 
-                                     materialDesign:HintAssist.Hint="Confirmar Contraeña"
+                                     materialDesign:HintAssist.Hint="Confirmar Contraseña"
                                      Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
                     </Grid>
                 </Grid>

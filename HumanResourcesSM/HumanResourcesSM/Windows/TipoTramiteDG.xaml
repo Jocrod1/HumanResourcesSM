@@ -20,7 +20,7 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="Tipo de Tramite" Foreground="White" FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" Margin="10 10" VerticalAlignment="Center"/>
+            <TextBlock Text="Tipo de Trámite" Foreground="White" FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" Margin="10 10" VerticalAlignment="Center"/>
             <Border Grid.Column="1" Background="White" Height="30" CornerRadius="15"  Margin="20 0" VerticalAlignment="Center">
                 <Grid>
                     <Grid Margin="10 0">

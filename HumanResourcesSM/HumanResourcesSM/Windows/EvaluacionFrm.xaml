@@ -38,7 +38,7 @@
                         <TextBlock Text="Meta Establecida" VerticalAlignment="Center" 
                                    Grid.Row="0" FontSize="17" FontWeight="Bold" HorizontalAlignment="Center"/>
 
-                        <TextBlock Text="Debe Seleccionar Meta para Mostrar Detalles" VerticalAlignment="Center" TextWrapping="Wrap"
+                        <TextBlock Text="Debe Seleccionar una Meta para Mostrar Detalles" VerticalAlignment="Center" TextWrapping="Wrap"
                                    Grid.Row="1" FontSize="15" FontWeight="Light" HorizontalAlignment="Center" Name="textDescriptivo"
                                    Visibility="Visible" Width="200" TextAlignment="Center" FontStyle="Italic"/>
                         
